@@ -314,6 +314,7 @@
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
+            .cta-nav { display: none; }
             .hero-tagline { font-size: 2.5rem; }
             .section-title { font-size: 2.2rem; }
             .stats-container { grid-template-columns: 1fr; gap: 2rem; }
@@ -321,7 +322,48 @@
             .footer-content { grid-template-columns: 1fr; }
             .hero-cta, .cta-buttons { flex-direction: column; }
             .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+            .nav-container { padding: 0 1.2rem; }
+            .btn-login-nav { font-size: 0.78rem; padding: 0.5rem 0.9rem; }
+            .hamburger-btn { display: flex !important; }
+            .nav-links.mobile-open {
+                display: flex !important;
+                flex-direction: column;
+                position: fixed;
+                top: 64px; left: 0; right: 0;
+                background: rgba(15,23,42,0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(168,85,247,0.25);
+                padding: 1.5rem 2rem 2rem;
+                gap: 0;
+                z-index: 999;
+                animation: slideDown 0.25s ease-out;
+            }
+            .nav-links.mobile-open li a {
+                display: block;
+                padding: 0.9rem 0;
+                font-size: 1.05rem;
+                border-bottom: 1px solid rgba(148,163,184,0.08);
+            }
         }
+        .hamburger-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-shrink: 0;
+            margin-left: 0.3rem;
+        }
+        .hamburger-btn span {
+            display: block; width: 22px; height: 2px;
+            background: var(--text-primary); border-radius: 2px; transition: all 0.3s;
+        }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* Scroll Animations */
         .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -412,7 +454,10 @@
                 <li><a href="#contato">Contato</a></li>
             </ul>
             <button class="cta-nav" onclick="window.location.href='#contato'">Fale Conosco</button>
-            <button class="btn-login-nav" onclick="window.location.href='/area-cliente.html'">🔒 Área do Cliente</button>
+            <button class="btn-login-nav" onclick="openModal('login')">🔒 Área do Cliente</button>
+            <button class="hamburger-btn" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
@@ -1080,6 +1125,25 @@
 </div><!-- end content-wrapper -->
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+        const nav = document.querySelector('.nav-links');
+        const btn = document.getElementById('hamburger');
+        const isOpen = nav.classList.toggle('mobile-open');
+        btn.classList.toggle('open', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    // Close mobile menu on link click
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('mobile-open');
+                document.getElementById('hamburger').classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    });
+
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
