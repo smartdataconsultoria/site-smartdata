@@ -363,7 +363,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
       <input class="inp" type="password" id="lsenha" placeholder="••••••••" autocomplete="current-password"
              onkeydown="if(event.key==='Enter')fazerLogin()">
       <button type="button" class="toggle-senha" onclick="toggleSenha()" id="btn-olho" title="Ver/ocultar senha">
-        <!-- olho aberto (visível por padrão = senha oculta) -->
         <svg id="icone-olho" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
           <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -447,10 +446,9 @@ function toggleSenha(){
   var icone = document.getElementById('icone-olho');
   var visivel = inp.type === 'text';
   inp.type = visivel ? 'password' : 'text';
-  // Troca o SVG: olho aberto (senha oculta) / olho fechado (senha visível)
   icone.innerHTML = visivel
-    ? /* olho aberto */ '<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
-    : /* olho fechado */ '<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
+    ? '<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
+    : '<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
 }
 
 // ════════════════════════════════════════════
@@ -512,7 +510,9 @@ function fazerSair(){
 // DASHBOARDS
 // ════════════════════════════════════════════
 function carregarDashboards(){
-  fetch(SB_URL + '/rest/v1/dashboards_clientes?email_cliente=eq.' + encodeURIComponent(usr.email) + '&ativo=eq.true&order=titulo', {
+  // ✅ CORREÇÃO: removido filtro &ativo=eq.true (coluna não existe na tabela)
+  // Busca TODOS os dashboards vinculados ao e-mail do usuário logado
+  fetch(SB_URL + '/rest/v1/dashboards_clientes?email_cliente=eq.' + encodeURIComponent(usr.email) + '&order=titulo', {
     headers: {
       'apikey': SB_KEY,
       'Authorization': 'Bearer ' + usr.token,
