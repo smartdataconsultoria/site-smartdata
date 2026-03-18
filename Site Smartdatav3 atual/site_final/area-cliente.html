@@ -6,14 +6,6 @@
 <title>SmartData - Área do Cliente</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════
-   PALETA SmartData
-   #000000  — preto fundo
-   #14213D  — azul-marinho escuro
-   #FCA311  — dourado/âmbar (destaque)
-   #E5E5E5  — cinza claro
-   #FFFFFF  — branco
-   ══════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:#E5E5E5}
 
@@ -22,18 +14,13 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:#000000;position:relative;overflow:hidden;
 }
-
-/* Grade geométrica no fundo */
 #tela-login::before{
   content:'';position:absolute;inset:0;
   background-image:
     linear-gradient(rgba(252,163,17,0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(252,163,17,0.06) 1px, transparent 1px);
-  background-size:60px 60px;
-  pointer-events:none;
+  background-size:60px 60px;pointer-events:none;
 }
-
-/* Gradiente radial sobre a grade */
 #tela-login::after{
   content:'';position:absolute;inset:0;
   background:
@@ -42,14 +29,8 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
     radial-gradient(ellipse 40% 35% at 10% 80%, rgba(20,33,61,0.5) 0%, transparent 55%);
   pointer-events:none;
 }
-
-/* Partículas flutuantes */
 .particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
-.particle{
-  position:absolute;border-radius:50%;
-  animation:float linear infinite;
-  opacity:0;
-}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:0;}
 .particle:nth-child(1){width:3px;height:3px;background:#FCA311;top:12%;left:18%;animation-duration:8s;animation-delay:0s}
 .particle:nth-child(2){width:2px;height:2px;background:#FCA311;top:30%;left:72%;animation-duration:11s;animation-delay:1.5s}
 .particle:nth-child(3){width:4px;height:4px;background:rgba(252,163,17,0.5);top:65%;left:22%;animation-duration:9s;animation-delay:3s}
@@ -58,166 +39,63 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .particle:nth-child(6){width:2px;height:2px;background:#FCA311;top:22%;left:88%;animation-duration:10s;animation-delay:4s}
 .particle:nth-child(7){width:5px;height:5px;background:rgba(252,163,17,0.3);top:55%;left:8%;animation-duration:14s;animation-delay:1s}
 .particle:nth-child(8){width:2px;height:2px;background:#FCA311;top:90%;left:40%;animation-duration:9s;animation-delay:5s}
-
 @keyframes float{
   0%{opacity:0;transform:translateY(0) scale(1)}
-  10%{opacity:1}
-  90%{opacity:0.6}
+  10%{opacity:1}90%{opacity:0.6}
   100%{opacity:0;transform:translateY(-120px) scale(0.5)}
 }
-
-/* Card principal */
 .lcard{
-  position:relative;z-index:2;
-  background:rgba(20,33,61,0.6);
-  border:1px solid rgba(252,163,17,0.15);
-  border-radius:20px;
-  padding:52px 48px;
-  width:460px;
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  box-shadow:
-    0 0 0 1px rgba(252,163,17,0.06),
-    0 32px 64px rgba(0,0,0,0.7),
-    0 0 80px rgba(252,163,17,0.04);
+  position:relative;z-index:2;background:rgba(20,33,61,0.6);
+  border:1px solid rgba(252,163,17,0.15);border-radius:20px;padding:52px 48px;width:460px;
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  box-shadow:0 0 0 1px rgba(252,163,17,0.06),0 32px 64px rgba(0,0,0,0.7),0 0 80px rgba(252,163,17,0.04);
   animation:loginFade .7s cubic-bezier(.22,.68,0,1.2) both;
 }
-@keyframes loginFade{
-  from{opacity:0;transform:translateY(32px) scale(0.97)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
-
-/* Linha decorativa dourada no topo do card */
+@keyframes loginFade{from{opacity:0;transform:translateY(32px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 .lcard::before{
-  content:'';
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:60%;height:2px;
-  background:linear-gradient(90deg,transparent,#FCA311,transparent);
-  border-radius:0 0 4px 4px;
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60%;height:2px;background:linear-gradient(90deg,transparent,#FCA311,transparent);border-radius:0 0 4px 4px;
 }
-
-/* Logo / ícone */
 .licon{
-  width:72px;height:72px;margin:0 auto 28px;
-  background:linear-gradient(135deg,#14213D,#0a1628);
-  border-radius:18px;
-  display:flex;align-items:center;justify-content:center;
+  width:72px;height:72px;margin:0 auto 28px;background:linear-gradient(135deg,#14213D,#0a1628);
+  border-radius:18px;display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 0 1px rgba(252,163,17,0.25), 0 16px 32px rgba(0,0,0,0.5);
   animation:iconPop .5s .2s cubic-bezier(.22,.68,0,1.4) both;
 }
 @keyframes iconPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
 .licon img{width:44px;height:44px;object-fit:contain}
-
-/* Títulos */
-.lcard-title{
-  font-family:"Syne",sans-serif;font-size:26px;font-weight:800;
-  text-align:center;margin-bottom:8px;color:#FFFFFF;
-  letter-spacing:-0.02em;
-}
-.lsub{
-  color:rgba(229,229,229,0.45);font-size:14px;
-  margin-bottom:36px;text-align:center;line-height:1.5;
-}
-
-/* Labels & inputs */
-.lbl{
-  font-size:12px;font-weight:600;
-  color:rgba(229,229,229,0.6);
-  margin-bottom:8px;display:block;
-  text-transform:uppercase;letter-spacing:.06em;
-}
-.lforgot{
-  float:right;font-size:12px;color:#FCA311;
-  cursor:pointer;text-decoration:none;font-weight:500;
-  opacity:.8;transition:opacity .2s;text-transform:none;letter-spacing:0;
-}
+.lcard-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;text-align:center;margin-bottom:8px;color:#FFFFFF;letter-spacing:-0.02em;}
+.lsub{color:rgba(229,229,229,0.45);font-size:14px;margin-bottom:36px;text-align:center;line-height:1.5;}
+.lbl{font-size:12px;font-weight:600;color:rgba(229,229,229,0.6);margin-bottom:8px;display:block;text-transform:uppercase;letter-spacing:.06em;}
+.lforgot{float:right;font-size:12px;color:#FCA311;cursor:pointer;text-decoration:none;font-weight:500;opacity:.8;transition:opacity .2s;text-transform:none;letter-spacing:0;}
 .lforgot:hover{opacity:1}
-
-.inp{
-  width:100%;
-  background:rgba(0,0,0,0.4);
-  border:1px solid rgba(229,229,229,0.1);
-  border-radius:12px;padding:14px 16px;
-  color:#FFFFFF;font-size:14px;margin-bottom:20px;
-  outline:none;transition:all .2s;
-  font-family:"DM Sans",sans-serif;
-}
-.inp:focus{
-  border-color:rgba(252,163,17,0.5);
-  background:rgba(252,163,17,0.05);
-  box-shadow:0 0 0 3px rgba(252,163,17,0.1);
-}
+.inp{width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(229,229,229,0.1);border-radius:12px;padding:14px 16px;color:#FFFFFF;font-size:14px;margin-bottom:20px;outline:none;transition:all .2s;font-family:"DM Sans",sans-serif;}
+.inp:focus{border-color:rgba(252,163,17,0.5);background:rgba(252,163,17,0.05);box-shadow:0 0 0 3px rgba(252,163,17,0.1);}
 .inp::placeholder{color:rgba(229,229,229,0.2)}
-
-/* Botão */
-.lbtn{
-  width:100%;
-  background:linear-gradient(135deg,#FCA311,#e8940a);
-  color:#000000;border:none;border-radius:12px;
-  padding:15px;font-size:15px;font-weight:700;
-  cursor:pointer;transition:all .2s;
-  font-family:"DM Sans",sans-serif;
-  letter-spacing:.02em;
-  box-shadow:0 8px 24px rgba(252,163,17,0.3);
-  margin-top:4px;position:relative;overflow:hidden;
-}
-.lbtn::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);
-  opacity:0;transition:opacity .2s;
-}
+.lbtn{width:100%;background:linear-gradient(135deg,#FCA311,#e8940a);color:#000000;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:"DM Sans",sans-serif;letter-spacing:.02em;box-shadow:0 8px 24px rgba(252,163,17,0.3);margin-top:4px;position:relative;overflow:hidden;}
+.lbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);opacity:0;transition:opacity .2s;}
 .lbtn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(252,163,17,0.45)}
 .lbtn:hover::after{opacity:1}
 .lbtn:active{transform:translateY(0)}
 .lbtn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-
-/* Wrapper do campo de senha com botão olho */
 .inp-wrapper{position:relative;margin-bottom:20px}
 .inp-wrapper .inp{margin-bottom:0;padding-right:48px}
-.toggle-senha{
-  position:absolute;right:14px;top:50%;transform:translateY(-50%);
-  background:none;border:none;cursor:pointer;padding:4px;
-  color:rgba(229,229,229,0.3);transition:color .2s;
-  display:flex;align-items:center;justify-content:center;
-  line-height:1;
-}
+.toggle-senha{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;color:rgba(229,229,229,0.3);transition:color .2s;display:flex;align-items:center;justify-content:center;line-height:1;}
 .toggle-senha:hover{color:#FCA311}
 .toggle-senha svg{width:18px;height:18px;display:block}
-
-/* Erro */
-#lerro{
-  background:rgba(239,68,68,.1);
-  border:1px solid rgba(239,68,68,.25);
-  border-radius:10px;padding:12px 14px;
-  font-size:13px;color:#fca5a5;
-  margin-bottom:16px;display:none;line-height:1.6;
-}
-
-/* Rodapé */
-.llogo-foot{
-  font-family:"Syne",sans-serif;font-size:13px;font-weight:800;
-  text-align:center;margin-top:28px;
-  color:rgba(229,229,229,0.2);letter-spacing:.05em;
-}
-.llogo-foot b{
-  background:linear-gradient(135deg,#FCA311,#e8940a);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+#lerro{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px;display:none;line-height:1.6;}
+.llogo-foot{font-family:"Syne",sans-serif;font-size:13px;font-weight:800;text-align:center;margin-top:28px;color:rgba(229,229,229,0.2);letter-spacing:.05em;}
+.llogo-foot b{background:linear-gradient(135deg,#FCA311,#e8940a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
 /* ═══════════════ APP ═══════════════ */
 #tela-app{display:none;height:100vh;flex-direction:column}
-#tela-app.ativo{display:flex}
 
 /* Topbar */
-.topbar{
-  height:62px;background:#000000;border-bottom:1px solid rgba(252,163,17,0.12);
-  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;position:relative;z-index:50;
-}
+.topbar{height:62px;background:#000000;border-bottom:1px solid rgba(252,163,17,0.12);padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:50;}
 .t-logo{display:flex;align-items:center;gap:10px}
 .t-logo img{width:32px;height:32px;object-fit:contain}
 .t-logo-nome{font-family:"Syne",sans-serif;font-size:17px;font-weight:800}
-.t-logo-nome b{background:linear-gradient(135deg,#FCA311,#e8940a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.t-logo-nome b{background:linear-gradient(135deg,#FCA311,#e8940a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .t-logo-nome span{color:rgba(229,229,229,0.4);font-weight:400;font-size:14px;margin-left:4px}
 .t-right{display:flex;align-items:center;gap:16px}
 .t-empresa{background:rgba(252,163,17,0.1);border:1px solid rgba(252,163,17,0.2);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:#FCA311}
@@ -225,46 +103,46 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .t-sair{background:transparent;border:1px solid rgba(229,229,229,0.1);border-radius:8px;color:rgba(229,229,229,0.4);padding:6px 14px;font-size:12px;cursor:pointer;transition:all .2s}
 .t-sair:hover{border-color:#ef4444;color:#ef4444}
 
-/* Layout principal */
 .app-body{display:flex;flex:1;overflow:hidden}
 
-/* Sidebar */
+/* ══════════════════════════════════════
+   SIDEBAR COM CATEGORIAS
+   ══════════════════════════════════════ */
 .sidebar{
   width:240px;background:#000000;border-right:1px solid rgba(252,163,17,0.08);
   padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;
 }
-.sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(229,229,229,0.2);padding:0 12px;margin:20px 0 8px}
+.sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(229,229,229,0.2);padding:0 12px;margin:20px 0 8px;}
 .sb-section:first-child{margin-top:0}
-.sb-item{
-  display:flex;align-items:center;gap:10px;padding:10px 12px;
-  border-radius:10px;font-size:13px;font-weight:500;color:rgba(229,229,229,0.4);
-  cursor:pointer;transition:all .15s;margin-bottom:2px;
-}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:500;color:rgba(229,229,229,0.4);cursor:pointer;transition:all .15s;margin-bottom:2px;}
 .sb-item:hover{background:rgba(252,163,17,0.06);color:#E5E5E5}
 .sb-item.on{background:rgba(252,163,17,0.12);color:#FCA311}
-.sb-item .icon{font-size:16px;width:20px;text-align:center}
+.sb-badge{margin-left:auto;background:rgba(252,163,17,0.15);color:#FCA311;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700;min-width:22px;text-align:center;}
+.sb-item.on .sb-badge{background:rgba(252,163,17,0.3)}
+.cat-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:rgba(229,229,229,0.05);}
+.sb-item.on .cat-icon{background:rgba(252,163,17,0.15)}
 .sb-footer{margin-top:auto;padding:16px 12px;border-top:1px solid rgba(252,163,17,0.08)}
 .sb-footer-txt{font-size:11px;color:rgba(229,229,229,0.2);text-align:center;line-height:1.6}
 
 /* Conteúdo principal */
 .main{flex:1;overflow-y:auto;background:#0a0c14;padding:32px}
 
-/* ── Tela de dashboards ── */
-.page-header{margin-bottom:32px}
+.page-header{margin-bottom:32px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .page-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;margin-bottom:6px}
 .page-sub{font-size:14px;color:rgba(229,229,229,0.4)}
 
-/* Cards de dashboards */
+/* Chips mobile */
+.cat-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.cat-chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(229,229,229,0.1);color:rgba(229,229,229,0.4);background:transparent;transition:all .2s;white-space:nowrap;}
+.cat-chip:hover{border-color:rgba(252,163,17,0.3);color:#E5E5E5}
+.cat-chip.on{background:rgba(252,163,17,0.12);border-color:rgba(252,163,17,0.4);color:#FCA311}
+
+/* Cards */
 .dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.dash-card{
-  background:#14213D;border:1px solid rgba(252,163,17,0.08);border-radius:16px;
-  overflow:hidden;cursor:pointer;transition:all .3s;position:relative;
-}
+.dash-card{background:#14213D;border:1px solid rgba(252,163,17,0.08);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative;animation:cardIn .3s ease-out both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .dash-card:hover{transform:translateY(-4px);border-color:rgba(252,163,17,0.3);box-shadow:0 20px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(252,163,17,0.1)}
-.dash-card-preview{
-  height:160px;background:linear-gradient(135deg,#0a1628,#14213D);
-  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
-}
+.dash-card-preview{height:160px;background:linear-gradient(135deg,#0a1628,#14213D);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .dash-card-preview::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(252,163,17,0.05),transparent)}
 .dash-card-preview .preview-bars{display:flex;align-items:flex-end;gap:6px;height:80px}
 .preview-bar{width:18px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#FCA311,rgba(252,163,17,0.3));animation:barGrow 1s ease-out backwards}
@@ -276,32 +154,20 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .dash-card-footer{display:flex;align-items:center;justify-content:space-between}
 .dash-card-status{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(229,229,229,0.3)}
 .dash-card-status span{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 6px #22c55e}
-.dash-btn{
-  background:linear-gradient(135deg,#FCA311,#e8940a);color:#000000;
-  border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;
-  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;
-}
+.dash-btn{background:linear-gradient(135deg,#FCA311,#e8940a);color:#000000;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;}
 .dash-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(252,163,17,0.4)}
 
+.empty-state{text-align:center;padding:80px 40px;color:rgba(229,229,229,0.3)}
+.empty-state .empty-icon{font-size:64px;margin-bottom:16px;opacity:.4}
+.empty-state h3{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;color:rgba(229,229,229,0.5)}
+
 /* Viewer */
-#tela-viewer{display:none;flex-direction:column;height:100%}
-#tela-viewer.ativo{display:flex}
-.viewer-header{
-  padding:16px 24px;background:#000000;border-bottom:1px solid rgba(252,163,17,0.1);
-  display:flex;align-items:center;gap:16px;flex-shrink:0;
-}
-.viewer-back{
-  background:rgba(229,229,229,0.06);border:1px solid rgba(229,229,229,0.1);
-  border-radius:8px;padding:8px 16px;font-size:13px;color:#E5E5E5;
-  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;
-}
+#pg-viewer{display:none;height:calc(100vh - 62px);margin:-32px;flex-direction:column}
+.viewer-header{padding:16px 24px;background:#000000;border-bottom:1px solid rgba(252,163,17,0.1);display:flex;align-items:center;gap:16px;flex-shrink:0;}
+.viewer-back{background:rgba(229,229,229,0.06);border:1px solid rgba(229,229,229,0.1);border-radius:8px;padding:8px 16px;font-size:13px;color:#E5E5E5;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;}
 .viewer-back:hover{border-color:#FCA311;color:#FCA311}
 .viewer-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:700;flex:1}
-.viewer-fullscreen{
-  background:rgba(252,163,17,0.1);border:1px solid rgba(252,163,17,0.2);
-  border-radius:8px;padding:8px 16px;font-size:13px;color:#FCA311;
-  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;
-}
+.viewer-fullscreen{background:rgba(252,163,17,0.1);border:1px solid rgba(252,163,17,0.2);border-radius:8px;padding:8px 16px;font-size:13px;color:#FCA311;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;}
 .viewer-fullscreen:hover{background:rgba(252,163,17,0.2)}
 .viewer-frame{flex:1;position:relative}
 .viewer-frame iframe{width:100%;height:100%;border:none}
@@ -309,12 +175,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .spinner{width:40px;height:40px;border:3px solid rgba(252,163,17,0.2);border-top-color:#FCA311;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Estado vazio */
-.empty-state{text-align:center;padding:80px 40px;color:rgba(229,229,229,0.3)}
-.empty-state .empty-icon{font-size:64px;margin-bottom:16px;opacity:.4}
-.empty-state h3{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;color:rgba(229,229,229,0.5)}
-
-/* Toast */
 #toast{position:fixed;bottom:24px;right:24px;background:#14213D;border:1px solid rgba(229,229,229,0.1);border-left:3px solid #FCA311;border-radius:10px;padding:14px 20px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.6);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.err{border-left-color:#ef4444}
@@ -324,40 +184,29 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
   .dash-grid{grid-template-columns:1fr}
   .main{padding:20px}
   .lcard{width:90%;padding:40px 28px}
+  .cat-chips{display:flex}
 }
+@media(min-width:769px){.cat-chips{display:none}}
 </style>
 </head>
 <body>
 
 <!-- ═══════════ TELA DE LOGIN ═══════════ -->
 <div id="tela-login">
-
-  <!-- Partículas decorativas -->
   <div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
   </div>
-
   <div class="lcard">
-    <!-- Ícone / logo -->
     <div class="licon">
       <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='28' width='8' height='16' rx='2' fill='%23FCA311'/%3E%3Crect x='16' y='18' width='8' height='26' rx='2' fill='%23FCA311' opacity='.8'/%3E%3Crect x='28' y='8' width='8' height='36' rx='2' fill='%23FCA311' opacity='.6'/%3E%3Crect x='40' y='20' width='4' height='24' rx='2' fill='%23FCA311' opacity='.4'/%3E%3C/svg%3E" alt="SmartData">
     </div>
-
     <div class="lcard-title">Acesse sua conta</div>
     <div class="lsub">Visualize seus dashboards de Business Intelligence</div>
-
     <div id="lerro"></div>
-
     <label class="lbl">E-mail</label>
     <input class="inp" type="email" id="lemail" placeholder="seu@email.com" autocomplete="email">
-
     <label class="lbl">Senha <a class="lforgot" href="#">Esqueceu sua senha?</a></label>
     <div class="inp-wrapper">
       <input class="inp" type="password" id="lsenha" placeholder="••••••••" autocomplete="current-password"
@@ -369,16 +218,13 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
         </svg>
       </button>
     </div>
-
     <button class="lbtn" id="lbtn" onclick="fazerLogin()">Entrar</button>
-
     <div class="llogo-foot"><b>SmartData</b> &nbsp;Consultoria</div>
   </div>
 </div>
 
 <!-- ═══════════ TELA DO APP ═══════════ -->
 <div id="tela-app">
-
   <div class="topbar">
     <div class="t-logo">
       <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='28' width='8' height='16' rx='2' fill='%23FCA311'/%3E%3Crect x='16' y='18' width='8' height='26' rx='2' fill='%23FCA311' opacity='.8'/%3E%3Crect x='28' y='8' width='8' height='36' rx='2' fill='%23FCA311' opacity='.6'/%3E%3Crect x='40' y='20' width='4' height='24' rx='2' fill='%23FCA311' opacity='.4'/%3E%3C/svg%3E" alt="SmartData">
@@ -392,27 +238,37 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
   </div>
 
   <div class="app-body">
-    <div class="sidebar">
+    <!-- SIDEBAR DINÂMICA COM CATEGORIAS -->
+    <div class="sidebar" id="sidebar">
       <div class="sb-section">Menu</div>
-      <div class="sb-item on" id="sb-dashboards" onclick="mostrarDashboards()">
-        <span class="icon">📊</span> Meus Dashboards
+      <div class="sb-item on" id="sb-todos" onclick="filtrarCategoria('__todos__')">
+        <div class="cat-icon">📊</div>
+        <span>Todos</span>
+        <span class="sb-badge" id="badge-todos">0</span>
       </div>
-      <div class="sb-section" style="margin-top:auto"></div>
+      <div class="sb-section" id="sb-section-cats" style="display:none">Categorias</div>
+      <div id="sb-categorias"></div>
       <div class="sb-footer">
         <div class="sb-footer-txt">SmartData Consultoria<br>© 2025 Todos os direitos reservados</div>
       </div>
     </div>
 
-    <div class="main" id="main-content">
+    <div class="main">
+      <!-- TELA DE DASHBOARDS -->
       <div id="pg-dashboards">
         <div class="page-header">
-          <div class="page-title">Meus Dashboards</div>
-          <div class="page-sub" id="sub-empresa">Selecione um dashboard para visualizar</div>
+          <div>
+            <div class="page-title" id="page-title">Meus Dashboards</div>
+            <div class="page-sub" id="sub-empresa">Selecione um dashboard para visualizar</div>
+          </div>
+          <!-- Chips visíveis só no mobile -->
+          <div class="cat-chips" id="cat-chips"></div>
         </div>
         <div class="dash-grid" id="dash-grid"></div>
       </div>
 
-      <div id="pg-viewer" style="display:none;height:calc(100vh - 62px);margin:-32px;display:none;flex-direction:column">
+      <!-- TELA DO VIEWER -->
+      <div id="pg-viewer">
         <div class="viewer-header">
           <button class="viewer-back" onclick="voltarDashboards()">← Voltar</button>
           <div class="viewer-title" id="viewer-title">Dashboard</div>
@@ -433,174 +289,227 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 <div id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════
-// CONFIGURAÇÃO SUPABASE
-// ════════════════════════════════════════════
 var SB_URL = 'https://traycmfbujydcjskevbs.supabase.co';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyYXljbWZidWp5ZGNqc2tldmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4OTEzMzIsImV4cCI6MjA4ODQ2NzMzMn0.qVgXBolnz17BOXv4ytB-9W8mKkEnRHKgiCaakyhjzHc';
 
 var usr = null;
+var todosOsDashs = [];
+var categoriaAtiva = '__todos__';
+
+// Mapa de ícones por categoria
+var catIcones = {
+  'logistico':'🚚','logístico':'🚚','logistica':'🚚','logística':'🚚',
+  'financeiro':'💰','financeira':'💰','financeiro':'💰',
+  'comercial':'🤝','vendas':'🤝',
+  'educacao':'🎓','educação':'🎓',
+  'marketing':'📣',
+  'operacoes':'⚙️','operações':'⚙️',
+  'rh':'👥','recursos humanos':'👥',
+  'ti':'💻','tecnologia':'💻',
+  'default':'📈'
+};
+function getIcone(cat){
+  return catIcones[(cat||'').toLowerCase().trim()] || catIcones['default'];
+}
 
 function toggleSenha(){
   var inp = document.getElementById('lsenha');
   var icone = document.getElementById('icone-olho');
-  var visivel = inp.type === 'text';
-  inp.type = visivel ? 'password' : 'text';
-  icone.innerHTML = visivel
+  var vis = inp.type === 'text';
+  inp.type = vis ? 'password' : 'text';
+  icone.innerHTML = vis
     ? '<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
     : '<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
 }
 
-// ════════════════════════════════════════════
-// LOGIN
-// ════════════════════════════════════════════
+// ═══ LOGIN ═══
 function fazerLogin(){
   var email = document.getElementById('lemail').value.trim();
   var senha = document.getElementById('lsenha').value;
-  var btn   = document.getElementById('lbtn');
+  var btn = document.getElementById('lbtn');
   document.getElementById('lerro').style.display = 'none';
-  if(!email || !senha){ mostraErro('Preencha e-mail e senha.'); return; }
-  btn.disabled = true; btn.textContent = 'Entrando...';
-
-  fetch(SB_URL + '/auth/v1/token?grant_type=password', {
-    method: 'POST',
-    headers: { 'apikey': SB_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, password: senha })
+  if(!email||!senha){mostraErro('Preencha e-mail e senha.');return;}
+  btn.disabled=true; btn.textContent='Entrando...';
+  fetch(SB_URL+'/auth/v1/token?grant_type=password',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,password:senha})
   })
-  .then(function(r){ return r.json().then(function(d){ return { s: r.status, d: d }; }); })
+  .then(function(r){return r.json().then(function(d){return{s:r.status,d:d};});})
   .then(function(res){
     if(res.d.access_token){
-      usr = { email: email, nome: email.split('@')[0], token: res.d.access_token };
+      usr={email:email,nome:email.split('@')[0],token:res.d.access_token};
       entrarApp();
-    } else {
-      var m = res.d.error_description || res.d.message || 'Credenciais inválidas.';
-      mostraErro(m);
+    }else{
+      mostraErro(res.d.error_description||res.d.message||'Credenciais inválidas.');
     }
   })
-  .catch(function(e){ mostraErro('Sem conexão: ' + e.message); })
-  .finally(function(){ btn.disabled = false; btn.textContent = 'Entrar'; });
+  .catch(function(e){mostraErro('Sem conexão: '+e.message);})
+  .finally(function(){btn.disabled=false;btn.textContent='Entrar';});
 }
 
 function mostraErro(msg){
-  var e = document.getElementById('lerro');
-  e.innerHTML = '⚠️ ' + msg;
-  e.style.display = 'block';
+  var e=document.getElementById('lerro');
+  e.innerHTML='⚠️ '+msg; e.style.display='block';
 }
 
-// ════════════════════════════════════════════
-// ENTRAR / SAIR DO APP
-// ════════════════════════════════════════════
+// ═══ ENTRAR / SAIR ═══
 function entrarApp(){
-  document.getElementById('tela-login').style.display = 'none';
-  document.getElementById('tela-app').style.display   = 'flex';
-  document.getElementById('tela-app').style.flexDirection = 'column';
-  document.getElementById('t-usuario-email').textContent = usr.email;
+  document.getElementById('tela-login').style.display='none';
+  document.getElementById('tela-app').style.display='flex';
+  document.getElementById('tela-app').style.flexDirection='column';
+  document.getElementById('t-usuario-email').textContent=usr.email;
   carregarDashboards();
 }
-
 function fazerSair(){
-  usr = null;
-  document.getElementById('tela-login').style.display = 'flex';
-  document.getElementById('tela-app').style.display   = 'none';
-  document.getElementById('lemail').value = '';
-  document.getElementById('lsenha').value = '';
+  usr=null; todosOsDashs=[]; categoriaAtiva='__todos__';
+  document.getElementById('tela-login').style.display='flex';
+  document.getElementById('tela-app').style.display='none';
+  document.getElementById('lemail').value='';
+  document.getElementById('lsenha').value='';
 }
 
-// ════════════════════════════════════════════
-// DASHBOARDS
-// ════════════════════════════════════════════
+// ═══ CARREGAR DASHBOARDS ═══
 function carregarDashboards(){
-  // ✅ CORREÇÃO: removido filtro &ativo=eq.true (coluna não existe na tabela)
-  // Busca TODOS os dashboards vinculados ao e-mail do usuário logado
-  fetch(SB_URL + '/rest/v1/dashboards_clientes?email_cliente=eq.' + encodeURIComponent(usr.email) + '&order=titulo', {
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + usr.token,
-      'Content-Type': 'application/json'
-    }
+  // Busca todos os dashboards do usuário logado
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?email_cliente=eq.'+encodeURIComponent(usr.email)+'&order=titulo',{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'}
   })
-  .then(function(r){ return r.json(); })
+  .then(function(r){return r.json();})
   .then(function(data){
-    var empresa = (data && data.length > 0) ? (data[0].empresa || usr.nome) : usr.nome;
-    renderDashboards(data || [], empresa);
+    todosOsDashs=data||[];
+    var empresa=todosOsDashs.length>0?(todosOsDashs[0].empresa||usr.nome):usr.nome;
+    document.getElementById('t-empresa-nome').textContent=empresa;
+    construirSidebar();
+    filtrarCategoria('__todos__');
   })
   .catch(function(e){
     console.error(e);
-    renderDashboards([], usr.nome);
-    toast('Erro ao carregar dashboards.', true);
+    renderDashboards([]);
+    toast('Erro ao carregar dashboards.',true);
   });
 }
 
-function renderDashboards(lista, empresa){
-  document.getElementById('t-empresa-nome').textContent = empresa || usr.nome;
-  document.getElementById('sub-empresa').textContent    = lista.length + ' dashboard(s) disponível(is) para você';
+// ═══ CONSTRUIR SIDEBAR DINÂMICA ═══
+function construirSidebar(){
+  // Contar dashboards por categoria
+  var contagem={};
+  todosOsDashs.forEach(function(d){
+    var cat=(d.categoria||'Outros').trim();
+    contagem[cat]=(contagem[cat]||0)+1;
+  });
+  var cats=Object.keys(contagem).sort();
 
-  var grid = document.getElementById('dash-grid');
+  // Atualizar badge "Todos"
+  document.getElementById('badge-todos').textContent=todosOsDashs.length;
 
-  if(!lista || lista.length === 0){
-    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">📊</div><h3>Nenhum dashboard disponível</h3><p>Entre em contato com a SmartData para liberar seus dashboards.</p></div>';
+  // Mostrar/ocultar seção de categorias
+  document.getElementById('sb-section-cats').style.display=cats.length>0?'block':'none';
+
+  // Itens de categoria na sidebar
+  document.getElementById('sb-categorias').innerHTML=cats.map(function(cat){
+    return '<div class="sb-item" data-cat="'+escHtml(cat)+'" onclick="filtrarCategoria(\''+escJs(cat)+'\')">'+
+      '<div class="cat-icon">'+getIcone(cat)+'</div>'+
+      '<span>'+escHtml(cat)+'</span>'+
+      '<span class="sb-badge">'+contagem[cat]+'</span>'+
+    '</div>';
+  }).join('');
+
+  // Chips para mobile
+  document.getElementById('cat-chips').innerHTML=
+    '<div class="cat-chip on" data-cat="__todos__" onclick="filtrarCategoria(\'__todos__\')">Todos ('+todosOsDashs.length+')</div>'+
+    cats.map(function(cat){
+      return '<div class="cat-chip" data-cat="'+escHtml(cat)+'" onclick="filtrarCategoria(\''+escJs(cat)+'\')">'+escHtml(cat)+' ('+contagem[cat]+')</div>';
+    }).join('');
+}
+
+// ═══ FILTRAR POR CATEGORIA ═══
+function filtrarCategoria(cat){
+  categoriaAtiva=cat;
+
+  // Atualizar sidebar
+  document.querySelectorAll('#sidebar .sb-item').forEach(function(el){el.classList.remove('on');});
+  if(cat==='__todos__'){
+    document.getElementById('sb-todos').classList.add('on');
+  }else{
+    var el=document.querySelector('#sb-categorias .sb-item[data-cat="'+escHtml(cat)+'"]');
+    if(el) el.classList.add('on');
+  }
+
+  // Atualizar chips mobile
+  document.querySelectorAll('.cat-chip').forEach(function(el){
+    el.classList.toggle('on', el.dataset.cat===cat);
+  });
+
+  // Filtrar lista
+  var lista=cat==='__todos__'
+    ? todosOsDashs
+    : todosOsDashs.filter(function(d){return (d.categoria||'Outros').trim()===cat;});
+
+  // Título da página
+  document.getElementById('page-title').textContent=cat==='__todos__'?'Meus Dashboards':cat;
+
+  renderDashboards(lista);
+}
+
+// ═══ RENDER DOS CARDS ═══
+function renderDashboards(lista){
+  document.getElementById('sub-empresa').textContent=lista.length+' dashboard(s) disponível(is) para você';
+  var grid=document.getElementById('dash-grid');
+
+  if(!lista||lista.length===0){
+    grid.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div><h3>Nenhum dashboard nesta categoria</h3><p>Selecione outra categoria ou aguarde novos dashboards.</p></div>';
     return;
   }
 
-  var alturas = [60,80,50,70,90,55,75,65,85];
-
-  grid.innerHTML = lista.map(function(d, i){
-    var bars = [0,1,2,3,4].map(function(j){
-      var h = alturas[(i * 3 + j) % alturas.length];
-      return '<div class="preview-bar" style="--h:' + h + 'px;height:' + h + 'px;animation-delay:' + (j * 0.1) + 's"></div>';
+  var alturas=[60,80,50,70,90,55,75,65,85];
+  grid.innerHTML=lista.map(function(d,i){
+    var bars=[0,1,2,3,4].map(function(j){
+      var h=alturas[(i*3+j)%alturas.length];
+      return '<div class="preview-bar" style="--h:'+h+'px;height:'+h+'px;animation-delay:'+(j*0.1)+'s"></div>';
     }).join('');
-
-    return '<div class="dash-card" onclick="abrirDashboard(' + JSON.stringify(d).replace(/"/g, "&quot;") + ')">' +
-      '<div class="dash-card-preview"><div class="preview-bars">' + bars + '</div></div>' +
-      '<div class="dash-card-body">' +
-        '<div class="dash-card-tag">' + (d.categoria || 'Dashboard') + '</div>' +
-        '<div class="dash-card-title">' + d.titulo + '</div>' +
-        '<div class="dash-card-desc">' + (d.descricao || '') + '</div>' +
-        '<div class="dash-card-footer">' +
-          '<div class="dash-card-status"><span></span> Ativo</div>' +
-          '<button class="dash-btn">▶ Abrir</button>' +
-        '</div>' +
-      '</div>' +
+    return '<div class="dash-card" style="animation-delay:'+(i*0.07)+'s" onclick="abrirDashboard('+JSON.stringify(d).replace(/"/g,'&quot;')+')">' +
+      '<div class="dash-card-preview"><div class="preview-bars">'+bars+'</div></div>'+
+      '<div class="dash-card-body">'+
+        '<div class="dash-card-tag">'+(d.categoria||'Dashboard')+'</div>'+
+        '<div class="dash-card-title">'+escHtml(d.titulo)+'</div>'+
+        '<div class="dash-card-desc">'+(d.descricao||'')+'</div>'+
+        '<div class="dash-card-footer">'+
+          '<div class="dash-card-status"><span></span> Ativo</div>'+
+          '<button class="dash-btn">▶ Abrir</button>'+
+        '</div>'+
+      '</div>'+
     '</div>';
   }).join('');
 }
 
-// ════════════════════════════════════════════
-// VIEWER
-// ════════════════════════════════════════════
+// ═══ VIEWER ═══
 function abrirDashboard(d){
-  document.getElementById('pg-dashboards').style.display = 'none';
-  var pg = document.getElementById('pg-viewer');
-  pg.style.display = 'flex';
-  document.getElementById('viewer-title').textContent = d.titulo;
-  document.getElementById('viewer-loading').style.display = 'flex';
-  document.getElementById('dash-iframe').src = d.url;
-  document.getElementById('sb-dashboards').classList.remove('on');
+  document.getElementById('pg-dashboards').style.display='none';
+  document.getElementById('pg-viewer').style.display='flex';
+  document.getElementById('viewer-title').textContent=d.titulo;
+  document.getElementById('viewer-loading').style.display='flex';
+  document.getElementById('dash-iframe').src=d.url;
 }
-
 function voltarDashboards(){
-  document.getElementById('pg-viewer').style.display = 'none';
-  document.getElementById('pg-dashboards').style.display = 'block';
-  document.getElementById('dash-iframe').src = '';
-  document.getElementById('sb-dashboards').classList.add('on');
+  document.getElementById('pg-viewer').style.display='none';
+  document.getElementById('pg-dashboards').style.display='block';
+  document.getElementById('dash-iframe').src='';
 }
-
-function mostrarDashboards(){ voltarDashboards(); }
-
 function abrirFullscreen(){
-  var url = document.getElementById('dash-iframe').src;
-  if(url) window.open(url, '_blank');
+  var url=document.getElementById('dash-iframe').src;
+  if(url) window.open(url,'_blank');
 }
 
-// ════════════════════════════════════════════
-// TOAST
-// ════════════════════════════════════════════
-function toast(msg, err){
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show' + (err ? ' err' : '');
+// ═══ UTILS ═══
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escJs(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+
+function toast(msg,err){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='show'+(err?' err':'');
   clearTimeout(t._t);
-  t._t = setTimeout(function(){ t.className = ''; }, 3500);
+  t._t=setTimeout(function(){t.className='';},3500);
 }
 </script>
 </body>
