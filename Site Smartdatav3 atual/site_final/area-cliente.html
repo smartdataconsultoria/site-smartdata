@@ -258,8 +258,8 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
       <div id="pg-dashboards">
         <div class="page-header">
           <div>
-            <div class="page-title" id="page-title">Meus Dashboards</div>
-            <div class="page-sub" id="sub-empresa">Selecione um dashboard para visualizar</div>
+            <div class="page-title" id="page-title">Dashboards Demonstrativos</div>
+            <div class="page-sub" id="sub-empresa">Os dados apresentados são fictícios.</div>
           </div>
           <!-- Chips visíveis só no mobile -->
           <div class="cat-chips" id="cat-chips"></div>
@@ -447,14 +447,14 @@ function filtrarCategoria(cat){
     : todosOsDashs.filter(function(d){return (d.categoria||'Outros').trim()===cat;});
 
   // Título da página
-  document.getElementById('page-title').textContent=cat==='__todos__'?'Meus Dashboards':cat;
+  document.getElementById('page-title').textContent=cat==='__todos__'?'Dashboards Demonstrativos':cat;
 
   renderDashboards(lista);
 }
 
 // ═══ RENDER DOS CARDS ═══
 function renderDashboards(lista){
-  document.getElementById('sub-empresa').textContent=lista.length+' dashboard(s) disponível(is) para você';
+  document.getElementById('sub-empresa').textContent='Os dados apresentados são fictícios.';
   var grid=document.getElementById('dash-grid');
 
   if(!lista||lista.length===0){
