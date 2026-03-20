@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartData - Área do Cliente</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════ PALETA SmartData ══════════
+   #000000  preto fundo
+   #14213D  azul-marinho escuro
+   #FCA311  dourado âmbar
+   #E5E5E5  cinza claro
+   #FFFFFF  branco
+   ══════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000;color:#E5E5E5}
+
+/* ════════════════ LOGIN ════════════════ */
+#tela-login{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:#000;position:relative;overflow:hidden;
+}
+#tela-login::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(252,163,17,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(252,163,17,.06) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;
+}
+#tela-login::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 0%,rgba(20,33,61,.9) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 100%,rgba(252,163,17,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 35% at 10% 80%,rgba(20,33,61,.5) 0%,transparent 55%);
+  pointer-events:none;
+}
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:0}
+.particle:nth-child(1){width:3px;height:3px;background:#FCA311;top:12%;left:18%;animation-duration:8s}
+.particle:nth-child(2){width:2px;height:2px;background:#FCA311;top:30%;left:72%;animation-duration:11s;animation-delay:1.5s}
+.particle:nth-child(3){width:4px;height:4px;background:rgba(252,163,17,.5);top:65%;left:22%;animation-duration:9s;animation-delay:3s}
+.particle:nth-child(4){width:2px;height:2px;background:#FCA311;top:80%;left:85%;animation-duration:13s;animation-delay:.8s}
+.particle:nth-child(5){width:3px;height:3px;background:rgba(252,163,17,.7);top:45%;left:48%;animation-duration:7s;animation-delay:2s}
+.particle:nth-child(6){width:2px;height:2px;background:#FCA311;top:22%;left:88%;animation-duration:10s;animation-delay:4s}
+.particle:nth-child(7){width:5px;height:5px;background:rgba(252,163,17,.3);top:55%;left:8%;animation-duration:14s;animation-delay:1s}
+.particle:nth-child(8){width:2px;height:2px;background:#FCA311;top:90%;left:40%;animation-duration:9s;animation-delay:5s}
+@keyframes float{
+  0%{opacity:0;transform:translateY(0) scale(1)}
+  10%{opacity:1}90%{opacity:.6}
+  100%{opacity:0;transform:translateY(-120px) scale(.5)}
+}
+.lcard{
+  position:relative;z-index:2;
+  background:rgba(20,33,61,.6);
+  border:1px solid rgba(252,163,17,.15);
+  border-radius:20px;padding:52px 48px;width:460px;
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  box-shadow:0 0 0 1px rgba(252,163,17,.06),0 32px 64px rgba(0,0,0,.7),0 0 80px rgba(252,163,17,.04);
+  animation:loginFade .7s cubic-bezier(.22,.68,0,1.2) both;
+}
+@keyframes loginFade{from{opacity:0;transform:translateY(32px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.lcard::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60%;height:2px;
+  background:linear-gradient(90deg,transparent,#FCA311,transparent);
+  border-radius:0 0 4px 4px;
+}
+.licon{
+  width:72px;height:72px;margin:0 auto 28px;
+  background:linear-gradient(135deg,#14213D,#0a1628);
+  border-radius:18px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px rgba(252,163,17,.25),0 16px 32px rgba(0,0,0,.5);
+  animation:iconPop .5s .2s cubic-bezier(.22,.68,0,1.4) both;
+}
+@keyframes iconPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.licon svg{width:40px;height:40px}
+.lcard-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;text-align:center;margin-bottom:8px;color:#FFF;letter-spacing:-.02em}
+.lsub{color:rgba(229,229,229,.45);font-size:14px;margin-bottom:36px;text-align:center;line-height:1.5}
+.lbl{font-size:12px;font-weight:600;color:rgba(229,229,229,.6);margin-bottom:8px;display:block;text-transform:uppercase;letter-spacing:.06em}
+.lforgot{float:right;font-size:12px;color:#FCA311;cursor:pointer;text-decoration:none;font-weight:500;opacity:.8;transition:opacity .2s;text-transform:none;letter-spacing:0}
+.lforgot:hover{opacity:1}
+.inp{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(229,229,229,.1);border-radius:12px;padding:14px 16px;color:#FFF;font-size:14px;margin-bottom:20px;outline:none;transition:all .2s;font-family:"DM Sans",sans-serif}
+.inp:focus{border-color:rgba(252,163,17,.5);background:rgba(252,163,17,.05);box-shadow:0 0 0 3px rgba(252,163,17,.1)}
+.inp::placeholder{color:rgba(229,229,229,.2)}
+.inp-wrapper{position:relative;margin-bottom:20px}
+.inp-wrapper .inp{margin-bottom:0;padding-right:48px}
+.toggle-senha{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;color:rgba(229,229,229,.3);transition:color .2s;display:flex;align-items:center;justify-content:center}
+.toggle-senha:hover{color:#FCA311}
+.toggle-senha svg{width:18px;height:18px;display:block}
+.lbtn{width:100%;background:linear-gradient(135deg,#FCA311,#e8940a);color:#000;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:"DM Sans",sans-serif;letter-spacing:.02em;box-shadow:0 8px 24px rgba(252,163,17,.3);margin-top:4px;position:relative;overflow:hidden}
+.lbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s}
+.lbtn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(252,163,17,.45)}
+.lbtn:hover::after{opacity:1}
+.lbtn:active{transform:translateY(0)}
+.lbtn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+#lerro{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px;display:none;line-height:1.6}
+.llogo-foot{font-family:"Syne",sans-serif;font-size:13px;font-weight:800;text-align:center;margin-top:28px;color:rgba(229,229,229,.2);letter-spacing:.05em}
+.llogo-foot b{background:linear-gradient(135deg,#FCA311,#e8940a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ════════════════ APP ════════════════ */
+#tela-app{display:none;height:100vh;flex-direction:column}
+
+/* Topbar */
+.topbar{
+  height:62px;background:#000;border-bottom:1px solid rgba(252,163,17,.12);
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;position:relative;z-index:50;
+}
+.t-logo{display:flex;align-items:center;gap:10px}
+.t-logo svg{width:32px;height:32px}
+.t-logo-nome{font-family:"Syne",sans-serif;font-size:17px;font-weight:800}
+.t-logo-nome b{background:linear-gradient(135deg,#FCA311,#e8940a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.t-logo-nome span{color:rgba(229,229,229,.4);font-weight:400;font-size:14px;margin-left:4px}
+.t-right{display:flex;align-items:center;gap:12px}
+.t-empresa{background:rgba(252,163,17,.1);border:1px solid rgba(252,163,17,.2);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:#FCA311}
+.t-avatar{
+  width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FCA311,#e8940a);
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;
+  color:#000;cursor:pointer;transition:all .2s;flex-shrink:0;
+  box-shadow:0 0 0 2px rgba(252,163,17,.2);
+}
+.t-avatar:hover{box-shadow:0 0 0 3px rgba(252,163,17,.5)}
+.t-sair{background:transparent;border:1px solid rgba(229,229,229,.1);border-radius:8px;color:rgba(229,229,229,.4);padding:6px 14px;font-size:12px;cursor:pointer;transition:all .2s}
+.t-sair:hover{border-color:#ef4444;color:#ef4444}
+
+/* Layout */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* Sidebar */
+.sidebar{
+  width:240px;background:#000;border-right:1px solid rgba(252,163,17,.08);
+  padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;
+}
+.sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(229,229,229,.2);padding:0 12px;margin:20px 0 8px}
+.sb-section:first-child{margin-top:0}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:500;color:rgba(229,229,229,.4);cursor:pointer;transition:all .15s;margin-bottom:2px;position:relative}
+.sb-item:hover{background:rgba(252,163,17,.06);color:#E5E5E5}
+.sb-item.on{background:rgba(252,163,17,.12);color:#FCA311}
+.sb-item .icon{font-size:16px;width:20px;text-align:center}
+.sb-badge{margin-left:auto;background:rgba(252,163,17,.2);color:#FCA311;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;min-width:20px;text-align:center}
+.sb-item.on .sb-badge{background:rgba(252,163,17,.3)}
+.sb-footer{margin-top:auto;padding:16px 12px;border-top:1px solid rgba(252,163,17,.08)}
+.sb-footer-txt{font-size:11px;color:rgba(229,229,229,.2);text-align:center;line-height:1.6}
+
+/* Suporte flutuante */
+.fab-suporte{
+  position:fixed;bottom:28px;right:28px;z-index:200;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#FCA311,#e8940a);
+  color:#000;border:none;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(252,163,17,.4);
+  transition:all .2s;font-size:22px;
+}
+.fab-suporte:hover{transform:scale(1.1);box-shadow:0 12px 32px rgba(252,163,17,.55)}
+.fab-suporte.visivel{display:flex}
+
+/* Modal suporte */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:#14213D;border:1px solid rgba(252,163,17,.2);border-radius:20px;padding:40px;width:460px;max-width:90vw;position:relative;animation:modalIn .3s cubic-bezier(.22,.68,0,1.2) both}
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(229,229,229,.08);border:none;color:rgba(229,229,229,.5);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:rgba(239,68,68,.15);color:#ef4444}
+.modal-title{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;color:#FFF;margin-bottom:6px}
+.modal-sub{font-size:13px;color:rgba(229,229,229,.4);margin-bottom:28px;line-height:1.5}
+.modal-input{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(229,229,229,.1);border-radius:12px;padding:13px 16px;color:#FFF;font-size:14px;margin-bottom:14px;outline:none;font-family:"DM Sans",sans-serif;transition:all .2s;resize:vertical}
+.modal-input:focus{border-color:rgba(252,163,17,.5);background:rgba(252,163,17,.05);box-shadow:0 0 0 3px rgba(252,163,17,.1)}
+.modal-input::placeholder{color:rgba(229,229,229,.25)}
+.modal-btn{width:100%;background:linear-gradient(135deg,#FCA311,#e8940a);color:#000;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:"DM Sans",sans-serif;margin-top:4px}
+.modal-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(252,163,17,.4)}
+.modal-contatos{display:flex;gap:12px;margin-top:16px}
+.modal-contato-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;border:1px solid rgba(229,229,229,.1);color:#E5E5E5;background:rgba(229,229,229,.04)}
+.modal-contato-btn:hover{border-color:rgba(252,163,17,.4);color:#FCA311;background:rgba(252,163,17,.06)}
+
+/* Tela de perfil */
+#pg-perfil{display:none}
+.perfil-hero{background:linear-gradient(135deg,#14213D,#0a1628);border-radius:16px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden;border:1px solid rgba(252,163,17,.1)}
+.perfil-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#FCA311,transparent)}
+.perfil-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#FCA311,#e8940a);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#000;margin-bottom:16px;box-shadow:0 0 0 4px rgba(252,163,17,.2)}
+.perfil-nome{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;color:#FFF;margin-bottom:4px}
+.perfil-email{font-size:14px;color:rgba(229,229,229,.4)}
+.perfil-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.perfil-stat{background:rgba(0,0,0,.3);border-radius:12px;padding:16px;text-align:center;border:1px solid rgba(252,163,17,.08)}
+.perfil-stat-val{font-family:"Syne",sans-serif;font-size:24px;font-weight:800;color:#FCA311;margin-bottom:4px}
+.perfil-stat-lbl{font-size:12px;color:rgba(229,229,229,.4)}
+.perfil-section-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:700;color:#FFF;margin-bottom:16px}
+.perfil-form-card{background:#14213D;border:1px solid rgba(252,163,17,.1);border-radius:16px;padding:28px;margin-bottom:16px}
+.perfil-field-label{font-size:12px;font-weight:600;color:rgba(229,229,229,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:block}
+.perfil-field-val{font-size:14px;color:#E5E5E5;padding:12px 16px;background:rgba(0,0,0,.3);border-radius:10px;border:1px solid rgba(229,229,229,.08);margin-bottom:16px}
+.perfil-btn-senha{background:rgba(252,163,17,.1);border:1px solid rgba(252,163,17,.25);color:#FCA311;border-radius:10px;padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:"DM Sans",sans-serif}
+.perfil-btn-senha:hover{background:rgba(252,163,17,.2)}
+
+/* Main */
+.main{flex:1;overflow-y:auto;background:#0a0c14;padding:32px}
+
+/* Page header */
+.page-header{margin-bottom:28px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.page-header-left{}
+.page-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;margin-bottom:6px}
+.page-sub{font-size:14px;color:rgba(229,229,229,.4)}
+.filter-fav{background:rgba(252,163,17,.1);border:1px solid rgba(252,163,17,.2);color:#FCA311;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:"DM Sans",sans-serif;display:flex;align-items:center;gap:6px}
+.filter-fav:hover{background:rgba(252,163,17,.2)}
+.filter-fav.ativo{background:rgba(252,163,17,.25);border-color:#FCA311}
+
+/* Grid */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+
+/* Card */
+.dash-card{
+  background:#14213D;border:1px solid rgba(252,163,17,.08);
+  border-radius:16px;overflow:hidden;cursor:pointer;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+  position:relative;animation:cardIn .4s ease-out both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.dash-card:hover{transform:translateY(-5px);border-color:rgba(252,163,17,.35);box-shadow:0 20px 48px rgba(0,0,0,.5),0 0 0 1px rgba(252,163,17,.12),0 0 24px rgba(252,163,17,.06)}
+
+/* Glimmer no hover */
+.dash-card::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(135deg,rgba(252,163,17,.04),transparent 60%);
+  opacity:0;transition:opacity .3s;border-radius:16px;
+}
+.dash-card:hover::before{opacity:1}
+
+/* Badge novo */
+.card-badge-novo{
+  position:absolute;top:12px;left:12px;z-index:5;
+  background:linear-gradient(135deg,#FCA311,#e8940a);
+  color:#000;font-size:10px;font-weight:800;
+  padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;
+  box-shadow:0 4px 12px rgba(252,163,17,.4);
+  animation:pulseBadge 2s ease-in-out infinite;
+}
+@keyframes pulseBadge{0%,100%{box-shadow:0 4px 12px rgba(252,163,17,.4)}50%{box-shadow:0 4px 20px rgba(252,163,17,.7)}}
+
+/* Botão favorito */
+.card-fav-btn{
+  position:absolute;top:12px;right:12px;z-index:5;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);
+  border:1px solid rgba(229,229,229,.15);
+  border-radius:8px;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;color:rgba(229,229,229,.4);font-size:16px;
+}
+.card-fav-btn:hover{border-color:#FCA311;color:#FCA311;background:rgba(252,163,17,.1)}
+.card-fav-btn.favoritado{color:#FCA311;border-color:rgba(252,163,17,.4);background:rgba(252,163,17,.1)}
+
+/* Preview iframe */
+.dash-card-preview{
+  height:170px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0a1628,#14213D);
+}
+.preview-iframe-wrap{
+  position:absolute;inset:0;
+  transform-origin:top left;
+  pointer-events:none;overflow:hidden;
+}
+.preview-iframe-wrap iframe{
+  width:1280px;height:720px;border:none;
+  transform-origin:top left;
+  pointer-events:none;
+}
+.preview-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to bottom,transparent 40%,rgba(10,22,40,.7) 100%);
+}
+.preview-fallback{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:8px;
+}
+.preview-bars{display:flex;align-items:flex-end;gap:6px;height:80px}
+.preview-bar{width:18px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#FCA311,rgba(252,163,17,.3));animation:barGrow 1s ease-out backwards}
+@keyframes barGrow{from{height:0}to{height:var(--h)}}
+
+/* Corpo do card */
+.dash-card-body{padding:18px 20px}
+.dash-card-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#FCA311;margin-bottom:8px}
+.dash-card-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;color:#FFF}
+.dash-card-desc{font-size:13px;color:rgba(229,229,229,.4);line-height:1.5;margin-bottom:16px}
+.dash-card-footer{display:flex;align-items:center;justify-content:space-between}
+.dash-card-status{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(229,229,229,.3)}
+.dash-card-status span{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 6px #22c55e;animation:pulseGreen 2s ease-in-out infinite}
+@keyframes pulseGreen{0%,100%{opacity:1}50%{opacity:.4}}
+.dash-btn{
+  background:linear-gradient(135deg,#FCA311,#e8940a);color:#000;
+  border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.dash-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(252,163,17,.4)}
+
+/* Empty state */
+.empty-state{text-align:center;padding:80px 40px;color:rgba(229,229,229,.3)}
+.empty-state .empty-icon{font-size:64px;margin-bottom:16px;opacity:.4}
+.empty-state h3{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;color:rgba(229,229,229,.5)}
+.empty-state p{font-size:14px}
+
+/* Viewer */
+#pg-viewer{display:none;height:calc(100vh - 62px);margin:-32px;flex-direction:column}
+.viewer-header{padding:16px 24px;background:#000;border-bottom:1px solid rgba(252,163,17,.1);display:flex;align-items:center;gap:16px;flex-shrink:0}
+.viewer-back{background:rgba(229,229,229,.06);border:1px solid rgba(229,229,229,.1);border-radius:8px;padding:8px 16px;font-size:13px;color:#E5E5E5;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.viewer-back:hover{border-color:#FCA311;color:#FCA311}
+.viewer-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:700;flex:1}
+.viewer-fullscreen{background:rgba(252,163,17,.1);border:1px solid rgba(252,163,17,.2);border-radius:8px;padding:8px 16px;font-size:13px;color:#FCA311;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.viewer-fullscreen:hover{background:rgba(252,163,17,.2)}
+.viewer-frame{flex:1;position:relative}
+.viewer-frame iframe{width:100%;height:100%;border:none}
+.viewer-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0a0c14;flex-direction:column;gap:16px}
+.spinner{width:40px;height:40px;border:3px solid rgba(252,163,17,.2);border-top-color:#FCA311;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);opacity:0;background:#14213D;border:1px solid rgba(229,229,229,.1);border-left:3px solid #FCA311;border-radius:10px;padding:14px 20px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.6);transition:all .35s;z-index:9999;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+#toast.err{border-left-color:#ef4444}
+#toast.ok{border-left-color:#22c55e}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .dash-grid{grid-template-columns:1fr}
+  .main{padding:16px}
+  .lcard{width:90%;padding:36px 24px}
+  .perfil-stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ LOGIN ════════════ -->
+<div id="tela-login">
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <div class="lcard">
+    <div class="licon">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="28" width="8" height="16" rx="2" fill="#FCA311"/>
+        <rect x="16" y="18" width="8" height="26" rx="2" fill="#FCA311" opacity=".8"/>
+        <rect x="28" y="8" width="8" height="36" rx="2" fill="#FCA311" opacity=".6"/>
+        <rect x="40" y="20" width="4" height="24" rx="2" fill="#FCA311" opacity=".4"/>
+      </svg>
+    </div>
+    <div class="lcard-title">Acesse sua conta</div>
+    <div class="lsub">Visualize seus dashboards de Business Intelligence</div>
+    <div id="lerro"></div>
+    <label class="lbl">E-mail</label>
+    <input class="inp" type="email" id="lemail" placeholder="seu@email.com" autocomplete="email">
+    <label class="lbl">Senha <a class="lforgot" href="#">Esqueceu sua senha?</a></label>
+    <div class="inp-wrapper">
+      <input class="inp" type="password" id="lsenha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')fazerLogin()">
+      <button type="button" class="toggle-senha" onclick="toggleSenha()" title="Ver/ocultar senha">
+        <svg id="icone-olho" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <button class="lbtn" id="lbtn" onclick="fazerLogin()">Entrar</button>
+    <div class="llogo-foot"><b>SmartData</b> &nbsp;Consultoria</div>
+  </div>
+</div>
+
+<!-- ════════════ APP ════════════ -->
+<div id="tela-app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="t-logo">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="28" width="8" height="16" rx="2" fill="#FCA311"/>
+        <rect x="16" y="18" width="8" height="26" rx="2" fill="#FCA311" opacity=".8"/>
+        <rect x="28" y="8" width="8" height="36" rx="2" fill="#FCA311" opacity=".6"/>
+        <rect x="40" y="20" width="4" height="24" rx="2" fill="#FCA311" opacity=".4"/>
+      </svg>
+      <div class="t-logo-nome"><b>SmartData</b><span>Consultoria</span></div>
+    </div>
+    <div class="t-right">
+      <div class="t-empresa" id="t-empresa-nome">—</div>
+      <div class="t-avatar" id="t-avatar" onclick="mostrarPerfil()" title="Meu perfil">?</div>
+      <button class="t-sair" onclick="fazerSair()">↩ Sair</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="app-body">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sb-section">Menu</div>
+      <div class="sb-item on" id="sb-dashboards" onclick="mostrarDashboards()">
+        <span class="icon">📊</span> Meus Dashboards
+        <span class="sb-badge" id="sb-count">0</span>
+      </div>
+      <div class="sb-item" id="sb-favoritos" onclick="filtrarFavoritos()">
+        <span class="icon">⭐</span> Favoritos
+        <span class="sb-badge" id="sb-fav-count">0</span>
+      </div>
+      <div class="sb-item" id="sb-perfil-item" onclick="mostrarPerfil()">
+        <span class="icon">👤</span> Meu Perfil
+      </div>
+      <div class="sb-section" style="margin-top:auto"></div>
+      <div class="sb-footer">
+        <div class="sb-footer-txt">SmartData Consultoria<br>© 2025 Todos os direitos reservados</div>
+      </div>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="main" id="main-content">
+
+      <!-- Grade dashboards -->
+      <div id="pg-dashboards">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-title">Meus Dashboards</div>
+            <div class="page-sub" id="sub-empresa">Carregando...</div>
+          </div>
+          <button class="filter-fav" id="btn-filter-fav" onclick="filtrarFavoritos()">⭐ Ver favoritos</button>
+        </div>
+        <div class="dash-grid" id="dash-grid"></div>
+      </div>
+
+      <!-- Viewer -->
+      <div id="pg-viewer">
+        <div class="viewer-header">
+          <button class="viewer-back" onclick="voltarDashboards()">← Voltar</button>
+          <div class="viewer-title" id="viewer-title">Dashboard</div>
+          <button class="viewer-fullscreen" onclick="abrirFullscreen()">⛶ Tela cheia</button>
+        </div>
+        <div class="viewer-frame">
+          <div class="viewer-loading" id="viewer-loading">
+            <div class="spinner"></div>
+            <div style="font-size:13px;color:rgba(229,229,229,.4)">Carregando dashboard...</div>
+          </div>
+          <iframe id="dash-iframe" src="" onload="document.getElementById('viewer-loading').style.display='none'"></iframe>
+        </div>
+      </div>
+
+      <!-- Perfil -->
+      <div id="pg-perfil">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-title">Meu Perfil</div>
+            <div class="page-sub">Informações da sua conta</div>
+          </div>
+        </div>
+
+        <div class="perfil-hero">
+          <div class="perfil-avatar" id="perfil-avatar-letra">?</div>
+          <div class="perfil-nome" id="perfil-nome-display">—</div>
+          <div class="perfil-email" id="perfil-email-display">—</div>
+          <div class="perfil-stats">
+            <div class="perfil-stat">
+              <div class="perfil-stat-val" id="stat-total">0</div>
+              <div class="perfil-stat-lbl">Dashboards</div>
+            </div>
+            <div class="perfil-stat">
+              <div class="perfil-stat-val" id="stat-favs">0</div>
+              <div class="perfil-stat-lbl">Favoritos</div>
+            </div>
+            <div class="perfil-stat">
+              <div class="perfil-stat-val" id="stat-novos">0</div>
+              <div class="perfil-stat-lbl">Novos</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perfil-form-card">
+          <div class="perfil-section-title">Dados da conta</div>
+          <label class="perfil-field-label">E-mail</label>
+          <div class="perfil-field-val" id="perfil-email-val">—</div>
+          <label class="perfil-field-label">Empresa</label>
+          <div class="perfil-field-val" id="perfil-empresa-val">—</div>
+          <button class="perfil-btn-senha" onclick="abrirModalSenha()">🔐 Alterar senha</button>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /app-body -->
+</div><!-- /tela-app -->
+
+<!-- FAB Suporte -->
+<button class="fab-suporte" id="fab-suporte" onclick="abrirModalSuporte()" title="Falar com a SmartData">
+  💬
+</button>
+
+<!-- Modal Suporte -->
+<div class="modal-overlay" id="modal-suporte">
+  <div class="modal">
+    <button class="modal-close" onclick="fecharModal('modal-suporte')">✕</button>
+    <div class="modal-title">💬 Suporte SmartData</div>
+    <div class="modal-sub">Envie sua dúvida ou solicitação. Nossa equipe responde em até 24h.</div>
+    <input class="modal-input" type="text" id="suporte-assunto" placeholder="Assunto">
+    <textarea class="modal-input" id="suporte-mensagem" rows="4" placeholder="Descreva sua dúvida ou solicitação..."></textarea>
+    <button class="modal-btn" onclick="enviarSuporte()">Enviar mensagem</button>
+    <div class="modal-contatos">
+      <a class="modal-contato-btn" href="https://wa.me/5500000000000" target="_blank">📱 WhatsApp</a>
+      <a class="modal-contato-btn" href="mailto:contato@smartdataconsultoria.com">✉️ E-mail</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Alterar Senha -->
+<div class="modal-overlay" id="modal-senha">
+  <div class="modal">
+    <button class="modal-close" onclick="fecharModal('modal-senha')">✕</button>
+    <div class="modal-title">🔐 Alterar Senha</div>
+    <div class="modal-sub">Digite sua nova senha abaixo.</div>
+    <input class="modal-input" type="password" id="nova-senha" placeholder="Nova senha (mínimo 6 caracteres)">
+    <input class="modal-input" type="password" id="conf-senha" placeholder="Confirmar nova senha">
+    <button class="modal-btn" onclick="alterarSenha()">Salvar nova senha</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG SUPABASE
+// ══════════════════════════════════════════
+var SB_URL = 'https://traycmfbujydcjskevbs.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyYXljbWZidWp5ZGNqc2tldmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4OTEzMzIsImV4cCI6MjA4ODQ2NzMzMn0.qVgXBolnz17BOXv4ytB-9W8mKkEnRHKgiCaakyhjzHc';
+
+var usr = null;
+var todosOsDash = [];   // cache completo
+var favoritos   = {};   // { id: true/false } — salvo em localStorage
+var mostrандoFavs = false;
+
+// ══════════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════════
+function toggleSenha(){
+  var inp = document.getElementById('lsenha');
+  var ic  = document.getElementById('icone-olho');
+  var vis = inp.type === 'text';
+  inp.type = vis ? 'password' : 'text';
+  ic.innerHTML = vis
+    ? '<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
+    : '<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
+}
+
+function fazerLogin(){
+  var email = document.getElementById('lemail').value.trim();
+  var senha = document.getElementById('lsenha').value;
+  var btn   = document.getElementById('lbtn');
+  document.getElementById('lerro').style.display = 'none';
+  if(!email || !senha){ mostraErro('Preencha e-mail e senha.'); return; }
+  btn.disabled = true; btn.textContent = 'Entrando...';
+
+  fetch(SB_URL + '/auth/v1/token?grant_type=password', {
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,password:senha})
+  })
+  .then(function(r){ return r.json().then(function(d){ return {s:r.status,d:d}; }); })
+  .then(function(res){
+    if(res.d.access_token){
+      var ini = email.charAt(0).toUpperCase();
+      usr = {email:email, nome:email.split('@')[0], token:res.d.access_token, inicial:ini};
+      // carrega favoritos do localStorage
+      try{ favoritos = JSON.parse(localStorage.getItem('sd_favs_'+email) || '{}'); }catch(e){ favoritos={}; }
+      entrarApp();
+    } else {
+      mostraErro(res.d.error_description || res.d.message || 'Credenciais inválidas.');
+    }
+  })
+  .catch(function(e){ mostraErro('Sem conexão: ' + e.message); })
+  .finally(function(){ btn.disabled = false; btn.textContent = 'Entrar'; });
+}
+
+function mostraErro(msg){
+  var e = document.getElementById('lerro');
+  e.innerHTML = '⚠️ ' + msg;
+  e.style.display = 'block';
+}
+
+// ══════════════════════════════════════════
+// APP
+// ══════════════════════════════════════════
+function entrarApp(){
+  document.getElementById('tela-login').style.display = 'none';
+  document.getElementById('tela-app').style.display   = 'flex';
+  document.getElementById('tela-app').style.flexDirection = 'column';
+  document.getElementById('t-avatar').textContent = usr.inicial;
+  document.getElementById('fab-suporte').classList.add('visivel');
+  carregarDashboards();
+}
+
+function fazerSair(){
+  usr = null; todosOsDash = []; mostrандоFavs = false;
+  document.getElementById('tela-login').style.display = 'flex';
+  document.getElementById('tela-app').style.display   = 'none';
+  document.getElementById('fab-suporte').classList.remove('visivel');
+  document.getElementById('lemail').value = '';
+  document.getElementById('lsenha').value = '';
+  esconderTudo();
+}
+
+// ══════════════════════════════════════════
+// NAVEGAÇÃO
+// ══════════════════════════════════════════
+function esconderTudo(){
+  document.getElementById('pg-dashboards').style.display = 'none';
+  document.getElementById('pg-viewer').style.display     = 'none';
+  document.getElementById('pg-perfil').style.display     = 'none';
+  ['sb-dashboards','sb-favoritos','sb-perfil-item'].forEach(function(id){
+    document.getElementById(id).classList.remove('on');
+  });
+}
+
+function mostrarDashboards(){
+  mostrандоFavs = false;
+  esconderTudo();
+  document.getElementById('pg-dashboards').style.display = 'block';
+  document.getElementById('sb-dashboards').classList.add('on');
+  document.getElementById('btn-filter-fav').classList.remove('ativo');
+  document.getElementById('btn-filter-fav').innerHTML = '⭐ Ver favoritos';
+  renderDashboards(todosOsDash);
+}
+
+function filtrarFavoritos(){
+  mostrандоFavs = !mostrандоFavs;
+  esconderTudo();
+  document.getElementById('pg-dashboards').style.display = 'block';
+
+  if(mostrандоFavs){
+    document.getElementById('sb-favoritos').classList.add('on');
+    document.getElementById('btn-filter-fav').classList.add('ativo');
+    document.getElementById('btn-filter-fav').innerHTML = '📊 Ver todos';
+    var favList = todosOsDash.filter(function(d){ return favoritos[d.id]; });
+    renderDashboards(favList, true);
+  } else {
+    mostrarDashboards();
+  }
+}
+
+function mostrarPerfil(){
+  esconderTudo();
+  document.getElementById('pg-perfil').style.display = 'block';
+  document.getElementById('sb-perfil-item').classList.add('on');
+
+  var ini = usr.inicial;
+  var empresa = document.getElementById('t-empresa-nome').textContent;
+  var favCount = Object.keys(favoritos).filter(function(k){ return favoritos[k]; }).length;
+  var novosCount = todosOsDash.filter(function(d){ return eNovo(d); }).length;
+
+  document.getElementById('perfil-avatar-letra').textContent = ini;
+  document.getElementById('perfil-nome-display').textContent = usr.nome;
+  document.getElementById('perfil-email-display').textContent = usr.email;
+  document.getElementById('perfil-email-val').textContent    = usr.email;
+  document.getElementById('perfil-empresa-val').textContent  = empresa;
+  document.getElementById('stat-total').textContent  = todosOsDash.length;
+  document.getElementById('stat-favs').textContent   = favCount;
+  document.getElementById('stat-novos').textContent  = novosCount;
+}
+
+function voltarDashboards(){
+  document.getElementById('dash-iframe').src = '';
+  mostrarDashboards();
+}
+
+// ══════════════════════════════════════════
+// DASHBOARDS
+// ══════════════════════════════════════════
+function carregarDashboards(){
+  fetch(SB_URL + '/rest/v1/dashboards_clientes?email_cliente=eq.' + encodeURIComponent(usr.email) + '&ativo=eq.true&order=titulo', {
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    todosOsDash = data || [];
+    var empresa = todosOsDash.length > 0 ? (todosOsDash[0].empresa || usr.nome) : usr.nome;
+    document.getElementById('t-empresa-nome').textContent = empresa;
+    atualizarContadores();
+    esconderTudo();
+    document.getElementById('pg-dashboards').style.display = 'block';
+    document.getElementById('sb-dashboards').classList.add('on');
+    renderDashboards(todosOsDash);
+  })
+  .catch(function(e){
+    console.error(e);
+    toast('Erro ao carregar dashboards.', 'err');
+    document.getElementById('pg-dashboards').style.display = 'block';
+    document.getElementById('sb-dashboards').classList.add('on');
+  });
+}
+
+function atualizarContadores(){
+  var favCount = Object.keys(favoritos).filter(function(k){ return favoritos[k]; }).length;
+  document.getElementById('sb-count').textContent     = todosOsDash.length;
+  document.getElementById('sb-fav-count').textContent = favCount;
+  document.getElementById('sub-empresa').textContent  = todosOsDash.length + ' dashboard(s) disponível(is) para você';
+}
+
+// Considera "novo" se a coluna created_at for dos últimos 7 dias
+function eNovo(d){
+  if(!d.created_at) return false;
+  var criado = new Date(d.created_at);
+  var agora  = new Date();
+  return (agora - criado) < 7 * 24 * 60 * 60 * 1000;
+}
+
+function renderDashboards(lista, isFavView){
+  var grid = document.getElementById('dash-grid');
+  var subEl = document.getElementById('sub-empresa');
+
+  if(isFavView){
+    subEl.textContent = lista.length + ' dashboard(s) favorito(s)';
+  } else {
+    subEl.textContent = todosOsDash.length + ' dashboard(s) disponível(is) para você';
+  }
+
+  if(!lista || lista.length === 0){
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">' + (isFavView ? '⭐' : '📊') + '</div>'
+      + '<h3>' + (isFavView ? 'Nenhum favorito ainda' : 'Nenhum dashboard disponível') + '</h3>'
+      + '<p>' + (isFavView ? 'Clique na estrela de um dashboard para favoritar.' : 'Entre em contato com a SmartData.') + '</p></div>';
+    return;
+  }
+
+  var alturas = [60,80,50,70,90,55,75,65,85];
+
+  grid.innerHTML = lista.map(function(d, i){
+    var isFav  = !!favoritos[d.id];
+    var isNovo = eNovo(d);
+    var delay  = i * 0.06;
+
+    // Miniatura iframe se tiver URL
+    var previewHtml;
+    if(d.url && d.url.indexOf('powerbi') !== -1){
+      var scale = 170/720;
+      previewHtml = '<div class="preview-iframe-wrap" style="width:100%;height:170px;overflow:hidden;position:absolute;inset:0;">'
+        + '<iframe src="' + d.url + '" style="width:1280px;height:720px;border:none;transform:scale(' + scale + ');transform-origin:top left;pointer-events:none;" scrolling="no" loading="lazy"></iframe>'
+        + '</div>'
+        + '<div class="preview-overlay"></div>';
+    } else {
+      var bars = [0,1,2,3,4].map(function(j){
+        var h = alturas[(i*3+j) % alturas.length];
+        return '<div class="preview-bar" style="--h:' + h + 'px;height:' + h + 'px;animation-delay:' + (j*.1) + 's"></div>';
+      }).join('');
+      previewHtml = '<div class="preview-fallback"><div class="preview-bars">' + bars + '</div></div>';
+    }
+
+    var dataStr = JSON.stringify(d).replace(/"/g,'&quot;');
+
+    return '<div class="dash-card" style="animation-delay:' + delay + 's">'
+      + (isNovo ? '<div class="card-badge-novo">✨ Novo</div>' : '')
+      + '<button class="card-fav-btn' + (isFav ? ' favoritado' : '') + '" onclick="toggleFav(event,' + d.id + ')" title="' + (isFav ? 'Remover favorito' : 'Favoritar') + '">' + (isFav ? '⭐' : '☆') + '</button>'
+      + '<div class="dash-card-preview">' + previewHtml + '</div>'
+      + '<div class="dash-card-body">'
+        + '<div class="dash-card-tag">' + (d.categoria || 'Dashboard') + '</div>'
+        + '<div class="dash-card-title">' + d.titulo + '</div>'
+        + '<div class="dash-card-desc">' + (d.descricao || '') + '</div>'
+        + '<div class="dash-card-footer">'
+          + '<div class="dash-card-status"><span></span> Ativo</div>'
+          + '<button class="dash-btn" onclick="abrirDashboard(' + dataStr + ')">▶ Abrir</button>'
+        + '</div>'
+      + '</div>'
+    + '</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// FAVORITOS
+// ══════════════════════════════════════════
+function toggleFav(event, id){
+  event.stopPropagation();
+  favoritos[id] = !favoritos[id];
+  try{ localStorage.setItem('sd_favs_'+usr.email, JSON.stringify(favoritos)); }catch(e){}
+  atualizarContadores();
+  var lista = mostrандоFavs ? todosOsDash.filter(function(d){ return favoritos[d.id]; }) : todosOsDash;
+  renderDashboards(lista, mostrандоFavs);
+  toast(favoritos[id] ? '⭐ Adicionado aos favoritos!' : '☆ Removido dos favoritos', favoritos[id] ? 'ok' : '');
+}
+
+// ══════════════════════════════════════════
+// VIEWER
+// ══════════════════════════════════════════
+function abrirDashboard(d){
+  esconderTudo();
+  var pg = document.getElementById('pg-viewer');
+  pg.style.display = 'flex';
+  document.getElementById('viewer-title').textContent = d.titulo;
+  document.getElementById('viewer-loading').style.display = 'flex';
+  document.getElementById('dash-iframe').src = d.url;
+}
+
+function abrirFullscreen(){
+  var url = document.getElementById('dash-iframe').src;
+  if(url) window.open(url,'_blank');
+}
+
+// ══════════════════════════════════════════
+// MODAIS
+// ══════════════════════════════════════════
+function abrirModalSuporte(){ document.getElementById('modal-suporte').classList.add('open'); }
+function abrirModalSenha()  { document.getElementById('modal-senha').classList.add('open'); }
+function fecharModal(id)    { document.getElementById(id).classList.remove('open'); }
+
+// Fechar clicando fora
+document.addEventListener('click', function(e){
+  ['modal-suporte','modal-senha'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(e.target === el) el.classList.remove('open');
+  });
+});
+
+function enviarSuporte(){
+  var assunto = document.getElementById('suporte-assunto').value.trim();
+  var msg     = document.getElementById('suporte-mensagem').value.trim();
+  if(!assunto || !msg){ toast('Preencha todos os campos.','err'); return; }
+  // Abre email pré-preenchido
+  var mailto = 'mailto:contato@smartdataconsultoria.com'
+    + '?subject=' + encodeURIComponent('[Suporte] ' + assunto)
+    + '&body=' + encodeURIComponent('De: ' + usr.email + '\n\n' + msg);
+  window.open(mailto,'_blank');
+  document.getElementById('suporte-assunto').value = '';
+  document.getElementById('suporte-mensagem').value = '';
+  fecharModal('modal-suporte');
+  toast('✉️ Abrindo seu cliente de e-mail...', 'ok');
+}
+
+function alterarSenha(){
+  var nova  = document.getElementById('nova-senha').value;
+  var conf  = document.getElementById('conf-senha').value;
+  if(nova.length < 6){ toast('Mínimo 6 caracteres.','err'); return; }
+  if(nova !== conf)  { toast('As senhas não coincidem.','err'); return; }
+
+  fetch(SB_URL + '/auth/v1/user', {
+    method:'PUT',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'},
+    body:JSON.stringify({password:nova})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(data.id){
+      toast('✅ Senha alterada com sucesso!','ok');
+      fecharModal('modal-senha');
+      document.getElementById('nova-senha').value = '';
+      document.getElementById('conf-senha').value = '';
+    } else {
+      toast('Erro ao alterar: ' + (data.message || 'Tente novamente.'),'err');
+    }
+  })
+  .catch(function(){ toast('Erro de conexão.','err'); });
+}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function toast(msg, tipo){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (tipo === 'err' ? ' err' : tipo === 'ok' ? ' ok' : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.className=''; }, 3200);
+}
+</script>
+</body>
+</html>
