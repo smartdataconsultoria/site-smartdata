@@ -10,25 +10,9 @@
 html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:#E5E5E5}
 
 /* ═══════════════ LOGIN ═══════════════ */
-#tela-login{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:#000000;position:relative;overflow:hidden;
-}
-#tela-login::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(252,163,17,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(252,163,17,0.06) 1px, transparent 1px);
-  background-size:60px 60px;pointer-events:none;
-}
-#tela-login::after{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(20,33,61,0.9) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 80% 100%, rgba(252,163,17,0.08) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 35% at 10% 80%, rgba(20,33,61,0.5) 0%, transparent 55%);
-  pointer-events:none;
-}
+#tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000000;position:relative;overflow:hidden;}
+#tela-login::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(252,163,17,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(252,163,17,0.06) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+#tela-login::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(20,33,61,0.9) 0%,transparent 65%),radial-gradient(ellipse 50% 40% at 80% 100%,rgba(252,163,17,0.08) 0%,transparent 55%),radial-gradient(ellipse 40% 35% at 10% 80%,rgba(20,33,61,0.5) 0%,transparent 55%);pointer-events:none;}
 .particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
 .particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:0;}
 .particle:nth-child(1){width:3px;height:3px;background:#FCA311;top:12%;left:18%;animation-duration:8s;animation-delay:0s}
@@ -39,29 +23,11 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .particle:nth-child(6){width:2px;height:2px;background:#FCA311;top:22%;left:88%;animation-duration:10s;animation-delay:4s}
 .particle:nth-child(7){width:5px;height:5px;background:rgba(252,163,17,0.3);top:55%;left:8%;animation-duration:14s;animation-delay:1s}
 .particle:nth-child(8){width:2px;height:2px;background:#FCA311;top:90%;left:40%;animation-duration:9s;animation-delay:5s}
-@keyframes float{
-  0%{opacity:0;transform:translateY(0) scale(1)}
-  10%{opacity:1}90%{opacity:0.6}
-  100%{opacity:0;transform:translateY(-120px) scale(0.5)}
-}
-.lcard{
-  position:relative;z-index:2;background:rgba(20,33,61,0.6);
-  border:1px solid rgba(252,163,17,0.15);border-radius:20px;padding:52px 48px;width:460px;
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  box-shadow:0 0 0 1px rgba(252,163,17,0.06),0 32px 64px rgba(0,0,0,0.7),0 0 80px rgba(252,163,17,0.04);
-  animation:loginFade .7s cubic-bezier(.22,.68,0,1.2) both;
-}
+@keyframes float{0%{opacity:0;transform:translateY(0) scale(1)}10%{opacity:1}90%{opacity:0.6}100%{opacity:0;transform:translateY(-120px) scale(0.5)}}
+.lcard{position:relative;z-index:2;background:rgba(20,33,61,0.6);border:1px solid rgba(252,163,17,0.15);border-radius:20px;padding:52px 48px;width:460px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 0 0 1px rgba(252,163,17,0.06),0 32px 64px rgba(0,0,0,0.7),0 0 80px rgba(252,163,17,0.04);animation:loginFade .7s cubic-bezier(.22,.68,0,1.2) both;}
 @keyframes loginFade{from{opacity:0;transform:translateY(32px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.lcard::before{
-  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:60%;height:2px;background:linear-gradient(90deg,transparent,#FCA311,transparent);border-radius:0 0 4px 4px;
-}
-.licon{
-  width:72px;height:72px;margin:0 auto 28px;background:linear-gradient(135deg,#14213D,#0a1628);
-  border-radius:18px;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 0 1px rgba(252,163,17,0.25), 0 16px 32px rgba(0,0,0,0.5);
-  animation:iconPop .5s .2s cubic-bezier(.22,.68,0,1.4) both;
-}
+.lcard::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent,#FCA311,transparent);border-radius:0 0 4px 4px;}
+.licon{width:72px;height:72px;margin:0 auto 28px;background:linear-gradient(135deg,#14213D,#0a1628);border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(252,163,17,0.25),0 16px 32px rgba(0,0,0,0.5);animation:iconPop .5s .2s cubic-bezier(.22,.68,0,1.4) both;}
 @keyframes iconPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
 .licon img{width:44px;height:44px;object-fit:contain}
 .lcard-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;text-align:center;margin-bottom:8px;color:#FFFFFF;letter-spacing:-0.02em;}
@@ -89,29 +55,26 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 
 /* ═══════════════ APP ═══════════════ */
 #tela-app{display:none;height:100vh;flex-direction:column}
-
-/* Topbar */
 .topbar{height:62px;background:#000000;border-bottom:1px solid rgba(252,163,17,0.12);padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:50;}
 .t-logo{display:flex;align-items:center;gap:10px}
 .t-logo img{width:32px;height:32px;object-fit:contain}
 .t-logo-nome{font-family:"Syne",sans-serif;font-size:17px;font-weight:800}
 .t-logo-nome b{background:linear-gradient(135deg,#FCA311,#e8940a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .t-logo-nome span{color:rgba(229,229,229,0.4);font-weight:400;font-size:14px;margin-left:4px}
-.t-right{display:flex;align-items:center;gap:16px}
+.t-right{display:flex;align-items:center;gap:12px}
 .t-empresa{background:rgba(252,163,17,0.1);border:1px solid rgba(252,163,17,0.2);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:#FCA311}
 .t-usuario{font-size:13px;color:rgba(229,229,229,0.4)}
 .t-sair{background:transparent;border:1px solid rgba(229,229,229,0.1);border-radius:8px;color:rgba(229,229,229,0.4);padding:6px 14px;font-size:12px;cursor:pointer;transition:all .2s}
 .t-sair:hover{border-color:#ef4444;color:#ef4444}
+/* Botão admin no topbar */
+.t-admin{background:rgba(252,163,17,0.08);border:1px solid rgba(252,163,17,0.25);border-radius:8px;color:#FCA311;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:none;}
+.t-admin:hover{background:rgba(252,163,17,0.15)}
+.t-admin.ativo{background:rgba(252,163,17,0.2);border-color:rgba(252,163,17,0.5)}
 
 .app-body{display:flex;flex:1;overflow:hidden}
 
-/* ══════════════════════════════════════
-   SIDEBAR COM CATEGORIAS
-   ══════════════════════════════════════ */
-.sidebar{
-  width:240px;background:#000000;border-right:1px solid rgba(252,163,17,0.08);
-  padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;
-}
+/* Sidebar */
+.sidebar{width:240px;background:#000000;border-right:1px solid rgba(252,163,17,0.08);padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;}
 .sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(229,229,229,0.2);padding:0 12px;margin:20px 0 8px;}
 .sb-section:first-child{margin-top:0}
 .sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:500;color:rgba(229,229,229,0.4);cursor:pointer;transition:all .15s;margin-bottom:2px;}
@@ -124,20 +87,15 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .sb-footer{margin-top:auto;padding:16px 12px;border-top:1px solid rgba(252,163,17,0.08)}
 .sb-footer-txt{font-size:11px;color:rgba(229,229,229,0.2);text-align:center;line-height:1.6}
 
-/* Conteúdo principal */
+/* Main */
 .main{flex:1;overflow-y:auto;background:#0a0c14;padding:32px}
-
 .page-header{margin-bottom:32px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .page-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;margin-bottom:6px}
 .page-sub{font-size:14px;color:rgba(229,229,229,0.4)}
-
-/* Chips mobile */
 .cat-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .cat-chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(229,229,229,0.1);color:rgba(229,229,229,0.4);background:transparent;transition:all .2s;white-space:nowrap;}
 .cat-chip:hover{border-color:rgba(252,163,17,0.3);color:#E5E5E5}
 .cat-chip.on{background:rgba(252,163,17,0.12);border-color:rgba(252,163,17,0.4);color:#FCA311}
-
-/* Cards */
 .dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
 .dash-card{background:#14213D;border:1px solid rgba(252,163,17,0.08);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative;animation:cardIn .3s ease-out both;}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -156,12 +114,9 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .dash-card-status span{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 6px #22c55e}
 .dash-btn{background:linear-gradient(135deg,#FCA311,#e8940a);color:#000000;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;}
 .dash-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(252,163,17,0.4)}
-
 .empty-state{text-align:center;padding:80px 40px;color:rgba(229,229,229,0.3)}
 .empty-state .empty-icon{font-size:64px;margin-bottom:16px;opacity:.4}
 .empty-state h3{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;color:rgba(229,229,229,0.5)}
-
-/* Viewer */
 #pg-viewer{display:none;height:calc(100vh - 62px);margin:-32px;flex-direction:column}
 .viewer-header{padding:16px 24px;background:#000000;border-bottom:1px solid rgba(252,163,17,0.1);display:flex;align-items:center;gap:16px;flex-shrink:0;}
 .viewer-back{background:rgba(229,229,229,0.06);border:1px solid rgba(229,229,229,0.1);border-radius:8px;padding:8px 16px;font-size:13px;color:#E5E5E5;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;}
@@ -175,23 +130,101 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .spinner{width:40px;height:40px;border:3px solid rgba(252,163,17,0.2);border-top-color:#FCA311;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ═══════════════ PAINEL ADMIN ═══════════════ */
+#pg-admin{display:none}
+.admin-tabs{display:flex;gap:0;border-bottom:1px solid rgba(252,163,17,0.1);margin-bottom:28px;}
+.admin-tab{padding:10px 20px;font-size:13px;font-weight:500;color:rgba(229,229,229,0.4);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.admin-tab:hover{color:#E5E5E5}
+.admin-tab.on{color:#FCA311;border-bottom-color:#FCA311}
+
+/* Formulários admin */
+.acard{background:#0f1520;border:1px solid rgba(252,163,17,0.1);border-radius:14px;padding:28px;margin-bottom:20px;}
+.acard-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;color:#FCA311}
+.acard-title::before{content:'';width:3px;height:16px;background:#FCA311;border-radius:2px;}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.agrid.tres{grid-template-columns:1fr 1fr 1fr;}
+.afull{grid-column:span 2}
+.afield{display:flex;flex-direction:column;gap:6px;}
+.albl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:rgba(229,229,229,0.4);}
+.albl span{color:#FCA311;margin-left:2px}
+.ainp{background:rgba(0,0,0,0.4);border:1px solid rgba(229,229,229,0.08);border-radius:10px;padding:10px 14px;color:#E5E5E5;font-size:13px;font-family:"DM Sans",sans-serif;outline:none;transition:all .2s;width:100%;}
+.ainp:focus{border-color:rgba(252,163,17,0.4);box-shadow:0 0 0 3px rgba(252,163,17,0.08)}
+.ainp::placeholder{color:rgba(229,229,229,0.2)}
+.ainp option{background:#0f1520}
+
+/* Perfil radio */
+.perfil-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px;}
+.perfil-opt{position:relative;cursor:pointer;}
+.perfil-opt input{position:absolute;opacity:0}
+.perfil-card{border:1px solid rgba(229,229,229,0.08);border-radius:10px;padding:12px 8px;text-align:center;transition:all .15s;background:rgba(0,0,0,0.3);}
+.perfil-opt input:checked~.perfil-card{border-color:#FCA311;background:rgba(252,163,17,0.08)}
+.p-icon{font-size:20px;margin-bottom:6px}
+.p-name{font-size:12px;font-weight:600;color:#E5E5E5}
+.p-desc{font-size:10px;color:rgba(229,229,229,0.3);margin-top:2px}
+
+/* Botões admin */
+.abtn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+.abtn{padding:9px 22px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:"DM Sans",sans-serif;transition:all .15s;}
+.abtn-sec{background:transparent;color:rgba(229,229,229,0.4);border:1px solid rgba(229,229,229,0.1);}
+.abtn-sec:hover{color:#E5E5E5;border-color:rgba(229,229,229,0.2)}
+.abtn-pri{background:linear-gradient(135deg,#FCA311,#e8940a);color:#000;font-weight:700;box-shadow:0 4px 16px rgba(252,163,17,0.25);}
+.abtn-pri:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(252,163,17,0.35)}
+.abtn-pri:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.abtn-danger{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);}
+.abtn-danger:hover{background:rgba(239,68,68,0.2)}
+
+/* Tabela de usuários */
+.atable-wrap{background:#0f1520;border:1px solid rgba(252,163,17,0.08);border-radius:14px;overflow:hidden}
+.atable-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px solid rgba(252,163,17,0.08);}
+.atable-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:700}
+.asearch{position:relative}
+.asearch input{background:rgba(0,0,0,0.4);border:1px solid rgba(229,229,229,0.08);border-radius:8px;padding:7px 12px 7px 32px;font-size:12px;color:#E5E5E5;outline:none;width:200px;font-family:"DM Sans",sans-serif;}
+.asearch input:focus{border-color:rgba(252,163,17,0.3)}
+.asearch-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:rgba(229,229,229,0.3)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 22px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(229,229,229,0.3);background:rgba(0,0,0,0.2);border-bottom:1px solid rgba(252,163,17,0.06);}
+td{padding:13px 22px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(252,163,17,0.02)}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.ucell{display:flex;align-items:center;gap:10px}
+.uname{font-weight:500;color:#E5E5E5}
+.uemail{font-size:11px;color:rgba(229,229,229,0.3)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-admin{background:rgba(252,163,17,0.12);color:#FCA311}
+.badge-gerente{background:rgba(16,185,129,0.12);color:#34D399}
+.badge-operador{background:rgba(139,92,246,0.12);color:#A78BFA}
+.badge-cliente{background:rgba(59,130,246,0.12);color:#60A5FA}
+.sdot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
+.sdot-on{background:#22c55e;box-shadow:0 0 5px #22c55e}
+.sdot-off{background:rgba(229,229,229,0.2)}
+.actbtn{background:transparent;border:none;cursor:pointer;color:rgba(229,229,229,0.3);padding:4px 6px;border-radius:4px;transition:.15s;font-size:12px;}
+.actbtn:hover{color:#FCA311;background:rgba(252,163,17,0.08)}
+
+/* Tabela de dashboards */
+.dash-tag-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(252,163,17,0.1);color:#FCA311}
+
+/* Toggle */
+.tgl-wrap{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(229,229,229,0.08);border-radius:10px;width:fit-content}
+.tgl{position:relative;width:34px;height:18px}
+.tgl input{opacity:0;width:0;height:0}
+.tgl-sl{position:absolute;inset:0;background:#2a3045;border-radius:18px;cursor:pointer;transition:.2s}
+.tgl-sl::before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.tgl input:checked+.tgl-sl{background:#FCA311}
+.tgl input:checked+.tgl-sl::before{transform:translateX(16px)}
+
 #toast{position:fixed;bottom:24px;right:24px;background:#14213D;border:1px solid rgba(229,229,229,0.1);border-left:3px solid #FCA311;border-radius:10px;padding:14px 20px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.6);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.err{border-left-color:#ef4444}
+#toast.ok{border-left-color:#22c55e}
 
-@media(max-width:768px){
-  .sidebar{display:none}
-  .dash-grid{grid-template-columns:1fr}
-  .main{padding:20px}
-  .lcard{width:90%;padding:40px 28px}
-  .cat-chips{display:flex}
-}
+@media(max-width:768px){.sidebar{display:none}.dash-grid{grid-template-columns:1fr}.main{padding:20px}.lcard{width:90%;padding:40px 28px}.cat-chips{display:flex}}
 @media(min-width:769px){.cat-chips{display:none}}
 </style>
 </head>
 <body>
 
-<!-- ═══════════ TELA DE LOGIN ═══════════ -->
+<!-- ═══ LOGIN ═══ -->
 <div id="tela-login">
   <div class="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
@@ -209,8 +242,7 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
     <input class="inp" type="email" id="lemail" placeholder="seu@email.com" autocomplete="email">
     <label class="lbl">Senha <a class="lforgot" href="#">Esqueceu sua senha?</a></label>
     <div class="inp-wrapper">
-      <input class="inp" type="password" id="lsenha" placeholder="••••••••" autocomplete="current-password"
-             onkeydown="if(event.key==='Enter')fazerLogin()">
+      <input class="inp" type="password" id="lsenha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')fazerLogin()">
       <button type="button" class="toggle-senha" onclick="toggleSenha()" id="btn-olho" title="Ver/ocultar senha">
         <svg id="icone-olho" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -223,7 +255,7 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
   </div>
 </div>
 
-<!-- ═══════════ TELA DO APP ═══════════ -->
+<!-- ═══ APP ═══ -->
 <div id="tela-app">
   <div class="topbar">
     <div class="t-logo">
@@ -233,12 +265,13 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
     <div class="t-right">
       <div class="t-empresa" id="t-empresa-nome">—</div>
       <div class="t-usuario" id="t-usuario-email">—</div>
+      <!-- Botão admin: só aparece para o e-mail admin -->
+      <button class="t-admin" id="btn-admin" onclick="toggleAdmin()">⚙ Admin</button>
       <button class="t-sair" onclick="fazerSair()">↩ Sair</button>
     </div>
   </div>
 
   <div class="app-body">
-    <!-- SIDEBAR DINÂMICA COM CATEGORIAS -->
     <div class="sidebar" id="sidebar">
       <div class="sb-section">Menu</div>
       <div class="sb-item on" id="sb-todos" onclick="filtrarCategoria('__todos__')">
@@ -248,26 +281,30 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
       </div>
       <div class="sb-section" id="sb-section-cats" style="display:none">Categorias</div>
       <div id="sb-categorias"></div>
+      <!-- Link admin na sidebar (só para admin) -->
+      <div class="sb-item" id="sb-admin-link" style="display:none" onclick="toggleAdmin()">
+        <div class="cat-icon">⚙️</div>
+        <span>Administração</span>
+      </div>
       <div class="sb-footer">
         <div class="sb-footer-txt">SmartData Consultoria<br>© 2025 Todos os direitos reservados</div>
       </div>
     </div>
 
     <div class="main">
-      <!-- TELA DE DASHBOARDS -->
+      <!-- DASHBOARDS -->
       <div id="pg-dashboards">
         <div class="page-header">
           <div>
-            <div class="page-title" id="page-title">Dashboards Demonstrativos</div>
-            <div class="page-sub" id="sub-empresa">Os dados apresentados são fictícios.</div>
+            <div class="page-title" id="page-title">Dashboards</div>
+            <div class="page-sub" id="sub-empresa">Carregando...</div>
           </div>
-          <!-- Chips visíveis só no mobile -->
           <div class="cat-chips" id="cat-chips"></div>
         </div>
         <div class="dash-grid" id="dash-grid"></div>
       </div>
 
-      <!-- TELA DO VIEWER -->
+      <!-- VIEWER -->
       <div id="pg-viewer">
         <div class="viewer-header">
           <button class="viewer-back" onclick="voltarDashboards()">← Voltar</button>
@@ -282,6 +319,171 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
           <iframe id="dash-iframe" src="" onload="document.getElementById('viewer-loading').style.display='none'"></iframe>
         </div>
       </div>
+
+      <!-- ═══ PAINEL ADMIN ═══ -->
+      <div id="pg-admin">
+        <div class="page-header">
+          <div>
+            <div class="page-title">⚙ <span style="color:#FCA311">Administração</span></div>
+            <div class="page-sub">Gerencie usuários e dashboards do portal</div>
+          </div>
+          <button class="abtn abtn-sec" onclick="toggleAdmin()">← Voltar</button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+          <div class="admin-tab on" onclick="adminTab('usuarios')">👥 Usuários</div>
+          <div class="admin-tab" onclick="adminTab('novo-usuario')">➕ Novo Usuário</div>
+          <div class="admin-tab" onclick="adminTab('dashboards')">📊 Dashboards</div>
+          <div class="admin-tab" onclick="adminTab('novo-dash')">➕ Novo Dashboard</div>
+        </div>
+
+        <!-- ─── LISTA USUÁRIOS ─── -->
+        <div id="adm-usuarios">
+          <div class="atable-wrap">
+            <div class="atable-head">
+              <span class="atable-title">Usuários cadastrados <span id="total-users" style="color:rgba(229,229,229,0.3);font-weight:400"></span></span>
+              <div class="asearch">
+                <svg class="asearch-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+                <input type="text" placeholder="Buscar..." oninput="filtrarTabUsuarios(this.value)">
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table id="tabela-usuarios">
+                <thead><tr>
+                  <th>Usuário</th><th>Perfil</th><th>Empresa</th><th>Dashboards</th><th>Status</th><th></th>
+                </tr></thead>
+                <tbody id="tbody-usuarios"><tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Carregando...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── NOVO USUÁRIO ─── -->
+        <div id="adm-novo-usuario" style="display:none">
+          <div class="acard">
+            <div class="acard-title">Dados do usuário</div>
+            <div class="agrid">
+              <div class="afield">
+                <label class="albl">Nome completo <span>*</span></label>
+                <input class="ainp" type="text" id="nu-nome" placeholder="Ex: João Silva">
+              </div>
+              <div class="afield">
+                <label class="albl">E-mail <span>*</span></label>
+                <input class="ainp" type="email" id="nu-email" placeholder="joao@empresa.com">
+              </div>
+              <div class="afield">
+                <label class="albl">Senha inicial <span>*</span></label>
+                <input class="ainp" type="password" id="nu-senha" placeholder="Mínimo 8 caracteres">
+              </div>
+              <div class="afield">
+                <label class="albl">Empresa / Cliente <span>*</span></label>
+                <input class="ainp" type="text" id="nu-empresa" placeholder="Ex: Supermercado Silva">
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <div class="tgl-wrap">
+                <label class="tgl"><input type="checkbox" id="nu-ativo" checked><span class="tgl-sl"></span></label>
+                <span style="font-size:13px">Usuário ativo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="acard">
+            <div class="acard-title">Perfil de acesso</div>
+            <div class="perfil-grid">
+              <label class="perfil-opt">
+                <input type="radio" name="nu-perfil" value="admin">
+                <div class="perfil-card"><div class="p-icon">👑</div><div class="p-name">Admin</div><div class="p-desc">Acesso total</div></div>
+              </label>
+              <label class="perfil-opt">
+                <input type="radio" name="nu-perfil" value="gerente">
+                <div class="perfil-card"><div class="p-icon">🏢</div><div class="p-name">Gerente</div><div class="p-desc">Todos do cliente</div></div>
+              </label>
+              <label class="perfil-opt">
+                <input type="radio" name="nu-perfil" value="operador">
+                <div class="perfil-card"><div class="p-icon">⚙️</div><div class="p-name">Operador</div><div class="p-desc">Selecionados</div></div>
+              </label>
+              <label class="perfil-opt">
+                <input type="radio" name="nu-perfil" value="cliente" checked>
+                <div class="perfil-card" style="border-color:#FCA311;background:rgba(252,163,17,0.08)"><div class="p-icon">👤</div><div class="p-name">Cliente</div><div class="p-desc">Restrito</div></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="acard">
+            <div class="acard-title">Dashboards permitidos</div>
+            <p style="font-size:12px;color:rgba(229,229,229,0.3);margin-bottom:16px">Selecione quais dashboards este usuário poderá ver</p>
+            <div id="nu-dash-lista" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="text-align:center;padding:20px;color:rgba(229,229,229,0.3);font-size:13px;grid-column:span 2">Carregando dashboards...</div>
+            </div>
+          </div>
+
+          <div class="abtn-row">
+            <button class="abtn abtn-sec" onclick="limparNovoUser()">Limpar</button>
+            <button class="abtn abtn-pri" id="btn-salvar-user" onclick="salvarNovoUsuario()">Cadastrar Usuário</button>
+          </div>
+        </div>
+
+        <!-- ─── LISTA DASHBOARDS ─── -->
+        <div id="adm-dashboards" style="display:none">
+          <div class="atable-wrap">
+            <div class="atable-head">
+              <span class="atable-title">Dashboards cadastrados <span id="total-dash" style="color:rgba(229,229,229,0.3);font-weight:400"></span></span>
+              <div class="asearch">
+                <svg class="asearch-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+                <input type="text" placeholder="Buscar..." oninput="filtrarTabDash(this.value)">
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead><tr>
+                  <th>Título</th><th>Categoria</th><th>Empresa</th><th>Status</th><th></th>
+                </tr></thead>
+                <tbody id="tbody-dash"><tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Carregando...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── NOVO DASHBOARD ─── -->
+        <div id="adm-novo-dash" style="display:none">
+          <div class="acard">
+            <div class="acard-title">Dados do dashboard</div>
+            <div class="agrid">
+              <div class="afield">
+                <label class="albl">Título <span>*</span></label>
+                <input class="ainp" type="text" id="nd-titulo" placeholder="Ex: Vendas Mensal">
+              </div>
+              <div class="afield">
+                <label class="albl">Categoria <span>*</span></label>
+                <input class="ainp" type="text" id="nd-categoria" placeholder="Ex: Vendas, Logística...">
+              </div>
+              <div class="afield afull" style="grid-column:span 2">
+                <label class="albl">URL do Power BI (link de incorporação) <span>*</span></label>
+                <input class="ainp" type="url" id="nd-url" placeholder="https://app.powerbi.com/reportEmbed?...">
+              </div>
+              <div class="afield">
+                <label class="albl">E-mail do cliente <span>*</span></label>
+                <input class="ainp" type="email" id="nd-email" placeholder="cliente@empresa.com">
+              </div>
+              <div class="afield">
+                <label class="albl">Empresa</label>
+                <input class="ainp" type="text" id="nd-empresa" placeholder="Nome da empresa">
+              </div>
+              <div class="afield" style="grid-column:span 2">
+                <label class="albl">Descrição</label>
+                <input class="ainp" type="text" id="nd-desc" placeholder="Breve descrição do dashboard">
+              </div>
+            </div>
+          </div>
+          <div class="abtn-row">
+            <button class="abtn abtn-sec" onclick="limparNovoDash()">Limpar</button>
+            <button class="abtn abtn-pri" id="btn-salvar-dash" onclick="salvarNovoDash()">Salvar Dashboard</button>
+          </div>
+        </div>
+
+      </div><!-- /pg-admin -->
     </div>
   </div>
 </div>
@@ -289,45 +491,51 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 <div id="toast"></div>
 
 <script>
+// ════════════════════════════════════════
+// CONFIG — troque pelo seu projeto
+// ════════════════════════════════════════
 var SB_URL = 'https://traycmfbujydcjskevbs.supabase.co';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyYXljbWZidWp5ZGNqc2tldmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4OTEzMzIsImV4cCI6MjA4ODQ2NzMzMn0.qVgXBolnz17BOXv4ytB-9W8mKkEnRHKgiCaakyhjzHc';
+
+// ⚠️ COLOQUE SEU E-MAIL AQUI — só este e-mail vê o painel admin
+var ADMIN_EMAIL = 'seu@email.com';
 
 var usr = null;
 var todosOsDashs = [];
 var categoriaAtiva = '__todos__';
+var todosUsuarios = [];
+var todosDashboards = [];
 
-// Mapa de ícones por categoria
-var catIcones = {
-  'logistico':'🚚','logístico':'🚚','logistica':'🚚','logística':'🚚',
-  'financeiro':'💰','financeira':'💰','financeiro':'💰',
-  'comercial':'🤝','vendas':'🤝',
-  'educacao':'🎓','educação':'🎓',
-  'marketing':'📣',
-  'operacoes':'⚙️','operações':'⚙️',
-  'rh':'👥','recursos humanos':'👥',
-  'ti':'💻','tecnologia':'💻',
-  'default':'📈'
-};
-function getIcone(cat){
-  return catIcones[(cat||'').toLowerCase().trim()] || catIcones['default'];
+// ════ UTILS ════
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escJs(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+var catIcones={'logistico':'🚚','logístico':'🚚','logistica':'🚚','logística':'🚚','financeiro':'💰','financeira':'💰','comercial':'🤝','vendas':'🤝','educacao':'🎓','educação':'🎓','marketing':'📣','operacoes':'⚙️','operações':'⚙️','rh':'👥','ti':'💻','default':'📈'};
+function getIcone(cat){return catIcones[(cat||'').toLowerCase().trim()]||catIcones['default'];}
+
+function toast(msg,tipo){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='show '+(tipo||'');
+  clearTimeout(t._t);
+  t._t=setTimeout(function(){t.className='';},3500);
 }
 
 function toggleSenha(){
-  var inp = document.getElementById('lsenha');
-  var icone = document.getElementById('icone-olho');
-  var vis = inp.type === 'text';
-  inp.type = vis ? 'password' : 'text';
-  icone.innerHTML = vis
-    ? '<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
-    : '<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
+  var inp=document.getElementById('lsenha');
+  var icone=document.getElementById('icone-olho');
+  var vis=inp.type==='text';
+  inp.type=vis?'password':'text';
+  icone.innerHTML=vis
+    ?'<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
+    :'<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
 }
 
-// ═══ LOGIN ═══
+// ════ LOGIN ════
 function fazerLogin(){
-  var email = document.getElementById('lemail').value.trim();
-  var senha = document.getElementById('lsenha').value;
-  var btn = document.getElementById('lbtn');
-  document.getElementById('lerro').style.display = 'none';
+  var email=document.getElementById('lemail').value.trim();
+  var senha=document.getElementById('lsenha').value;
+  var btn=document.getElementById('lbtn');
+  document.getElementById('lerro').style.display='none';
   if(!email||!senha){mostraErro('Preencha e-mail e senha.');return;}
   btn.disabled=true; btn.textContent='Entrando...';
   fetch(SB_URL+'/auth/v1/token?grant_type=password',{
@@ -353,27 +561,33 @@ function mostraErro(msg){
   e.innerHTML='⚠️ '+msg; e.style.display='block';
 }
 
-// ═══ ENTRAR / SAIR ═══
 function entrarApp(){
   document.getElementById('tela-login').style.display='none';
   document.getElementById('tela-app').style.display='flex';
   document.getElementById('tela-app').style.flexDirection='column';
   document.getElementById('t-usuario-email').textContent=usr.email;
+
+  // Mostrar botão admin só para o e-mail admin
+  if(usr.email===ADMIN_EMAIL){
+    document.getElementById('btn-admin').style.display='flex';
+    document.getElementById('sb-admin-link').style.display='flex';
+  }
   carregarDashboards();
 }
+
 function fazerSair(){
-  usr=null; todosOsDashs=[]; categoriaAtiva='__todos__';
+  usr=null; todosOsDashs=[];
   document.getElementById('tela-login').style.display='flex';
   document.getElementById('tela-app').style.display='none';
   document.getElementById('lemail').value='';
   document.getElementById('lsenha').value='';
+  document.getElementById('btn-admin').style.display='none';
 }
 
-// ═══ CARREGAR DASHBOARDS ═══
+// ════ DASHBOARDS ════
 function carregarDashboards(){
-  // Busca todos os dashboards do usuário logado
   fetch(SB_URL+'/rest/v1/dashboards_clientes?email_cliente=eq.'+encodeURIComponent(usr.email)+'&order=titulo',{
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'}
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
   })
   .then(function(r){return r.json();})
   .then(function(data){
@@ -383,133 +597,323 @@ function carregarDashboards(){
     construirSidebar();
     filtrarCategoria('__todos__');
   })
-  .catch(function(e){
-    console.error(e);
-    renderDashboards([]);
-    toast('Erro ao carregar dashboards.',true);
-  });
+  .catch(function(e){renderDashboards([]);toast('Erro ao carregar dashboards.','err');});
 }
 
-// ═══ CONSTRUIR SIDEBAR DINÂMICA ═══
 function construirSidebar(){
-  // Contar dashboards por categoria
   var contagem={};
-  todosOsDashs.forEach(function(d){
-    var cat=(d.categoria||'Outros').trim();
-    contagem[cat]=(contagem[cat]||0)+1;
-  });
+  todosOsDashs.forEach(function(d){var cat=(d.categoria||'Outros').trim();contagem[cat]=(contagem[cat]||0)+1;});
   var cats=Object.keys(contagem).sort();
-
-  // Atualizar badge "Todos"
   document.getElementById('badge-todos').textContent=todosOsDashs.length;
-
-  // Mostrar/ocultar seção de categorias
   document.getElementById('sb-section-cats').style.display=cats.length>0?'block':'none';
-
-  // Itens de categoria na sidebar
   document.getElementById('sb-categorias').innerHTML=cats.map(function(cat){
-    return '<div class="sb-item" data-cat="'+escHtml(cat)+'" onclick="filtrarCategoria(\''+escJs(cat)+'\')">'+
-      '<div class="cat-icon">'+getIcone(cat)+'</div>'+
-      '<span>'+escHtml(cat)+'</span>'+
-      '<span class="sb-badge">'+contagem[cat]+'</span>'+
-    '</div>';
+    return '<div class="sb-item" data-cat="'+escHtml(cat)+'" onclick="filtrarCategoria(\''+escJs(cat)+'\')"><div class="cat-icon">'+getIcone(cat)+'</div><span>'+escHtml(cat)+'</span><span class="sb-badge">'+contagem[cat]+'</span></div>';
   }).join('');
-
-  // Chips para mobile
   document.getElementById('cat-chips').innerHTML=
     '<div class="cat-chip on" data-cat="__todos__" onclick="filtrarCategoria(\'__todos__\')">Todos ('+todosOsDashs.length+')</div>'+
-    cats.map(function(cat){
-      return '<div class="cat-chip" data-cat="'+escHtml(cat)+'" onclick="filtrarCategoria(\''+escJs(cat)+'\')">'+escHtml(cat)+' ('+contagem[cat]+')</div>';
-    }).join('');
+    cats.map(function(cat){return '<div class="cat-chip" data-cat="'+escHtml(cat)+'" onclick="filtrarCategoria(\''+escJs(cat)+'\')">'+escHtml(cat)+' ('+contagem[cat]+')</div>';}).join('');
 }
 
-// ═══ FILTRAR POR CATEGORIA ═══
 function filtrarCategoria(cat){
   categoriaAtiva=cat;
-
-  // Atualizar sidebar
   document.querySelectorAll('#sidebar .sb-item').forEach(function(el){el.classList.remove('on');});
-  if(cat==='__todos__'){
-    document.getElementById('sb-todos').classList.add('on');
-  }else{
-    var el=document.querySelector('#sb-categorias .sb-item[data-cat="'+escHtml(cat)+'"]');
-    if(el) el.classList.add('on');
-  }
-
-  // Atualizar chips mobile
-  document.querySelectorAll('.cat-chip').forEach(function(el){
-    el.classList.toggle('on', el.dataset.cat===cat);
-  });
-
-  // Filtrar lista
-  var lista=cat==='__todos__'
-    ? todosOsDashs
-    : todosOsDashs.filter(function(d){return (d.categoria||'Outros').trim()===cat;});
-
-  // Título da página
-  document.getElementById('page-title').textContent=cat==='__todos__'?'Dashboards Demonstrativos':cat;
-
+  if(cat==='__todos__'){document.getElementById('sb-todos').classList.add('on');}
+  else{var el=document.querySelector('#sb-categorias .sb-item[data-cat="'+escHtml(cat)+'"]');if(el)el.classList.add('on');}
+  document.querySelectorAll('.cat-chip').forEach(function(el){el.classList.toggle('on',el.dataset.cat===cat);});
+  var lista=cat==='__todos__'?todosOsDashs:todosOsDashs.filter(function(d){return(d.categoria||'Outros').trim()===cat;});
+  document.getElementById('page-title').textContent=cat==='__todos__'?'Dashboards':cat;
   renderDashboards(lista);
+  // Garantir que pg-dashboards está visível
+  mostrarPagina('pg-dashboards');
 }
 
-// ═══ RENDER DOS CARDS ═══
 function renderDashboards(lista){
-  document.getElementById('sub-empresa').textContent='Os dados apresentados são fictícios.';
+  document.getElementById('sub-empresa').textContent='Bem-vindo ao seu painel de dashboards.';
   var grid=document.getElementById('dash-grid');
-
   if(!lista||lista.length===0){
-    grid.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div><h3>Nenhum dashboard nesta categoria</h3><p>Selecione outra categoria ou aguarde novos dashboards.</p></div>';
+    grid.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div><h3>Nenhum dashboard encontrado</h3><p>Selecione outra categoria ou aguarde novos dashboards.</p></div>';
     return;
   }
-
   var alturas=[60,80,50,70,90,55,75,65,85];
   grid.innerHTML=lista.map(function(d,i){
-    var bars=[0,1,2,3,4].map(function(j){
-      var h=alturas[(i*3+j)%alturas.length];
-      return '<div class="preview-bar" style="--h:'+h+'px;height:'+h+'px;animation-delay:'+(j*0.1)+'s"></div>';
-    }).join('');
-    return '<div class="dash-card" style="animation-delay:'+(i*0.07)+'s" onclick="abrirDashboard('+JSON.stringify(d).replace(/"/g,'&quot;')+')">' +
-      '<div class="dash-card-preview"><div class="preview-bars">'+bars+'</div></div>'+
-      '<div class="dash-card-body">'+
-        '<div class="dash-card-tag">'+(d.categoria||'Dashboard')+'</div>'+
-        '<div class="dash-card-title">'+escHtml(d.titulo)+'</div>'+
-        '<div class="dash-card-desc">'+(d.descricao||'')+'</div>'+
-        '<div class="dash-card-footer">'+
-          '<div class="dash-card-status"><span></span> Ativo</div>'+
-          '<button class="dash-btn">▶ Abrir</button>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
+    var bars=[0,1,2,3,4].map(function(j){var h=alturas[(i*3+j)%alturas.length];return '<div class="preview-bar" style="--h:'+h+'px;height:'+h+'px;animation-delay:'+(j*0.1)+'s"></div>';}).join('');
+    return '<div class="dash-card" style="animation-delay:'+(i*0.07)+'s" onclick="abrirDashboard('+JSON.stringify(d).replace(/"/g,'&quot;')+')">'
+      +'<div class="dash-card-preview"><div class="preview-bars">'+bars+'</div></div>'
+      +'<div class="dash-card-body">'
+        +'<div class="dash-card-tag">'+(d.categoria||'Dashboard')+'</div>'
+        +'<div class="dash-card-title">'+escHtml(d.titulo)+'</div>'
+        +'<div class="dash-card-desc">'+(d.descricao||'')+'</div>'
+        +'<div class="dash-card-footer"><div class="dash-card-status"><span></span>Ativo</div>'
+        +'<button class="dash-btn">▶ Abrir</button></div>'
+      +'</div></div>';
   }).join('');
 }
 
-// ═══ VIEWER ═══
+function mostrarPagina(id){
+  ['pg-dashboards','pg-viewer','pg-admin'].forEach(function(p){
+    document.getElementById(p).style.display=p===id?(id==='pg-viewer'?'flex':'block'):'none';
+  });
+  document.getElementById('btn-admin').classList.toggle('ativo', id==='pg-admin');
+}
+
 function abrirDashboard(d){
-  document.getElementById('pg-dashboards').style.display='none';
-  document.getElementById('pg-viewer').style.display='flex';
+  mostrarPagina('pg-viewer');
   document.getElementById('viewer-title').textContent=d.titulo;
   document.getElementById('viewer-loading').style.display='flex';
   document.getElementById('dash-iframe').src=d.url;
 }
 function voltarDashboards(){
-  document.getElementById('pg-viewer').style.display='none';
-  document.getElementById('pg-dashboards').style.display='block';
+  mostrarPagina('pg-dashboards');
   document.getElementById('dash-iframe').src='';
 }
 function abrirFullscreen(){
   var url=document.getElementById('dash-iframe').src;
-  if(url) window.open(url,'_blank');
+  if(url)window.open(url,'_blank');
 }
 
-// ═══ UTILS ═══
-function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function escJs(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+// ════ ADMIN ════
+function toggleAdmin(){
+  var visivel=document.getElementById('pg-admin').style.display==='block';
+  if(visivel){mostrarPagina('pg-dashboards');}
+  else{mostrarPagina('pg-admin'); carregarAdmin();}
+}
 
-function toast(msg,err){
-  var t=document.getElementById('toast');
-  t.textContent=msg; t.className='show'+(err?' err':'');
-  clearTimeout(t._t);
-  t._t=setTimeout(function(){t.className='';},3500);
+function adminTab(tab){
+  document.querySelectorAll('.admin-tab').forEach(function(t,i){
+    var tabs=['usuarios','novo-usuario','dashboards','novo-dash'];
+    t.classList.toggle('on',tabs[i]===tab);
+  });
+  ['adm-usuarios','adm-novo-usuario','adm-dashboards','adm-novo-dash'].forEach(function(id){
+    document.getElementById(id).style.display=id==='adm-'+tab?'block':'none';
+  });
+  if(tab==='novo-usuario') carregarDashsParaPermissao();
+}
+
+function carregarAdmin(){
+  carregarListaUsuarios();
+  carregarListaDashboards();
+}
+
+// ── Listar usuários ──
+function carregarListaUsuarios(){
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente,empresa&order=empresa',{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    // Agrupar por email
+    var mapa={};
+    (data||[]).forEach(function(d){
+      if(!mapa[d.email_cliente]){mapa[d.email_cliente]={email:d.email_cliente,empresa:d.empresa,qtd:0};}
+      mapa[d.email_cliente].qtd++;
+    });
+    todosUsuarios=Object.values(mapa);
+    renderTabUsuarios(todosUsuarios);
+  });
+}
+
+function renderTabUsuarios(lista){
+  document.getElementById('total-users').textContent='('+lista.length+')';
+  var cores=['rgba(252,163,17,0.15)','rgba(59,130,246,0.15)','rgba(16,185,129,0.15)','rgba(139,92,246,0.15)'];
+  var tcores=['#FCA311','#60A5FA','#34D399','#A78BFA'];
+  document.getElementById('tbody-usuarios').innerHTML=lista.length===0
+    ?'<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum usuário encontrado</td></tr>'
+    :lista.map(function(u,i){
+      var ini=(u.email||'').substring(0,2).toUpperCase();
+      var ci=i%4;
+      return '<tr>'
+        +'<td><div class="ucell"><div class="av" style="background:'+cores[ci]+';color:'+tcores[ci]+'">'+ini+'</div>'
+        +'<div><div class="uname">'+escHtml(u.email)+'</div></div></div></td>'
+        +'<td><span class="badge badge-cliente">👤 Cliente</span></td>'
+        +'<td>'+escHtml(u.empresa||'—')+'</td>'
+        +'<td style="color:rgba(229,229,229,0.4)">'+u.qtd+' dashboards</td>'
+        +'<td><span class="sdot sdot-on"></span>Ativo</td>'
+        +'<td><button class="actbtn" onclick="excluirUsuario(\''+escJs(u.email)+'\')">🗑</button></td>'
+        +'</tr>';
+    }).join('');
+}
+
+function filtrarTabUsuarios(q){
+  var f=todosUsuarios.filter(function(u){return(u.email+u.empresa).toLowerCase().includes(q.toLowerCase());});
+  renderTabUsuarios(f);
+}
+
+// ── Listar dashboards ──
+function carregarListaDashboards(){
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?order=titulo',{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    todosDashboards=data||[];
+    renderTabDash(todosDashboards);
+  });
+}
+
+function renderTabDash(lista){
+  document.getElementById('total-dash').textContent='('+lista.length+')';
+  document.getElementById('tbody-dash').innerHTML=lista.length===0
+    ?'<tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum dashboard</td></tr>'
+    :lista.map(function(d){
+      return '<tr>'
+        +'<td><div style="font-weight:500;color:#E5E5E5">'+escHtml(d.titulo)+'</div>'
+        +(d.descricao?'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(d.descricao)+'</div>':'')+'</td>'
+        +'<td><span class="dash-tag-badge">'+escHtml(d.categoria||'—')+'</span></td>'
+        +'<td style="font-size:12px;color:rgba(229,229,229,0.4)">'+escHtml(d.empresa||d.email_cliente||'—')+'</td>'
+        +'<td><span class="sdot sdot-on"></span>Ativo</td>'
+        +'<td><button class="actbtn" onclick="excluirDash('+d.id+')">🗑</button></td>'
+        +'</tr>';
+    }).join('');
+}
+
+function filtrarTabDash(q){
+  var f=todosDashboards.filter(function(d){return(d.titulo+d.categoria+d.empresa).toLowerCase().includes(q.toLowerCase());});
+  renderTabDash(f);
+}
+
+// ── Dashboards para permissão ──
+function carregarDashsParaPermissao(){
+  if(todosDashboards.length===0){
+    document.getElementById('nu-dash-lista').innerHTML='<div style="grid-column:span 2;text-align:center;padding:20px;color:rgba(229,229,229,0.3);font-size:13px">Nenhum dashboard cadastrado ainda.</div>';
+    return;
+  }
+  document.getElementById('nu-dash-lista').innerHTML=todosDashboards.map(function(d){
+    return '<div class="dash-item-sel" id="ds-'+d.id+'" onclick="toggleDashSel(this,'+d.id+')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(229,229,229,0.08);border-radius:8px;cursor:pointer;transition:all .15s">'
+      +'<div class="dcheck" style="width:16px;height:16px;border-radius:4px;border:1px solid rgba(229,229,229,0.15);flex-shrink:0"></div>'
+      +'<div><div style="font-size:13px;font-weight:500;color:#E5E5E5">'+escHtml(d.titulo)+'</div>'
+      +'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(d.categoria||'—')+' · '+escHtml(d.empresa||d.email_cliente||'—')+'</div></div>'
+      +'</div>';
+  }).join('');
+}
+
+function toggleDashSel(el,id){
+  var sel=el.getAttribute('data-sel')==='1';
+  el.setAttribute('data-sel',sel?'0':'1');
+  el.style.borderColor=sel?'rgba(229,229,229,0.08)':'rgba(252,163,17,0.4)';
+  el.style.background=sel?'rgba(0,0,0,0.3)':'rgba(252,163,17,0.06)';
+  el.querySelector('.dcheck').style.background=sel?'':'#FCA311';
+  el.querySelector('.dcheck').style.borderColor=sel?'rgba(229,229,229,0.15)':'#FCA311';
+}
+
+// ── Salvar novo usuário ──
+function salvarNovoUsuario(){
+  var nome=document.getElementById('nu-nome').value.trim();
+  var email=document.getElementById('nu-email').value.trim();
+  var senha=document.getElementById('nu-senha').value;
+  var empresa=document.getElementById('nu-empresa').value.trim();
+  if(!nome||!email||!senha||!empresa){toast('Preencha todos os campos obrigatórios','err');return;}
+  if(senha.length<8){toast('Senha deve ter ao menos 8 caracteres','err');return;}
+
+  var btn=document.getElementById('btn-salvar-user');
+  btn.disabled=true; btn.textContent='Salvando...';
+
+  // Pegar dashboards selecionados
+  var dashsSel=[];
+  document.querySelectorAll('.dash-item-sel[data-sel="1"]').forEach(function(el){
+    var id=parseInt(el.id.replace('ds-',''));
+    var d=todosDashboards.find(function(x){return x.id===id;});
+    if(d) dashsSel.push(d);
+  });
+
+  // Criar usuário no Supabase Auth via Admin API
+  fetch(SB_URL+'/auth/v1/admin/users',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,password:senha,email_confirm:true,user_metadata:{nome:nome,empresa:empresa}})
+  })
+  .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+  .then(function(res){
+    if(!res.ok){toast(res.d.message||'Erro ao criar usuário','err');return;}
+
+    // Inserir dashboards para o usuário
+    if(dashsSel.length===0){
+      toast('Usuário '+nome+' criado com sucesso!','ok');
+      limparNovoUser();
+      carregarAdmin();
+      return;
+    }
+
+    var inserts=dashsSel.map(function(d){
+      return {
+        email_cliente:email,
+        titulo:d.titulo,
+        descricao:d.descricao||'',
+        url:d.url,
+        categoria:d.categoria||'',
+        empresa:empresa
+      };
+    });
+
+    return fetch(SB_URL+'/rest/v1/dashboards_clientes',{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(inserts)
+    }).then(function(){
+      toast('Usuário '+nome+' criado com '+dashsSel.length+' dashboard(s)!','ok');
+      limparNovoUser();
+      carregarAdmin();
+    });
+  })
+  .catch(function(e){toast('Erro: '+e.message,'err');})
+  .finally(function(){btn.disabled=false;btn.textContent='Cadastrar Usuário';});
+}
+
+// ── Salvar novo dashboard ──
+function salvarNovoDash(){
+  var titulo=document.getElementById('nd-titulo').value.trim();
+  var categoria=document.getElementById('nd-categoria').value.trim();
+  var url=document.getElementById('nd-url').value.trim();
+  var email=document.getElementById('nd-email').value.trim();
+  var empresa=document.getElementById('nd-empresa').value.trim();
+  var desc=document.getElementById('nd-desc').value.trim();
+  if(!titulo||!categoria||!url||!email){toast('Preencha os campos obrigatórios','err');return;}
+
+  var btn=document.getElementById('btn-salvar-dash');
+  btn.disabled=true; btn.textContent='Salvando...';
+
+  fetch(SB_URL+'/rest/v1/dashboards_clientes',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({titulo:titulo,categoria:categoria,url:url,email_cliente:email,empresa:empresa,descricao:desc})
+  })
+  .then(function(r){
+    if(r.ok){toast('Dashboard "'+titulo+'" salvo com sucesso!','ok');limparNovoDash();carregarAdmin();}
+    else{return r.json().then(function(d){toast(d.message||'Erro ao salvar','err');});}
+  })
+  .catch(function(e){toast('Erro: '+e.message,'err');})
+  .finally(function(){btn.disabled=false;btn.textContent='Salvar Dashboard';});
+}
+
+function excluirUsuario(email){
+  if(!confirm('Remover todos os dashboards de '+email+'?'))return;
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?email_cliente=eq.'+encodeURIComponent(email),{
+    method:'DELETE',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  }).then(function(){toast('Usuário removido','ok');carregarAdmin();});
+}
+
+function excluirDash(id){
+  if(!confirm('Excluir este dashboard?'))return;
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?id=eq.'+id,{
+    method:'DELETE',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  }).then(function(){toast('Dashboard excluído','ok');carregarAdmin();});
+}
+
+function limparNovoUser(){
+  ['nu-nome','nu-email','nu-senha','nu-empresa'].forEach(function(id){document.getElementById(id).value='';});
+  document.querySelector('input[name="nu-perfil"][value="cliente"]').checked=true;
+  document.querySelectorAll('.dash-item-sel').forEach(function(el){
+    el.setAttribute('data-sel','0');
+    el.style.borderColor='rgba(229,229,229,0.08)';
+    el.style.background='rgba(0,0,0,0.3)';
+    el.querySelector('.dcheck').style.background='';
+    el.querySelector('.dcheck').style.borderColor='rgba(229,229,229,0.15)';
+  });
+}
+
+function limparNovoDash(){
+  ['nd-titulo','nd-categoria','nd-url','nd-email','nd-empresa','nd-desc'].forEach(function(id){document.getElementById(id).value='';});
 }
 </script>
 </body>
