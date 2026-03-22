@@ -916,58 +916,69 @@ function filtrarTabUsuarios(q){
 // ── Listar dashboards ──
 function carregarListaDashboards(){
   if(!isAdmin()) return;
-  // Busca todos os dashboards e cruza com quais e-mails têm acesso a cada título
-  fetch(SB_URL+'/rest/v1/dashboards_clientes?order=titulo',{
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?select=id,titulo,categoria,url,descricao,empresa,email_cliente&order=titulo',{
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
   })
   .then(function(r){return r.json();})
   .then(function(data){
     todosDashboards=data||[];
-    // Agrupa e-mails únicos por título de dashboard
     var acessosPorTitulo={};
     todosDashboards.forEach(function(d){
-      var key=d.titulo+'__'+d.categoria;
+      var key=d.titulo+'__'+(d.categoria||'');
       if(!acessosPorTitulo[key]) acessosPorTitulo[key]={d:d,emails:[]};
       if(d.email_cliente && !acessosPorTitulo[key].emails.includes(d.email_cliente)){
         acessosPorTitulo[key].emails.push(d.email_cliente);
       }
     });
-    // Lista deduplicada por título para exibição
-    var listaUnica=Object.values(acessosPorTitulo);
-    renderTabDash(listaUnica);
+    renderTabDash(Object.values(acessosPorTitulo));
   });
 }
 
 function renderTabDash(lista){
   document.getElementById('total-dash').textContent='('+lista.length+')';
-  document.getElementById('tbody-dash').innerHTML=lista.length===0
-    ?'<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum dashboard</td></tr>'
-    :lista.map(function(item){
-      var d = item.d || item;
-      var emails = item.emails || [d.email_cliente].filter(Boolean);
-      var emailsPills = emails.length===0
-        ? '<span style="color:rgba(229,229,229,0.2);font-size:11px">Nenhum</span>'
-        : emails.map(function(e){
-            return '<span style="display:inline-flex;align-items:center;background:rgba(252,163,17,0.08);border:1px solid rgba(252,163,17,0.18);border-radius:20px;padding:2px 9px;font-size:11px;color:#FCA311;margin:2px">'+escHtml(e)+'</span>';
-          }).join('');
-      var tituloJs = escJs(d.titulo);
-      var catJs    = escJs(d.categoria||'');
-      var empresaJs= escJs(d.empresa||'');
-      var descJs   = escJs(d.descricao||'');
-      var urlJs    = escJs(d.url||'');
-      return '<tr>'
-        +'<td><div style="font-weight:500;color:#E5E5E5">'+escHtml(d.titulo)+'</div>'
-        +(d.descricao?'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(d.descricao)+'</div>':'')+'</td>'
-        +'<td><span class="dash-tag-badge">'+escHtml(d.categoria||'—')+'</span></td>'
-        +'<td style="font-size:12px;color:rgba(229,229,229,0.4)">'+escHtml(d.empresa||'—')+'</td>'
-        +'<td><div style="display:flex;flex-wrap:wrap;gap:2px;max-width:320px">'+emailsPills+'</div></td>'
-        +'<td><span class="sdot sdot-on"></span>Ativo</td>'
-        +'<td style="white-space:nowrap">'
-          +'<button class="actbtn" title="Gerenciar acesso" onclick="abrirModalAcesso(\''+tituloJs+'\',\''+catJs+'\',\''+empresaJs+'\',\''+descJs+'\',\''+urlJs+'\')" style="color:rgba(252,163,17,0.6);margin-right:2px">👥</button>'
-          +'<button class="actbtn" title="Excluir" onclick="excluirDashPorTitulo(\''+tituloJs+'\',\''+catJs+'\')">🗑</button>'
-        +'</td>'
-        +'</tr>';
-    }).join('');
+  if(lista.length===0){
+    document.getElementById('tbody-dash').innerHTML='<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum dashboard</td></tr>';
+    return;
+  }
+  // Guarda referência indexada para o modal acessar sem problemas de escaping
+  window._dashLista = lista;
+  document.getElementById('tbody-dash').innerHTML = lista.map(function(item, idx){
+    var d = item.d || item;
+    var emails = item.emails || [d.email_cliente].filter(Boolean);
+    var emailsPills = emails.length===0
+      ? '<span style="color:rgba(229,229,229,0.2);font-size:11px">Nenhum</span>'
+      : emails.map(function(e){
+          return '<span style="display:inline-flex;align-items:center;background:rgba(252,163,17,0.08);border:1px solid rgba(252,163,17,0.18);border-radius:20px;padding:2px 9px;font-size:11px;color:#FCA311;margin:2px">'+escHtml(e)+'</span>';
+        }).join('');
+    return '<tr>'
+      +'<td><div style="font-weight:500;color:#E5E5E5">'+escHtml(d.titulo)+'</div>'
+      +(d.descricao?'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(d.descricao)+'</div>':'')+'</td>'
+      +'<td><span class="dash-tag-badge">'+escHtml(d.categoria||'—')+'</span></td>'
+      +'<td style="font-size:12px;color:rgba(229,229,229,0.4)">'+escHtml(d.empresa||'—')+'</td>'
+      +'<td><div style="display:flex;flex-wrap:wrap;gap:2px;max-width:320px">'+emailsPills+'</div></td>'
+      +'<td><span class="sdot sdot-on"></span>Ativo</td>'
+      +'<td style="white-space:nowrap">'
+        +'<button class="actbtn" title="Gerenciar acesso" data-dashidx="'+idx+'" onclick="abrirModalAcessoPorIdx(this)" style="color:rgba(252,163,17,0.7);font-size:15px;margin-right:2px">👥</button>'
+        +'<button class="actbtn" title="Excluir" data-dashidx="'+idx+'" onclick="excluirDashPorIdx(this)">🗑</button>'
+      +'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function abrirModalAcessoPorIdx(btn){
+  var idx = parseInt(btn.getAttribute('data-dashidx'));
+  var item = window._dashLista[idx];
+  if(!item) return;
+  var d = item.d || item;
+  abrirModalAcesso(d.titulo, d.categoria||'', d.empresa||'', d.descricao||'', d.url||'');
+}
+
+function excluirDashPorIdx(btn){
+  var idx = parseInt(btn.getAttribute('data-dashidx'));
+  var item = window._dashLista[idx];
+  if(!item) return;
+  var d = item.d || item;
+  excluirDashPorTitulo(d.titulo, d.categoria||'');
 }
 
 function filtrarTabDash(q){
@@ -1192,6 +1203,8 @@ function abrirModalAcesso(titulo, categoria, empresa, descricao, url){
 }
 
 function fecharModalAcesso(e){
+  // Sem argumento = clicou no X ou no botão Fechar → fecha sempre
+  // Com argumento = clicou no overlay → só fecha se clicou exatamente no overlay (fora do modal)
   if(e && e.target !== document.getElementById('modal-acesso')) return;
   document.getElementById('modal-acesso').classList.remove('open');
   modalDashAtual = null;
