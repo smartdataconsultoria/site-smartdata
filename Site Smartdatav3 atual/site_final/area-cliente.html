@@ -916,17 +916,23 @@ function salvarNovoUsuario(){
     if(d) dashsSel.push(d);
   });
 
-  // Criar usuário no Supabase Auth via Admin API
-  fetch(SB_URL+'/auth/v1/admin/users',{
+  // Criar usuário via signup público (funciona no front-end)
+  fetch(SB_URL+'/auth/v1/signup',{
     method:'POST',
-    headers:{'apikey':SB_SERVICE_KEY,'Authorization':'Bearer '+SB_SERVICE_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({email:email,password:senha,email_confirm:true,user_metadata:{nome:nome,empresa:empresa}})
+    headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,password:senha,data:{nome:nome,empresa:empresa}})
   })
   .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
   .then(function(res){
-    if(!res.ok){toast(res.d.message||'Erro ao criar usuário','err');return;}
+    // signup retorna 200 mesmo se já existir — checar se tem id
+    var uid = res.d.id || (res.d.user && res.d.user.id);
+    if(!uid){
+      var msg = res.d.message||res.d.error_description||'Erro ao criar usuário.';
+      if(msg.toLowerCase().includes('already registered')) msg='Este e-mail já está cadastrado.';
+      toast(msg,'err'); return;
+    }
 
-    // Inserir dashboards para o usuário
+    // Inserir dashboards selecionados para o novo usuário
     if(dashsSel.length===0){
       toast('Usuário '+nome+' criado com sucesso!','ok');
       limparNovoUser();
@@ -947,7 +953,7 @@ function salvarNovoUsuario(){
 
     return fetch(SB_URL+'/rest/v1/dashboards_clientes',{
       method:'POST',
-      headers:{'apikey':SB_SERVICE_KEY,'Authorization':'Bearer '+SB_SERVICE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
       body:JSON.stringify(inserts)
     }).then(function(){
       toast('Usuário '+nome+' criado com '+dashsSel.length+' dashboard(s)!','ok');
