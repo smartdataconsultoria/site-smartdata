@@ -797,19 +797,49 @@ function carregarAdmin(){
 
 // ── Listar usuários ──
 function carregarListaUsuarios(){
-  fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente,empresa&order=empresa',{
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    // Agrupar por email
-    var mapa={};
-    (data||[]).forEach(function(d){
-      if(!mapa[d.email_cliente]){mapa[d.email_cliente]={email:d.email_cliente,empresa:d.empresa,qtd:0};}
-      mapa[d.email_cliente].qtd++;
+  // Buscar usuários do Auth (requer service_role) + dashboards para contar
+  Promise.all([
+    fetch(SB_URL+'/auth/v1/admin/users?per_page=200',{
+      headers:{'apikey':SB_SERVICE_KEY,'Authorization':'Bearer '+SB_SERVICE_KEY}
+    }).then(function(r){return r.ok?r.json():Promise.resolve({users:[]});}),
+    fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente,empresa',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    }).then(function(r){return r.json();})
+  ]).then(function(results){
+    var authUsers = results[0].users || [];
+    var dashs = results[1] || [];
+    // Contar dashboards por email
+    var contagem={};
+    var empresaMap={};
+    dashs.forEach(function(d){
+      contagem[d.email_cliente]=(contagem[d.email_cliente]||0)+1;
+      if(!empresaMap[d.email_cliente]) empresaMap[d.email_cliente]=d.empresa;
     });
-    todosUsuarios=Object.values(mapa);
+    // Montar lista de usuários
+    todosUsuarios = authUsers.map(function(u){
+      return {
+        email: u.email,
+        nome: (u.user_metadata&&u.user_metadata.nome)||u.email.split('@')[0],
+        empresa: (u.user_metadata&&u.user_metadata.empresa)||empresaMap[u.email]||'—',
+        qtd: contagem[u.email]||0,
+        criado: u.created_at
+      };
+    });
     renderTabUsuarios(todosUsuarios);
+  }).catch(function(e){
+    // Fallback: buscar só da tabela dashboards_clientes
+    fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente,empresa&order=empresa',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    }).then(function(r){return r.json();})
+    .then(function(data){
+      var mapa={};
+      (data||[]).forEach(function(d){
+        if(!mapa[d.email_cliente]){mapa[d.email_cliente]={email:d.email_cliente,nome:d.email_cliente.split('@')[0],empresa:d.empresa,qtd:0};}
+        mapa[d.email_cliente].qtd++;
+      });
+      todosUsuarios=Object.values(mapa);
+      renderTabUsuarios(todosUsuarios);
+    });
   });
 }
 
