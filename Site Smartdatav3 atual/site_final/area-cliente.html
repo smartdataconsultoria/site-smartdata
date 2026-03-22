@@ -213,6 +213,33 @@ tr:hover td{background:rgba(252,163,17,0.02)}
 .ldivider span{font-size:11px;color:rgba(229,229,229,0.2);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
 @media(max-width:768px){.sidebar{display:none}.dash-grid{grid-template-columns:1fr}.main{padding:20px}.lcard{width:90%;padding:40px 28px}.cat-chips{display:flex}}
 @media(min-width:769px){.cat-chips{display:none}}
+
+/* ═══ MODAL GERENCIAR ACESSO ═══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#0f1520;border:1px solid rgba(252,163,17,0.2);border-radius:18px;width:560px;max-width:94vw;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.8);transform:translateY(20px) scale(0.97);transition:transform .25s,opacity .25s;opacity:0;}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);opacity:1;}
+.modal-header{padding:22px 24px 18px;border-bottom:1px solid rgba(252,163,17,0.1);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;}
+.modal-header-info{}
+.modal-htitle{font-family:"Syne",sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;}
+.modal-hsub{font-size:12px;color:rgba(229,229,229,0.35);}
+.modal-close{background:rgba(229,229,229,0.06);border:1px solid rgba(229,229,229,0.1);border-radius:8px;color:rgba(229,229,229,0.4);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;transition:all .15s;}
+.modal-close:hover{border-color:#ef4444;color:#ef4444;}
+.modal-body{padding:20px 24px;overflow-y:auto;flex:1;}
+.modal-section-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(229,229,229,0.3);margin-bottom:10px;}
+.modal-user-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.modal-user-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid rgba(229,229,229,0.07);}
+.modal-user-info{display:flex;align-items:center;gap:10px;}
+.modal-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;background:rgba(252,163,17,0.15);color:#FCA311;}
+.modal-uname{font-size:13px;color:#E5E5E5;font-weight:500;}
+.modal-uemail{font-size:11px;color:rgba(229,229,229,0.35);}
+.modal-access-on{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#22c55e;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:4px 10px;}
+.modal-access-on .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;}
+.btn-remover{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;color:#f87171;font-size:11px;font-weight:600;padding:4px 10px;cursor:pointer;transition:all .15s;}
+.btn-remover:hover{background:rgba(239,68,68,0.18);}
+.btn-adicionar{background:rgba(252,163,17,0.1);border:1px solid rgba(252,163,17,0.25);border-radius:6px;color:#FCA311;font-size:11px;font-weight:600;padding:4px 10px;cursor:pointer;transition:all .15s;}
+.btn-adicionar:hover{background:rgba(252,163,17,0.2);}
+.modal-footer{padding:16px 24px;border-top:1px solid rgba(252,163,17,0.08);display:flex;justify-content:flex-end;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -515,6 +542,34 @@ tr:hover td{background:rgba(252,163,17,0.02)}
         </div>
 
       </div><!-- /pg-admin -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL GERENCIAR ACESSO ═══ -->
+<div class="modal-overlay" id="modal-acesso" onclick="fecharModalAcesso(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-info">
+        <div class="modal-htitle" id="modal-dash-titulo">Dashboard</div>
+        <div class="modal-hsub" id="modal-dash-sub">Gerencie quem tem acesso a este dashboard</div>
+      </div>
+      <div class="modal-close" onclick="fecharModalAcesso()">✕</div>
+    </div>
+    <div class="modal-body">
+      <!-- Usuários com acesso -->
+      <div class="modal-section-lbl">Com acesso</div>
+      <div class="modal-user-list" id="modal-com-acesso">
+        <div style="text-align:center;padding:16px;color:rgba(229,229,229,0.3);font-size:13px">Carregando...</div>
+      </div>
+      <!-- Usuários sem acesso -->
+      <div class="modal-section-lbl" style="margin-top:4px">Sem acesso</div>
+      <div class="modal-user-list" id="modal-sem-acesso">
+        <div style="text-align:center;padding:16px;color:rgba(229,229,229,0.3);font-size:13px">Carregando...</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="abtn abtn-sec" onclick="fecharModalAcesso()">Fechar</button>
     </div>
   </div>
 </div>
@@ -888,7 +943,6 @@ function renderTabDash(lista){
   document.getElementById('tbody-dash').innerHTML=lista.length===0
     ?'<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum dashboard</td></tr>'
     :lista.map(function(item){
-      // Suporta tanto lista plana (array de dashboards) quanto lista agrupada {d, emails}
       var d = item.d || item;
       var emails = item.emails || [d.email_cliente].filter(Boolean);
       var emailsPills = emails.length===0
@@ -896,6 +950,11 @@ function renderTabDash(lista){
         : emails.map(function(e){
             return '<span style="display:inline-flex;align-items:center;background:rgba(252,163,17,0.08);border:1px solid rgba(252,163,17,0.18);border-radius:20px;padding:2px 9px;font-size:11px;color:#FCA311;margin:2px">'+escHtml(e)+'</span>';
           }).join('');
+      var tituloJs = escJs(d.titulo);
+      var catJs    = escJs(d.categoria||'');
+      var empresaJs= escJs(d.empresa||'');
+      var descJs   = escJs(d.descricao||'');
+      var urlJs    = escJs(d.url||'');
       return '<tr>'
         +'<td><div style="font-weight:500;color:#E5E5E5">'+escHtml(d.titulo)+'</div>'
         +(d.descricao?'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(d.descricao)+'</div>':'')+'</td>'
@@ -903,7 +962,10 @@ function renderTabDash(lista){
         +'<td style="font-size:12px;color:rgba(229,229,229,0.4)">'+escHtml(d.empresa||'—')+'</td>'
         +'<td><div style="display:flex;flex-wrap:wrap;gap:2px;max-width:320px">'+emailsPills+'</div></td>'
         +'<td><span class="sdot sdot-on"></span>Ativo</td>'
-        +'<td><button class="actbtn" title="Excluir" onclick="excluirDashPorTitulo(\''+escJs(d.titulo)+'\',\''+escJs(d.categoria||'')+'\')">🗑</button></td>'
+        +'<td style="white-space:nowrap">'
+          +'<button class="actbtn" title="Gerenciar acesso" onclick="abrirModalAcesso(\''+tituloJs+'\',\''+catJs+'\',\''+empresaJs+'\',\''+descJs+'\',\''+urlJs+'\')" style="color:rgba(252,163,17,0.6);margin-right:2px">👥</button>'
+          +'<button class="actbtn" title="Excluir" onclick="excluirDashPorTitulo(\''+tituloJs+'\',\''+catJs+'\')">🗑</button>'
+        +'</td>'
         +'</tr>';
     }).join('');
 }
@@ -1113,6 +1175,135 @@ function excluirDash(id){
     method:'DELETE',
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
   }).then(function(){toast('Dashboard excluído','ok');carregarAdmin();});
+}
+
+// ════ MODAL GERENCIAR ACESSO ════
+var modalDashAtual = null; // {titulo, categoria, empresa, descricao, url}
+
+function abrirModalAcesso(titulo, categoria, empresa, descricao, url){
+  if(!isAdmin()) return;
+  modalDashAtual = {titulo:titulo, categoria:categoria, empresa:empresa, descricao:descricao, url:url};
+  document.getElementById('modal-dash-titulo').textContent = titulo;
+  document.getElementById('modal-dash-sub').textContent = (categoria||'') + (empresa ? ' · ' + empresa : '');
+  document.getElementById('modal-com-acesso').innerHTML = '<div style="text-align:center;padding:16px;color:rgba(229,229,229,0.3);font-size:13px">Carregando...</div>';
+  document.getElementById('modal-sem-acesso').innerHTML = '<div style="text-align:center;padding:16px;color:rgba(229,229,229,0.3);font-size:13px">Carregando...</div>';
+  document.getElementById('modal-acesso').classList.add('open');
+  carregarModalAcesso();
+}
+
+function fecharModalAcesso(e){
+  if(e && e.target !== document.getElementById('modal-acesso')) return;
+  document.getElementById('modal-acesso').classList.remove('open');
+  modalDashAtual = null;
+}
+
+function carregarModalAcesso(){
+  if(!modalDashAtual) return;
+  // Busca todos os registros deste dashboard (todos os usuários que têm acesso)
+  var titulo = modalDashAtual.titulo;
+  var categoria = modalDashAtual.categoria;
+  Promise.all([
+    fetch(SB_URL+'/rest/v1/dashboards_clientes?titulo=eq.'+encodeURIComponent(titulo)+'&categoria=eq.'+encodeURIComponent(categoria),{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    }).then(function(r){return r.json();}),
+    fetch(SB_URL+'/rest/v1/usuarios_portal?order=nome',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    }).then(function(r){return r.json();})
+  ]).then(function(results){
+    var registros = results[0]||[];
+    var todosUsers = results[1]||[];
+    // Atualiza todosUsuarios globalmente
+    todosUsuarios = todosUsers.map(function(u){return{email:u.email,nome:u.nome||u.email.split('@')[0],empresa:u.empresa||'—',qtd:0,ativo:u.ativo};});
+
+    var emailsComAcesso = registros.map(function(r){return r.email_cliente;});
+
+    var comAcesso = todosUsers.filter(function(u){return emailsComAcesso.includes(u.email);});
+    var semAcesso = todosUsers.filter(function(u){return !emailsComAcesso.includes(u.email);});
+
+    renderModalComAcesso(comAcesso, registros);
+    renderModalSemAcesso(semAcesso);
+  }).catch(function(e){
+    toast('Erro ao carregar dados do modal','err');
+  });
+}
+
+function renderModalComAcesso(lista, registros){
+  var el = document.getElementById('modal-com-acesso');
+  if(!lista||lista.length===0){
+    el.innerHTML='<div style="text-align:center;padding:14px;color:rgba(229,229,229,0.25);font-size:13px;border:1px dashed rgba(229,229,229,0.08);border-radius:8px">Nenhum usuário com acesso</div>';
+    return;
+  }
+  el.innerHTML = lista.map(function(u){
+    var ini = (u.email||'').substring(0,2).toUpperCase();
+    return '<div class="modal-user-row">'
+      +'<div class="modal-user-info">'
+        +'<div class="modal-av">'+ini+'</div>'
+        +'<div><div class="modal-uname">'+escHtml(u.nome||u.email.split('@')[0])+'</div>'
+        +'<div class="modal-uemail">'+escHtml(u.email)+'</div></div>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:8px">'
+        +'<div class="modal-access-on"><div class="dot"></div>Com acesso</div>'
+        +'<button class="btn-remover" onclick="removerAcesso(\''+escJs(u.email)+'\')">Remover</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+function renderModalSemAcesso(lista){
+  var el = document.getElementById('modal-sem-acesso');
+  if(!lista||lista.length===0){
+    el.innerHTML='<div style="text-align:center;padding:14px;color:rgba(229,229,229,0.25);font-size:13px;border:1px dashed rgba(229,229,229,0.08);border-radius:8px">Todos os usuários já têm acesso</div>';
+    return;
+  }
+  el.innerHTML = lista.map(function(u){
+    var ini = (u.email||'').substring(0,2).toUpperCase();
+    return '<div class="modal-user-row">'
+      +'<div class="modal-user-info">'
+        +'<div class="modal-av" style="background:rgba(229,229,229,0.06);color:rgba(229,229,229,0.3)">'+ini+'</div>'
+        +'<div><div class="modal-uname" style="color:rgba(229,229,229,0.5)">'+escHtml(u.nome||u.email.split('@')[0])+'</div>'
+        +'<div class="modal-uemail">'+escHtml(u.email)+'</div></div>'
+      +'</div>'
+      +'<button class="btn-adicionar" onclick="adicionarAcesso(\''+escJs(u.email)+'\',\''+escJs(u.empresa||'')+'\')" >+ Dar acesso</button>'
+    +'</div>';
+  }).join('');
+}
+
+function adicionarAcesso(emailUsuario, empresaUsuario){
+  if(!modalDashAtual) return;
+  var d = modalDashAtual;
+  // Usa empresa do usuário se campo empresa do dash estiver vazio
+  var empresa = d.empresa || empresaUsuario || '';
+  fetch(SB_URL+'/rest/v1/dashboards_clientes',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({titulo:d.titulo,categoria:d.categoria,url:d.url,email_cliente:emailUsuario,empresa:empresa,descricao:d.descricao||''})
+  })
+  .then(function(r){
+    if(r.ok){
+      toast('Acesso concedido para '+emailUsuario,'ok');
+      carregarModalAcesso();   // Recarrega o modal
+      carregarListaDashboards(); // Atualiza a tabela por baixo
+    } else {
+      return r.json().then(function(e){toast(e.message||'Erro ao conceder acesso','err');});
+    }
+  })
+  .catch(function(e){toast('Erro: '+e.message,'err');});
+}
+
+function removerAcesso(emailUsuario){
+  if(!modalDashAtual) return;
+  var d = modalDashAtual;
+  if(!confirm('Remover acesso de '+emailUsuario+' ao dashboard "'+d.titulo+'"?')) return;
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?titulo=eq.'+encodeURIComponent(d.titulo)+'&categoria=eq.'+encodeURIComponent(d.categoria)+'&email_cliente=eq.'+encodeURIComponent(emailUsuario),{
+    method:'DELETE',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  })
+  .then(function(){
+    toast('Acesso removido de '+emailUsuario,'ok');
+    carregarModalAcesso();
+    carregarListaDashboards();
+  })
+  .catch(function(e){toast('Erro: '+e.message,'err');});
 }
 
 function excluirDashPorTitulo(titulo,categoria){
