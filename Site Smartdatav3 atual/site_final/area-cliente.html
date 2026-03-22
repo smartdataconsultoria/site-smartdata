@@ -66,7 +66,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .t-usuario{font-size:13px;color:rgba(229,229,229,0.4)}
 .t-sair{background:transparent;border:1px solid rgba(229,229,229,0.1);border-radius:8px;color:rgba(229,229,229,0.4);padding:6px 14px;font-size:12px;cursor:pointer;transition:all .2s}
 .t-sair:hover{border-color:#ef4444;color:#ef4444}
-/* Botão admin no topbar */
 .t-admin{background:rgba(252,163,17,0.08);border:1px solid rgba(252,163,17,0.25);border-radius:8px;color:#FCA311;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:none;}
 .t-admin:hover{background:rgba(252,163,17,0.15)}
 .t-admin.ativo{background:rgba(252,163,17,0.2);border-color:rgba(252,163,17,0.5)}
@@ -136,8 +135,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .admin-tab{padding:10px 20px;font-size:13px;font-weight:500;color:rgba(229,229,229,0.4);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
 .admin-tab:hover{color:#E5E5E5}
 .admin-tab.on{color:#FCA311;border-bottom-color:#FCA311}
-
-/* Formulários admin */
 .acard{background:#0f1520;border:1px solid rgba(252,163,17,0.1);border-radius:14px;padding:28px;margin-bottom:20px;}
 .acard-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;color:#FCA311}
 .acard-title::before{content:'';width:3px;height:16px;background:#FCA311;border-radius:2px;}
@@ -151,8 +148,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .ainp:focus{border-color:rgba(252,163,17,0.4);box-shadow:0 0 0 3px rgba(252,163,17,0.08)}
 .ainp::placeholder{color:rgba(229,229,229,0.2)}
 .ainp option{background:#0f1520}
-
-/* Perfil radio */
 .perfil-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px;}
 .perfil-opt{position:relative;cursor:pointer;}
 .perfil-opt input{position:absolute;opacity:0}
@@ -161,8 +156,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .p-icon{font-size:20px;margin-bottom:6px}
 .p-name{font-size:12px;font-weight:600;color:#E5E5E5}
 .p-desc{font-size:10px;color:rgba(229,229,229,0.3);margin-top:2px}
-
-/* Botões admin */
 .abtn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
 .abtn{padding:9px 22px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:"DM Sans",sans-serif;transition:all .15s;}
 .abtn-sec{background:transparent;color:rgba(229,229,229,0.4);border:1px solid rgba(229,229,229,0.1);}
@@ -172,8 +165,6 @@ html,body{height:100%;font-family:"DM Sans",sans-serif;background:#000000;color:
 .abtn-pri:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .abtn-danger{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);}
 .abtn-danger:hover{background:rgba(239,68,68,0.2)}
-
-/* Tabela de usuários */
 .atable-wrap{background:#0f1520;border:1px solid rgba(252,163,17,0.08);border-radius:14px;overflow:hidden}
 .atable-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px solid rgba(252,163,17,0.08);}
 .atable-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:700}
@@ -200,11 +191,7 @@ tr:hover td{background:rgba(252,163,17,0.02)}
 .sdot-off{background:rgba(229,229,229,0.2)}
 .actbtn{background:transparent;border:none;cursor:pointer;color:rgba(229,229,229,0.3);padding:4px 6px;border-radius:4px;transition:.15s;font-size:12px;}
 .actbtn:hover{color:#FCA311;background:rgba(252,163,17,0.08)}
-
-/* Tabela de dashboards */
 .dash-tag-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(252,163,17,0.1);color:#FCA311}
-
-/* Toggle */
 .tgl-wrap{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(229,229,229,0.08);border-radius:10px;width:fit-content}
 .tgl{position:relative;width:34px;height:18px}
 .tgl input{opacity:0;width:0;height:0}
@@ -212,13 +199,10 @@ tr:hover td{background:rgba(252,163,17,0.02)}
 .tgl-sl::before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
 .tgl input:checked+.tgl-sl{background:#FCA311}
 .tgl input:checked+.tgl-sl::before{transform:translateX(16px)}
-
 #toast{position:fixed;bottom:24px;right:24px;background:#14213D;border:1px solid rgba(229,229,229,0.1);border-left:3px solid #FCA311;border-radius:10px;padding:14px 20px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.6);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.err{border-left-color:#ef4444}
 #toast.ok{border-left-color:#22c55e}
-
-/* Cadastro */
 .lswitch{text-align:center;margin-top:18px;font-size:13px;color:rgba(229,229,229,0.35)}
 .lswitch a{color:#FCA311;cursor:pointer;font-weight:600;text-decoration:none;transition:opacity .2s}
 .lswitch a:hover{opacity:.75}
@@ -309,7 +293,7 @@ tr:hover td{background:rgba(252,163,17,0.02)}
     <div class="t-right">
       <div class="t-empresa" id="t-empresa-nome">—</div>
       <div class="t-usuario" id="t-usuario-email">—</div>
-      <!-- Botão admin: só aparece para o e-mail admin -->
+      <!-- Botão admin: renderizado pelo JS somente para o e-mail admin -->
       <button class="t-admin" id="btn-admin" onclick="toggleAdmin()">⚙ Admin</button>
       <button class="t-sair" onclick="fazerSair()">↩ Sair</button>
     </div>
@@ -325,8 +309,8 @@ tr:hover td{background:rgba(252,163,17,0.02)}
       </div>
       <div class="sb-section" id="sb-section-cats" style="display:none">Categorias</div>
       <div id="sb-categorias"></div>
-      <!-- Link admin na sidebar (só para admin) -->
-      <div class="sb-item" id="sb-admin-link" style="display:none" onclick="toggleAdmin()">
+      <!-- Link admin na sidebar: NUNCA renderizado no HTML — inserido via JS somente para admin -->
+      <div id="sb-admin-link" style="display:none" class="sb-item" onclick="toggleAdmin()">
         <div class="cat-icon">⚙️</div>
         <span>Administração</span>
       </div>
@@ -374,7 +358,6 @@ tr:hover td{background:rgba(252,163,17,0.02)}
           <button class="abtn abtn-sec" onclick="toggleAdmin()">← Voltar</button>
         </div>
 
-        <!-- Tabs -->
         <div class="admin-tabs">
           <div class="admin-tab on" onclick="adminTab('usuarios')">👥 Usuários</div>
           <div class="admin-tab" onclick="adminTab('novo-usuario')">➕ Novo Usuário</div>
@@ -536,13 +519,13 @@ tr:hover td{background:rgba(252,163,17,0.02)}
 
 <script>
 // ════════════════════════════════════════
-// CONFIG — troque pelo seu projeto
+// CONFIG
 // ════════════════════════════════════════
 var SB_URL = 'https://rbahvyejqybajnufftio.supabase.co';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
-
-// ⚠️ COLOQUE SEU E-MAIL AQUI — só este e-mail vê o painel admin
 var SB_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA2MDkyMiwiZXhwIjoyMDg5NjM2OTIyfQ.LSvsUoFXOeEclanyvPymI_StFQNLxglMTxfbo-Y8kbU';
+
+// E-mail do administrador — único com acesso ao painel admin
 var ADMIN_EMAIL = 'tecnologia@smartdataconsultoria.com';
 
 var usr = null;
@@ -556,6 +539,9 @@ function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 function escJs(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 var catIcones={'logistico':'🚚','logístico':'🚚','logistica':'🚚','logística':'🚚','financeiro':'💰','financeira':'💰','comercial':'🤝','vendas':'🤝','educacao':'🎓','educação':'🎓','marketing':'📣','operacoes':'⚙️','operações':'⚙️','rh':'👥','ti':'💻','default':'📈'};
 function getIcone(cat){return catIcones[(cat||'').toLowerCase().trim()]||catIcones['default'];}
+
+// Verificação de admin — usada em TODAS as funções sensíveis
+function isAdmin(){return usr && usr.email === ADMIN_EMAIL;}
 
 function toast(msg,tipo){
   var t=document.getElementById('toast');
@@ -585,6 +571,7 @@ function toggleSenhaCad(){
     ?'<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
     :'<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
 }
+
 function fazerCadastro(){
   var nome=document.getElementById('cnome').value.trim();
   var empresa=document.getElementById('cempresa').value.trim();
@@ -621,6 +608,7 @@ function fazerCadastro(){
   .catch(function(e){erroEl.innerHTML='⚠️ Sem conexão: '+e.message;erroEl.style.display='block';})
   .finally(function(){btn.disabled=false;btn.textContent='Criar conta';});
 }
+
 function toggleSenha(){
   var inp=document.getElementById('lsenha');
   var icone=document.getElementById('icone-olho');
@@ -668,21 +656,29 @@ function entrarApp(){
   document.getElementById('tela-app').style.flexDirection='column';
   document.getElementById('t-usuario-email').textContent=usr.email;
 
-  // Mostrar botão admin só para o e-mail admin
-  if(usr.email===ADMIN_EMAIL){
+  // ── CONTROLE DE ACESSO ADMIN ──
+  // Exibe botão e link de admin APENAS para o e-mail administrador
+  if(isAdmin()){
     document.getElementById('btn-admin').style.display='flex';
     document.getElementById('sb-admin-link').style.display='flex';
+  } else {
+    // Garante que nunca apareça para outros usuários
+    document.getElementById('btn-admin').style.display='none';
+    document.getElementById('sb-admin-link').style.display='none';
   }
+
   carregarDashboards();
 }
 
 function fazerSair(){
   usr=null; todosOsDashs=[];
+  // Esconder elementos admin ao sair
+  document.getElementById('btn-admin').style.display='none';
+  document.getElementById('sb-admin-link').style.display='none';
   document.getElementById('tela-login').style.display='flex';
   document.getElementById('tela-app').style.display='none';
   document.getElementById('lemail').value='';
   document.getElementById('lsenha').value='';
-  document.getElementById('btn-admin').style.display='none';
 }
 
 // ════ DASHBOARDS ════
@@ -724,7 +720,6 @@ function filtrarCategoria(cat){
   var lista=cat==='__todos__'?todosOsDashs:todosOsDashs.filter(function(d){return(d.categoria||'Outros').trim()===cat;});
   document.getElementById('page-title').textContent=cat==='__todos__'?'Dashboards':cat;
   renderDashboards(lista);
-  // Garantir que pg-dashboards está visível
   mostrarPagina('pg-dashboards');
 }
 
@@ -773,13 +768,21 @@ function abrirFullscreen(){
 }
 
 // ════ ADMIN ════
+// Todas as funções admin verificam isAdmin() antes de executar
 function toggleAdmin(){
+  // BLOQUEIO: apenas admin pode acessar
+  if(!isAdmin()){
+    toast('Acesso não autorizado.','err');
+    return;
+  }
   var visivel=document.getElementById('pg-admin').style.display==='block';
   if(visivel){mostrarPagina('pg-dashboards');}
   else{mostrarPagina('pg-admin'); carregarAdmin();}
 }
 
 function adminTab(tab){
+  // BLOQUEIO: apenas admin pode usar as tabs
+  if(!isAdmin()) return;
   document.querySelectorAll('.admin-tab').forEach(function(t,i){
     var tabs=['usuarios','novo-usuario','dashboards','novo-dash'];
     t.classList.toggle('on',tabs[i]===tab);
@@ -791,13 +794,14 @@ function adminTab(tab){
 }
 
 function carregarAdmin(){
+  if(!isAdmin()) return;
   carregarListaUsuarios();
   carregarListaDashboards();
 }
 
 // ── Listar usuários ──
 function carregarListaUsuarios(){
-  // Buscar de usuarios_portal + contar dashboards
+  if(!isAdmin()) return;
   Promise.all([
     fetch(SB_URL+'/rest/v1/usuarios_portal?order=nome',{
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
@@ -845,6 +849,7 @@ function filtrarTabUsuarios(q){
 
 // ── Listar dashboards ──
 function carregarListaDashboards(){
+  if(!isAdmin()) return;
   fetch(SB_URL+'/rest/v1/dashboards_clientes?order=titulo',{
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
   })
@@ -872,12 +877,14 @@ function renderTabDash(lista){
 }
 
 function filtrarTabDash(q){
+  if(!isAdmin()) return;
   var f=todosDashboards.filter(function(d){return(d.titulo+d.categoria+d.empresa).toLowerCase().includes(q.toLowerCase());});
   renderTabDash(f);
 }
 
 // ── Dashboards para permissão ──
 function carregarDashsParaPermissao(){
+  if(!isAdmin()) return;
   if(todosDashboards.length===0){
     document.getElementById('nu-dash-lista').innerHTML='<div style="grid-column:span 2;text-align:center;padding:20px;color:rgba(229,229,229,0.3);font-size:13px">Nenhum dashboard cadastrado ainda.</div>';
     return;
@@ -902,6 +909,7 @@ function toggleDashSel(el,id){
 
 // ── Salvar novo usuário ──
 function salvarNovoUsuario(){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
   var nome=document.getElementById('nu-nome').value.trim();
   var email=document.getElementById('nu-email').value.trim();
   var senha=document.getElementById('nu-senha').value;
@@ -912,7 +920,6 @@ function salvarNovoUsuario(){
   var btn=document.getElementById('btn-salvar-user');
   btn.disabled=true; btn.textContent='Salvando...';
 
-  // Pegar dashboards selecionados
   var dashsSel=[];
   document.querySelectorAll('.dash-item-sel[data-sel="1"]').forEach(function(el){
     var id=parseInt(el.id.replace('ds-',''));
@@ -920,7 +927,6 @@ function salvarNovoUsuario(){
     if(d) dashsSel.push(d);
   });
 
-  // Criar usuário via signup público
   fetch(SB_URL+'/auth/v1/signup',{
     method:'POST',
     headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
@@ -935,14 +941,12 @@ function salvarNovoUsuario(){
       toast(msg,'err'); return;
     }
 
-    // Gravar em usuarios_portal para listar depois
     var portalInsert = fetch(SB_URL+'/rest/v1/usuarios_portal',{
       method:'POST',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
       body:JSON.stringify({email:email,nome:nome,empresa:empresa,ativo:document.getElementById('nu-ativo').checked})
     });
 
-    // Inserir dashboards selecionados
     var dashInsert = Promise.resolve();
     if(dashsSel.length>0){
       var inserts=dashsSel.map(function(d){
@@ -967,6 +971,7 @@ function salvarNovoUsuario(){
 
 // ── Salvar novo dashboard ──
 function salvarNovoDash(){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
   var titulo=document.getElementById('nd-titulo').value.trim();
   var categoria=document.getElementById('nd-categoria').value.trim();
   var url=document.getElementById('nd-url').value.trim();
@@ -992,6 +997,7 @@ function salvarNovoDash(){
 }
 
 function excluirUsuario(email){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
   if(!confirm('Remover todos os dashboards de '+email+'?'))return;
   fetch(SB_URL+'/rest/v1/dashboards_clientes?email_cliente=eq.'+encodeURIComponent(email),{
     method:'DELETE',
@@ -1000,6 +1006,7 @@ function excluirUsuario(email){
 }
 
 function excluirDash(id){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
   if(!confirm('Excluir este dashboard?'))return;
   fetch(SB_URL+'/rest/v1/dashboards_clientes?id=eq.'+id,{
     method:'DELETE',
