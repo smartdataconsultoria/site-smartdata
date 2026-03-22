@@ -542,6 +542,7 @@ var SB_URL = 'https://rbahvyejqybajnufftio.supabase.co';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
 
 // ⚠️ COLOQUE SEU E-MAIL AQUI — só este e-mail vê o painel admin
+var SB_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA2MDkyMiwiZXhwIjoyMDg5NjM2OTIyfQ.LSvsUoFXOeEclanyvPymI_StFQNLxglMTxfbo-Y8kbU';
 var ADMIN_EMAIL = 'tecnologia@smartdataconsultoria.com';
 
 var usr = null;
@@ -918,7 +919,7 @@ function salvarNovoUsuario(){
   // Criar usuário no Supabase Auth via Admin API
   fetch(SB_URL+'/auth/v1/admin/users',{
     method:'POST',
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'},
+    headers:{'apikey':SB_SERVICE_KEY,'Authorization':'Bearer '+SB_SERVICE_KEY,'Content-Type':'application/json'},
     body:JSON.stringify({email:email,password:senha,email_confirm:true,user_metadata:{nome:nome,empresa:empresa}})
   })
   .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
@@ -946,7 +947,7 @@ function salvarNovoUsuario(){
 
     return fetch(SB_URL+'/rest/v1/dashboards_clientes',{
       method:'POST',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+      headers:{'apikey':SB_SERVICE_KEY,'Authorization':'Bearer '+SB_SERVICE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
       body:JSON.stringify(inserts)
     }).then(function(){
       toast('Usuário '+nome+' criado com '+dashsSel.length+' dashboard(s)!','ok');
