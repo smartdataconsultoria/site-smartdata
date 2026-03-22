@@ -797,50 +797,24 @@ function carregarAdmin(){
 
 // ── Listar usuários ──
 function carregarListaUsuarios(){
-  // Buscar usuários do Auth (requer service_role) + dashboards para contar
+  // Buscar de usuarios_portal + contar dashboards
   Promise.all([
-    fetch(SB_URL+'/auth/v1/admin/users?per_page=200',{
-      headers:{'apikey':SB_SERVICE_KEY,'Authorization':'Bearer '+SB_SERVICE_KEY}
-    }).then(function(r){return r.ok?r.json():Promise.resolve({users:[]});}),
-    fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente,empresa',{
+    fetch(SB_URL+'/rest/v1/usuarios_portal?order=nome',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    }).then(function(r){return r.json();}),
+    fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente',{
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
     }).then(function(r){return r.json();})
   ]).then(function(results){
-    var authUsers = results[0].users || [];
-    var dashs = results[1] || [];
-    // Contar dashboards por email
+    var portal = results[0] || [];
+    var dashs  = results[1] || [];
     var contagem={};
-    var empresaMap={};
-    dashs.forEach(function(d){
-      contagem[d.email_cliente]=(contagem[d.email_cliente]||0)+1;
-      if(!empresaMap[d.email_cliente]) empresaMap[d.email_cliente]=d.empresa;
-    });
-    // Montar lista de usuários
-    todosUsuarios = authUsers.map(function(u){
-      return {
-        email: u.email,
-        nome: (u.user_metadata&&u.user_metadata.nome)||u.email.split('@')[0],
-        empresa: (u.user_metadata&&u.user_metadata.empresa)||empresaMap[u.email]||'—',
-        qtd: contagem[u.email]||0,
-        criado: u.created_at
-      };
+    dashs.forEach(function(d){ contagem[d.email_cliente]=(contagem[d.email_cliente]||0)+1; });
+    todosUsuarios = portal.map(function(u){
+      return { email:u.email, nome:u.nome||u.email.split('@')[0], empresa:u.empresa||'—', qtd:contagem[u.email]||0, ativo:u.ativo };
     });
     renderTabUsuarios(todosUsuarios);
-  }).catch(function(e){
-    // Fallback: buscar só da tabela dashboards_clientes
-    fetch(SB_URL+'/rest/v1/dashboards_clientes?select=email_cliente,empresa&order=empresa',{
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
-    }).then(function(r){return r.json();})
-    .then(function(data){
-      var mapa={};
-      (data||[]).forEach(function(d){
-        if(!mapa[d.email_cliente]){mapa[d.email_cliente]={email:d.email_cliente,nome:d.email_cliente.split('@')[0],empresa:d.empresa,qtd:0};}
-        mapa[d.email_cliente].qtd++;
-      });
-      todosUsuarios=Object.values(mapa);
-      renderTabUsuarios(todosUsuarios);
-    });
-  });
+  }).catch(function(e){ renderTabUsuarios([]); });
 }
 
 function renderTabUsuarios(lista){
@@ -946,7 +920,7 @@ function salvarNovoUsuario(){
     if(d) dashsSel.push(d);
   });
 
-  // Criar usuário via signup público (funciona no front-end)
+  // Criar usuário via signup público
   fetch(SB_URL+'/auth/v1/signup',{
     method:'POST',
     headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
@@ -954,7 +928,6 @@ function salvarNovoUsuario(){
   })
   .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
   .then(function(res){
-    // signup retorna 200 mesmo se já existir — checar se tem id
     var uid = res.d.id || (res.d.user && res.d.user.id);
     if(!uid){
       var msg = res.d.message||res.d.error_description||'Erro ao criar usuário.';
@@ -962,31 +935,28 @@ function salvarNovoUsuario(){
       toast(msg,'err'); return;
     }
 
-    // Inserir dashboards selecionados para o novo usuário
-    if(dashsSel.length===0){
-      toast('Usuário '+nome+' criado com sucesso!','ok');
-      limparNovoUser();
-      carregarAdmin();
-      return;
-    }
-
-    var inserts=dashsSel.map(function(d){
-      return {
-        email_cliente:email,
-        titulo:d.titulo,
-        descricao:d.descricao||'',
-        url:d.url,
-        categoria:d.categoria||'',
-        empresa:empresa
-      };
-    });
-
-    return fetch(SB_URL+'/rest/v1/dashboards_clientes',{
+    // Gravar em usuarios_portal para listar depois
+    var portalInsert = fetch(SB_URL+'/rest/v1/usuarios_portal',{
       method:'POST',
       headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify(inserts)
-    }).then(function(){
-      toast('Usuário '+nome+' criado com '+dashsSel.length+' dashboard(s)!','ok');
+      body:JSON.stringify({email:email,nome:nome,empresa:empresa,ativo:document.getElementById('nu-ativo').checked})
+    });
+
+    // Inserir dashboards selecionados
+    var dashInsert = Promise.resolve();
+    if(dashsSel.length>0){
+      var inserts=dashsSel.map(function(d){
+        return {email_cliente:email,titulo:d.titulo,descricao:d.descricao||'',url:d.url,categoria:d.categoria||'',empresa:empresa};
+      });
+      dashInsert = fetch(SB_URL+'/rest/v1/dashboards_clientes',{
+        method:'POST',
+        headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify(inserts)
+      });
+    }
+
+    return Promise.all([portalInsert, dashInsert]).then(function(){
+      toast('Usuário '+nome+' criado com sucesso!','ok');
       limparNovoUser();
       carregarAdmin();
     });
