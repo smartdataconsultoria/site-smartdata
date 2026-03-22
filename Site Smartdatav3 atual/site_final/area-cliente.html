@@ -465,9 +465,9 @@ tr:hover td{background:rgba(252,163,17,0.02)}
             <div style="overflow-x:auto">
               <table>
                 <thead><tr>
-                  <th>Título</th><th>Categoria</th><th>Empresa</th><th>Status</th><th></th>
+                  <th>Título</th><th>Categoria</th><th>Empresa</th><th>Usuários com acesso</th><th>Status</th><th></th>
                 </tr></thead>
-                <tbody id="tbody-dash"><tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Carregando...</td></tr></tbody>
+                <tbody id="tbody-dash"><tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Carregando...</td></tr></tbody>
               </table>
             </div>
           </div>
@@ -491,10 +491,6 @@ tr:hover td{background:rgba(252,163,17,0.02)}
                 <input class="ainp" type="url" id="nd-url" placeholder="https://app.powerbi.com/reportEmbed?...">
               </div>
               <div class="afield">
-                <label class="albl">E-mail do cliente <span>*</span></label>
-                <input class="ainp" type="email" id="nd-email" placeholder="cliente@empresa.com">
-              </div>
-              <div class="afield">
                 <label class="albl">Empresa</label>
                 <input class="ainp" type="text" id="nd-empresa" placeholder="Nome da empresa">
               </div>
@@ -502,6 +498,14 @@ tr:hover td{background:rgba(252,163,17,0.02)}
                 <label class="albl">Descrição</label>
                 <input class="ainp" type="text" id="nd-desc" placeholder="Breve descrição do dashboard">
               </div>
+            </div>
+          </div>
+          <!-- Seletor de usuários com acesso -->
+          <div class="acard">
+            <div class="acard-title">Usuários com acesso</div>
+            <p style="font-size:12px;color:rgba(229,229,229,0.3);margin-bottom:16px">Selecione quais usuários poderão visualizar este dashboard</p>
+            <div id="nd-user-lista" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="grid-column:span 2;text-align:center;padding:20px;color:rgba(229,229,229,0.3);font-size:13px">Carregando usuários...</div>
             </div>
           </div>
           <div class="abtn-row">
@@ -797,6 +801,7 @@ function adminTab(tab){
     document.getElementById(id).style.display=id==='adm-'+tab?'block':'none';
   });
   if(tab==='novo-usuario') carregarDashsParaPermissao();
+  if(tab==='novo-dash') carregarUsersParaNovoDash();
 }
 
 function carregarAdmin(){
@@ -856,36 +861,67 @@ function filtrarTabUsuarios(q){
 // ── Listar dashboards ──
 function carregarListaDashboards(){
   if(!isAdmin()) return;
+  // Busca todos os dashboards e cruza com quais e-mails têm acesso a cada título
   fetch(SB_URL+'/rest/v1/dashboards_clientes?order=titulo',{
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
   })
   .then(function(r){return r.json();})
   .then(function(data){
     todosDashboards=data||[];
-    renderTabDash(todosDashboards);
+    // Agrupa e-mails únicos por título de dashboard
+    var acessosPorTitulo={};
+    todosDashboards.forEach(function(d){
+      var key=d.titulo+'__'+d.categoria;
+      if(!acessosPorTitulo[key]) acessosPorTitulo[key]={d:d,emails:[]};
+      if(d.email_cliente && !acessosPorTitulo[key].emails.includes(d.email_cliente)){
+        acessosPorTitulo[key].emails.push(d.email_cliente);
+      }
+    });
+    // Lista deduplicada por título para exibição
+    var listaUnica=Object.values(acessosPorTitulo);
+    renderTabDash(listaUnica);
   });
 }
 
 function renderTabDash(lista){
   document.getElementById('total-dash').textContent='('+lista.length+')';
   document.getElementById('tbody-dash').innerHTML=lista.length===0
-    ?'<tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum dashboard</td></tr>'
-    :lista.map(function(d){
+    ?'<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(229,229,229,0.3)">Nenhum dashboard</td></tr>'
+    :lista.map(function(item){
+      // Suporta tanto lista plana (array de dashboards) quanto lista agrupada {d, emails}
+      var d = item.d || item;
+      var emails = item.emails || [d.email_cliente].filter(Boolean);
+      var emailsPills = emails.length===0
+        ? '<span style="color:rgba(229,229,229,0.2);font-size:11px">Nenhum</span>'
+        : emails.map(function(e){
+            return '<span style="display:inline-flex;align-items:center;background:rgba(252,163,17,0.08);border:1px solid rgba(252,163,17,0.18);border-radius:20px;padding:2px 9px;font-size:11px;color:#FCA311;margin:2px">'+escHtml(e)+'</span>';
+          }).join('');
       return '<tr>'
         +'<td><div style="font-weight:500;color:#E5E5E5">'+escHtml(d.titulo)+'</div>'
         +(d.descricao?'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(d.descricao)+'</div>':'')+'</td>'
         +'<td><span class="dash-tag-badge">'+escHtml(d.categoria||'—')+'</span></td>'
-        +'<td style="font-size:12px;color:rgba(229,229,229,0.4)">'+escHtml(d.empresa||d.email_cliente||'—')+'</td>'
+        +'<td style="font-size:12px;color:rgba(229,229,229,0.4)">'+escHtml(d.empresa||'—')+'</td>'
+        +'<td><div style="display:flex;flex-wrap:wrap;gap:2px;max-width:320px">'+emailsPills+'</div></td>'
         +'<td><span class="sdot sdot-on"></span>Ativo</td>'
-        +'<td><button class="actbtn" onclick="excluirDash('+d.id+')">🗑</button></td>'
+        +'<td><button class="actbtn" title="Excluir" onclick="excluirDashPorTitulo(\''+escJs(d.titulo)+'\',\''+escJs(d.categoria||'')+'\')">🗑</button></td>'
         +'</tr>';
     }).join('');
 }
 
 function filtrarTabDash(q){
   if(!isAdmin()) return;
-  var f=todosDashboards.filter(function(d){return(d.titulo+d.categoria+d.empresa).toLowerCase().includes(q.toLowerCase());});
-  renderTabDash(f);
+  var ql=q.toLowerCase();
+  // Reagrupa a partir de todosDashboards com o filtro aplicado
+  var filtrados=todosDashboards.filter(function(d){return(d.titulo+d.categoria+(d.empresa||'')).toLowerCase().includes(ql);});
+  var acessosPorTitulo={};
+  filtrados.forEach(function(d){
+    var key=d.titulo+'__'+d.categoria;
+    if(!acessosPorTitulo[key]) acessosPorTitulo[key]={d:d,emails:[]};
+    if(d.email_cliente && !acessosPorTitulo[key].emails.includes(d.email_cliente)){
+      acessosPorTitulo[key].emails.push(d.email_cliente);
+    }
+  });
+  renderTabDash(Object.values(acessosPorTitulo));
 }
 
 // ── Dashboards para permissão ──
@@ -975,27 +1011,86 @@ function salvarNovoUsuario(){
   .finally(function(){btn.disabled=false;btn.textContent='Cadastrar Usuário';});
 }
 
+// ── Usuários para seleção no Novo Dashboard ──
+function carregarUsersParaNovoDash(){
+  if(!isAdmin()) return;
+  var lista = todosUsuarios.length > 0 ? todosUsuarios : null;
+  if(lista){
+    renderUsersNovoDash(lista);
+  } else {
+    // Busca se ainda não carregou
+    fetch(SB_URL+'/rest/v1/usuarios_portal?order=nome',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    })
+    .then(function(r){return r.json();})
+    .then(function(data){
+      todosUsuarios = (data||[]).map(function(u){
+        return {email:u.email,nome:u.nome||u.email.split('@')[0],empresa:u.empresa||'—',qtd:0,ativo:u.ativo};
+      });
+      renderUsersNovoDash(todosUsuarios);
+    })
+    .catch(function(){ document.getElementById('nd-user-lista').innerHTML='<div style="grid-column:span 2;text-align:center;padding:20px;color:rgba(229,229,229,0.3);font-size:13px">Erro ao carregar usuários.</div>'; });
+  }
+}
+
+function renderUsersNovoDash(lista){
+  if(!lista||lista.length===0){
+    document.getElementById('nd-user-lista').innerHTML='<div style="grid-column:span 2;text-align:center;padding:20px;color:rgba(229,229,229,0.3);font-size:13px">Nenhum usuário cadastrado ainda.</div>';
+    return;
+  }
+  document.getElementById('nd-user-lista').innerHTML=lista.map(function(u){
+    var id='ndu-'+u.email.replace(/[^a-zA-Z0-9]/g,'_');
+    return '<div class="dash-item-sel" id="'+id+'" data-email="'+escHtml(u.email)+'" onclick="toggleUserNovoDash(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(229,229,229,0.08);border-radius:8px;cursor:pointer;transition:all .15s">'
+      +'<div class="dcheck" style="width:16px;height:16px;border-radius:4px;border:1px solid rgba(229,229,229,0.15);flex-shrink:0"></div>'
+      +'<div><div style="font-size:13px;font-weight:500;color:#E5E5E5">'+escHtml(u.email)+'</div>'
+      +'<div style="font-size:11px;color:rgba(229,229,229,0.3)">'+escHtml(u.nome)+' · '+escHtml(u.empresa)+'</div></div>'
+      +'</div>';
+  }).join('');
+}
+
+function toggleUserNovoDash(el){
+  var sel=el.getAttribute('data-sel')==='1';
+  el.setAttribute('data-sel',sel?'0':'1');
+  el.style.borderColor=sel?'rgba(229,229,229,0.08)':'rgba(252,163,17,0.4)';
+  el.style.background=sel?'rgba(0,0,0,0.3)':'rgba(252,163,17,0.06)';
+  el.querySelector('.dcheck').style.background=sel?'':'#FCA311';
+  el.querySelector('.dcheck').style.borderColor=sel?'rgba(229,229,229,0.15)':'#FCA311';
+}
+
 // ── Salvar novo dashboard ──
 function salvarNovoDash(){
   if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
   var titulo=document.getElementById('nd-titulo').value.trim();
   var categoria=document.getElementById('nd-categoria').value.trim();
   var url=document.getElementById('nd-url').value.trim();
-  var email=document.getElementById('nd-email').value.trim();
   var empresa=document.getElementById('nd-empresa').value.trim();
   var desc=document.getElementById('nd-desc').value.trim();
-  if(!titulo||!categoria||!url||!email){toast('Preencha os campos obrigatórios','err');return;}
+  if(!titulo||!categoria||!url){toast('Preencha os campos obrigatórios: título, categoria e URL','err');return;}
+
+  // Coletar usuários selecionados
+  var usersSel=[];
+  document.querySelectorAll('#nd-user-lista .dash-item-sel[data-sel="1"]').forEach(function(el){
+    usersSel.push(el.getAttribute('data-email'));
+  });
+  if(usersSel.length===0){toast('Selecione ao menos um usuário com acesso','err');return;}
 
   var btn=document.getElementById('btn-salvar-dash');
   btn.disabled=true; btn.textContent='Salvando...';
 
+  // Insere um registro por usuário selecionado
+  var inserts=usersSel.map(function(email){
+    // Encontra empresa do usuário se não preenchida
+    var u=todosUsuarios.find(function(x){return x.email===email;});
+    return {titulo:titulo,categoria:categoria,url:url,email_cliente:email,empresa:empresa||(u?u.empresa:'')||'',descricao:desc};
+  });
+
   fetch(SB_URL+'/rest/v1/dashboards_clientes',{
     method:'POST',
     headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({titulo:titulo,categoria:categoria,url:url,email_cliente:email,empresa:empresa,descricao:desc})
+    body:JSON.stringify(inserts)
   })
   .then(function(r){
-    if(r.ok){toast('Dashboard "'+titulo+'" salvo com sucesso!','ok');limparNovoDash();carregarAdmin();}
+    if(r.ok){toast('Dashboard "'+titulo+'" salvo para '+usersSel.length+' usuário(s)!','ok');limparNovoDash();carregarAdmin();}
     else{return r.json().then(function(d){toast(d.message||'Erro ao salvar','err');});}
   })
   .catch(function(e){toast('Erro: '+e.message,'err');})
@@ -1020,6 +1115,16 @@ function excluirDash(id){
   }).then(function(){toast('Dashboard excluído','ok');carregarAdmin();});
 }
 
+function excluirDashPorTitulo(titulo,categoria){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
+  if(!confirm('Excluir o dashboard "'+titulo+'" para todos os usuários?'))return;
+  // Exclui todos os registros com esse título e categoria (todos os acessos)
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?titulo=eq.'+encodeURIComponent(titulo)+'&categoria=eq.'+encodeURIComponent(categoria),{
+    method:'DELETE',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  }).then(function(){toast('Dashboard excluído para todos os usuários','ok');carregarAdmin();});
+}
+
 function limparNovoUser(){
   ['nu-nome','nu-email','nu-senha','nu-empresa'].forEach(function(id){document.getElementById(id).value='';});
   document.querySelector('input[name="nu-perfil"][value="cliente"]').checked=true;
@@ -1033,7 +1138,14 @@ function limparNovoUser(){
 }
 
 function limparNovoDash(){
-  ['nd-titulo','nd-categoria','nd-url','nd-email','nd-empresa','nd-desc'].forEach(function(id){document.getElementById(id).value='';});
+  ['nd-titulo','nd-categoria','nd-url','nd-empresa','nd-desc'].forEach(function(id){document.getElementById(id).value='';});
+  document.querySelectorAll('#nd-user-lista .dash-item-sel').forEach(function(el){
+    el.setAttribute('data-sel','0');
+    el.style.borderColor='rgba(229,229,229,0.08)';
+    el.style.background='rgba(0,0,0,0.3)';
+    el.querySelector('.dcheck').style.background='';
+    el.querySelector('.dcheck').style.borderColor='rgba(229,229,229,0.15)';
+  });
 }
 
 // ════ RESTAURAR SESSÃO ════
