@@ -534,6 +534,35 @@ var categoriaAtiva = '__todos__';
 var todosUsuarios = [];
 var todosDashboards = [];
 
+// ════ RESTAURAR SESSÃO AO CARREGAR A PÁGINA ════
+// Se houver sessão salva, valida o token no Supabase e entra direto no app
+(function restaurarSessao(){
+  var salvo = localStorage.getItem('sd_sessao');
+  if(!salvo) return; // Sem sessão: mostra tela de login normalmente
+  try { usr = JSON.parse(salvo); } catch(e){ localStorage.removeItem('sd_sessao'); return; }
+  if(!usr || !usr.token || !usr.email){ localStorage.removeItem('sd_sessao'); usr=null; return; }
+
+  // Verifica se o token ainda é válido consultando o Supabase
+  fetch(SB_URL+'/auth/v1/user',{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+  })
+  .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+  .then(function(res){
+    if(res.ok && res.d.email){
+      // Token válido: entra direto no app sem pedir login
+      entrarApp();
+    } else {
+      // Token expirado ou inválido: limpa e exibe login
+      localStorage.removeItem('sd_sessao');
+      usr = null;
+    }
+  })
+  .catch(function(){
+    // Sem conexão: tenta entrar assim mesmo com os dados salvos
+    entrarApp();
+  });
+})();
+
 // ════ UTILS ════
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function escJs(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
@@ -636,6 +665,8 @@ function fazerLogin(){
   .then(function(res){
     if(res.d.access_token){
       usr={email:email,nome:email.split('@')[0],token:res.d.access_token};
+      // Salvar sessão para sobreviver a F5/recarregamento
+      localStorage.setItem('sd_sessao', JSON.stringify(usr));
       entrarApp();
     }else{
       mostraErro(res.d.error_description||res.d.message||'Credenciais inválidas.');
@@ -672,6 +703,8 @@ function entrarApp(){
 
 function fazerSair(){
   usr=null; todosOsDashs=[];
+  // Remover sessão salva para exigir novo login
+  localStorage.removeItem('sd_sessao');
   // Esconder elementos admin ao sair
   document.getElementById('btn-admin').style.display='none';
   document.getElementById('sb-admin-link').style.display='none';
