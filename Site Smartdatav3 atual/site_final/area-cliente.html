@@ -218,6 +218,15 @@ tr:hover td{background:rgba(252,163,17,0.02)}
 #toast.err{border-left-color:#ef4444}
 #toast.ok{border-left-color:#22c55e}
 
+/* Cadastro */
+.lswitch{text-align:center;margin-top:18px;font-size:13px;color:rgba(229,229,229,0.35)}
+.lswitch a{color:#FCA311;cursor:pointer;font-weight:600;text-decoration:none;transition:opacity .2s}
+.lswitch a:hover{opacity:.75}
+#lsucesso{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:#86efac;margin-bottom:16px;display:none;line-height:1.6;}
+#cerro{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:12px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px;display:none;line-height:1.6;}
+.ldivider{display:flex;align-items:center;gap:12px;margin:4px 0 20px}
+.ldivider::before,.ldivider::after{content:'';flex:1;height:1px;background:rgba(229,229,229,0.08)}
+.ldivider span{font-size:11px;color:rgba(229,229,229,0.2);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
 @media(max-width:768px){.sidebar{display:none}.dash-grid{grid-template-columns:1fr}.main{padding:20px}.lcard{width:90%;padding:40px 28px}.cat-chips{display:flex}}
 @media(min-width:769px){.cat-chips{display:none}}
 </style>
@@ -231,7 +240,9 @@ tr:hover td{background:rgba(252,163,17,0.02)}
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div>
   </div>
-  <div class="lcard">
+
+  <!-- CARD LOGIN -->
+  <div class="lcard" id="card-login">
     <div class="licon">
       <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='28' width='8' height='16' rx='2' fill='%23FCA311'/%3E%3Crect x='16' y='18' width='8' height='26' rx='2' fill='%23FCA311' opacity='.8'/%3E%3Crect x='28' y='8' width='8' height='36' rx='2' fill='%23FCA311' opacity='.6'/%3E%3Crect x='40' y='20' width='4' height='24' rx='2' fill='%23FCA311' opacity='.4'/%3E%3C/svg%3E" alt="SmartData">
     </div>
@@ -251,6 +262,39 @@ tr:hover td{background:rgba(252,163,17,0.02)}
       </button>
     </div>
     <button class="lbtn" id="lbtn" onclick="fazerLogin()">Entrar</button>
+    <div class="ldivider"><span>ou</span></div>
+    <div class="lswitch">Não tem conta? <a onclick="mostrarCadastro()">Criar conta</a></div>
+    <div class="llogo-foot"><b>SmartData</b> &nbsp;Consultoria</div>
+  </div>
+
+  <!-- CARD CADASTRO -->
+  <div class="lcard" id="card-cadastro" style="display:none">
+    <div class="licon">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='28' width='8' height='16' rx='2' fill='%23FCA311'/%3E%3Crect x='16' y='18' width='8' height='26' rx='2' fill='%23FCA311' opacity='.8'/%3E%3Crect x='28' y='8' width='8' height='36' rx='2' fill='%23FCA311' opacity='.6'/%3E%3Crect x='40' y='20' width='4' height='24' rx='2' fill='%23FCA311' opacity='.4'/%3E%3C/svg%3E" alt="SmartData">
+    </div>
+    <div class="lcard-title">Criar conta</div>
+    <div class="lsub">Preencha os dados para acessar o portal</div>
+    <div id="lsucesso"></div>
+    <div id="cerro"></div>
+    <label class="lbl">Nome completo</label>
+    <input class="inp" type="text" id="cnome" placeholder="Seu nome completo">
+    <label class="lbl">Empresa</label>
+    <input class="inp" type="text" id="cempresa" placeholder="Nome da sua empresa">
+    <label class="lbl">E-mail</label>
+    <input class="inp" type="email" id="cemail" placeholder="seu@empresa.com">
+    <label class="lbl">Senha</label>
+    <div class="inp-wrapper">
+      <input class="inp" type="password" id="csenha" placeholder="Mínimo 8 caracteres" onkeydown="if(event.key==='Enter')fazerCadastro()">
+      <button type="button" class="toggle-senha" onclick="toggleSenhaCad()">
+        <svg id="icone-olho-cad" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <button class="lbtn" id="cbtn" onclick="fazerCadastro()">Criar conta</button>
+    <div class="ldivider"><span>ou</span></div>
+    <div class="lswitch">Já tem conta? <a onclick="mostrarLogin()">Fazer login</a></div>
     <div class="llogo-foot"><b>SmartData</b> &nbsp;Consultoria</div>
   </div>
 </div>
@@ -494,8 +538,8 @@ tr:hover td{background:rgba(252,163,17,0.02)}
 // ════════════════════════════════════════
 // CONFIG — troque pelo seu projeto
 // ════════════════════════════════════════
-var SB_URL = 'https://traycmfbujydcjskevbs.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyYXljbWZidWp5ZGNqc2tldmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4OTEzMzIsImV4cCI6MjA4ODQ2NzMzMn0.qVgXBolnz17BOXv4ytB-9W8mKkEnRHKgiCaakyhjzHc';
+var SB_URL = 'https://rbahvyejqybajnufftio.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
 
 // ⚠️ COLOQUE SEU E-MAIL AQUI — só este e-mail vê o painel admin
 var ADMIN_EMAIL = 'tecnologia@smartdataconsultoria.com';
@@ -520,6 +564,62 @@ function toast(msg,tipo){
   t._t=setTimeout(function(){t.className='';},3500);
 }
 
+function mostrarCadastro(){
+  document.getElementById('card-login').style.display='none';
+  document.getElementById('card-cadastro').style.display='block';
+  document.getElementById('cerro').style.display='none';
+  document.getElementById('lsucesso').style.display='none';
+}
+function mostrarLogin(){
+  document.getElementById('card-cadastro').style.display='none';
+  document.getElementById('card-login').style.display='block';
+  document.getElementById('lerro').style.display='none';
+}
+function toggleSenhaCad(){
+  var inp=document.getElementById('csenha');
+  var icone=document.getElementById('icone-olho-cad');
+  var vis=inp.type==='text';
+  inp.type=vis?'password':'text';
+  icone.innerHTML=vis
+    ?'<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>'
+    :'<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.555-4.05M6.343 6.343A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.21 5.196M6.343 6.343L3 3m3.343 3.343l11.314 11.314M17.657 17.657L21 21"/>';
+}
+function fazerCadastro(){
+  var nome=document.getElementById('cnome').value.trim();
+  var empresa=document.getElementById('cempresa').value.trim();
+  var email=document.getElementById('cemail').value.trim();
+  var senha=document.getElementById('csenha').value;
+  var erroEl=document.getElementById('cerro');
+  var sucEl=document.getElementById('lsucesso');
+  erroEl.style.display='none'; sucEl.style.display='none';
+  if(!nome||!empresa||!email||!senha){erroEl.innerHTML='⚠️ Preencha todos os campos.';erroEl.style.display='block';return;}
+  if(senha.length<8){erroEl.innerHTML='⚠️ A senha deve ter pelo menos 8 caracteres.';erroEl.style.display='block';return;}
+  var btn=document.getElementById('cbtn');
+  btn.disabled=true; btn.textContent='Criando conta...';
+  fetch(SB_URL+'/auth/v1/signup',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,password:senha,data:{nome:nome,empresa:empresa}})
+  })
+  .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+  .then(function(res){
+    if(res.ok && (res.d.id || res.d.user)){
+      sucEl.innerHTML='✅ Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro e então faça login.';
+      sucEl.style.display='block';
+      document.getElementById('cnome').value='';
+      document.getElementById('cempresa').value='';
+      document.getElementById('cemail').value='';
+      document.getElementById('csenha').value='';
+      setTimeout(function(){mostrarLogin();},4000);
+    } else {
+      var msg=res.d.message||res.d.error_description||'Erro ao criar conta.';
+      if(msg.toLowerCase().includes('already registered')) msg='Este e-mail já está cadastrado.';
+      erroEl.innerHTML='⚠️ '+msg; erroEl.style.display='block';
+    }
+  })
+  .catch(function(e){erroEl.innerHTML='⚠️ Sem conexão: '+e.message;erroEl.style.display='block';})
+  .finally(function(){btn.disabled=false;btn.textContent='Criar conta';});
+}
 function toggleSenha(){
   var inp=document.getElementById('lsenha');
   var icone=document.getElementById('icone-olho');
