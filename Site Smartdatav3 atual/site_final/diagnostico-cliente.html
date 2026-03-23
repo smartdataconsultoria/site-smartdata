@@ -1,132 +1,68 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>SmartData Diagnóstico</title>
-
-<style>
-:root {
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #666;
-  --color-text-tertiary: #999;
-  --color-background-primary: #fff;
-  --color-background-secondary: #f7f7f7;
-  --color-border-secondary: #ddd;
-  --color-border-tertiary: #eee;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
-  --font-sans: Arial, sans-serif;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); }
-
-.wrap { padding: 2rem; max-width: 700px; margin: auto; }
-
-.section { display: none; }
-.section.active { display: block; }
-
-.actions { margin-top: 20px; display: flex; justify-content: space-between; }
-
-button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-next { background: #1D9E75; color: #fff; }
-.btn-back { background: #ccc; }
-
-.progress-bar { height: 4px; background: #eee; margin-bottom: 10px; }
-.progress-fill { height: 100%; background: #1D9E75; width: 14%; }
-
-</style>
-</head>
-
-<body>
-
-<div class="wrap">
-
-<div class="progress-bar">
-  <div class="progress-fill" id="prog"></div>
-</div>
-
-<div id="step-lbl">Etapa 1 de 3</div>
-
-<!-- ETAPA 1 -->
-<div class="section active" id="s1">
-  <h2>Empresa</h2>
-  <input id="empresa" placeholder="Nome da empresa" style="width:100%; margin-top:10px;">
-  
-  <div class="actions">
-    <span></span>
-    <button class="btn-next" data-step="2">Próximo</button>
-  </div>
-</div>
-
-<!-- ETAPA 2 -->
-<div class="section" id="s2">
-  <h2>Segmento</h2>
-  <select id="segmento" style="width:100%; margin-top:10px;">
-    <option value="">Selecione</option>
-    <option>Varejo</option>
-    <option>Serviços</option>
-  </select>
-
-  <div class="actions">
-    <button class="btn-back" data-step="1">Voltar</button>
-    <button class="btn-next" data-step="3">Próximo</button>
-  </div>
-</div>
-
-<!-- ETAPA 3 -->
-<div class="section" id="s3">
-  <h2>Final</h2>
-  <p>Agora já funciona 😄</p>
-
-  <div class="actions">
-    <button class="btn-back" data-step="2">Voltar</button>
-    <button class="btn-next" onclick="alert('Funcionando!')">Finalizar</button>
-  </div>
-</div>
-
-</div>
-
 <script>
-let currentStep = 1;
-const totalSteps = 3;
-
-function goTo(step) {
-  console.log("Ir para:", step);
-
-  const atual = document.getElementById('s' + currentStep);
-  const proxima = document.getElementById('s' + step);
-
-  if (!atual || !proxima) {
-    console.error("Erro ao trocar etapa");
-    return;
+  // PROTEÇÃO: evita quebrar se Supabase não estiver configurado
+  let sb = null;
+  try {
+    if (typeof supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const { createClient } = supabase;
+      sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  } catch (e) {
+    console.warn("Supabase não configurado ainda.");
   }
 
-  atual.classList.remove('active');
-  proxima.classList.add('active');
+  const state = {
+    porte:'', ndash:'', freq:'', suporte:'', nfontes:'',
+    budget:'', prazo:'', bd:'', ti:'', ws:'', trein:'', reun:'',
+    decisao:[], dados:[], areas:[], app:[]
+  };
 
-  currentStep = step;
+  let currentStep = 1;
 
-  const pct = Math.round((step / totalSteps) * 100);
-  document.getElementById('prog').style.width = pct + '%';
-  document.getElementById('step-lbl').textContent =
-    'Etapa ' + step + ' de ' + totalSteps;
-}
+  function goTo(step) {
+    console.log("Indo para etapa:", step);
 
-// BOTÕES FUNCIONANDO EM QUALQUER SITE
-document.querySelectorAll('[data-step]').forEach(btn => {
-  btn.addEventListener('click', function() {
-    const step = parseInt(this.getAttribute('data-step'));
-    goTo(step);
-  });
-});
+    const atual = document.getElementById('s' + currentStep);
+    const proxima = document.getElementById('s' + step);
+
+    if (!proxima) {
+      console.error("Etapa não encontrada:", step);
+      return;
+    }
+
+    if (atual) atual.classList.remove('active');
+    proxima.classList.add('active');
+
+    currentStep = step;
+
+    const pct = Math.round((step / 8) * 100);
+    document.getElementById('prog').style.width = pct + '%';
+    document.getElementById('step-pct').textContent = pct + '%';
+    document.getElementById('step-lbl').textContent =
+      step <= 7 ? 'Etapa ' + step + ' de 7' : 'Resultado';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function selCard(el, key, val) {
+    const grid = el.closest('[id$="-grid"]');
+    if (!grid) return;
+
+    grid.querySelectorAll('.card-opt').forEach(c => c.classList.remove('sel'));
+    el.classList.add('sel');
+    state[key] = val;
+  }
+
+  function togChip(el, key) {
+    el.classList.toggle('sel');
+    state[key] = Array.from(el.parentElement.querySelectorAll('.chip.sel'))
+      .map(c => c.textContent.trim());
+  }
+
+  function selChipSingle(el, key) {
+    el.parentElement.querySelectorAll('.chip')
+      .forEach(c => c.classList.remove('sel'));
+
+    el.classList.add('sel');
+    state[key] = el.textContent.trim();
+  }
 </script>
-
-</body>
-</html>
