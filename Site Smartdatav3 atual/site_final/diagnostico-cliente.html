@@ -1,871 +1,132 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartData Consultoria — Diagnóstico</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
-  <!-- Supabase JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<title>SmartData Diagnóstico</title>
 
-  <style>
-    /* ── CONFIGURAÇÃO SUPABASE ─────────────────────────────────────────
-       Substitua os valores abaixo pelas suas credenciais do projeto
-       Supabase: https://supabase.com/dashboard → Settings → API
-    ──────────────────────────────────────────────────────────────────── */
-    :root {
-      --supabase-url: '';        /* ex: https://xyzxyz.supabase.co   */
-      --supabase-anon-key: '';   /* ex: eyJhbGciOiJIUzI1NiIsInR5...  */
+<style>
+:root {
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666;
+  --color-text-tertiary: #999;
+  --color-background-primary: #fff;
+  --color-background-secondary: #f7f7f7;
+  --color-border-secondary: #ddd;
+  --color-border-tertiary: #eee;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --font-sans: Arial, sans-serif;
+}
 
-      --green:        #1D9E75;
-      --green-dark:   #0F6E56;
-      --green-deeper: #085041;
-      --green-light:  #E1F5EE;
-      --green-mid:    #9FE1CB;
-      --blue-accent:  #185FA5;
-      --text:         #1a1a1a;
-      --text-muted:   #6b7280;
-      --text-hint:    #9ca3af;
-      --border:       rgba(0,0,0,0.10);
-      --border-med:   rgba(0,0,0,0.16);
-      --surface:      #f8f9fa;
-      --white:        #ffffff;
-      --radius-sm:    6px;
-      --radius-md:    10px;
-      --radius-lg:    14px;
-      --radius-xl:    20px;
-      --shadow-sm:    0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
-      --shadow-md:    0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-    }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 2rem; max-width: 700px; margin: auto; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #f4f6f4;
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 40px 16px 80px;
-    }
+.section { display: none; }
+.section.active { display: block; }
 
-    .page-wrap {
-      width: 100%;
-      max-width: 680px;
-    }
+.actions { margin-top: 20px; display: flex; justify-content: space-between; }
 
-    /* ── HEADER ── */
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 32px;
-      animation: fadeUp 0.4s ease both;
-    }
-    .logo-mark {
-      width: 44px; height: 44px;
-      background: var(--green);
-      border-radius: var(--radius-md);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .logo-mark svg { width: 22px; height: 22px; fill: white; }
-    .logo-title { font-size: 17px; font-weight: 600; color: var(--text); line-height: 1.2; }
-    .logo-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
 
-    /* ── PROGRESS ── */
-    .progress-wrap {
-      margin-bottom: 8px;
-      animation: fadeUp 0.45s ease both;
-    }
-    .progress-meta {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 12px; color: var(--text-muted); margin-bottom: 8px;
-    }
-    .progress-track {
-      height: 4px; background: var(--border);
-      border-radius: 2px; overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%; background: var(--green);
-      border-radius: 2px;
-      transition: width 0.45s cubic-bezier(.4,0,.2,1);
-    }
+.btn-next { background: #1D9E75; color: #fff; }
+.btn-back { background: #ccc; }
 
-    /* ── CARD ── */
-    .card {
-      background: var(--white);
-      border-radius: var(--radius-xl);
-      border: 0.5px solid var(--border);
-      box-shadow: var(--shadow-md);
-      padding: 32px 36px 28px;
-      margin-top: 16px;
-      animation: fadeUp 0.5s ease both;
-    }
+.progress-bar { height: 4px; background: #eee; margin-bottom: 10px; }
+.progress-fill { height: 100%; background: #1D9E75; width: 14%; }
 
-    @media (max-width: 520px) {
-      .card { padding: 24px 20px 20px; }
-    }
-
-    /* ── SECTION ── */
-    .section { display: none; }
-    .section.active { display: block; }
-
-    .section-eyebrow {
-      font-size: 11px; font-weight: 600; letter-spacing: .08em;
-      color: var(--green); text-transform: uppercase; margin-bottom: 6px;
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 24px; color: var(--text); line-height: 1.25; margin-bottom: 6px;
-    }
-    .section-desc {
-      font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 28px;
-    }
-
-    /* ── FIELD ── */
-    .field { margin-bottom: 20px; }
-    .field > label {
-      display: block; font-size: 13px; font-weight: 500;
-      color: var(--text); margin-bottom: 8px;
-    }
-    .field input[type=text],
-    .field input[type=number],
-    .field select,
-    .field textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border-med);
-      border-radius: var(--radius-md);
-      font-size: 14px; font-family: 'DM Sans', sans-serif;
-      color: var(--text);
-      background: var(--white);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
-    }
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(29,158,117,0.12);
-    }
-    .field textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
-    .field .hint {
-      font-size: 12px; color: var(--text-hint); margin-top: 6px; line-height: 1.5;
-    }
-
-    /* currency wrapper */
-    .input-currency { position: relative; }
-    .input-currency .prefix {
-      position: absolute; left: 14px; top: 50%;
-      transform: translateY(-50%);
-      font-size: 14px; color: var(--text-muted);
-      pointer-events: none; user-select: none;
-    }
-    .input-currency input { padding-left: 44px; }
-
-    /* ── CHIPS ── */
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-    .chip {
-      padding: 7px 15px;
-      border-radius: 99px;
-      font-size: 13px; font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      border: 1px solid var(--border-med);
-      background: var(--surface);
-      color: var(--text-muted);
-      transition: all 0.15s;
-      user-select: none;
-      white-space: nowrap;
-    }
-    .chip:hover { border-color: var(--green); color: var(--green-dark); background: var(--green-light); }
-    .chip.sel { background: var(--green-light); border-color: var(--green); color: var(--green-deeper); font-weight: 500; }
-
-    /* ── CARD GRID ── */
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 4px; }
-    .card-opt {
-      border: 1px solid var(--border-med);
-      border-radius: var(--radius-md);
-      padding: 14px 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-      text-align: center;
-      background: var(--surface);
-    }
-    .card-opt:hover { border-color: var(--green); background: var(--green-light); }
-    .card-opt.sel { border-color: var(--green); background: var(--green-light); box-shadow: 0 0 0 3px rgba(29,158,117,0.10); }
-    .card-opt .ctit { font-size: 13px; font-weight: 500; color: var(--text); }
-    .card-opt .cdesc { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
-    .card-opt.sel .ctit { color: var(--green-deeper); }
-
-    /* ── ACTIONS ── */
-    .actions {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: 28px; padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-    .btn-back {
-      background: none; border: 1px solid var(--border-med);
-      padding: 10px 20px; border-radius: var(--radius-md);
-      font-size: 14px; font-family: 'DM Sans', sans-serif;
-      color: var(--text-muted); cursor: pointer;
-      transition: all 0.15s;
-    }
-    .btn-back:hover { background: var(--surface); color: var(--text); }
-    .btn-next {
-      background: var(--green); border: none;
-      padding: 10px 28px; border-radius: var(--radius-md);
-      font-size: 14px; font-family: 'DM Sans', sans-serif;
-      color: white; cursor: pointer; font-weight: 500;
-      transition: background 0.15s, transform 0.1s;
-      box-shadow: 0 2px 8px rgba(29,158,117,0.25);
-    }
-    .btn-next:hover { background: var(--green-dark); }
-    .btn-next:active { transform: scale(0.98); }
-
-    /* ── RESULT ── */
-    .loading-box { text-align: center; padding: 3rem 1rem; }
-    .loader {
-      width: 36px; height: 36px;
-      border: 2.5px solid var(--border-med);
-      border-top-color: var(--green);
-      border-radius: 50%;
-      animation: spin 0.75s linear infinite;
-      margin: 0 auto 16px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .result-header { margin-bottom: 24px; }
-    .rec-badge {
-      display: inline-block; background: var(--green-light);
-      color: var(--green-dark); font-size: 11px; font-weight: 600;
-      padding: 4px 12px; border-radius: 99px; letter-spacing: .04em;
-      margin-bottom: 10px;
-    }
-    .plan-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px; color: var(--text);
-    }
-    .plan-price {
-      font-size: 32px; font-weight: 600; color: var(--green); margin-top: 4px;
-    }
-    .plan-price span { font-size: 15px; color: var(--text-muted); font-weight: 400; }
-    .divider { height: 1px; background: var(--border); margin: 20px 0; }
-    .justif { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
-    .feat-list { list-style: none; }
-    .feat-list li {
-      font-size: 13px; color: var(--text-muted);
-      padding: 6px 0; display: flex; gap: 10px; align-items: flex-start;
-    }
-    .feat-list li::before {
-      content: ""; width: 7px; height: 7px;
-      background: var(--green); border-radius: 50%;
-      margin-top: 5px; flex-shrink: 0;
-    }
-    .alert-box {
-      margin-top: 16px; padding: 12px 14px;
-      background: #EFF8FF; border: 1px solid #B5D4F4;
-      border-radius: var(--radius-md);
-      font-size: 12px; color: #185FA5; line-height: 1.6;
-    }
-    .alt-section { margin-top: 20px; }
-    .alt-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-    .alt-plan {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 14px 16px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .alt-plan .an { font-size: 14px; font-weight: 500; color: var(--text); }
-    .alt-plan .adesc { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
-    .alt-plan .ap { font-size: 15px; font-weight: 600; color: var(--green); }
-
-    .btn-cta {
-      width: 100%; background: var(--green);
-      border: none; padding: 14px;
-      border-radius: var(--radius-md);
-      font-size: 15px; font-family: 'DM Sans', sans-serif;
-      color: white; cursor: pointer; font-weight: 500;
-      margin-top: 24px;
-      box-shadow: 0 2px 12px rgba(29,158,117,0.30);
-      transition: background 0.15s;
-    }
-    .btn-cta:hover { background: var(--green-dark); }
-
-    .success-save {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; color: var(--green-dark);
-      background: var(--green-light); border: 1px solid var(--green-mid);
-      border-radius: var(--radius-md); padding: 10px 14px; margin-top: 16px;
-    }
-    .success-save svg { width: 14px; height: 14px; fill: var(--green); flex-shrink: 0; }
-    .error-save {
-      font-size: 12px; color: #991B1B;
-      background: #FEF2F2; border: 1px solid #FECACA;
-      border-radius: var(--radius-md); padding: 10px 14px; margin-top: 16px;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-<div class="page-wrap">
+<div class="wrap">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
-    </div>
-    <div>
-      <div class="logo-title">SmartData Consultoria</div>
-      <div class="logo-sub">Diagnóstico de necessidades</div>
-    </div>
+<div class="progress-bar">
+  <div class="progress-fill" id="prog"></div>
+</div>
+
+<div id="step-lbl">Etapa 1 de 3</div>
+
+<!-- ETAPA 1 -->
+<div class="section active" id="s1">
+  <h2>Empresa</h2>
+  <input id="empresa" placeholder="Nome da empresa" style="width:100%; margin-top:10px;">
+  
+  <div class="actions">
+    <span></span>
+    <button class="btn-next" data-step="2">Próximo</button>
   </div>
+</div>
 
-  <!-- PROGRESS -->
-  <div class="progress-wrap">
-    <div class="progress-meta">
-      <span id="step-lbl">Etapa 1 de 7</span>
-      <span id="step-pct">14%</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="prog" style="width:14%"></div>
-    </div>
+<!-- ETAPA 2 -->
+<div class="section" id="s2">
+  <h2>Segmento</h2>
+  <select id="segmento" style="width:100%; margin-top:10px;">
+    <option value="">Selecione</option>
+    <option>Varejo</option>
+    <option>Serviços</option>
+  </select>
+
+  <div class="actions">
+    <button class="btn-back" data-step="1">Voltar</button>
+    <button class="btn-next" data-step="3">Próximo</button>
   </div>
+</div>
 
-  <!-- CARD -->
-  <div class="card">
+<!-- ETAPA 3 -->
+<div class="section" id="s3">
+  <h2>Final</h2>
+  <p>Agora já funciona 😄</p>
 
-    <!-- ── ETAPA 1: Empresa ── -->
-    <div class="section active" id="s1">
-      <div class="section-eyebrow">Etapa 1</div>
-      <div class="section-title">Sobre sua empresa</div>
-      <div class="section-desc">Vamos começar com informações básicas para entender o seu perfil e contexto de negócio.</div>
+  <div class="actions">
+    <button class="btn-back" data-step="2">Voltar</button>
+    <button class="btn-next" onclick="alert('Funcionando!')">Finalizar</button>
+  </div>
+</div>
 
-      <div class="field">
-        <label>Nome da empresa</label>
-        <input type="text" id="empresa" placeholder="Ex: Comercial Nordeste Ltda" />
-      </div>
-      <div class="field">
-        <label>Segmento de atuação</label>
-        <select id="segmento">
-          <option value="">Selecione...</option>
-          <option>Varejo / E-commerce</option>
-          <option>Indústria / Manufatura</option>
-          <option>Serviços / Consultoria</option>
-          <option>Saúde / Clínica</option>
-          <option>Educação</option>
-          <option>Financeiro / Contabilidade</option>
-          <option>Logística / Transporte</option>
-          <option>Agronegócio</option>
-          <option>Tecnologia</option>
-          <option>Outro</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Porte da empresa</label>
-        <div class="card-grid" id="porte-grid">
-          <div class="card-opt" onclick="selCard(this,'porte','pequeno')"><div class="ctit">Pequeno</div><div class="cdesc">Até 20 funcionários</div></div>
-          <div class="card-opt" onclick="selCard(this,'porte','medio')"><div class="ctit">Médio</div><div class="cdesc">20 a 100 funcionários</div></div>
-          <div class="card-opt" onclick="selCard(this,'porte','grande')"><div class="ctit">Grande</div><div class="cdesc">Acima de 100 funcionários</div></div>
-        </div>
-      </div>
-      <div class="actions">
-        <span></span>
-        <button class="btn-next" onclick="goTo(2)">Próximo →</button>
-      </div>
-    </div>
-
-    <!-- ── ETAPA 2: Maturidade ── -->
-    <div class="section" id="s2">
-      <div class="section-eyebrow">Etapa 2</div>
-      <div class="section-title">Maturidade em dados</div>
-      <div class="section-desc">Entender onde você está hoje nos ajuda a planejar o melhor caminho para a transformação.</div>
-
-      <div class="field">
-        <label>Como sua empresa toma decisões hoje?</label>
-        <div class="chips" id="decisao-chips">
-          <div class="chip" onclick="togChip(this,'decisao')">Intuição / experiência</div>
-          <div class="chip" onclick="togChip(this,'decisao')">Planilhas Excel</div>
-          <div class="chip" onclick="togChip(this,'decisao')">ERP / sistema interno</div>
-          <div class="chip" onclick="togChip(this,'decisao')">Relatórios manuais</div>
-          <div class="chip" onclick="togChip(this,'decisao')">Dashboard / BI já existe</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Onde seus dados estão armazenados?</label>
-        <div class="chips" id="dados-chips">
-          <div class="chip" onclick="togChip(this,'dados')">Planilhas / arquivos locais</div>
-          <div class="chip" onclick="togChip(this,'dados')">ERP (SAP, TOTVS, etc.)</div>
-          <div class="chip" onclick="togChip(this,'dados')">Google Sheets / Drive</div>
-          <div class="chip" onclick="togChip(this,'dados')">Banco de dados SQL</div>
-          <div class="chip" onclick="togChip(this,'dados')">CRM / plataformas SaaS</div>
-          <div class="chip" onclick="togChip(this,'dados')">Não sei / dispersos</div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn-back" onclick="goTo(1)">← Voltar</button>
-        <button class="btn-next" onclick="goTo(3)">Próximo →</button>
-      </div>
-    </div>
-
-    <!-- ── ETAPA 3: BI ── -->
-    <div class="section" id="s3">
-      <div class="section-eyebrow">Etapa 3</div>
-      <div class="section-title">Necessidades de BI & Dashboards</div>
-      <div class="section-desc">Dashboards são o coração da análise visual. Diga o que você precisa.</div>
-
-      <div class="field">
-        <label>Quantos dashboards você estima precisar?</label>
-        <div class="card-grid" id="ndash-grid">
-          <div class="card-opt" onclick="selCard(this,'ndash','1-2')"><div class="ctit">1 a 2</div><div class="cdesc">Visão geral básica</div></div>
-          <div class="card-opt" onclick="selCard(this,'ndash','3-5')"><div class="ctit">3 a 5</div><div class="cdesc">Múltiplas áreas</div></div>
-          <div class="card-opt" onclick="selCard(this,'ndash','6+')"><div class="ctit">6 ou mais</div><div class="cdesc">Operação completa</div></div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Quais áreas devem ter dashboards?</label>
-        <div class="chips" id="areas-chips">
-          <div class="chip" onclick="togChip(this,'areas')">Vendas</div>
-          <div class="chip" onclick="togChip(this,'areas')">Financeiro</div>
-          <div class="chip" onclick="togChip(this,'areas')">Marketing</div>
-          <div class="chip" onclick="togChip(this,'areas')">Estoque / Compras</div>
-          <div class="chip" onclick="togChip(this,'areas')">RH / Pessoas</div>
-          <div class="chip" onclick="togChip(this,'areas')">Produção / Operações</div>
-          <div class="chip" onclick="togChip(this,'areas')">Atendimento / CS</div>
-          <div class="chip" onclick="togChip(this,'areas')">Logística</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Com que frequência precisa dos relatórios?</label>
-        <div class="card-grid" id="freq-grid">
-          <div class="card-opt" onclick="selCard(this,'freq','mensal')"><div class="ctit">Mensal</div></div>
-          <div class="card-opt" onclick="selCard(this,'freq','quinzenal')"><div class="ctit">Quinzenal</div></div>
-          <div class="card-opt" onclick="selCard(this,'freq','semanal')"><div class="ctit">Semanal</div></div>
-          <div class="card-opt" onclick="selCard(this,'freq','diario')"><div class="ctit">Diário</div></div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn-back" onclick="goTo(2)">← Voltar</button>
-        <button class="btn-next" onclick="goTo(4)">Próximo →</button>
-      </div>
-    </div>
-
-    <!-- ── ETAPA 4: Infraestrutura ── -->
-    <div class="section" id="s4">
-      <div class="section-eyebrow">Etapa 4</div>
-      <div class="section-title">Infraestrutura & Banco de dados</div>
-      <div class="section-desc">Entender sua infraestrutura atual nos ajuda a recomendar a solução técnica ideal.</div>
-
-      <div class="field">
-        <label>Sua empresa tem equipe técnica interna (TI)?</label>
-        <div class="chips" id="ti-chips">
-          <div class="chip" onclick="selChipSingle(this,'ti')">Sim, equipe dedicada</div>
-          <div class="chip" onclick="selChipSingle(this,'ti')">Sim, 1 pessoa responsável</div>
-          <div class="chip" onclick="selChipSingle(this,'ti')">Não, tudo terceirizado</div>
-          <div class="chip" onclick="selChipSingle(this,'ti')">Não tem ninguém de TI</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Possui banco de dados estruturado?</label>
-        <div class="chips" id="bd-chips">
-          <div class="chip" onclick="selChipSingle(this,'bd')">Sim, SQL (MySQL, PostgreSQL, etc.)</div>
-          <div class="chip" onclick="selChipSingle(this,'bd')">Sim, via ERP</div>
-          <div class="chip" onclick="selChipSingle(this,'bd')">Não, mas quero montar</div>
-          <div class="chip" onclick="selChipSingle(this,'bd')">Não sei</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Quantas fontes de dados diferentes a empresa tem?</label>
-        <div class="card-grid" id="nfontes-grid">
-          <div class="card-opt" onclick="selCard(this,'nfontes','1-2')"><div class="ctit">1 a 2</div></div>
-          <div class="card-opt" onclick="selCard(this,'nfontes','3-5')"><div class="ctit">3 a 5</div></div>
-          <div class="card-opt" onclick="selCard(this,'nfontes','5+')"><div class="ctit">Mais de 5</div></div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn-back" onclick="goTo(3)">← Voltar</button>
-        <button class="btn-next" onclick="goTo(5)">Próximo →</button>
-      </div>
-    </div>
-
-    <!-- ── ETAPA 5: Desenvolvimento ── -->
-    <div class="section" id="s5">
-      <div class="section-eyebrow">Etapa 5</div>
-      <div class="section-title">Desenvolvimento & Sistemas</div>
-      <div class="section-desc">Além de BI, podemos desenvolver aplicativos e workspaces personalizados para sua operação.</div>
-
-      <div class="field">
-        <label>Precisa de algum sistema ou aplicativo personalizado?</label>
-        <div class="chips" id="app-chips">
-          <div class="chip" onclick="togChip(this,'app')">Portal de gestão interno</div>
-          <div class="chip" onclick="togChip(this,'app')">App para vendedores</div>
-          <div class="chip" onclick="togChip(this,'app')">Painel para clientes</div>
-          <div class="chip" onclick="togChip(this,'app')">Automação de processos</div>
-          <div class="chip" onclick="togChip(this,'app')">Integração entre sistemas</div>
-          <div class="chip" onclick="togChip(this,'app')">Não preciso de sistema</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Precisa de workspace de BI compartilhado?</label>
-        <div class="chips" id="ws-chips">
-          <div class="chip" onclick="selChipSingle(this,'ws')">Sim, para toda a equipe</div>
-          <div class="chip" onclick="selChipSingle(this,'ws')">Sim, só para lideranças</div>
-          <div class="chip" onclick="selChipSingle(this,'ws')">Não sei o que é isso</div>
-          <div class="chip" onclick="selChipSingle(this,'ws')">Não preciso</div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn-back" onclick="goTo(4)">← Voltar</button>
-        <button class="btn-next" onclick="goTo(6)">Próximo →</button>
-      </div>
-    </div>
-
-    <!-- ── ETAPA 6: Suporte ── -->
-    <div class="section" id="s6">
-      <div class="section-eyebrow">Etapa 6</div>
-      <div class="section-title">Suporte & Treinamento</div>
-      <div class="section-desc">Definir o nível de suporte garante que sua equipe aproveite o máximo da solução.</div>
-
-      <div class="field">
-        <label>Qual nível de suporte você precisa?</label>
-        <div class="card-grid" id="suporte-grid">
-          <div class="card-opt" onclick="selCard(this,'suporte','basico')"><div class="ctit">Básico</div><div class="cdesc">Apenas WhatsApp</div></div>
-          <div class="card-opt" onclick="selCard(this,'suporte','medio')"><div class="ctit">Médio</div><div class="cdesc">WhatsApp + reuniões agendadas</div></div>
-          <div class="card-opt" onclick="selCard(this,'suporte','prioritario')"><div class="ctit">Prioritário</div><div class="cdesc">Atendimento prioritário dedicado</div></div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Sua equipe precisa de treinamento?</label>
-        <div class="chips" id="trein-chips">
-          <div class="chip" onclick="selChipSingle(this,'trein')">Sim, time completo</div>
-          <div class="chip" onclick="selChipSingle(this,'trein')">Sim, só a liderança</div>
-          <div class="chip" onclick="selChipSingle(this,'trein')">Não precisa</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Preferência de reuniões de acompanhamento:</label>
-        <div class="chips" id="reun-chips">
-          <div class="chip" onclick="selChipSingle(this,'reun')">Mensais</div>
-          <div class="chip" onclick="selChipSingle(this,'reun')">Semanais</div>
-          <div class="chip" onclick="selChipSingle(this,'reun')">Diárias</div>
-          <div class="chip" onclick="selChipSingle(this,'reun')">Sem preferência</div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn-back" onclick="goTo(5)">← Voltar</button>
-        <button class="btn-next" onclick="goTo(7)">Próximo →</button>
-      </div>
-    </div>
-
-    <!-- ── ETAPA 7: Expectativas ── -->
-    <div class="section" id="s7">
-      <div class="section-eyebrow">Etapa 7</div>
-      <div class="section-title">Expectativas finais</div>
-      <div class="section-desc">Últimas informações para completar o diagnóstico e gerar o seu orçamento personalizado.</div>
-
-      <div class="field">
-        <label>Qual o prazo ideal para iniciar?</label>
-        <div class="chips" id="prazo-chips">
-          <div class="chip" onclick="selChipSingle(this,'prazo')">Imediatamente</div>
-          <div class="chip" onclick="selChipSingle(this,'prazo')">Em até 1 mês</div>
-          <div class="chip" onclick="selChipSingle(this,'prazo')">Em 2-3 meses</div>
-          <div class="chip" onclick="selChipSingle(this,'prazo')">Apenas avaliando</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Tem alguma referência de investimento mensal em mente? <span style="font-weight:400;color:var(--text-muted)">(opcional)</span></label>
-        <div class="input-currency">
-          <span class="prefix">R$</span>
-          <input type="number" id="budget-input" placeholder="Ex: 4500" min="0" step="100"
-            oninput="state.budget = this.value ? 'R$ ' + Number(this.value).toLocaleString('pt-BR') : ''" />
-        </div>
-        <div class="hint">Deixe em branco se preferir que recomendemos com base apenas nas suas necessidades.</div>
-      </div>
-      <div class="field">
-        <label>Algum desafio ou objetivo específico? <span style="font-weight:400;color:var(--text-muted)">(opcional)</span></label>
-        <textarea id="obs" placeholder="Ex: precisamos centralizar dados de 3 filiais, reduzir tempo de fechamento mensal..."></textarea>
-      </div>
-      <div class="actions">
-        <button class="btn-back" onclick="goTo(6)">← Voltar</button>
-        <button class="btn-next" onclick="gerarOrcamento()">Gerar orçamento</button>
-      </div>
-    </div>
-
-    <!-- ── RESULTADO ── -->
-    <div class="section" id="sResult">
-      <div id="loading-area" class="loading-box">
-        <div class="loader"></div>
-        <div style="font-size:14px;color:var(--text-muted)">Analisando suas respostas e gerando recomendação...</div>
-      </div>
-      <div id="result-area" style="display:none">
-        <div class="result-header">
-          <span class="rec-badge">Plano recomendado</span>
-          <div class="plan-name" id="r-plan-name"></div>
-          <div class="plan-price" id="r-plan-price"></div>
-        </div>
-        <div class="divider"></div>
-        <div class="justif" id="r-justif"></div>
-        <ul class="feat-list" id="r-feats"></ul>
-        <div id="r-alert"></div>
-        <div id="r-alt" class="alt-section"></div>
-        <div id="r-save-status"></div>
-        <button class="btn-cta" onclick="window.location.href='mailto:contato@smartdataconsultoria.com.br?subject=Orçamento SmartData'">
-          Quero contratar este plano →
-        </button>
-      </div>
-    </div>
-
-  </div><!-- /card -->
-</div><!-- /page-wrap -->
+</div>
 
 <script>
-  /* ═══════════════════════════════════════════════════════════════
-     CONFIGURAÇÃO — substitua com suas credenciais reais do Supabase
-     Dashboard: https://supabase.com/dashboard → Settings → API
-  ═══════════════════════════════════════════════════════════════ */
-  const SUPABASE_URL     = 'COLE_SUA_URL_AQUI';       // ex: https://xyzxyz.supabase.co
-  const SUPABASE_ANON_KEY = 'COLE_SUA_ANON_KEY_AQUI'; // ex: eyJhbGci...
-  const ANTHROPIC_KEY    = 'COLE_SUA_CHAVE_ANTHROPIC_AQUI'; // ex: sk-ant-...
+let currentStep = 1;
+const totalSteps = 3;
 
-  /* Inicializa Supabase */
-  const { createClient } = supabase;
-  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+function goTo(step) {
+  console.log("Ir para:", step);
 
-  /* ── Estado do formulário ── */
-  const state = {
-    porte:'', ndash:'', freq:'', suporte:'', nfontes:'',
-    budget:'', prazo:'', bd:'', ti:'', ws:'', trein:'', reun:'',
-    decisao:[], dados:[], areas:[], app:[]
-  };
-  let currentStep = 1;
+  const atual = document.getElementById('s' + currentStep);
+  const proxima = document.getElementById('s' + step);
 
-  /* ── Navegação entre etapas ── */
-  function goTo(step) {
-    const cur = document.getElementById('s' + currentStep) || document.getElementById('sResult');
-    cur.classList.remove('active');
-    currentStep = step;
-    const next = step <= 7 ? document.getElementById('s' + step) : document.getElementById('sResult');
-    next.classList.add('active');
-    const pct = Math.round((step / 8) * 100);
-    document.getElementById('prog').style.width = pct + '%';
-    document.getElementById('step-pct').textContent = pct + '%';
-    document.getElementById('step-lbl').textContent = step <= 7 ? 'Etapa ' + step + ' de 7' : 'Resultado';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!atual || !proxima) {
+    console.error("Erro ao trocar etapa");
+    return;
   }
 
-  /* ── Interações de seleção ── */
-  function selCard(el, key, val) {
-    el.closest('[id$="-grid"]').querySelectorAll('.card-opt').forEach(c => c.classList.remove('sel'));
-    el.classList.add('sel');
-    state[key] = val;
-  }
-  function togChip(el, key) {
-    el.classList.toggle('sel');
-    state[key] = Array.from(el.parentElement.querySelectorAll('.chip.sel')).map(c => c.textContent.trim());
-  }
-  function selChipSingle(el, key) {
-    el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
-    el.classList.add('sel');
-    state[key] = el.textContent.trim();
-  }
+  atual.classList.remove('active');
+  proxima.classList.add('active');
 
-  /* ── Lógica de recomendação local ── */
-  function recPlan() {
-    let s = { starter:0, essencial:0, pro:0 };
-    if (state.porte==='pequeno') s.starter+=2; else if (state.porte==='medio') s.essencial+=2; else if (state.porte==='grande') s.pro+=2;
-    if (state.ndash==='1-2') s.starter+=2; else if (state.ndash==='3-5') s.essencial+=2; else if (state.ndash==='6+') s.pro+=2;
-    if (state.freq==='mensal') s.starter+=1; else if (state.freq==='quinzenal') s.essencial+=1; else s.pro+=1;
-    if (state.nfontes==='1-2') s.starter+=1; else if (state.nfontes==='3-5') s.essencial+=1; else s.pro+=1;
-    if (state.bd&&state.bd.includes('SQL')) s.pro+=1;
-    else if (state.bd&&(state.bd.includes('montar')||state.bd.includes('sei'))) { s.essencial+=1; s.pro+=1; }
-    if (state.suporte==='basico') s.starter+=1; else if (state.suporte==='medio') s.essencial+=1; else if (state.suporte==='prioritario') s.pro+=2;
-    if (state.trein==='Sim, time completo') { s.essencial+=1; s.pro+=1; }
-    const arr = Array.isArray(state.app) ? state.app : [];
-    if (arr.length > 0 && !arr.includes('Não preciso de sistema')) { arr.length===1 ? s.essencial+=1 : s.pro+=2; }
-    if (state.budget) {
-      const num = parseFloat(state.budget.replace(/[^\d]/g,''));
-      if (!isNaN(num)) {
-        if (num<=3000) s.starter+=2;
-        else if (num<=5000) { s.starter+=1; s.essencial+=1; }
-        else if (num<=7000) { s.essencial+=1; s.pro+=1; }
-        else s.pro+=2;
-      }
-    }
-    return Object.entries(s).sort((a,b)=>b[1]-a[1])[0][0];
-  }
+  currentStep = step;
 
-  /* ── Salvar no Supabase ── */
-  async function salvarSupabase(data) {
-    const empresa = document.getElementById('empresa').value || '';
-    const obs     = document.getElementById('obs').value || '';
+  const pct = Math.round((step / totalSteps) * 100);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('step-lbl').textContent =
+    'Etapa ' + step + ' de ' + totalSteps;
+}
 
-    const registro = {
-      /* Identificação */
-      empresa_nome:        empresa,
-      segmento:            document.getElementById('segmento').value,
-      porte:               state.porte,
-      /* Maturidade */
-      forma_decisao:       state.decisao,
-      armazenamento_dados: state.dados,
-      /* BI */
-      qtd_dashboards:      state.ndash,
-      areas_dashboard:     state.areas,
-      frequencia_relatorio:state.freq,
-      /* Infraestrutura */
-      equipe_ti:           state.ti,
-      banco_dados:         state.bd,
-      qtd_fontes:          state.nfontes,
-      /* Desenvolvimento */
-      sistemas_desejados:  state.app,
-      workspace_bi:        state.ws,
-      /* Suporte */
-      nivel_suporte:       state.suporte,
-      treinamento:         state.trein,
-      frequencia_reunioes: state.reun,
-      /* Expectativas */
-      prazo_inicio:        state.prazo,
-      referencia_investimento: state.budget || null,
-      observacoes:         obs || null,
-      /* Resultado IA */
-      plano_recomendado:   data.plano,
-      justificativa_ia:    data.justificativa,
-      plano_alternativo:   data.planoAlternativo || null,
-      /* Metadados */
-      criado_em:           new Date().toISOString()
-    };
-
-    const { error } = await sb.from('diagnosticos').insert([registro]);
-    return error;
-  }
-
-  /* ── Gerar orçamento via IA ── */
-  async function gerarOrcamento() {
-    /* Muda para tela de resultado */
-    document.getElementById('s7').classList.remove('active');
-    document.getElementById('sResult').classList.add('active');
-    document.getElementById('prog').style.width = '100%';
-    document.getElementById('step-pct').textContent = '100%';
-    document.getElementById('step-lbl').textContent = 'Resultado';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const empresa    = document.getElementById('empresa').value || 'sua empresa';
-    const obs        = document.getElementById('obs').value || '';
-    const budgetRaw  = document.getElementById('budget-input').value;
-    const budgetInfo = budgetRaw ? 'R$ ' + Number(budgetRaw).toLocaleString('pt-BR') : 'não informado';
-    const rec        = recPlan();
-
-    const prompt = `Você é consultor sênior da SmartData Consultoria. Analise o diagnóstico abaixo e gere a recomendação.
-
-Empresa: ${empresa} | Segmento: ${document.getElementById('segmento').value} | Porte: ${state.porte}
-Decisões hoje: ${JSON.stringify(state.decisao)} | Dados em: ${JSON.stringify(state.dados)}
-Dashboards: ${state.ndash} | Frequência: ${state.freq} | Áreas: ${JSON.stringify(state.areas)}
-BD: ${state.bd} | TI interna: ${state.ti} | Fontes: ${state.nfontes}
-Apps desejados: ${JSON.stringify(state.app)} | Workspace BI: ${state.ws}
-Suporte: ${state.suporte} | Treinamento: ${state.trein} | Reuniões: ${state.reun}
-Referência de investimento: ${budgetInfo} | Prazo: ${state.prazo}
-Observações: ${obs}
-Plano sugerido pelo sistema: ${rec}
-
-Planos disponíveis:
-- Starter R$3.000/mês: até 2 dashboards, 2 fontes, relatórios mensais, suporte WhatsApp, reunião mensal, 5% desconto anual
-- Essencial R$5.000/mês: até 5 dashboards, 5 fontes, quinzenal, BD montado, padronização, 1 app, workspace BI, treinamento, reuniões semanais, 2 presenciais/mês, 10% anual
-- Pro R$7.000/mês: até 8 dashboards, fontes ilimitadas, semanal, BD gerenciado, licenças, 3 apps, workspace BI, suporte prioritário, reuniões diárias, 5 presenciais/mês, 10% anual
-
-Responda SOMENTE com JSON válido sem markdown, sem comentários, sem texto fora do JSON:
-{"plano":"starter|essencial|pro","justificativa":"2-3 frases personalizadas explicando a recomendação","destaquesInclusos":["item1","item2","item3","item4"],"alertaPersonalizado":"1 frase com ponto de atenção ou oportunidade","planoAlternativo":"starter|essencial|pro","motivoAlternativo":"frase curta"}`;
-
-    let resultData;
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': ANTHROPIC_KEY,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-      const data = await res.json();
-      const txt  = (data.content || []).map(i => i.text || '').join('');
-      resultData = JSON.parse(txt.replace(/```json|```/g,'').trim());
-    } catch(e) {
-      resultData = {
-        plano: rec,
-        justificativa: 'Com base nas suas respostas, este plano atende melhor às necessidades identificadas para sua empresa.',
-        destaquesInclusos: ['Dashboards configurados para suas áreas','Suporte contínuo durante a implantação','Relatórios com a frequência necessária','Consultoria especializada em dados'],
-        alertaPersonalizado: 'Agende uma reunião para detalharmos o escopo e iniciar o projeto.',
-        planoAlternativo: rec==='starter' ? 'essencial' : 'starter',
-        motivoAlternativo: 'Plano alternativo disponível para análise.'
-      };
-    }
-
-    /* Salvar no Supabase */
-    const saveError = await salvarSupabase(resultData);
-
-    /* Renderizar resultado */
-    renderResult(resultData, empresa, saveError);
-  }
-
-  const planoInfo = {
-    starter:  { nome:'Starter',  preco:'R$ 3.000' },
-    essencial:{ nome:'Essencial', preco:'R$ 5.000' },
-    pro:      { nome:'Pro',       preco:'R$ 7.000' }
-  };
-
-  function renderResult(data, empresa, saveError) {
-    document.getElementById('loading-area').style.display = 'none';
-    const area = document.getElementById('result-area');
-    area.style.display = 'block';
-
-    const info    = planoInfo[data.plano] || planoInfo.essencial;
-    const altInfo = planoInfo[data.planoAlternativo];
-
-    document.getElementById('r-plan-name').textContent  = info.nome;
-    document.getElementById('r-plan-price').innerHTML   = info.preco + '<span>/mês</span>';
-    document.getElementById('r-justif').textContent     = data.justificativa;
-
-    const ul = document.getElementById('r-feats');
-    ul.innerHTML = (data.destaquesInclusos || []).map(f => `<li>${f}</li>`).join('');
-
-    if (data.alertaPersonalizado) {
-      document.getElementById('r-alert').innerHTML =
-        `<div class="alert-box">Atenção: ${data.alertaPersonalizado}</div>`;
-    }
-
-    if (altInfo && data.planoAlternativo !== data.plano) {
-      document.getElementById('r-alt').innerHTML = `
-        <div class="alt-label">Plano alternativo</div>
-        <div class="alt-plan">
-          <div><div class="an">${altInfo.nome}</div><div class="adesc">${data.motivoAlternativo}</div></div>
-          <div class="ap">${altInfo.preco}/mês</div>
-        </div>`;
-    }
-
-    /* Feedback do Supabase */
-    const saveEl = document.getElementById('r-save-status');
-    if (!saveError) {
-      saveEl.innerHTML = `
-        <div class="success-save">
-          <svg viewBox="0 0 20 20"><path d="M16.7 5.3a1 1 0 0 0-1.4 0L8 12.6 4.7 9.3a1 1 0 1 0-1.4 1.4l4 4a1 1 0 0 0 1.4 0l8-8a1 1 0 0 0 0-1.4z"/></svg>
-          Diagnóstico salvo com sucesso no banco de dados.
-        </div>`;
-    } else {
-      saveEl.innerHTML = `<div class="error-save">Não foi possível salvar no banco de dados. Verifique as credenciais do Supabase.</div>`;
-      console.error('Supabase error:', saveError);
-    }
-  }
+// BOTÕES FUNCIONANDO EM QUALQUER SITE
+document.querySelectorAll('[data-step]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const step = parseInt(this.getAttribute('data-step'));
+    goTo(step);
+  });
+});
 </script>
+
 </body>
 </html>
