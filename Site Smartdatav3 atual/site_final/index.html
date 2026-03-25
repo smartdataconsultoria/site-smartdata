@@ -1820,35 +1820,7 @@ async function openDashboard(user) {
 </script>
 
 <script>
-// ============================================================
-//  MODAL DIAGNÓSTICO — SmartData Consultoria
-// ============================================================
-//
-//  CONFIGURAÇÃO SUPABASE
-//  ─────────────────────────────────────────────────────────
-//  As credenciais já estão definidas no bloco acima (sb).
-//  A tabela necessária no Supabase é:
-//
-//  CREATE TABLE leads_diagnostico (
-//    id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-//    nome        text,
-//    empresa     text,
-//    segmento    text,
-//    usuarios    text,   -- porte da empresa
-//    dashboards  text,   -- qtd de dashboards estimada
-//    treinamento text,
-//    desafio     text,
-//    contato     text,
-//    created_at  timestamptz DEFAULT now()
-//  );
-//
-//  Lembre-se de habilitar Row Level Security (RLS) e criar
-//  a policy de INSERT para anon:
-//    CREATE POLICY "insert_anon" ON leads_diagnostico
-//    FOR INSERT TO anon WITH CHECK (true);
-// ============================================================
-
-// ── estado do formulário de diagnóstico ──
+// ============================================================ 
 const dState = {
     porte: '', ndash: '', freq: '', suporte: '', nfontes: '',
     bd: '', ti: '', ws: '', trein: '', reun: '',
