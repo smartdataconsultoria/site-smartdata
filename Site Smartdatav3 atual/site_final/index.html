@@ -430,6 +430,291 @@
         .project-tag { display:inline-block; padding:0.25rem 0.7rem; background:rgba(168,85,247,0.15); border:1px solid rgba(168,85,247,0.35); border-radius:20px; font-size:0.75rem; color:#a855f7; font-weight:600; }
         .dash-pending { background:rgba(168,85,247,0.07); border:1px solid rgba(168,85,247,0.25); border-radius:14px; padding:1.5rem; display:flex; align-items:center; gap:1rem; color:#c4b5fd; font-size:0.95rem; }
         .dash-pending-icon { font-size:2rem; }
+
+        /* ══════════════════════════════════════
+           BOTÃO DIAGNÓSTICO NA NAV
+        ══════════════════════════════════════ */
+        .btn-diagnostico-nav {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important;
+            font-size: 0.95rem !important;
+            padding: 0.6rem 1.5rem !important;
+            font-weight: 600 !important;
+            white-space: nowrap;
+        }
+        .btn-diagnostico-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6,182,212,0.4) !important;
+        }
+        @media (max-width: 900px) {
+            .btn-diagnostico-nav { display: none !important; }
+        }
+
+        /* ══════════════════════════════════════
+           MODAL DIAGNÓSTICO / ORÇAMENTO
+        ══════════════════════════════════════ */
+        #diagnostico-modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(2,6,23,0.92); backdrop-filter: blur(12px);
+            z-index: 9998; align-items: center; justify-content: center;
+            padding: 1rem;
+        }
+        #diagnostico-modal.open { display: flex; }
+        .diag-modal-card {
+            background: #0f172a; border: 1px solid rgba(6,182,212,0.3);
+            border-radius: 20px; width: 100%; max-width: 760px;
+            height: 90vh; max-height: 700px;
+            display: flex; flex-direction: column;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(6,182,212,0.1);
+            animation: modalIn 0.3s ease-out;
+            overflow: hidden;
+        }
+        .diag-modal-header {
+            position: sticky; top: 0; z-index: 10;
+            background: rgba(15,23,42,0.97); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(6,182,212,0.2);
+            padding: 1.2rem 1.5rem; display: flex; align-items: center;
+            justify-content: space-between; border-radius: 20px 20px 0 0;
+        }
+        .diag-modal-title {
+            font-size: 1.1rem; font-weight: 800; letter-spacing: 0.03em;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .diag-modal-close {
+            background: none; border: none; color: #94a3b8;
+            font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 0 0.3rem;
+            transition: color 0.2s;
+        }
+        .diag-modal-close:hover { color: #f1f5f9; }
+        .diag-modal-body { padding: 0; flex: 1; overflow-y: auto; }
+        .diag-modal-body .wrap > .section {
+            display: none !important;
+            padding: 0 !important;
+        }
+        .diag-modal-body .wrap > .section.active {
+            display: block !important;
+        }
+
+        /* ── estilos internos do formulário de diagnóstico ── */
+        .diag-modal-body .wrap {
+            padding: 2rem 2rem 2.5rem;
+            max-width: 100%;
+            margin: 0;
+        }
+        .diag-modal-body .logo { display: none; } /* logo já está no header do site */
+        .diag-modal-body .progress-bar {
+            height: 4px; background: rgba(148,163,184,0.15);
+            border-radius: 2px; margin-bottom: 1.5rem;
+        }
+        .diag-modal-body .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            border-radius: 2px; transition: width 0.4s ease;
+        }
+        .diag-modal-body .step-label {
+            font-size: 0.78rem; color: #64748b;
+            margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .section-title {
+            font-size: 1.3rem; font-weight: 700;
+            color: #f1f5f9; margin-bottom: 0.4rem;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .section-desc {
+            font-size: 0.92rem; color: #94a3b8;
+            margin-bottom: 1.5rem; line-height: 1.6;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .field label {
+            font-size: 0.88rem; font-weight: 600;
+            color: #cbd5e1; margin-bottom: 6px; display: block;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .field input,
+        .diag-modal-body .field select,
+        .diag-modal-body .field textarea {
+            width: 100%; padding: 0.7rem 1rem;
+            border: 1px solid rgba(148,163,184,0.2);
+            border-radius: 10px; font-size: 0.95rem;
+            color: #f1f5f9; background: #1e293b;
+            outline: none; transition: border-color 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .field input:focus,
+        .diag-modal-body .field select,
+        .diag-modal-body .field select:focus,
+        .diag-modal-body .field textarea:focus {
+            border-color: #06b6d4;
+        }
+        .diag-modal-body .field select option { background: #1e293b; color: #f1f5f9; }
+        .diag-modal-body .field .hint {
+            font-size: 0.75rem; color: #64748b; margin-top: 4px;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .field { margin-bottom: 1.2rem; }
+        .diag-modal-body .field textarea { resize: vertical; min-height: 80px; }
+        .diag-modal-body .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+        .diag-modal-body .chip {
+            padding: 7px 14px; border-radius: 20px; font-size: 0.82rem;
+            cursor: pointer; border: 1px solid rgba(148,163,184,0.2);
+            background: rgba(30,41,59,0.8); color: #94a3b8;
+            transition: all 0.15s; user-select: none;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .chip:hover { border-color: #06b6d4; color: #67e8f9; }
+        .diag-modal-body .chip.sel {
+            background: rgba(6,182,212,0.12); border-color: #06b6d4;
+            color: #67e8f9; font-weight: 600;
+        }
+        .diag-modal-body .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px; margin-top: 4px;
+        }
+        .diag-modal-body .card-opt {
+            border: 1px solid rgba(148,163,184,0.2); border-radius: 12px;
+            padding: 14px 12px; cursor: pointer; transition: all 0.15s;
+            text-align: center; background: rgba(30,41,59,0.8);
+        }
+        .diag-modal-body .card-opt:hover { border-color: #06b6d4; }
+        .diag-modal-body .card-opt.sel {
+            border-color: #06b6d4; background: rgba(6,182,212,0.1);
+        }
+        .diag-modal-body .card-opt .ctit {
+            font-size: 0.88rem; font-weight: 600;
+            color: #f1f5f9; font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .card-opt.sel .ctit { color: #67e8f9; }
+        .diag-modal-body .card-opt .cdesc {
+            font-size: 0.73rem; color: #64748b; margin-top: 3px; line-height: 1.4;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .actions {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-top: 2rem; gap: 1rem;
+        }
+        .diag-modal-body .btn-back {
+            background: none; border: 1px solid rgba(148,163,184,0.25);
+            padding: 0.65rem 1.4rem; border-radius: 10px; font-size: 0.9rem;
+            color: #94a3b8; cursor: pointer; font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+        .diag-modal-body .btn-back:hover { background: rgba(148,163,184,0.08); color: #f1f5f9; }
+        .diag-modal-body .btn-next {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            border: none; padding: 0.65rem 1.8rem; border-radius: 10px;
+            font-size: 0.95rem; color: white; cursor: pointer;
+            font-weight: 700; font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+        .diag-modal-body .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6,182,212,0.4);
+        }
+        .diag-modal-body .btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        /* ── seção de resultado / success ── */
+        .diag-modal-body .result-card {
+            border: 1px solid rgba(6,182,212,0.2); border-radius: 14px;
+            padding: 1.5rem; margin-bottom: 1rem; background: rgba(30,41,59,0.6);
+        }
+        .diag-modal-body .rec-badge {
+            display: inline-block; background: rgba(6,182,212,0.15);
+            color: #67e8f9; font-size: 0.72rem; padding: 3px 10px;
+            border-radius: 20px; font-weight: 600; margin-bottom: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .plan-name {
+            font-size: 1.4rem; font-weight: 700; color: #f1f5f9;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .plan-price {
+            font-size: 1.6rem; font-weight: 700; color: #06b6d4; margin-top: 4px;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .plan-price span { font-size: 0.88rem; color: #64748b; font-weight: 400; }
+        .diag-modal-body .divider { height: 1px; background: rgba(148,163,184,0.1); margin: 1rem 0; }
+        .diag-modal-body .feat-list { list-style: none; }
+        .diag-modal-body .feat-list li {
+            font-size: 0.85rem; color: #94a3b8; padding: 5px 0;
+            display: flex; gap: 8px; align-items: flex-start;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .feat-list li::before {
+            content: ""; width: 6px; height: 6px; background: #06b6d4;
+            border-radius: 50%; margin-top: 5px; flex-shrink: 0;
+        }
+        .diag-modal-body .justif {
+            background: rgba(30,41,59,0.8); border-radius: 10px;
+            padding: 1rem; font-size: 0.85rem; color: #94a3b8; line-height: 1.7;
+            margin: 0.75rem 0; font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .loading-box { text-align: center; padding: 2.5rem 1rem; }
+        .diag-modal-body .loader {
+            width: 36px; height: 36px;
+            border: 3px solid rgba(6,182,212,0.15);
+            border-top-color: #06b6d4; border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .diag-modal-body .alt-plans { margin-top: 1rem; }
+        .diag-modal-body .alt-plan {
+            border: 1px solid rgba(148,163,184,0.15); border-radius: 10px;
+            padding: 12px 14px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .diag-modal-body .alt-plan .an {
+            font-size: 0.9rem; font-weight: 600; color: #f1f5f9;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .alt-plan .ap {
+            font-size: 0.9rem; color: #06b6d4; font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .alt-plan .adesc {
+            font-size: 0.75rem; color: #64748b; margin-top: 2px;
+            font-family: 'Outfit', sans-serif;
+        }
+        .diag-modal-body .btn-orcamento {
+            width: 100%;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            border: none; padding: 0.85rem; border-radius: 10px;
+            font-size: 0.95rem; color: white; cursor: pointer;
+            font-weight: 700; margin-top: 1rem; font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+        .diag-modal-body .btn-orcamento:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6,182,212,0.4);
+        }
+        .diag-modal-body .error-msg {
+            color: #f87171; font-size: 0.78rem; margin-top: 8px; display: none;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ── tela de sucesso após envio ao Supabase ── */
+        #diag-success-screen {
+            display: none; text-align: center; padding: 3rem 2rem;
+        }
+        #diag-success-screen .success-icon {
+            font-size: 4rem; margin-bottom: 1.2rem; animation: popIn 0.5s ease-out;
+        }
+        @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        #diag-success-screen h3 {
+            font-size: 1.5rem; font-weight: 800; margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #diag-success-screen p {
+            font-size: 1rem; color: #94a3b8; line-height: 1.7; max-width: 420px; margin: 0 auto;
+        }
+
+        /* ── campo de contato no final do formulário ── */
+        #diag-contact-step .field input {
+            margin-bottom: 0.6rem;
+        }
     </style>
 </head>
 <body>
@@ -454,6 +739,7 @@
                 <li><a href="#contato">Contato</a></li>
             </ul>
             <button class="cta-nav" onclick="window.location.href='#contato'">Fale Conosco</button>
+            <button class="cta-nav btn-diagnostico-nav" onclick="openDiagnosticoModal()">Diagnóstico Grátis</button>
             <button class="btn-login-nav" onclick="window.open('area-cliente.html','_self')">🔒 Área do Cliente</button>
             <button class="hamburger-btn" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
                 <span></span><span></span><span></span>
@@ -473,8 +759,8 @@
                     análises de dados para gestores tomarem decisões assertivas.
                 </p>
                 <div class="hero-cta">
-                    <a href="#contato" class="btn-primary">Agendar Diagnóstico Grátis</a>
-                    <a href="#sobre" class="btn-secondary">Saiba Mais</a>
+                    <a href="https://wa.me/5581995426006" target="_blank" rel="noopener" class="btn-primary">💬 Fale com Consultor</a>
+                    <button class="btn-secondary" onclick="openDiagnosticoModal()" style="background:transparent;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;">🔍 Faça seu Diagnóstico</button>
                 </div>
             </div>
             <div class="hero-visual">
@@ -1124,6 +1410,259 @@
 
 </div><!-- end content-wrapper -->
 
+<!-- ============================================================
+     MODAL: SOLICITE SEU DIAGNÓSTICO
+     Integrado ao Supabase → tabela: leads_diagnostico
+     ============================================================ -->
+<div id="diagnostico-modal" onclick="handleDiagOverlayClick(event)">
+    <div class="diag-modal-card">
+        <div class="diag-modal-header">
+            <div class="diag-modal-title">🔍 Diagnóstico SmartData</div>
+            <button class="diag-modal-close" onclick="closeDiagnosticoModal()" aria-label="Fechar">×</button>
+        </div>
+        <div class="diag-modal-body">
+            <div class="wrap">
+                <!-- barra de progresso -->
+                <div class="progress-bar"><div class="progress-fill" id="diag-prog" style="width:14%"></div></div>
+                <div class="step-label" id="diag-step-lbl">Etapa 1 de 7</div>
+
+                <!-- ETAPA 1: Empresa -->
+                <div class="section active" id="ds1">
+                    <div class="section-title">Sobre sua empresa</div>
+                    <div class="section-desc">Vamos começar com algumas informações básicas para entender seu perfil.</div>
+                    <div class="field">
+                        <label>Nome da empresa *</label>
+                        <input type="text" id="d-empresa" placeholder="Ex: Comercial Nordeste Ltda" />
+                    </div>
+                    <div class="field">
+                        <label>Segmento de atuação *</label>
+                        <select id="d-segmento">
+                            <option value="">Selecione...</option>
+                            <option>Varejo / E-commerce</option>
+                            <option>Indústria / Manufatura</option>
+                            <option>Serviços / Consultoria</option>
+                            <option>Saúde / Clínica</option>
+                            <option>Educação</option>
+                            <option>Financeiro / Contabilidade</option>
+                            <option>Logística / Transporte</option>
+                            <option>Agronegócio</option>
+                            <option>Tecnologia</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Porte da empresa</label>
+                        <div class="card-grid" id="d-porte-grid">
+                            <div class="card-opt" onclick="dSelCard(this,'porte','pequeno')"><div class="ctit">Pequeno</div><div class="cdesc">Até 20 funcionários</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'porte','medio')"><div class="ctit">Médio</div><div class="cdesc">20 a 100 funcionários</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'porte','grande')"><div class="ctit">Grande</div><div class="cdesc">Acima de 100</div></div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <span></span>
+                        <button class="btn-next" onclick="dGoTo(2)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 2: Maturidade -->
+                <div class="section" id="ds2">
+                    <div class="section-title">Maturidade em dados</div>
+                    <div class="section-desc">Entenda onde sua empresa está hoje para planejarmos o melhor caminho.</div>
+                    <div class="field">
+                        <label>Como sua empresa toma decisões hoje?</label>
+                        <div class="chips" id="d-decisao-chips">
+                            <div class="chip" onclick="dTogChip(this,'decisao')">Intuição / experiência</div>
+                            <div class="chip" onclick="dTogChip(this,'decisao')">Planilhas Excel</div>
+                            <div class="chip" onclick="dTogChip(this,'decisao')">ERP / sistema interno</div>
+                            <div class="chip" onclick="dTogChip(this,'decisao')">Relatórios manuais</div>
+                            <div class="chip" onclick="dTogChip(this,'decisao')">Dashboard / BI já existe</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Onde seus dados estão armazenados?</label>
+                        <div class="chips" id="d-dados-chips">
+                            <div class="chip" onclick="dTogChip(this,'dados')">Planilhas / arquivos locais</div>
+                            <div class="chip" onclick="dTogChip(this,'dados')">ERP (SAP, TOTVS, etc.)</div>
+                            <div class="chip" onclick="dTogChip(this,'dados')">Google Sheets / Drive</div>
+                            <div class="chip" onclick="dTogChip(this,'dados')">Banco de dados SQL</div>
+                            <div class="chip" onclick="dTogChip(this,'dados')">CRM / plataformas SaaS</div>
+                            <div class="chip" onclick="dTogChip(this,'dados')">Não sei / dispersos</div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-back" onclick="dGoTo(1)">← Voltar</button>
+                        <button class="btn-next" onclick="dGoTo(3)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 3: BI & Dashboards -->
+                <div class="section" id="ds3">
+                    <div class="section-title">Necessidades de BI & Dashboards</div>
+                    <div class="section-desc">Dashboards são o coração da análise visual. Diga o que você precisa.</div>
+                    <div class="field">
+                        <label>Quantos dashboards você estima precisar?</label>
+                        <div class="card-grid" id="d-ndash-grid">
+                            <div class="card-opt" onclick="dSelCard(this,'ndash','1-2')"><div class="ctit">1 a 2</div><div class="cdesc">Visão geral básica</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'ndash','3-5')"><div class="ctit">3 a 5</div><div class="cdesc">Múltiplas áreas</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'ndash','6+')"><div class="ctit">6 ou mais</div><div class="cdesc">Operação completa</div></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Quais áreas devem ter dashboards?</label>
+                        <div class="chips" id="d-areas-chips">
+                            <div class="chip" onclick="dTogChip(this,'areas')">Vendas</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">Financeiro</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">Marketing</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">Estoque / Compras</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">RH / Pessoas</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">Produção / Operações</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">Atendimento / CS</div>
+                            <div class="chip" onclick="dTogChip(this,'areas')">Logística</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Com que frequência precisa dos relatórios?</label>
+                        <div class="card-grid" id="d-freq-grid">
+                            <div class="card-opt" onclick="dSelCard(this,'freq','mensal')"><div class="ctit">Mensal</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'freq','quinzenal')"><div class="ctit">Quinzenal</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'freq','semanal')"><div class="ctit">Semanal</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'freq','diario')"><div class="ctit">Diário</div></div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-back" onclick="dGoTo(2)">← Voltar</button>
+                        <button class="btn-next" onclick="dGoTo(4)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 4: Infraestrutura -->
+                <div class="section" id="ds4">
+                    <div class="section-title">Infraestrutura & Banco de dados</div>
+                    <div class="section-desc">Entender sua infraestrutura atual nos ajuda a recomendar a solução certa.</div>
+                    <div class="field">
+                        <label>Sua empresa tem equipe técnica interna (TI)?</label>
+                        <div class="chips" id="d-ti-chips">
+                            <div class="chip" onclick="dSelChipSingle(this,'ti')">Sim, equipe dedicada</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'ti')">Sim, 1 pessoa responsável</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'ti')">Não, tudo terceirizado</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'ti')">Não tem ninguém de TI</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Possui banco de dados estruturado?</label>
+                        <div class="chips" id="d-bd-chips">
+                            <div class="chip" onclick="dSelChipSingle(this,'bd')">Sim, SQL (MySQL, PostgreSQL, etc.)</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'bd')">Sim, via ERP</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'bd')">Não, mas quero montar</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'bd')">Não sei</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Quantas fontes de dados diferentes a empresa tem?</label>
+                        <div class="card-grid" id="d-nfontes-grid">
+                            <div class="card-opt" onclick="dSelCard(this,'nfontes','1-2')"><div class="ctit">1 a 2</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'nfontes','3-5')"><div class="ctit">3 a 5</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'nfontes','5+')"><div class="ctit">Mais de 5</div></div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-back" onclick="dGoTo(3)">← Voltar</button>
+                        <button class="btn-next" onclick="dGoTo(5)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 5: Desenvolvimento & Sistemas -->
+                <div class="section" id="ds5">
+                    <div class="section-title">Desenvolvimento & Sistemas</div>
+                    <div class="section-desc">Além de BI, podemos desenvolver aplicativos e workspaces personalizados.</div>
+                    <div class="field">
+                        <label>Precisa de algum sistema ou aplicativo personalizado?</label>
+                        <div class="chips" id="d-app-chips">
+                            <div class="chip" onclick="dTogChip(this,'app')">Portal de gestão interno</div>
+                            <div class="chip" onclick="dTogChip(this,'app')">App para vendedores</div>
+                            <div class="chip" onclick="dTogChip(this,'app')">Painel para clientes</div>
+                            <div class="chip" onclick="dTogChip(this,'app')">Automação de processos</div>
+                            <div class="chip" onclick="dTogChip(this,'app')">Integração entre sistemas</div>
+                            <div class="chip" onclick="dTogChip(this,'app')">Não preciso de sistema</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Precisa de workspace de BI compartilhado?</label>
+                        <div class="chips" id="d-ws-chips">
+                            <div class="chip" onclick="dSelChipSingle(this,'ws')">Sim, para toda a equipe</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'ws')">Sim, só para lideranças</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'ws')">Não sei o que é isso</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'ws')">Não preciso</div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-back" onclick="dGoTo(4)">← Voltar</button>
+                        <button class="btn-next" onclick="dGoTo(6)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 6: Suporte & Treinamento -->
+                <div class="section" id="ds6">
+                    <div class="section-title">Suporte & Treinamento</div>
+                    <div class="section-desc">Definir o nível de suporte garante que sua equipe aproveite o máximo da solução.</div>
+                    <div class="field">
+                        <label>Qual nível de suporte você precisa?</label>
+                        <div class="card-grid" id="d-suporte-grid">
+                            <div class="card-opt" onclick="dSelCard(this,'suporte','basico')"><div class="ctit">Básico</div><div class="cdesc">Apenas WhatsApp</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'suporte','medio')"><div class="ctit">Médio</div><div class="cdesc">WhatsApp + reuniões agendadas</div></div>
+                            <div class="card-opt" onclick="dSelCard(this,'suporte','prioritario')"><div class="ctit">Prioritário</div><div class="cdesc">Atendimento prioritário dedicado</div></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Sua equipe precisa de treinamento para usar os dashboards?</label>
+                        <div class="chips" id="d-trein-chips">
+                            <div class="chip" onclick="dSelChipSingle(this,'trein')">Sim, time completo</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'trein')">Sim, só a liderança</div>
+                            <div class="chip" onclick="dSelChipSingle(this,'trein')">Não precisa</div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-back" onclick="dGoTo(5)">← Voltar</button>
+                        <button class="btn-next" onclick="dGoTo(7)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 7: Contato & Desafio -->
+                <div class="section" id="ds7" id="diag-contact-step">
+                    <div class="section-title">Quase lá! Seus dados de contato</div>
+                    <div class="section-desc">Para entrarmos em contato com o diagnóstico completo, precisamos das suas informações.</div>
+                    <div class="field">
+                        <label>Seu nome *</label>
+                        <input type="text" id="d-nome" placeholder="Ex: Ana Lima" />
+                    </div>
+                    <div class="field">
+                        <label>Telefone / WhatsApp *</label>
+                        <input type="tel" id="d-contato" placeholder="Ex: (81) 99999-9999" />
+                    </div>
+                    <div class="field">
+                        <label>Algum desafio ou objetivo específico que queira compartilhar? (opcional)</label>
+                        <textarea id="d-desafio" placeholder="Ex: precisamos centralizar dados de 3 filiais, reduzir tempo de fechamento mensal..."></textarea>
+                    </div>
+                    <div id="d-error-msg" class="error-msg" style="display:none;color:#f87171;font-size:0.85rem;margin-bottom:0.8rem;"></div>
+                    <div class="actions">
+                        <button class="btn-back" onclick="dGoTo(6)">← Voltar</button>
+                        <button class="btn-next" id="d-submit-btn" onclick="dEnviarDiagnostico()">Enviar Diagnóstico 🚀</button>
+                    </div>
+                </div>
+
+                <!-- TELA DE SUCESSO -->
+                <div id="diag-success-screen">
+                    <div class="success-icon">✅</div>
+                    <h3>Diagnóstico enviado com sucesso!</h3>
+                    <p>Obrigado pelo envio! Em até <strong style="color:#67e8f9;">24 horas</strong> entraremos em contato com sua análise personalizada.</p>
+                    <button class="btn-next" style="margin-top:2rem;" onclick="closeDiagnosticoModal()">Fechar</button>
+                </div>
+
+            </div><!-- /.wrap -->
+        </div><!-- /.diag-modal-body -->
+    </div><!-- /.diag-modal-card -->
+</div><!-- /#diagnostico-modal -->
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Mobile menu toggle
     function toggleMobileMenu() {
@@ -1273,4 +1812,221 @@ async function openDashboard(user) {
                 <div class="project-icon">${icons[p.type] || '🔗'}</div>
                 <div class="project-name">${p.name}</div>
                 <div class="project-desc">${p.description || ''}</div>
-                <span class="project-tag">${p.type === 'powerbi' ? 'Power BI' :
+                <span class="project-tag">${p.type === 'powerbi' ? 'Power BI' : p.type === 'relatorio' ? 'Relatório' : 'Dashboard'}</span>
+            </a>
+        `).join('')
+    }
+}
+</script>
+
+<script>
+// ============================================================
+//  MODAL DIAGNÓSTICO — SmartData Consultoria
+// ============================================================
+//
+//  CONFIGURAÇÃO SUPABASE
+//  ─────────────────────────────────────────────────────────
+//  As credenciais já estão definidas no bloco acima (sb).
+//  A tabela necessária no Supabase é:
+//
+//  CREATE TABLE leads_diagnostico (
+//    id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+//    nome        text,
+//    empresa     text,
+//    segmento    text,
+//    usuarios    text,   -- porte da empresa
+//    dashboards  text,   -- qtd de dashboards estimada
+//    treinamento text,
+//    desafio     text,
+//    contato     text,
+//    created_at  timestamptz DEFAULT now()
+//  );
+//
+//  Lembre-se de habilitar Row Level Security (RLS) e criar
+//  a policy de INSERT para anon:
+//    CREATE POLICY "insert_anon" ON leads_diagnostico
+//    FOR INSERT TO anon WITH CHECK (true);
+// ============================================================
+
+// ── estado do formulário de diagnóstico ──
+const dState = {
+    porte: '', ndash: '', freq: '', suporte: '', nfontes: '',
+    bd: '', ti: '', ws: '', trein: '', reun: '',
+    decisao: [], dados: [], areas: [], app: []
+}
+let dCurrentStep = 1
+const dTotalSteps = 7
+
+// ── abrir / fechar modal ──
+function openDiagnosticoModal() {
+    document.getElementById('diagnostico-modal').classList.add('open')
+    document.body.style.overflow = 'hidden'
+}
+
+function closeDiagnosticoModal() {
+    document.getElementById('diagnostico-modal').classList.remove('open')
+    document.body.style.overflow = ''
+    // Aguarda animação antes de resetar
+    setTimeout(dResetForm, 350)
+}
+
+function handleDiagOverlayClick(e) {
+    if (e.target.id === 'diagnostico-modal') closeDiagnosticoModal()
+}
+
+// ── navegação entre etapas ──
+function dGoTo(step) {
+    // Validação mínima na etapa 1 antes de avançar
+    if (step > 1 && dCurrentStep === 1) {
+        const empresa = document.getElementById('d-empresa').value.trim()
+        const segmento = document.getElementById('d-segmento').value
+        if (!empresa || !segmento) {
+            alert('Por favor, preencha o nome da empresa e o segmento de atuação.')
+            return
+        }
+    }
+
+    // Esconde seção atual, mostra a próxima
+    document.getElementById('ds' + dCurrentStep).classList.remove('active')
+    dCurrentStep = step
+    document.getElementById('ds' + step).classList.add('active')
+
+    // Atualiza barra de progresso
+    const pct = Math.round((step / (dTotalSteps + 1)) * 100)
+    document.getElementById('diag-prog').style.width = pct + '%'
+    document.getElementById('diag-step-lbl').textContent = 'Etapa ' + step + ' de ' + dTotalSteps
+
+    // Scroll ao topo do modal
+    const card = document.querySelector('.diag-modal-card')
+    if (card) card.scrollTop = 0
+}
+
+// ── seleção de card (escolha única) ──
+function dSelCard(el, key, val) {
+    const grid = el.closest('[id$="-grid"]') || el.parentElement
+    grid.querySelectorAll('.card-opt').forEach(c => c.classList.remove('sel'))
+    el.classList.add('sel')
+    dState[key] = val
+}
+
+// ── toggle de chip (múltipla escolha) ──
+function dTogChip(el, key) {
+    el.classList.toggle('sel')
+    const arr = Array.from(el.parentElement.querySelectorAll('.chip.sel')).map(c => c.textContent.trim())
+    dState[key] = arr
+}
+
+// ── chip de seleção única ──
+function dSelChipSingle(el, key) {
+    el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('sel'))
+    el.classList.add('sel')
+    dState[key] = el.textContent.trim()
+}
+
+// ── envio do formulário ao Supabase ──
+async function dEnviarDiagnostico() {
+    // Validação dos campos obrigatórios da etapa 7
+    const nome    = document.getElementById('d-nome').value.trim()
+    const contato = document.getElementById('d-contato').value.trim()
+    const empresa = document.getElementById('d-empresa').value.trim()
+    const errorEl = document.getElementById('d-error-msg')
+
+    if (!nome || !contato) {
+        errorEl.textContent = 'Por favor, preencha seu nome e telefone/WhatsApp.'
+        errorEl.style.display = 'block'
+        return
+    }
+    errorEl.style.display = 'none'
+
+    // Desabilita botão durante envio
+    const btn = document.getElementById('d-submit-btn')
+    btn.disabled = true
+    btn.textContent = 'Enviando...'
+
+    // Monta o objeto de dados para a tabela leads_diagnostico
+    const payload = {
+        nome:        nome,
+        empresa:     empresa,
+        segmento:    document.getElementById('d-segmento').value,
+        usuarios:    dState.porte,                          // porte da empresa
+        dashboards:  dState.ndash,                          // qtd dashboards estimada
+        treinamento: dState.trein,
+        desafio:     document.getElementById('d-desafio').value.trim() || null,
+        contato:     contato
+        // created_at é preenchido automaticamente pelo Supabase (DEFAULT now())
+    }
+
+    try {
+        // ── INSERT no Supabase ──
+        const { error } = await sb
+            .from('leads_diagnostico')
+            .insert([payload])
+
+        if (error) {
+            console.error('Supabase error:', error)
+            errorEl.textContent = 'Ocorreu um erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.'
+            errorEl.style.display = 'block'
+            btn.disabled = false
+            btn.textContent = 'Enviar Diagnóstico 🚀'
+            return
+        }
+
+        // ── Sucesso: esconde formulário, exibe tela de agradecimento ──
+        document.getElementById('ds7').classList.remove('active')
+        document.getElementById('diag-prog').style.width = '100%'
+        document.getElementById('diag-step-lbl').textContent = 'Concluído!'
+        document.getElementById('diag-success-screen').style.display = 'block'
+
+        const card = document.querySelector('.diag-modal-card')
+        if (card) card.scrollTop = 0
+
+    } catch (err) {
+        console.error('Erro inesperado:', err)
+        errorEl.textContent = 'Erro inesperado. Verifique sua conexão e tente novamente.'
+        errorEl.style.display = 'block'
+        btn.disabled = false
+        btn.textContent = 'Enviar Diagnóstico 🚀'
+    }
+}
+
+// ── resetar formulário após fechar modal ──
+function dResetForm() {
+    // Volta ao passo 1
+    document.querySelectorAll('[id^="ds"]').forEach(s => s.classList.remove('active'))
+    document.getElementById('ds1').classList.add('active')
+    dCurrentStep = 1
+
+    // Limpa barra de progresso
+    document.getElementById('diag-prog').style.width = '14%'
+    document.getElementById('diag-step-lbl').textContent = 'Etapa 1 de ' + dTotalSteps
+
+    // Limpa campos de texto
+    ;['d-empresa', 'd-nome', 'd-contato', 'd-desafio'].forEach(id => {
+        const el = document.getElementById(id)
+        if (el) el.value = ''
+    })
+    document.getElementById('d-segmento').value = ''
+
+    // Limpa seleções de card e chip
+    document.querySelectorAll('.diag-modal-body .card-opt.sel').forEach(el => el.classList.remove('sel'))
+    document.querySelectorAll('.diag-modal-body .chip.sel').forEach(el => el.classList.remove('sel'))
+
+    // Reseta erros
+    const errorEl = document.getElementById('d-error-msg')
+    if (errorEl) errorEl.style.display = 'none'
+
+    // Esconde tela de sucesso
+    document.getElementById('diag-success-screen').style.display = 'none'
+
+    // Reseta botão
+    const btn = document.getElementById('d-submit-btn')
+    if (btn) { btn.disabled = false; btn.textContent = 'Enviar Diagnóstico 🚀' }
+
+    // Reseta estado
+    Object.keys(dState).forEach(k => {
+        dState[k] = Array.isArray(dState[k]) ? [] : ''
+    })
+}
+</script>
+</body>
+</html>
