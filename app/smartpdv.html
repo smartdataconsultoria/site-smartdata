@@ -553,10 +553,71 @@ footer{border-top:1px solid rgba(168,85,247,0.15);padding:1.75rem 2rem;display:f
   <div class="cta-inner">
     <h2 class="cta-title">Pronto para ver o<br><span class="grad">SmartPDV</span> em ação?</h2>
     <p class="cta-desc">Acesse a demonstração ao vivo e veja como seus promotores vão registrar dados do campo direto no seu Power BI — sem planilhas, sem complicação.</p>
-    <div class="cta-actions">
-      <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="btn-primary">
-        ▶ Acessar demonstração ao vivo
+
+    <!-- Card de credenciais demo -->
+    <div style="
+      background: var(--card-bg);
+      border: 1px solid rgba(168,85,247,0.35);
+      border-radius: 20px;
+      padding: 32px;
+      margin: 2rem auto 2rem;
+      max-width: 460px;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    ">
+      <!-- Linha gradiente no topo -->
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-1)"></div>
+
+      <div style="font-size:0.72rem;font-weight:700;color:var(--primary-purple);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--primary-purple);display:inline-block;animation:pulse 2s infinite"></span>
+        Acesso para demonstração gratuita
+      </div>
+
+      <!-- CPF -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(15,23,42,0.8);border:1px solid rgba(168,85,247,0.2);border-radius:12px;padding:14px 18px;margin-bottom:10px">
+        <div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.8px">CPF de acesso</div>
+          <div style="font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--text-primary);letter-spacing:2px">000.000.000-00</div>
+        </div>
+        <button onclick="copiarTexto('00000000000', this)" style="
+          background:rgba(168,85,247,0.12);
+          border:1px solid rgba(168,85,247,0.3);
+          border-radius:8px; padding:8px 14px;
+          font-size:0.8rem; font-weight:600;
+          color:var(--primary-purple); cursor:pointer;
+          transition:all 0.15s; font-family:'Outfit',sans-serif;
+          white-space:nowrap;
+        ">📋 Copiar</button>
+      </div>
+
+      <!-- Senha -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(15,23,42,0.8);border:1px solid rgba(168,85,247,0.2);border-radius:12px;padding:14px 18px;margin-bottom:1.5rem">
+        <div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.8px">Senha</div>
+          <div style="font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--text-primary);letter-spacing:2px">demo2024</div>
+        </div>
+        <button onclick="copiarTexto('demo2024', this)" style="
+          background:rgba(168,85,247,0.12);
+          border:1px solid rgba(168,85,247,0.3);
+          border-radius:8px; padding:8px 14px;
+          font-size:0.8rem; font-weight:600;
+          color:var(--primary-purple); cursor:pointer;
+          transition:all 0.15s; font-family:'Outfit',sans-serif;
+          white-space:nowrap;
+        ">📋 Copiar</button>
+      </div>
+
+      <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="btn-primary" style="display:flex;justify-content:center;width:100%;box-sizing:border-box">
+        ▶ Entrar na demonstração ao vivo
       </a>
+
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:12px;text-align:center">
+        Ambiente de demonstração · dados fictícios · acesso liberado
+      </div>
+    </div>
+
+    <div class="cta-actions">
       <a href="https://smartdataconsultoria.com#contato" class="btn-outline">
         Falar com a SmartData
       </a>
@@ -564,6 +625,24 @@ footer{border-top:1px solid rgba(168,85,247,0.15);padding:1.75rem 2rem;display:f
     <div class="cta-note">Desenvolvido por SmartData Consultoria · Recife, PE</div>
   </div>
 </section>
+
+<script>
+function copiarTexto(texto, btn) {
+  navigator.clipboard.writeText(texto).then(function() {
+    var original = btn.innerHTML;
+    btn.innerHTML = '✓ Copiado!';
+    btn.style.background = 'rgba(16,185,129,0.15)';
+    btn.style.borderColor = 'rgba(16,185,129,0.4)';
+    btn.style.color = '#10b981';
+    setTimeout(function() {
+      btn.innerHTML = original;
+      btn.style.background = 'rgba(168,85,247,0.12)';
+      btn.style.borderColor = 'rgba(168,85,247,0.3)';
+      btn.style.color = 'var(--primary-purple)';
+    }, 2000);
+  });
+}
+</script>
 
 <!-- FOOTER -->
 <footer>
