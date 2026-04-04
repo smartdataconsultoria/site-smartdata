@@ -189,7 +189,7 @@ footer{border-top:1px solid rgba(168,85,247,0.15);padding:1.75rem 2rem;display:f
       <li><a href="#integracao">Integração</a></li>
       <li><a href="https://smartdataconsultoria.com">← Site principal</a></li>
     </ul>
-    <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="nav-cta">Acessar demo</a>
+    <a href="https://app.smartdataconsultoria.com" target="_blank" class="nav-cta">Acessar demo</a>
   </div>
 </nav>
 
@@ -213,13 +213,55 @@ footer{border-top:1px solid rgba(168,85,247,0.15);padding:1.75rem 2rem;display:f
         Controle estoque, exposição, avarias, concorrentes e metas de todos os seus promotores em um único aplicativo mobile — com dados direto no Power BI.
       </p>
       <div class="hero-actions">
-        <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="btn-primary">
+        <a href="https://app.smartdataconsultoria.com" target="_blank" class="btn-primary">
           ▶ Ver demonstração ao vivo
         </a>
         <a href="#funcionalidades" class="btn-outline">
           Conhecer funcionalidades
         </a>
       </div>
+      <!-- Card demo no hero -->
+      <div style="
+        background: rgba(30,41,59,0.8);
+        border: 1px solid rgba(168,85,247,0.35);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+      ">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-1)"></div>
+        <div style="font-size:0.7rem;font-weight:700;color:var(--primary-purple);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:7px">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--primary-purple);display:inline-block;animation:pulse 2s infinite"></span>
+          Acesso para demonstração gratuita
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <!-- CPF -->
+          <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(168,85,247,0.2);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <div>
+              <div style="font-size:0.65rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.8px">CPF</div>
+              <div style="font-family:'Space Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--text-primary);letter-spacing:1px">000.000.000-00</div>
+            </div>
+            <button onclick="copiarTexto('00000000000', this)" style="background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.3);border-radius:7px;padding:6px 10px;font-size:0.75rem;font-weight:600;color:var(--primary-purple);cursor:pointer;transition:all 0.15s;font-family:'Outfit',sans-serif;white-space:nowrap;flex-shrink:0">📋 Copiar</button>
+          </div>
+          <!-- Senha -->
+          <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(168,85,247,0.2);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <div>
+              <div style="font-size:0.65rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.8px">Senha</div>
+              <div style="font-family:'Space Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--text-primary);letter-spacing:1px">demo2024</div>
+            </div>
+            <button onclick="copiarTexto('demo2024', this)" style="background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.3);border-radius:7px;padding:6px 10px;font-size:0.75rem;font-weight:600;color:var(--primary-purple);cursor:pointer;transition:all 0.15s;font-family:'Outfit',sans-serif;white-space:nowrap;flex-shrink:0">📋 Copiar</button>
+          </div>
+        </div>
+        <a href="https://app.smartdataconsultoria.com" target="_blank" class="btn-primary" style="display:flex;justify-content:center;width:100%;box-sizing:border-box;font-size:0.9rem">
+          ▶ Entrar na demonstração ao vivo
+        </a>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:10px;text-align:center">
+          Ambiente de demonstração · dados fictícios · acesso liberado
+        </div>
+      </div>
+
       <div class="hero-stats">
         <div class="hs">
           <div class="hs-n">8</div>
@@ -608,7 +650,7 @@ footer{border-top:1px solid rgba(168,85,247,0.15);padding:1.75rem 2rem;display:f
         ">📋 Copiar</button>
       </div>
 
-      <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="btn-primary" style="display:flex;justify-content:center;width:100%;box-sizing:border-box">
+      <a href="https://app.smartdataconsultoria.com" target="_blank" class="btn-primary" style="display:flex;justify-content:center;width:100%;box-sizing:border-box">
         ▶ Entrar na demonstração ao vivo
       </a>
 
@@ -650,7 +692,7 @@ function copiarTexto(texto, btn) {
     © 2025 <a href="https://smartdataconsultoria.com">SmartData Consultoria</a> · SmartPDV
   </div>
   <div class="footer-links">
-    <a href="https://smart-pdv-ruby.vercel.app" target="_blank">Demo ao vivo</a>
+    <a href="https://app.smartdataconsultoria.com" target="_blank">Demo ao vivo</a>
     <a href="https://smartdataconsultoria.com">Site principal</a>
     <a href="https://smartdataconsultoria.com#contato">Contato</a>
   </div>
