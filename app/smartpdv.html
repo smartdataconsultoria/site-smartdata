@@ -656,19 +656,101 @@ footer a { color: var(--brand); text-decoration: none; }
   <div class="cta-inner">
     <h2>Pronto para ver o <span style="color:var(--brand)">SmartPDV</span> em ação?</h2>
     <p>Acesse a demonstração ao vivo e veja como seus promotores vão registrar dados do campo direto no seu Power BI.</p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-      <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="btn-primary">
-        ▶ Acessar demonstração
+
+    <!-- Card de acesso demo -->
+    <div style="
+      background: var(--surface);
+      border: 1px solid rgba(252,163,17,0.3);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 32px auto;
+      max-width: 440px;
+      position: relative;
+      overflow: hidden;
+    ">
+      <!-- Linha dourada no topo -->
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FCA311,#D4880A)"></div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--brand);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px">
+        🔓 Acesso para demonstração
+      </div>
+
+      <!-- CPF -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px">
+        <div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">CPF</div>
+          <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:600;color:var(--text);letter-spacing:2px">000.000.000-00</div>
+        </div>
+        <button onclick="copiarTexto('00000000000', this)" style="
+          background:rgba(252,163,17,0.1);
+          border:1px solid rgba(252,163,17,0.3);
+          border-radius:8px;
+          padding:8px 14px;
+          font-size:12px;
+          font-weight:600;
+          color:var(--brand);
+          cursor:pointer;
+          transition:all 0.15s;
+          font-family:'Syne',sans-serif;
+        ">📋 Copiar</button>
+      </div>
+
+      <!-- Senha -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:20px">
+        <div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Senha</div>
+          <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:600;color:var(--text);letter-spacing:2px">demo2024</div>
+        </div>
+        <button onclick="copiarTexto('demo2024', this)" style="
+          background:rgba(252,163,17,0.1);
+          border:1px solid rgba(252,163,17,0.3);
+          border-radius:8px;
+          padding:8px 14px;
+          font-size:12px;
+          font-weight:600;
+          color:var(--brand);
+          cursor:pointer;
+          transition:all 0.15s;
+          font-family:'Syne',sans-serif;
+        ">📋 Copiar</button>
+      </div>
+
+      <a href="https://smart-pdv-ruby.vercel.app" target="_blank" class="btn-primary" style="display:flex;justify-content:center;width:100%">
+        ▶ Entrar na demonstração ao vivo
       </a>
-      <a href="https://smartdataconsultoria.com#contato" class="btn-secondary">
-        Falar com a SmartData
-      </a>
+
+      <div style="font-size:11px;color:var(--text3);margin-top:14px;text-align:center">
+        Ambiente de demonstração · dados fictícios
+      </div>
     </div>
+
+    <a href="https://smartdataconsultoria.com#contato" class="btn-secondary">
+      Falar com a SmartData
+    </a>
+
     <div style="margin-top:32px;font-size:12px;color:var(--text3)">
       Desenvolvido por SmartData Consultoria · Recife, PE
     </div>
   </div>
 </section>
+
+<script>
+function copiarTexto(texto, btn) {
+  navigator.clipboard.writeText(texto).then(function() {
+    var original = btn.innerHTML;
+    btn.innerHTML = '✓ Copiado!';
+    btn.style.background = 'rgba(46,204,113,0.15)';
+    btn.style.borderColor = 'rgba(46,204,113,0.4)';
+    btn.style.color = '#2ECC71';
+    setTimeout(function() {
+      btn.innerHTML = original;
+      btn.style.background = 'rgba(252,163,17,0.1)';
+      btn.style.borderColor = 'rgba(252,163,17,0.3)';
+      btn.style.color = 'var(--brand)';
+    }, 2000);
+  });
+}
+</script>
 
 <!-- FOOTER -->
 <footer>
