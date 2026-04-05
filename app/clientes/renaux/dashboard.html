@@ -1284,12 +1284,18 @@
     const sub   = document.getElementById('arquivosSub');
 
     try {
-      const { data, error } = await sb
-        .from('arquivos_clientes')
+      const isAdmin = currentUser.email === ADMIN_EMAIL;
+      let query = sb.from('arquivos_clientes')
         .select('*')
         .eq('empresa', 'Renaux')
-        .eq('ativo', true)
-        .order('id');
+        .eq('ativo', true);
+
+      // Se não for admin, filtra apenas os arquivos do usuário logado
+      if (!isAdmin) {
+        query = query.eq('email_cliente', currentUser.email);
+      }
+
+      const { data, error } = await query.order('id');
 
       grid.innerHTML = '';
 
