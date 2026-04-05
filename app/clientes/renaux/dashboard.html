@@ -867,16 +867,11 @@
 
 
   // ─── Detectar link de recuperação de senha ────────────────────────────────────
-  (async () => {
-    const hash = window.location.hash;
-    if (hash.includes('type=recovery') || hash.includes('access_token')) {
-      // Supabase já leu o token da URL automaticamente, a sessão está ativa
-      const { data: { session } } = await sb.auth.getSession();
-      if (session) {
-        document.getElementById('modalResetSenha').style.display = 'flex';
-      }
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      document.getElementById('modalResetSenha').style.display = 'flex';
     }
-  })();
+  });
 
   document.getElementById('btnSalvarSenha').addEventListener('click', async () => {
     const nova      = document.getElementById('novaSenha').value;
@@ -922,7 +917,7 @@
 </script>
 
 <!-- MODAL REDEFINIR SENHA -->
-<div class="modal-overlay" id="modalResetSenha" style="display:flex;background:rgba(0,0,0,0.85);">
+<div class="modal-overlay" id="modalResetSenha" style="display:none;background:rgba(0,0,0,0.85);">
   <div class="modal">
     <h2 style="margin-bottom:6px;">🔒 Redefinir Senha</h2>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Digite sua nova senha para continuar.</p>
