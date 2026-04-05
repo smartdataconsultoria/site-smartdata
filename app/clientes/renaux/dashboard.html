@@ -793,6 +793,8 @@
             <tr>
               <th>Nome</th>
               <th>Descrição</th>
+              <th>Usuário</th>
+              <th>Categoria</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -1102,7 +1104,7 @@
 
   function fecharModal() {
     document.getElementById('modalOverlay').classList.remove('open');
-    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uNome','uEmail','uSenha','fNome','fDesc','fUrl'].forEach(id => {
+    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uNome','uEmail','uSenha','fNome','fDesc','fUrl','muArqCat'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
@@ -1387,7 +1389,7 @@
 
     // Arquivos
     const { data: arqs } = await sb.from('arquivos_clientes')
-      .select('nome, descricao, ativo')
+      .select('nome, descricao, ativo, email_cliente, categoria')
       .eq('empresa', 'Renaux')
       .order('id');
 
@@ -1401,7 +1403,9 @@
           <tr>
             <td>${a.nome}</td>
             <td style="color:var(--text-muted);">${a.descricao || '—'}</td>
-            <td><span class="tag-ativo">Ativo</span></td>
+            <td style="color:var(--text-muted);font-size:12px;">${a.email_cliente || '—'}</td>
+            <td>${a.categoria ? `<span class="tag-cat">${a.categoria}</span>` : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}</td>
+            <td><span class="tag-ativo">● Ativo</span></td>
           </tr>`).join('');
       }
     }
@@ -1423,11 +1427,23 @@
           const status = u.ativo
             ? '<span class="tag-ativo">● Ativo</span>'
             : '<span style="color:var(--text-muted);font-size:12px;">● Inativo</span>';
-          return `<tr style="cursor:pointer;" onclick="abrirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}')">
-            <td>${u.nome || '—'}</td>
-            <td style="color:var(--text-muted);font-size:12px;">${u.email}</td>
-            <td style="color:var(--text-muted);">${qtd} dashboard${qtd !== 1 ? 's' : ''}</td>
-            <td>${status} <span style="float:right;color:var(--text-muted);font-size:11px;">✏️ gerenciar</span></td>
+          return `<tr>
+            <td style="cursor:pointer;" onclick="abrirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}')">
+              ${u.nome || '—'}
+            </td>
+            <td style="color:var(--text-muted);font-size:12px;cursor:pointer;" onclick="abrirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}')">
+              ${u.email}
+            </td>
+            <td style="color:var(--text-muted);cursor:pointer;" onclick="abrirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}')">
+              ${qtd} dashboard${qtd !== 1 ? 's' : ''}
+            </td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                ${status}
+                <span onclick="abrirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}' )" style="color:var(--text-muted);font-size:11px;cursor:pointer;">✏️ gerenciar</span>
+                <span onclick="excluirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}' )" style="color:#f08080;font-size:11px;cursor:pointer;">🗑️ excluir</span>
+              </div>
+            </td>
           </tr>`;
         }).join('');
       }
@@ -1566,9 +1582,10 @@
 
     if (!nome || !url) { muMsg('muArqMsg', 'Nome e URL são obrigatórios.', false); return; }
 
+    const cat = document.getElementById('muArqCat').value.trim();
     const { error } = await sb.from('arquivos_clientes').insert([{
       email_cliente: _muEmail, nome, descricao: desc,
-      url, empresa: 'Renaux', ativo: true
+      url, categoria: cat || null, empresa: 'Renaux', ativo: true
     }]);
 
     if (error) { muMsg('muArqMsg', 'Erro: ' + error.message, false); return; }
@@ -1597,6 +1614,66 @@
     await carregarArquivos();
   }
 
+
+  // ─── Excluir usuário ─────────────────────────────────────────────────────────
+  async function excluirUsuario(email, nome) {
+    if (!confirm(`Tem certeza que deseja excluir o usuário "${nome || email}"?\n\nEssa ação removerá o login e todos os acessos. Não poderá ser desfeita.`)) return;
+
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+
+      const resp = await fetch(`${SUPABASE_URL}/functions/v1/delete-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const result = await resp.json();
+
+      if (!resp.ok || result.error) {
+        alert('Erro ao excluir: ' + (result.error || 'Tente novamente.'));
+        return;
+      }
+
+      carregarRegistros();
+
+    } catch(e) {
+      alert('Erro inesperado: ' + e.message);
+    }
+  }
+
+  // ─── Excluir usuário ─────────────────────────────────────────────────────────
+  async function excluirUsuario(email, nome) {
+    if (!confirm(`Tem certeza que deseja excluir o usuário "${nome || email}"?\n\nEssa ação removerá o login e todos os acessos. Não poderá ser desfeita.`)) return;
+
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+
+      const resp = await fetch(`${SUPABASE_URL}/functions/v1/delete-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const result = await resp.json();
+
+      if (!resp.ok || result.error) {
+        alert('Erro ao excluir: ' + (result.error || 'Tente novamente.'));
+        return;
+      }
+
+      carregarRegistros();
+
+    } catch(e) {
+      alert('Erro inesperado: ' + e.message);
+    }
+  }
 
   // ─── Editar dashboard ─────────────────────────────────────────────────────────
   function editarDb(id, titulo, cat, desc, url) {
@@ -1728,6 +1805,10 @@
         <div class="form-group">
           <label>Nome do arquivo/pasta</label>
           <input type="text" id="muArqNome" placeholder="Ex.: Planilha de Vendas" />
+        </div>
+        <div class="form-group">
+          <label>Categoria</label>
+          <input type="text" id="muArqCat" placeholder="Ex.: Suprimentos" />
         </div>
         <div class="form-group">
           <label>Descrição</label>
