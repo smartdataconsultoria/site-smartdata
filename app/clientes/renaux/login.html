@@ -225,7 +225,7 @@
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="cardLogin">
   <div class="logo-area">
     <div class="logo-icon">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -248,7 +248,7 @@
   <div class="field">
     <div class="field-row">
       <label>Senha</label>
-      
+      <a href="#" class="forgot" id="linkEsqueci">Esqueceu sua senha?</a>
     </div>
     <div class="input-wrap">
       <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" />
@@ -324,6 +324,85 @@
     const { data: { session } } = await sb.auth.getSession();
     if (session) window.location.href = 'dashboard.html';
   })();
+
+  // ─── Tela de recuperação ──────────────────────────────────────────────────────
+  const cardLogin    = document.getElementById('cardLogin');
+  const cardRecovery = document.getElementById('cardRecovery');
+
+  document.getElementById('linkEsqueci').addEventListener('click', e => {
+    e.preventDefault();
+    cardLogin.style.display    = 'none';
+    cardRecovery.style.display = 'block';
+  });
+
+  document.getElementById('linkVoltar').addEventListener('click', e => {
+    e.preventDefault();
+    cardRecovery.style.display = 'none';
+    cardLogin.style.display    = 'block';
+    document.getElementById('recoveryError').style.display   = 'none';
+    document.getElementById('recoverySuccess').style.display = 'none';
+    document.getElementById('recoveryEmail').value = '';
+  });
+
+  document.getElementById('btnRecovery').addEventListener('click', async () => {
+    const email = document.getElementById('recoveryEmail').value.trim();
+    const errEl = document.getElementById('recoveryError');
+    const okEl  = document.getElementById('recoverySuccess');
+    const btn   = document.getElementById('btnRecovery');
+    errEl.style.display = 'none';
+    okEl.style.display  = 'none';
+    if (!email) { errEl.textContent = 'Informe seu e-mail.'; errEl.style.display = 'block'; return; }
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://renaux.smartdataconsultoria.com/dashboard.html'
+    });
+    btn.disabled = false; btn.textContent = 'Enviar link de recuperação';
+    if (error) {
+      errEl.textContent = 'Erro ao enviar. Verifique o e-mail e tente novamente.';
+      errEl.style.display = 'block';
+    } else {
+      okEl.textContent = 'Link enviado! Verifique sua caixa de entrada.';
+      okEl.style.display = 'block';
+    }
+  });
+
+  document.getElementById('recoveryEmail').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btnRecovery').click();
+  });
 </script>
+
+<!-- TELA RECUPERAÇÃO DE SENHA -->
+<div class="card" id="cardRecovery" style="display:none;">
+  <div class="logo-area">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="12" width="4" height="9" rx="1"/>
+        <rect x="10" y="7" width="4" height="14" rx="1"/>
+        <rect x="17" y="3" width="4" height="18" rx="1"/>
+      </svg>
+    </div>
+    <h1>Recuperar senha</h1>
+    <p>Insira seu e-mail para receber o link de redefinição</p>
+  </div>
+
+  <div class="error-msg" id="recoveryError"></div>
+  <div class="error-msg" id="recoverySuccess" style="background:rgba(52,201,126,0.12);border-color:rgba(52,201,126,0.3);color:#5ddb9a;"></div>
+
+  <div class="field">
+    <label>E-mail</label>
+    <input type="email" id="recoveryEmail" placeholder="seu@email.com" />
+  </div>
+
+  <button class="btn-login" id="btnRecovery">Enviar link de recuperação</button>
+
+  <div style="text-align:center;margin-top:20px;">
+    <a href="#" id="linkVoltar" style="font-size:13px;color:var(--accent);text-decoration:none;">← Voltar ao login</a>
+  </div>
+
+  <div class="footer-brand" style="margin-top:24px;">
+    <span style="font-size:11px;">Desenvolvido pela <strong>SmartData</strong> Consultoria</span>
+  </div>
+</div>
+
 </body>
 </html>
