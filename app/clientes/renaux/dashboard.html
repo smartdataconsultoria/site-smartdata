@@ -907,12 +907,13 @@
       msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;';
       btn.disabled = false; btn.textContent = 'Salvar nova senha';
     } else {
-      msg.textContent = '✓ Senha alterada com sucesso!';
+      msg.textContent = '✓ Senha alterada com sucesso! Redirecionando para o login…';
       msg.style.cssText = 'display:block;background:rgba(52,201,126,0.12);border:1px solid rgba(52,201,126,0.3);color:#5ddb9a;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;';
-      setTimeout(() => {
-        document.getElementById('modalResetSenha').style.display = 'none';
-        window.location.hash = '';
-      }, 1500);
+      btn.textContent = 'Salvo!';
+      setTimeout(async () => {
+        await sb.auth.signOut();
+        window.location.href = 'login.html';
+      }, 2500);
     }
   });
 
