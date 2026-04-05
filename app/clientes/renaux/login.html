@@ -33,7 +33,6 @@
       position: relative;
     }
 
-    /* Grid background */
     body::before {
       content: '';
       position: fixed;
@@ -45,7 +44,6 @@
       pointer-events: none;
     }
 
-    /* Glow orb */
     body::after {
       content: '';
       position: fixed;
@@ -81,19 +79,16 @@
       margin-bottom: 32px;
     }
 
-    .logo-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-      border-radius: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(245,166,35,0.3);
+    /* Logo da Renaux centralizada com brilho dourado */
+    .logo-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 16px;
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(245,166,35,0.25);
     }
-
-    .logo-icon svg { width: 32px; height: 32px; fill: #fff; }
 
     .logo-area h1 {
       font-size: 26px;
@@ -129,16 +124,10 @@
 
     .field-row label { margin-bottom: 0; }
 
-    .forgot {
-      font-size: 12px;
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .forgot { font-size: 12px; color: var(--accent); text-decoration: none; }
     .forgot:hover { text-decoration: underline; }
 
-    .input-wrap {
-      position: relative;
-    }
+    .input-wrap { position: relative; }
 
     input[type="email"],
     input[type="password"],
@@ -233,22 +222,14 @@
       font-size: 12px;
       color: var(--text-muted);
     }
-
     .footer-brand strong { color: var(--accent); }
-    .footer-brand span   { color: var(--text-muted); }
   </style>
 </head>
 <body>
 
 <div class="card">
   <div class="logo-area">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="12" width="4" height="9" rx="1"/>
-        <rect x="10" y="7" width="4" height="14" rx="1"/>
-        <rect x="17" y="3" width="4" height="18" rx="1"/>
-      </svg>
-    </div>
+    <img src="./logo.png" alt="Renaux" class="logo-img" />
     <h1>Acesse sua conta</h1>
     <p>Visualize seus dashboards de Business Intelligence</p>
   </div>
@@ -263,12 +244,12 @@
   <div class="field">
     <div class="field-row">
       <label>Senha</label>
-      <a href="#" class="forgot" id="forgotLink">Esqueceu sua senha?</a>
+      <a href="#" class="forgot">Esqueceu sua senha?</a>
     </div>
     <div class="input-wrap">
       <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" />
-      <button class="toggle-pwd" id="togglePwd" type="button" aria-label="Mostrar senha">
-        <svg id="eyeIcon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <button class="toggle-pwd" id="togglePwd" type="button">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
           <circle cx="12" cy="12" r="3"/>
         </svg>
@@ -283,34 +264,29 @@
   <div class="footer-brand">
     <strong>Renaux</strong> <span>· Portal de Dashboards</span><br>
     <span style="font-size:11px;margin-top:4px;display:block;">
-      Powered by <strong>SmartData</strong> <span>Consultoria</span>
+      Powered by <strong>SmartData</strong> Consultoria
     </span>
   </div>
 </div>
 
 <script>
-  // ─── Supabase config ────────────────────────────────────────────────────────
-  // ATENÇÃO: substitua pela URL e chave anon do projeto Supabase da Renaux
   const SUPABASE_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
 
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  // ─── Toggle senha ────────────────────────────────────────────────────────────
   document.getElementById('togglePwd').addEventListener('click', () => {
     const inp = document.getElementById('senha');
     inp.type = inp.type === 'password' ? 'text' : 'password';
   });
 
-  // ─── Enter key ───────────────────────────────────────────────────────────────
   document.getElementById('senha').addEventListener('keydown', e => {
     if (e.key === 'Enter') login();
   });
 
   document.getElementById('btnLogin').addEventListener('click', login);
 
-  // ─── Login ───────────────────────────────────────────────────────────────────
   async function login() {
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
@@ -318,11 +294,7 @@
     const err   = document.getElementById('errorMsg');
 
     err.style.display = 'none';
-
-    if (!email || !senha) {
-      showError('Preencha e-mail e senha.');
-      return;
-    }
+    if (!email || !senha) { showError('Preencha e-mail e senha.'); return; }
 
     btn.disabled = true;
     btn.textContent = 'Entrando…';
@@ -344,7 +316,6 @@
     el.style.display = 'block';
   }
 
-  // ─── Redirecionar se já logado ────────────────────────────────────────────
   (async () => {
     const { data: { session } } = await sb.auth.getSession();
     if (session) window.location.href = 'dashboard.html';
