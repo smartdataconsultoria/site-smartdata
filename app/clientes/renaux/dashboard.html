@@ -879,36 +879,45 @@
     const btn       = document.getElementById('btnSalvarSenha');
     const msg       = document.getElementById('msgReset');
 
+    const showErro = (t) => { msg.textContent = t; msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;'; };
+    const showOk   = (t) => { msg.textContent = t; msg.style.cssText = 'display:block;background:rgba(52,201,126,0.12);border:1px solid rgba(52,201,126,0.3);color:#5ddb9a;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;'; };
+
     msg.style.display = 'none';
 
-    if (!nova || nova.length < 6) {
-      msg.textContent = 'A senha deve ter no mínimo 6 caracteres.';
-      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;';
-      return;
-    }
+    if (!nova || nova.length < 6) { showErro('A senha deve ter no mínimo 6 caracteres.'); return; }
+    if (nova !== confirmar)        { showErro('As senhas não coincidem.'); return; }
 
-    if (nova !== confirmar) {
-      msg.textContent = 'As senhas não coincidem.';
-      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;';
-      return;
-    }
+    btn.disabled = true;
+    btn.textContent = 'Salvando…';
 
-    btn.disabled = true; btn.textContent = 'Salvando…';
+    try {
+      // Verifica se tem sessão ativa
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) {
+        showErro('Sessão expirada. Solicite um novo link de recuperação.');
+        btn.disabled = false;
+        btn.textContent = 'Salvar nova senha';
+        return;
+      }
 
-    const { error } = await sb.auth.updateUser({ password: nova });
+      const { error } = await sb.auth.updateUser({ password: nova });
 
-    if (error) {
-      msg.textContent = 'Erro: ' + error.message;
-      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;';
-      btn.disabled = false; btn.textContent = 'Salvar nova senha';
-    } else {
-      msg.textContent = '✓ Senha alterada com sucesso! Redirecionando para o login…';
-      msg.style.cssText = 'display:block;background:rgba(52,201,126,0.12);border:1px solid rgba(52,201,126,0.3);color:#5ddb9a;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;';
-      btn.textContent = 'Salvo!';
-      setTimeout(async () => {
-        await sb.auth.signOut();
-        window.location.href = 'login.html';
-      }, 2500);
+      if (error) {
+        showErro('Erro: ' + error.message);
+        btn.disabled = false;
+        btn.textContent = 'Salvar nova senha';
+      } else {
+        showOk('✓ Senha alterada! Redirecionando para o login…');
+        btn.textContent = 'Salvo!';
+        setTimeout(async () => {
+          await sb.auth.signOut();
+          window.location.href = 'login.html';
+        }, 2000);
+      }
+    } catch(e) {
+      showErro('Erro inesperado: ' + e.message);
+      btn.disabled = false;
+      btn.textContent = 'Salvar nova senha';
     }
   });
 
