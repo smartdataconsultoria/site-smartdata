@@ -1,14 +1,14 @@
 {
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/area-cliente.html",
-      "destination": "/app/dashboard.html",
-      "permanent": true
-    },
-    {
-      "source": "/diagnostico-cliente.html",
-      "destination": "/app/diagnostico.html",
-      "permanent": true
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "renaux.smartdataconsultoria.com"
+        }
+      ],
+      "destination": "/app/clientes/renaux/index.html"
     }
   ]
 }
