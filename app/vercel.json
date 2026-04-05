@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "renaux.smartdataconsultoria.com"
+        }
+      ],
+      "destination": "/clientes/renaux/index.html"
+    }
+  ]
+}
