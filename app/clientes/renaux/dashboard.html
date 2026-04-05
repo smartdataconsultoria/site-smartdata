@@ -749,8 +749,9 @@
         <table>
           <thead>
             <tr>
+              <th>Nome</th>
               <th>E-mail</th>
-              <th>Último acesso</th>
+              <th>Dashboards</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -877,6 +878,10 @@
 
     <!-- Aba Usuário -->
     <div id="panelUser" style="display:none;">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input type="text" id="uNome" placeholder="Ex.: João Silva" />
+      </div>
       <div class="form-group">
         <label>E-mail do novo usuário</label>
         <input type="email" id="uEmail" placeholder="usuario@renaux.com.br" />
@@ -1097,7 +1102,7 @@
 
   function fecharModal() {
     document.getElementById('modalOverlay').classList.remove('open');
-    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uEmail','uSenha','fNome','fDesc','fUrl'].forEach(id => {
+    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uNome','uEmail','uSenha','fNome','fDesc','fUrl'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
@@ -1173,13 +1178,22 @@
     const btn = document.getElementById('btnCriarUser');
     btn.disabled = true; btn.textContent = 'Criando…';
 
-    const { error } = await sb.auth.signUp({ email, password: senha });
+    const { data: authData, error } = await sb.auth.signUp({ email, password: senha });
 
     btn.disabled = false; btn.textContent = 'Criar Usuário';
 
     if (error) { showMsg('msgUser', 'Erro: ' + error.message, false); return; }
 
-    showMsg('msgUser', 'Usuário criado! Um e-mail de confirmação foi enviado.', true);
+    // Registra também na tabela usuarios_portal
+    const nomeUsuario = document.getElementById('uNome').value.trim() || email.split('@')[0];
+    await sb.from('usuarios_portal').insert([{
+      email,
+      nome: nomeUsuario,
+      empresa: 'Renaux',
+      ativo: true
+    }]);
+
+    showMsg('msgUser', 'Usuário criado com sucesso!', true);
     setTimeout(fecharModal, 2000);
   });
 
@@ -1385,25 +1399,28 @@
       }
     }
 
-    // Usuários via dashboards_clientes (e-mails únicos da Renaux)
-    const { data: allDbs } = await sb.from('dashboards_clientes')
-      .select('email_cliente')
-      .eq('empresa', 'Renaux');
+    // Usuários via tabela usuarios_portal filtrando empresa Renaux
+    const { data: usuarios } = await sb.from('usuarios_portal')
+      .select('email, nome, ativo')
+      .eq('empresa', 'Renaux')
+      .order('nome');
 
-    if (allDbs) {
-      const emails = [...new Set(allDbs.map(d => d.email_cliente))];
-      document.getElementById('countUsuarios').textContent = emails.length;
+    if (usuarios) {
+      document.getElementById('countUsuarios').textContent = usuarios.length;
       const tb = document.getElementById('tbUsuarios');
-      if (emails.length === 0) {
+      if (usuarios.length === 0) {
         tb.innerHTML = '<tr><td colspan="3" style="color:var(--text-muted);text-align:center;padding:20px;">Nenhum usuário cadastrado.</td></tr>';
       } else {
-        const total = dbs ? dbs.length : 0;
-        tb.innerHTML = emails.map(email => {
-          const qtd = dbs ? dbs.filter(d => d.email_cliente === email).length : 0;
+        tb.innerHTML = usuarios.map(u => {
+          const qtd = dbs ? dbs.filter(d => d.email_cliente === u.email).length : 0;
+          const status = u.ativo
+            ? '<span class="tag-ativo">● Ativo</span>'
+            : '<span style="color:var(--text-muted);font-size:12px;">● Inativo</span>';
           return `<tr>
-            <td>${email}</td>
+            <td>${u.nome || '—'}</td>
+            <td style="color:var(--text-muted);font-size:12px;">${u.email}</td>
             <td style="color:var(--text-muted);">${qtd} dashboard${qtd !== 1 ? 's' : ''}</td>
-            <td><span class="tag-ativo">Ativo</span></td>
+            <td>${status}</td>
           </tr>`;
         }).join('');
       }
