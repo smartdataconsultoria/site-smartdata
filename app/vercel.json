@@ -8,7 +8,7 @@
           "value": "renaux.smartdataconsultoria.com"
         }
       ],
-      "destination": "/clientes/renaux/index.html"
+      "destination": "/app/clientes/renaux/login.html"
     }
   ]
 }
