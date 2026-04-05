@@ -1461,12 +1461,28 @@
       dbList.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">Nenhum dashboard vinculado.</span>';
     } else {
       dbList.innerHTML = dbs.map(d => `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-          <div>
-            <div style="font-size:13px;color:var(--text);">${d.titulo}</div>
-            <div style="font-size:11px;color:var(--text-muted);">${d.categoria || 'Geral'}</div>
+        <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+          <div id="dbView_${d.id}" style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:13px;color:var(--text);">${d.titulo}</div>
+              <div style="font-size:11px;color:var(--text-muted);">${d.categoria || 'Geral'}</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button onclick="editarDb(${d.id},'${(d.titulo||'').replace(/'/g,"\'").replace(/"/g,"&quot;")}','${(d.categoria||'').replace(/'/g,"\'")}','${(d.descricao||'').replace(/'/g,"\'")}','${(d.url||'').replace(/'/g,"\'")}' )" style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);color:var(--accent);font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">✏️ Editar</button>
+              <button onclick="removerDb(${d.id})" style="background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);color:#f08080;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">Remover</button>
+            </div>
           </div>
-          <button onclick="removerDb(${d.id})" style="background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);color:#f08080;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">Remover</button>
+          <div id="dbEdit_${d.id}" style="display:none;margin-top:10px;background:var(--bg-dark);border-radius:8px;padding:12px;">
+            <div class="form-group"><label>Título</label><input type="text" id="eDbTitulo_${d.id}" value="${d.titulo||''}" /></div>
+            <div class="form-group"><label>Categoria</label><input type="text" id="eDbCat_${d.id}" value="${d.categoria||''}" /></div>
+            <div class="form-group"><label>Descrição</label><input type="text" id="eDbDesc_${d.id}" value="${d.descricao||''}" /></div>
+            <div class="form-group"><label>URL Power BI</label><input type="url" id="eDbUrl_${d.id}" value="${d.url||''}" /></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+              <button onclick="document.getElementById('dbEdit_${d.id}').style.display='none';document.getElementById('dbView_${d.id}').style.display='flex';" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer;">Cancelar</button>
+              <button onclick="salvarEdicaoDb(${d.id})" style="background:var(--accent);color:#000;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;">Salvar</button>
+            </div>
+            <div id="eDbMsg_${d.id}" style="display:none;font-size:12px;margin-top:6px;padding:5px 8px;border-radius:5px;"></div>
+          </div>
         </div>`).join('');
     }
 
@@ -1482,12 +1498,27 @@
       arqList.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">Nenhum arquivo vinculado.</span>';
     } else {
       arqList.innerHTML = arqs.map(a => `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-          <div>
-            <div style="font-size:13px;color:var(--text);">${a.nome}</div>
-            <div style="font-size:11px;color:var(--text-muted);">${a.descricao || '—'}</div>
+        <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+          <div id="arqView_${a.id}" style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:13px;color:var(--text);">${a.nome}</div>
+              <div style="font-size:11px;color:var(--text-muted);">${a.descricao || '—'}</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button onclick="editarArq(${a.id},'${(a.nome||'').replace(/'/g,"\'").replace(/"/g,"&quot;")}','${(a.descricao||'').replace(/'/g,"\'").replace(/"/g,"&quot;")}','${(a.url||'').replace(/'/g,"\'")}')" style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);color:var(--accent);font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">✏️ Editar</button>
+              <button onclick="removerArq(${a.id})" style="background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);color:#f08080;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">Remover</button>
+            </div>
           </div>
-          <button onclick="removerArq(${a.id})" style="background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);color:#f08080;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">Remover</button>
+          <div id="arqEdit_${a.id}" style="display:none;margin-top:10px;background:var(--bg-dark);border-radius:8px;padding:12px;">
+            <div class="form-group"><label>Nome</label><input type="text" id="eArqNome_${a.id}" value="${a.nome||''}" /></div>
+            <div class="form-group"><label>Descrição</label><input type="text" id="eArqDesc_${a.id}" value="${a.descricao||''}" /></div>
+            <div class="form-group"><label>Link SharePoint</label><input type="url" id="eArqUrl_${a.id}" value="${a.url||''}" /></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+              <button onclick="document.getElementById('arqEdit_${a.id}').style.display='none';document.getElementById('arqView_${a.id}').style.display='flex';" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer;">Cancelar</button>
+              <button onclick="salvarEdicaoArq(${a.id})" style="background:var(--accent);color:#000;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;">Salvar</button>
+            </div>
+            <div id="eArqMsg_${a.id}" style="display:none;font-size:12px;margin-top:6px;padding:5px 8px;border-radius:5px;"></div>
+          </div>
         </div>`).join('');
     }
   }
@@ -1564,6 +1595,74 @@
     await sb.from('arquivos_clientes').update({ ativo: false }).eq('id', id);
     await carregarItensUsuario();
     await carregarArquivos();
+  }
+
+
+  // ─── Editar dashboard ─────────────────────────────────────────────────────────
+  function editarDb(id, titulo, cat, desc, url) {
+    document.getElementById('dbView_' + id).style.display = 'none';
+    document.getElementById('dbEdit_' + id).style.display = 'block';
+  }
+
+  async function salvarEdicaoDb(id) {
+    const titulo = document.getElementById('eDbTitulo_' + id).value.trim();
+    const cat    = document.getElementById('eDbCat_'    + id).value.trim();
+    const desc   = document.getElementById('eDbDesc_'   + id).value.trim();
+    const url    = document.getElementById('eDbUrl_'    + id).value.trim();
+    const msg    = document.getElementById('eDbMsg_'    + id);
+
+    if (!titulo) {
+      msg.textContent = 'Título obrigatório.';
+      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:12px;padding:5px 8px;border-radius:5px;margin-top:6px;';
+      return;
+    }
+
+    const { error } = await sb.from('dashboards_clientes')
+      .update({ titulo, categoria: cat||'Geral', descricao: desc, url: url||null })
+      .eq('id', id);
+
+    if (error) {
+      msg.textContent = 'Erro: ' + error.message;
+      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:12px;padding:5px 8px;border-radius:5px;margin-top:6px;';
+      return;
+    }
+
+    msg.textContent = '✓ Salvo!';
+    msg.style.cssText = 'display:block;background:rgba(52,201,126,0.12);border:1px solid rgba(52,201,126,0.3);color:#5ddb9a;font-size:12px;padding:5px 8px;border-radius:5px;margin-top:6px;';
+    setTimeout(async () => { await carregarItensUsuario(); await carregarDashboards(true); }, 800);
+  }
+
+  // ─── Editar arquivo ───────────────────────────────────────────────────────────
+  function editarArq(id, nome, desc, url) {
+    document.getElementById('arqView_' + id).style.display = 'none';
+    document.getElementById('arqEdit_' + id).style.display = 'block';
+  }
+
+  async function salvarEdicaoArq(id) {
+    const nome = document.getElementById('eArqNome_' + id).value.trim();
+    const desc = document.getElementById('eArqDesc_' + id).value.trim();
+    const url  = document.getElementById('eArqUrl_'  + id).value.trim();
+    const msg  = document.getElementById('eArqMsg_'  + id);
+
+    if (!nome || !url) {
+      msg.textContent = 'Nome e URL obrigatórios.';
+      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:12px;padding:5px 8px;border-radius:5px;margin-top:6px;';
+      return;
+    }
+
+    const { error } = await sb.from('arquivos_clientes')
+      .update({ nome, descricao: desc, url })
+      .eq('id', id);
+
+    if (error) {
+      msg.textContent = 'Erro: ' + error.message;
+      msg.style.cssText = 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:12px;padding:5px 8px;border-radius:5px;margin-top:6px;';
+      return;
+    }
+
+    msg.textContent = '✓ Salvo!';
+    msg.style.cssText = 'display:block;background:rgba(52,201,126,0.12);border:1px solid rgba(52,201,126,0.3);color:#5ddb9a;font-size:12px;padding:5px 8px;border-radius:5px;margin-top:6px;';
+    setTimeout(async () => { await carregarItensUsuario(); await carregarArquivos(); }, 800);
   }
 
   // ─── Init ────────────────────────────────────────────────────────────────────
