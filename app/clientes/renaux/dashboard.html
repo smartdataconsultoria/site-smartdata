@@ -557,33 +557,62 @@
 <!-- MODAL ADMIN -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h2>Novo Dashboard</h2>
-    <div class="form-group">
-      <label>E-mail do usuário</label>
-      <input type="email" id="mEmail" placeholder="usuario@renaux.com.br" />
+
+    <!-- Abas -->
+    <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border);">
+      <button id="tabDb" onclick="switchTab('db')" style="flex:1;padding:10px;background:none;border:none;border-bottom:2px solid var(--accent);color:var(--accent);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">+ Novo Dashboard</button>
+      <button id="tabUser" onclick="switchTab('user')" style="flex:1;padding:10px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">+ Novo Usuário</button>
     </div>
-    <div class="form-group">
-      <label>Título</label>
-      <input type="text" id="mTitulo" placeholder="Ex.: Gestão Comercial" />
+
+    <!-- Aba Dashboard -->
+    <div id="panelDb">
+      <div class="form-group">
+        <label>E-mail do usuário</label>
+        <input type="email" id="mEmail" placeholder="usuario@renaux.com.br" />
+      </div>
+      <div class="form-group">
+        <label>Título</label>
+        <input type="text" id="mTitulo" placeholder="Ex.: Gestão Comercial" />
+      </div>
+      <div class="form-group">
+        <label>Categoria</label>
+        <input type="text" id="mCategoria" placeholder="Ex.: Comercial" />
+      </div>
+      <div class="form-group">
+        <label>Descrição</label>
+        <textarea id="mDesc" rows="2" placeholder="Breve descrição do dashboard…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>URL do relatório Power BI</label>
+        <input type="url" id="mUrl" placeholder="https://app.powerbi.com/..." />
+      </div>
+      <div id="msgDb" style="display:none;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancelar">Cancelar</button>
+        <button class="btn-save" id="btnSalvar">Salvar Dashboard</button>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Categoria</label>
-      <input type="text" id="mCategoria" placeholder="Ex.: Comercial" />
+
+    <!-- Aba Usuário -->
+    <div id="panelUser" style="display:none;">
+      <div class="form-group">
+        <label>E-mail do novo usuário</label>
+        <input type="email" id="uEmail" placeholder="usuario@renaux.com.br" />
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="uSenha" placeholder="Mínimo 6 caracteres" />
+      </div>
+      <div id="msgUser" style="display:none;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancelarUser">Cancelar</button>
+        <button class="btn-save" id="btnCriarUser">Criar Usuário</button>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Descrição</label>
-      <textarea id="mDesc" rows="2" placeholder="Breve descrição do dashboard…"></textarea>
-    </div>
-    <div class="form-group">
-      <label>URL do relatório Power BI</label>
-      <input type="url" id="mUrl" placeholder="https://app.powerbi.com/..." />
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" id="btnCancelar">Cancelar</button>
-      <button class="btn-save" id="btnSalvar">Salvar</button>
-    </div>
+
   </div>
 </div>
+
 
 <script>
   // ─── Supabase config ────────────────────────────────────────────────────────
@@ -623,7 +652,7 @@
 
   // ─── Carregar dashboards ──────────────────────────────────────────────────────
   async function carregarDashboards(isAdmin) {
-    let query = sb.from('dashboards_clientes').select('*').eq('ativo', true);
+    let query = sb.from('dashboards_clientes').select('*').eq('ativo', true).eq('empresa', 'Renaux');
 
     if (!isAdmin) {
       query = query.eq('email_cliente', currentUser.email);
@@ -739,22 +768,63 @@
   }
 
   // ─── Modal admin ──────────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    const isDb = tab === 'db';
+    document.getElementById('panelDb').style.display   = isDb ? 'block' : 'none';
+    document.getElementById('panelUser').style.display = isDb ? 'none'  : 'block';
+    document.getElementById('tabDb').style.borderBottomColor   = isDb ? 'var(--accent)' : 'transparent';
+    document.getElementById('tabDb').style.color               = isDb ? 'var(--accent)' : 'var(--text-muted)';
+    document.getElementById('tabUser').style.borderBottomColor = isDb ? 'transparent' : 'var(--accent)';
+    document.getElementById('tabUser').style.color             = isDb ? 'var(--text-muted)' : 'var(--accent)';
+  }
+
+  function fecharModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uEmail','uSenha'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    ['msgDb','msgUser'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    switchTab('db');
+  }
+
+  function showMsg(id, msg, ok) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.style.background = ok ? 'rgba(52,201,126,0.12)' : 'rgba(224,85,85,0.12)';
+    el.style.border = ok ? '1px solid rgba(52,201,126,0.3)' : '1px solid rgba(224,85,85,0.3)';
+    el.style.color  = ok ? '#5ddb9a' : '#f08080';
+  }
+
   document.getElementById('btnNovoDb').addEventListener('click', () => {
+    switchTab('db');
     document.getElementById('modalOverlay').classList.add('open');
   });
 
-  document.getElementById('btnCancelar').addEventListener('click', () => {
-    document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('btnCancelar').addEventListener('click', fecharModal);
+  document.getElementById('btnCancelarUser').addEventListener('click', fecharModal);
+
+  // Fechar clicando fora
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) fecharModal();
   });
 
+  // ─── Salvar dashboard ─────────────────────────────────────────────────────────
   document.getElementById('btnSalvar').addEventListener('click', async () => {
-    const email    = document.getElementById('mEmail').value.trim();
-    const titulo   = document.getElementById('mTitulo').value.trim();
-    const cat      = document.getElementById('mCategoria').value.trim();
-    const desc     = document.getElementById('mDesc').value.trim();
-    const url      = document.getElementById('mUrl').value.trim();
+    const email  = document.getElementById('mEmail').value.trim();
+    const titulo = document.getElementById('mTitulo').value.trim();
+    const cat    = document.getElementById('mCategoria').value.trim();
+    const desc   = document.getElementById('mDesc').value.trim();
+    const url    = document.getElementById('mUrl').value.trim();
 
-    if (!email || !titulo) { alert('E-mail e título são obrigatórios.'); return; }
+    if (!email || !titulo) { showMsg('msgDb', 'E-mail e título são obrigatórios.', false); return; }
+
+    const btn = document.getElementById('btnSalvar');
+    btn.disabled = true; btn.textContent = 'Salvando…';
 
     const { error } = await sb.from('dashboards_clientes').insert([{
       email_cliente: email,
@@ -766,15 +836,33 @@
       ativo: true
     }]);
 
-    if (error) { alert('Erro ao salvar: ' + error.message); return; }
+    btn.disabled = false; btn.textContent = 'Salvar Dashboard';
 
-    document.getElementById('modalOverlay').classList.remove('open');
-    // Limpa campos
-    ['mEmail','mTitulo','mCategoria','mDesc','mUrl'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
+    if (error) { showMsg('msgDb', 'Erro: ' + error.message, false); return; }
 
-    await carregarDashboards(true);
+    showMsg('msgDb', 'Dashboard cadastrado com sucesso!', true);
+    setTimeout(() => { fecharModal(); carregarDashboards(true); }, 1200);
+  });
+
+  // ─── Criar usuário ────────────────────────────────────────────────────────────
+  document.getElementById('btnCriarUser').addEventListener('click', async () => {
+    const email = document.getElementById('uEmail').value.trim();
+    const senha = document.getElementById('uSenha').value;
+
+    if (!email || !senha) { showMsg('msgUser', 'Preencha e-mail e senha.', false); return; }
+    if (senha.length < 6)  { showMsg('msgUser', 'A senha deve ter no mínimo 6 caracteres.', false); return; }
+
+    const btn = document.getElementById('btnCriarUser');
+    btn.disabled = true; btn.textContent = 'Criando…';
+
+    const { error } = await sb.auth.signUp({ email, password: senha });
+
+    btn.disabled = false; btn.textContent = 'Criar Usuário';
+
+    if (error) { showMsg('msgUser', 'Erro: ' + error.message, false); return; }
+
+    showMsg('msgUser', 'Usuário criado! Um e-mail de confirmação foi enviado.', true);
+    setTimeout(fecharModal, 2000);
   });
 
   // ─── Init ────────────────────────────────────────────────────────────────────
