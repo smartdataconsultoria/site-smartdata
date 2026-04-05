@@ -1416,20 +1416,230 @@
           const status = u.ativo
             ? '<span class="tag-ativo">● Ativo</span>'
             : '<span style="color:var(--text-muted);font-size:12px;">● Inativo</span>';
-          return `<tr>
+          return `<tr style="cursor:pointer;" onclick="abrirUsuario('${u.email}','${(u.nome||'').replace(/'/g,"\\'")}')">
             <td>${u.nome || '—'}</td>
             <td style="color:var(--text-muted);font-size:12px;">${u.email}</td>
             <td style="color:var(--text-muted);">${qtd} dashboard${qtd !== 1 ? 's' : ''}</td>
-            <td>${status}</td>
+            <td>${status} <span style="float:right;color:var(--text-muted);font-size:11px;">✏️ gerenciar</span></td>
           </tr>`;
         }).join('');
       }
     }
   }
 
+
+  // ─── Modal gerenciar usuário ──────────────────────────────────────────────────
+  let _muEmail = '';
+
+  async function abrirUsuario(email, nome) {
+    _muEmail = email;
+    document.getElementById('muNome').textContent  = nome || email;
+    document.getElementById('muEmail').textContent = email;
+    document.getElementById('modalUsuario').style.display = 'flex';
+    document.getElementById('formAddDb').style.display  = 'none';
+    document.getElementById('formAddArq').style.display = 'none';
+    await carregarItensUsuario();
+  }
+
+  async function carregarItensUsuario() {
+    // Dashboards
+    const { data: dbs } = await sb.from('dashboards_clientes')
+      .select('id, titulo, categoria, url')
+      .eq('email_cliente', _muEmail)
+      .eq('empresa', 'Renaux')
+      .eq('ativo', true);
+
+    const dbList = document.getElementById('muDbList');
+    if (!dbs || dbs.length === 0) {
+      dbList.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">Nenhum dashboard vinculado.</span>';
+    } else {
+      dbList.innerHTML = dbs.map(d => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+          <div>
+            <div style="font-size:13px;color:var(--text);">${d.titulo}</div>
+            <div style="font-size:11px;color:var(--text-muted);">${d.categoria || 'Geral'}</div>
+          </div>
+          <button onclick="removerDb(${d.id})" style="background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);color:#f08080;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">Remover</button>
+        </div>`).join('');
+    }
+
+    // Arquivos
+    const { data: arqs } = await sb.from('arquivos_clientes')
+      .select('id, nome, descricao')
+      .eq('email_cliente', _muEmail)
+      .eq('empresa', 'Renaux')
+      .eq('ativo', true);
+
+    const arqList = document.getElementById('muArqList');
+    if (!arqs || arqs.length === 0) {
+      arqList.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">Nenhum arquivo vinculado.</span>';
+    } else {
+      arqList.innerHTML = arqs.map(a => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+          <div>
+            <div style="font-size:13px;color:var(--text);">${a.nome}</div>
+            <div style="font-size:11px;color:var(--text-muted);">${a.descricao || '—'}</div>
+          </div>
+          <button onclick="removerArq(${a.id})" style="background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.2);color:#f08080;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;">Remover</button>
+        </div>`).join('');
+    }
+  }
+
+  function mostrarFormDb()  { document.getElementById('formAddDb').style.display  = 'block'; }
+  function mostrarFormArq() { document.getElementById('formAddArq').style.display = 'block'; }
+
+  function muMsg(id, txt, ok) {
+    const el = document.getElementById(id);
+    el.textContent = txt;
+    el.style.cssText = ok
+      ? 'display:block;background:rgba(52,201,126,0.12);border:1px solid rgba(52,201,126,0.3);color:#5ddb9a;font-size:12px;padding:6px 10px;border-radius:6px;margin-top:8px;'
+      : 'display:block;background:rgba(224,85,85,0.12);border:1px solid rgba(224,85,85,0.3);color:#f08080;font-size:12px;padding:6px 10px;border-radius:6px;margin-top:8px;';
+  }
+
+  async function salvarDbUsuario() {
+    const titulo = document.getElementById('muDbTitulo').value.trim();
+    const cat    = document.getElementById('muDbCat').value.trim();
+    const desc   = document.getElementById('muDbDesc').value.trim();
+    const url    = document.getElementById('muDbUrl').value.trim();
+
+    if (!titulo) { muMsg('muDbMsg', 'Título é obrigatório.', false); return; }
+
+    const { error } = await sb.from('dashboards_clientes').insert([{
+      email_cliente: _muEmail, titulo, categoria: cat || 'Geral',
+      descricao: desc, url: url || null, empresa: 'Renaux', ativo: true
+    }]);
+
+    if (error) { muMsg('muDbMsg', 'Erro: ' + error.message, false); return; }
+
+    muMsg('muDbMsg', 'Dashboard adicionado!', true);
+    ['muDbTitulo','muDbCat','muDbDesc','muDbUrl'].forEach(id => document.getElementById(id).value = '');
+    setTimeout(async () => {
+      document.getElementById('formAddDb').style.display = 'none';
+      document.getElementById('muDbMsg').style.display = 'none';
+      await carregarItensUsuario();
+      await carregarDashboards(true);
+    }, 1000);
+  }
+
+  async function salvarArqUsuario() {
+    const nome = document.getElementById('muArqNome').value.trim();
+    const desc = document.getElementById('muArqDesc').value.trim();
+    const url  = document.getElementById('muArqUrl').value.trim();
+
+    if (!nome || !url) { muMsg('muArqMsg', 'Nome e URL são obrigatórios.', false); return; }
+
+    const { error } = await sb.from('arquivos_clientes').insert([{
+      email_cliente: _muEmail, nome, descricao: desc,
+      url, empresa: 'Renaux', ativo: true
+    }]);
+
+    if (error) { muMsg('muArqMsg', 'Erro: ' + error.message, false); return; }
+
+    muMsg('muArqMsg', 'Arquivo adicionado!', true);
+    ['muArqNome','muArqDesc','muArqUrl'].forEach(id => document.getElementById(id).value = '');
+    setTimeout(async () => {
+      document.getElementById('formAddArq').style.display = 'none';
+      document.getElementById('muArqMsg').style.display = 'none';
+      await carregarItensUsuario();
+      await carregarArquivos();
+    }, 1000);
+  }
+
+  async function removerDb(id) {
+    if (!confirm('Remover este dashboard do usuário?')) return;
+    await sb.from('dashboards_clientes').update({ ativo: false }).eq('id', id);
+    await carregarItensUsuario();
+    await carregarDashboards(true);
+  }
+
+  async function removerArq(id) {
+    if (!confirm('Remover este arquivo do usuário?')) return;
+    await sb.from('arquivos_clientes').update({ ativo: false }).eq('id', id);
+    await carregarItensUsuario();
+    await carregarArquivos();
+  }
+
   // ─── Init ────────────────────────────────────────────────────────────────────
   init();
 </script>
 
+
+<!-- MODAL GERENCIAR USUÁRIO -->
+<div class="modal-overlay" id="modalUsuario" style="display:none;background:rgba(0,0,0,0.8);">
+  <div class="modal" style="max-width:600px;max-height:80vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <h2 style="font-size:18px;" id="muNome">Usuário</h2>
+        <p style="font-size:12px;color:var(--text-muted);" id="muEmail"></p>
+      </div>
+      <button onclick="document.getElementById('modalUsuario').style.display='none'" style="background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;">✕</button>
+    </div>
+
+    <!-- Dashboards do usuário -->
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="font-size:13px;font-weight:600;color:var(--text);">📊 Dashboards vinculados</h3>
+        <button onclick="mostrarFormDb()" style="font-size:11px;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--accent);padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;">+ Adicionar</button>
+      </div>
+      <div id="muDbList" style="font-size:13px;color:var(--text-muted);">Carregando…</div>
+
+      <!-- Form add dashboard -->
+      <div id="formAddDb" style="display:none;background:var(--bg-input);border-radius:8px;padding:14px;margin-top:10px;">
+        <div class="form-group">
+          <label>Título</label>
+          <input type="text" id="muDbTitulo" placeholder="Ex.: Gestão Comercial" />
+        </div>
+        <div class="form-group">
+          <label>Categoria</label>
+          <input type="text" id="muDbCat" placeholder="Ex.: Comercial" />
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <input type="text" id="muDbDesc" placeholder="Breve descrição" />
+        </div>
+        <div class="form-group">
+          <label>URL Power BI</label>
+          <input type="url" id="muDbUrl" placeholder="https://app.powerbi.com/..." />
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button onclick="document.getElementById('formAddDb').style.display='none'" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:12px;padding:7px 14px;border-radius:6px;cursor:pointer;">Cancelar</button>
+          <button onclick="salvarDbUsuario()" style="background:var(--accent);color:#000;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;">Salvar</button>
+        </div>
+        <div id="muDbMsg" style="display:none;font-size:12px;margin-top:8px;padding:6px 10px;border-radius:6px;"></div>
+      </div>
+    </div>
+
+    <!-- Arquivos do usuário -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="font-size:13px;font-weight:600;color:var(--text);">📁 Arquivos vinculados</h3>
+        <button onclick="mostrarFormArq()" style="font-size:11px;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--accent);padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif;">+ Adicionar</button>
+      </div>
+      <div id="muArqList" style="font-size:13px;color:var(--text-muted);">Carregando…</div>
+
+      <!-- Form add arquivo -->
+      <div id="formAddArq" style="display:none;background:var(--bg-input);border-radius:8px;padding:14px;margin-top:10px;">
+        <div class="form-group">
+          <label>Nome do arquivo/pasta</label>
+          <input type="text" id="muArqNome" placeholder="Ex.: Planilha de Vendas" />
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <input type="text" id="muArqDesc" placeholder="Ex.: Preenchimento semanal" />
+        </div>
+        <div class="form-group">
+          <label>Link SharePoint</label>
+          <input type="url" id="muArqUrl" placeholder="https://empresa.sharepoint.com/..." />
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button onclick="document.getElementById('formAddArq').style.display='none'" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:12px;padding:7px 14px;border-radius:6px;cursor:pointer;">Cancelar</button>
+          <button onclick="salvarArqUsuario()" style="background:var(--accent);color:#000;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;">Salvar</button>
+        </div>
+        <div id="muArqMsg" style="display:none;font-size:12px;margin-top:8px;padding:6px 10px;border-radius:6px;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
