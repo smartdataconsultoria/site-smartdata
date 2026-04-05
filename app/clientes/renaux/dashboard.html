@@ -769,6 +769,11 @@
       document.getElementById('adminLink').style.display = 'flex';
     }
 
+    // Garante que o spinner some mesmo em caso de erro
+    setTimeout(() => {
+      document.getElementById('loading').style.display = 'none';
+    }, 5000);
+
     await carregarDashboards(isAdmin);
     await carregarArquivos();
   }
@@ -1080,26 +1085,28 @@
 
   // ─── Carregar arquivos ────────────────────────────────────────────────────────
   async function carregarArquivos() {
-    const { data, error } = await sb
-      .from('arquivos_clientes')
-      .select('*')
-      .eq('empresa', 'Renaux')
-      .eq('ativo', true)
-      .order('id');
-
     const grid  = document.getElementById('filesGrid');
     const title = document.getElementById('arquivosTitle');
     const sub   = document.getElementById('arquivosSub');
-    grid.innerHTML = '';
 
-    if (error || !data || data.length === 0) {
-      title.style.display = 'none';
-      sub.style.display   = 'none';
-      return;
-    }
+    try {
+      const { data, error } = await sb
+        .from('arquivos_clientes')
+        .select('*')
+        .eq('empresa', 'Renaux')
+        .eq('ativo', true)
+        .order('id');
 
-    title.style.display = 'block';
-    sub.style.display   = 'block';
+      grid.innerHTML = '';
+
+      if (error || !data || data.length === 0) {
+        title.style.display = 'none';
+        sub.style.display   = 'none';
+        return;
+      }
+
+      title.style.display = 'block';
+      sub.style.display   = 'block';
 
     data.forEach((arq, i) => {
       const a = document.createElement('a');
@@ -1118,7 +1125,12 @@
           <div class="file-desc">\${arq.descricao || 'SharePoint'}</div>
         </div>\`;
       grid.appendChild(a);
-    });
+      });
+    } catch(e) {
+      console.warn('Arquivos não carregados:', e);
+      title.style.display = 'none';
+      sub.style.display   = 'none';
+    }
   }
 
   // ─── Init ────────────────────────────────────────────────────────────────────
