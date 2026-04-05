@@ -1356,10 +1356,11 @@
   }
 
   async function carregarRegistros() {
-    // Dashboards
+    // Dashboards — somente ativos
     const { data: dbs } = await sb.from('dashboards_clientes')
       .select('email_cliente, titulo, categoria, ativo')
       .eq('empresa', 'Renaux')
+      .eq('ativo', true)
       .order('email_cliente');
 
     if (dbs) {
