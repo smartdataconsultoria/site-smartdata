@@ -79,17 +79,19 @@
       margin-bottom: 32px;
     }
 
-    /* Logo da Renaux centralizada com brilho dourado */
-    .logo-img {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 16px;
-      border-radius: 18px;
-      background: #000000;
-      box-shadow: 0 8px 28px rgba(245,166,35,0.2);
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(245,166,35,0.3);
     }
+
+    .logo-icon svg { width: 32px; height: 32px; fill: #fff; }
 
     .logo-area h1 {
       font-size: 26px;
@@ -230,7 +232,13 @@
 
 <div class="card">
   <div class="logo-area">
-    <img src="./logo.png" alt="Renaux" class="logo-img" />
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="12" width="4" height="9" rx="1"/>
+        <rect x="10" y="7" width="4" height="14" rx="1"/>
+        <rect x="17" y="3" width="4" height="18" rx="1"/>
+      </svg>
+    </div>
     <h1>Acesse sua conta</h1>
     <p>Visualize seus dashboards de Business Intelligence</p>
   </div>
