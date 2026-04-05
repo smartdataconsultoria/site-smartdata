@@ -1114,16 +1114,16 @@
       a.href = arq.url;
       a.target = '_blank';
       a.style.animationDelay = i * 0.06 + 's';
-      a.innerHTML = \`
+      a.innerHTML = `
         <div class="file-icon">
           <svg fill="none" stroke="var(--accent)" stroke-width="1.8" viewBox="0 0 24 24">
             <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/>
           </svg>
         </div>
         <div class="file-info">
-          <div class="file-name">\${arq.nome}</div>
-          <div class="file-desc">\${arq.descricao || 'SharePoint'}</div>
-        </div>\`;
+          <div class="file-name">${arq.nome}</div>
+          <div class="file-desc">${arq.descricao || 'SharePoint'}</div>
+        </div>`;
       grid.appendChild(a);
       });
     } catch(e) {
