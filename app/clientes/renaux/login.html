@@ -29,15 +29,12 @@
       justify-content: center;
       overflow: hidden;
       position: relative;
-
-      /* Imagem de fundo */
       background-image: url('./fundo.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
 
-    /* Overlay escuro sobre a imagem */
     body::before {
       content: '';
       position: fixed;
@@ -47,7 +44,6 @@
       pointer-events: none;
     }
 
-    /* Grade dourada sutil */
     body::after {
       content: '';
       position: fixed;
@@ -132,7 +128,7 @@
     }
     .field-row label { margin-bottom: 0; }
 
-    .forgot { font-size: 12px; color: var(--accent); text-decoration: none; }
+    .forgot { font-size: 12px; color: var(--accent); text-decoration: none; cursor: pointer; }
     .forgot:hover { text-decoration: underline; }
 
     .input-wrap { position: relative; }
@@ -187,32 +183,23 @@
     .btn-login:active { transform: translateY(0); }
     .btn-login:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    .error-msg {
-      background: rgba(224,85,85,0.12);
-      border: 1px solid rgba(224,85,85,0.3);
+    .msg-box {
       border-radius: 8px;
-      color: #f08080;
       font-size: 13px;
       padding: 10px 14px;
       margin-bottom: 14px;
       display: none;
     }
-
-    .divider {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 12px;
-      margin: 20px 0;
-      position: relative;
+    .msg-error {
+      background: rgba(224,85,85,0.12);
+      border: 1px solid rgba(224,85,85,0.3);
+      color: #f08080;
     }
-    .divider::before, .divider::after {
-      content: '';
-      position: absolute;
-      top: 50%; width: 42%; height: 1px;
-      background: var(--border);
+    .msg-success {
+      background: rgba(52,201,126,0.12);
+      border: 1px solid rgba(52,201,126,0.3);
+      color: #5ddb9a;
     }
-    .divider::before { left: 0; }
-    .divider::after  { right: 0; }
 
     .footer-brand {
       text-align: center;
@@ -221,24 +208,32 @@
       color: var(--text-muted);
     }
     .footer-brand strong { color: var(--accent); }
+
+    .link-voltar {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .link-voltar:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
+<!-- CARD LOGIN -->
 <div class="card" id="cardLogin">
   <div class="logo-area">
     <div class="logo-icon">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="12" width="4" height="9" rx="1"/>
-        <rect x="10" y="7" width="4" height="14" rx="1"/>
-        <rect x="17" y="3" width="4" height="18" rx="1"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
     </div>
     <h1>Grupo Renaux</h1>
     <p>Portal de Dashboards</p>
   </div>
 
-  <div class="error-msg" id="errorMsg"></div>
+  <div class="msg-box msg-error" id="loginError"></div>
 
   <div class="field">
     <label>E-mail</label>
@@ -248,7 +243,7 @@
   <div class="field">
     <div class="field-row">
       <label>Senha</label>
-      <a href="#" class="forgot" id="linkEsqueci">Esqueceu sua senha?</a>
+      <a class="forgot" id="linkEsqueci">Esqueceu sua senha?</a>
     </div>
     <div class="input-wrap">
       <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" />
@@ -263,13 +258,35 @@
 
   <button class="btn-login" id="btnLogin">Entrar</button>
 
-  
+  <div class="footer-brand">
+    <span style="font-size:11px;">Desenvolvido pela <strong>SmartData</strong> Consultoria</span>
+  </div>
+</div>
+
+<!-- CARD RECUPERAR SENHA -->
+<div class="card" id="cardRecovery" style="display:none;">
+  <div class="logo-area">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+    </div>
+    <h1>Recuperar Senha</h1>
+    <p>Enviaremos um link para seu e-mail</p>
+  </div>
+
+  <div class="msg-box msg-error"   id="recoveryError"></div>
+  <div class="msg-box msg-success" id="recoverySuccess"></div>
+
+  <div class="field">
+    <label>E-mail</label>
+    <input type="email" id="recoveryEmail" placeholder="seu@email.com" />
+  </div>
+
+  <button class="btn-login" id="btnRecovery">Enviar link de recuperação</button>
+
+  <a class="link-voltar" id="linkVoltar">← Voltar ao login</a>
 
   <div class="footer-brand">
-    
-    <span style="font-size:11px;margin-top:4px;display:block;">
-      Desenvolvido pela <strong>SmartData</strong> Consultoria
-    </span>
+    <span style="font-size:11px;">Desenvolvido pela <strong>SmartData</strong> Consultoria</span>
   </div>
 </div>
 
@@ -280,11 +297,16 @@
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
+  const cardLogin    = document.getElementById('cardLogin');
+  const cardRecovery = document.getElementById('cardRecovery');
+
+  // ─── Toggle senha ─────────────────────────────────────────────────────────────
   document.getElementById('togglePwd').addEventListener('click', () => {
     const inp = document.getElementById('senha');
     inp.type = inp.type === 'password' ? 'text' : 'password';
   });
 
+  // ─── Login ────────────────────────────────────────────────────────────────────
   document.getElementById('senha').addEventListener('keydown', e => {
     if (e.key === 'Enter') login();
   });
@@ -295,10 +317,10 @@
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
     const btn   = document.getElementById('btnLogin');
-    const err   = document.getElementById('errorMsg');
+    const err   = document.getElementById('loginError');
 
     err.style.display = 'none';
-    if (!email || !senha) { showError('Preencha e-mail e senha.'); return; }
+    if (!email || !senha) { showMsg('loginError', 'Preencha e-mail e senha.'); return; }
 
     btn.disabled = true;
     btn.textContent = 'Entrando…';
@@ -306,7 +328,7 @@
     const { error } = await sb.auth.signInWithPassword({ email, password: senha });
 
     if (error) {
-      showError('E-mail ou senha inválidos. Tente novamente.');
+      showMsg('loginError', 'E-mail ou senha inválidos. Tente novamente.');
       btn.disabled = false;
       btn.textContent = 'Entrar';
     } else {
@@ -314,95 +336,64 @@
     }
   }
 
-  function showError(msg) {
-    const el = document.getElementById('errorMsg');
-    el.textContent = msg;
-    el.style.display = 'block';
-  }
-
-  (async () => {
-    const { data: { session } } = await sb.auth.getSession();
-    if (session) window.location.href = 'dashboard.html';
-  })();
-
-  // ─── Tela de recuperação ──────────────────────────────────────────────────────
-  const cardLogin    = document.getElementById('cardLogin');
-  const cardRecovery = document.getElementById('cardRecovery');
-
-  document.getElementById('linkEsqueci').addEventListener('click', e => {
-    e.preventDefault();
+  // ─── Esqueceu senha ───────────────────────────────────────────────────────────
+  document.getElementById('linkEsqueci').addEventListener('click', () => {
     cardLogin.style.display    = 'none';
     cardRecovery.style.display = 'block';
   });
 
-  document.getElementById('linkVoltar').addEventListener('click', e => {
-    e.preventDefault();
+  document.getElementById('linkVoltar').addEventListener('click', () => {
     cardRecovery.style.display = 'none';
     cardLogin.style.display    = 'block';
+    document.getElementById('recoveryEmail').value = '';
     document.getElementById('recoveryError').style.display   = 'none';
     document.getElementById('recoverySuccess').style.display = 'none';
-    document.getElementById('recoveryEmail').value = '';
-  });
-
-  document.getElementById('btnRecovery').addEventListener('click', async () => {
-    const email = document.getElementById('recoveryEmail').value.trim();
-    const errEl = document.getElementById('recoveryError');
-    const okEl  = document.getElementById('recoverySuccess');
-    const btn   = document.getElementById('btnRecovery');
-    errEl.style.display = 'none';
-    okEl.style.display  = 'none';
-    if (!email) { errEl.textContent = 'Informe seu e-mail.'; errEl.style.display = 'block'; return; }
-    btn.disabled = true; btn.textContent = 'Enviando…';
-    const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://renaux.smartdataconsultoria.com/dashboard.html'
-    });
-    btn.disabled = false; btn.textContent = 'Enviar link de recuperação';
-    if (error) {
-      errEl.textContent = 'Erro ao enviar. Verifique o e-mail e tente novamente.';
-      errEl.style.display = 'block';
-    } else {
-      okEl.textContent = 'Link enviado! Verifique sua caixa de entrada.';
-      okEl.style.display = 'block';
-    }
   });
 
   document.getElementById('recoveryEmail').addEventListener('keydown', e => {
-    if (e.key === 'Enter') document.getElementById('btnRecovery').click();
+    if (e.key === 'Enter') enviarRecuperacao();
   });
+
+  document.getElementById('btnRecovery').addEventListener('click', enviarRecuperacao);
+
+  async function enviarRecuperacao() {
+    const email = document.getElementById('recoveryEmail').value.trim();
+    const btn   = document.getElementById('btnRecovery');
+
+    document.getElementById('recoveryError').style.display   = 'none';
+    document.getElementById('recoverySuccess').style.display = 'none';
+
+    if (!email) { showMsg('recoveryError', 'Informe seu e-mail.'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://renaux.smartdataconsultoria.com/dashboard.html'
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Enviar link de recuperação';
+
+    if (error) {
+      showMsg('recoveryError', 'Erro ao enviar. Verifique o e-mail e tente novamente.');
+    } else {
+      document.getElementById('recoverySuccess').textContent = 'Link enviado! Verifique sua caixa de entrada.';
+      document.getElementById('recoverySuccess').style.display = 'block';
+    }
+  }
+
+  function showMsg(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  // ─── Redirecionar se já logado ────────────────────────────────────────────────
+  (async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) window.location.href = 'dashboard.html';
+  })();
 </script>
-
-<!-- TELA RECUPERAÇÃO DE SENHA -->
-<div class="card" id="cardRecovery" style="display:none;">
-  <div class="logo-area">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="12" width="4" height="9" rx="1"/>
-        <rect x="10" y="7" width="4" height="14" rx="1"/>
-        <rect x="17" y="3" width="4" height="18" rx="1"/>
-      </svg>
-    </div>
-    <h1>Recuperar senha</h1>
-    <p>Insira seu e-mail para receber o link de redefinição</p>
-  </div>
-
-  <div class="error-msg" id="recoveryError"></div>
-  <div class="error-msg" id="recoverySuccess" style="background:rgba(52,201,126,0.12);border-color:rgba(52,201,126,0.3);color:#5ddb9a;"></div>
-
-  <div class="field">
-    <label>E-mail</label>
-    <input type="email" id="recoveryEmail" placeholder="seu@email.com" />
-  </div>
-
-  <button class="btn-login" id="btnRecovery">Enviar link de recuperação</button>
-
-  <div style="text-align:center;margin-top:20px;">
-    <a href="#" id="linkVoltar" style="font-size:13px;color:var(--accent);text-decoration:none;">← Voltar ao login</a>
-  </div>
-
-  <div class="footer-brand" style="margin-top:24px;">
-    <span style="font-size:11px;">Desenvolvido pela <strong>SmartData</strong> Consultoria</span>
-  </div>
-</div>
-
 </body>
 </html>
