@@ -356,6 +356,87 @@
 
     .btn-open:hover { opacity: 0.88; }
 
+
+    /* ── ARQUIVOS ────────────────────────────────────────────────────────────── */
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 40px 0 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .files-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .file-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .file-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      border-color: rgba(245,166,35,0.35);
+    }
+
+    .file-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(245,166,35,0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .file-icon svg { width: 22px; height: 22px; }
+
+    .file-info { overflow: hidden; }
+
+    .file-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .files-empty {
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 20px 0;
+    }
+
     /* ── EMPTY STATE ─────────────────────────────────────────────────────────── */
     .empty {
       text-align: center;
@@ -547,6 +628,12 @@
     <!-- Cards -->
     <div id="loading" class="loading"><div class="spinner"></div></div>
     <div class="cards-grid" id="cardsGrid" style="display:none;"></div>
+
+    <!-- ARQUIVOS / SHAREPOINT -->
+    <h2 class="section-title" id="arquivosTitle" style="display:none;">📁 Arquivos</h2>
+    <p class="section-sub" id="arquivosSub" style="display:none;">Pastas e planilhas disponíveis para preenchimento.</p>
+    <div class="files-grid" id="filesGrid"></div>
+
     <div class="empty" id="emptyState" style="display:none;">
       <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
       <p>Nenhum dashboard disponível para sua conta.</p>
@@ -562,6 +649,7 @@
     <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border);">
       <button id="tabDb" onclick="switchTab('db')" style="flex:1;padding:10px;background:none;border:none;border-bottom:2px solid var(--accent);color:var(--accent);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">+ Novo Dashboard</button>
       <button id="tabUser" onclick="switchTab('user')" style="flex:1;padding:10px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">+ Novo Usuário</button>
+      <button id="tabFile" onclick="switchTab('file')" style="flex:1;padding:10px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">+ Novo Arquivo</button>
     </div>
 
     <!-- Aba Dashboard -->
@@ -590,6 +678,27 @@
       <div class="modal-actions">
         <button class="btn-cancel" id="btnCancelar">Cancelar</button>
         <button class="btn-save" id="btnSalvar">Salvar Dashboard</button>
+      </div>
+    </div>
+
+    <!-- Aba Arquivo -->
+    <div id="panelFile" style="display:none;">
+      <div class="form-group">
+        <label>Nome da pasta/arquivo</label>
+        <input type="text" id="fNome" placeholder="Ex.: Planilha de Vendas" />
+      </div>
+      <div class="form-group">
+        <label>Descrição</label>
+        <input type="text" id="fDesc" placeholder="Ex.: Preenchimento semanal" />
+      </div>
+      <div class="form-group">
+        <label>Link do SharePoint</label>
+        <input type="url" id="fUrl" placeholder="https://empresa.sharepoint.com/..." />
+      </div>
+      <div id="msgFile" style="display:none;font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:8px;"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancelarFile">Cancelar</button>
+        <button class="btn-save" id="btnSalvarFile">Salvar Arquivo</button>
       </div>
     </div>
 
@@ -661,6 +770,7 @@
     }
 
     await carregarDashboards(isAdmin);
+    await carregarArquivos();
   }
 
   // ─── Logout ──────────────────────────────────────────────────────────────────
@@ -788,22 +898,25 @@
 
   // ─── Modal admin ──────────────────────────────────────────────────────────────
   function switchTab(tab) {
-    const isDb = tab === 'db';
-    document.getElementById('panelDb').style.display   = isDb ? 'block' : 'none';
-    document.getElementById('panelUser').style.display = isDb ? 'none'  : 'block';
-    document.getElementById('tabDb').style.borderBottomColor   = isDb ? 'var(--accent)' : 'transparent';
-    document.getElementById('tabDb').style.color               = isDb ? 'var(--accent)' : 'var(--text-muted)';
-    document.getElementById('tabUser').style.borderBottomColor = isDb ? 'transparent' : 'var(--accent)';
-    document.getElementById('tabUser').style.color             = isDb ? 'var(--text-muted)' : 'var(--accent)';
+    ['panelDb','panelUser','panelFile'].forEach(id => {
+      document.getElementById(id).style.display = 'none';
+    });
+    ['tabDb','tabUser','tabFile'].forEach(id => {
+      document.getElementById(id).style.borderBottomColor = 'transparent';
+      document.getElementById(id).style.color = 'var(--text-muted)';
+    });
+    document.getElementById('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).style.display = 'block';
+    document.getElementById('tab'   + tab.charAt(0).toUpperCase() + tab.slice(1)).style.borderBottomColor = 'var(--accent)';
+    document.getElementById('tab'   + tab.charAt(0).toUpperCase() + tab.slice(1)).style.color = 'var(--accent)';
   }
 
   function fecharModal() {
     document.getElementById('modalOverlay').classList.remove('open');
-    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uEmail','uSenha'].forEach(id => {
+    ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uEmail','uSenha','fNome','fDesc','fUrl'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
-    ['msgDb','msgUser'].forEach(id => {
+    ['msgDb','msgUser','msgFile'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
     });
@@ -826,6 +939,7 @@
 
   document.getElementById('btnCancelar').addEventListener('click', fecharModal);
   document.getElementById('btnCancelarUser').addEventListener('click', fecharModal);
+  document.getElementById('btnCancelarFile').addEventListener('click', fecharModal);
 
   // Fechar clicando fora
   document.getElementById('modalOverlay').addEventListener('click', e => {
@@ -939,6 +1053,73 @@
       btn.textContent = 'Salvar nova senha';
     }
   });
+
+
+  // ─── Salvar arquivo ───────────────────────────────────────────────────────────
+  document.getElementById('btnSalvarFile').addEventListener('click', async () => {
+    const nome = document.getElementById('fNome').value.trim();
+    const desc = document.getElementById('fDesc').value.trim();
+    const url  = document.getElementById('fUrl').value.trim();
+
+    if (!nome || !url) { showMsg('msgFile', 'Nome e URL são obrigatórios.', false); return; }
+
+    const btn = document.getElementById('btnSalvarFile');
+    btn.disabled = true; btn.textContent = 'Salvando…';
+
+    const { error } = await sb.from('arquivos_clientes').insert([{
+      nome, descricao: desc, url, empresa: 'Renaux', ativo: true
+    }]);
+
+    btn.disabled = false; btn.textContent = 'Salvar Arquivo';
+
+    if (error) { showMsg('msgFile', 'Erro: ' + error.message, false); return; }
+
+    showMsg('msgFile', 'Arquivo cadastrado com sucesso!', true);
+    setTimeout(() => { fecharModal(); carregarArquivos(); }, 1200);
+  });
+
+  // ─── Carregar arquivos ────────────────────────────────────────────────────────
+  async function carregarArquivos() {
+    const { data, error } = await sb
+      .from('arquivos_clientes')
+      .select('*')
+      .eq('empresa', 'Renaux')
+      .eq('ativo', true)
+      .order('id');
+
+    const grid  = document.getElementById('filesGrid');
+    const title = document.getElementById('arquivosTitle');
+    const sub   = document.getElementById('arquivosSub');
+    grid.innerHTML = '';
+
+    if (error || !data || data.length === 0) {
+      title.style.display = 'none';
+      sub.style.display   = 'none';
+      return;
+    }
+
+    title.style.display = 'block';
+    sub.style.display   = 'block';
+
+    data.forEach((arq, i) => {
+      const a = document.createElement('a');
+      a.className = 'file-card';
+      a.href = arq.url;
+      a.target = '_blank';
+      a.style.animationDelay = i * 0.06 + 's';
+      a.innerHTML = \`
+        <div class="file-icon">
+          <svg fill="none" stroke="var(--accent)" stroke-width="1.8" viewBox="0 0 24 24">
+            <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/>
+          </svg>
+        </div>
+        <div class="file-info">
+          <div class="file-name">\${arq.nome}</div>
+          <div class="file-desc">\${arq.descricao || 'SharePoint'}</div>
+        </div>\`;
+      grid.appendChild(a);
+    });
+  }
 
   // ─── Init ────────────────────────────────────────────────────────────────────
   init();
