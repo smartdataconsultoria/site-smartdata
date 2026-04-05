@@ -357,6 +357,111 @@
     .btn-open:hover { opacity: 0.88; }
 
 
+
+    /* ── PAINEL ADMIN ────────────────────────────────────────────────────────── */
+    .admin-panel {
+      display: none;
+    }
+
+    .admin-panel-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .admin-panel-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .admin-table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .admin-table-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-table-header h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .admin-table-header span {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-input);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 12px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(30,45,69,0.5);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(245,166,35,0.04); }
+
+    tbody td {
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .tag-cat {
+      background: rgba(245,166,35,0.12);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .tag-ativo {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--success);
+    }
+
+    .tag-ativo::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
     /* ── ARQUIVOS ────────────────────────────────────────────────────────────── */
     .section-title {
       font-size: 22px;
@@ -604,7 +709,7 @@
     <div id="categoriasList"></div>
 
     <div class="sidebar-section" style="margin-top:16px; border-top:1px solid var(--border); padding-top:16px;">
-      <a class="sidebar-item" id="adminLink" href="#" style="display:none;">
+      <a class="sidebar-item" id="adminLink" href="#" style="display:none;" onclick="event.preventDefault();showAdmin();">
         <span class="item-left">
           <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
           Administração
@@ -628,6 +733,74 @@
     <!-- Cards -->
     <div id="loading" class="loading"><div class="spinner"></div></div>
     <div class="cards-grid" id="cardsGrid" style="display:none;"></div>
+
+
+    <!-- PAINEL ADMINISTRAÇÃO -->
+    <div class="admin-panel" id="adminPanel">
+      <h2 class="admin-panel-title">⚙️ Administração</h2>
+      <p class="admin-panel-sub">Visão geral de usuários e dashboards cadastrados.</p>
+
+      <!-- Tabela usuários -->
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>👥 Usuários cadastrados</h3>
+          <span id="countUsuarios">0</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>E-mail</th>
+              <th>Último acesso</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tbUsuarios">
+            <tr><td colspan="3" style="color:var(--text-muted);text-align:center;padding:20px;">Carregando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela dashboards -->
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>📊 Dashboards cadastrados</h3>
+          <span id="countDashboards">0</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Título</th>
+              <th>Categoria</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tbDashboards">
+            <tr><td colspan="4" style="color:var(--text-muted);text-align:center;padding:20px;">Carregando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela arquivos -->
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>📁 Arquivos cadastrados</h3>
+          <span id="countArquivos">0</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tbArquivos">
+            <tr><td colspan="3" style="color:var(--text-muted);text-align:center;padding:20px;">Carregando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     <!-- ARQUIVOS / SHAREPOINT -->
     <h2 class="section-title" id="arquivosTitle" style="display:none;">📁 Arquivos</h2>
@@ -843,6 +1016,13 @@
     currentCat = 'Todos';
     document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
     document.getElementById('filterTodos').classList.add('active');
+    document.getElementById('adminPanel').style.display = 'none';
+    document.getElementById('cardsGrid').style.display  = 'grid';
+    document.getElementById('filesGrid').style.display  = '';
+    const at = document.getElementById('arquivosTitle');
+    const as = document.getElementById('arquivosSub');
+    if (at && allDashboards.length > 0) { at.style.display = 'block'; }
+    if (as && allDashboards.length > 0) { as.style.display = 'block'; }
     renderCards('Todos');
   });
 
@@ -1130,6 +1310,103 @@
       console.warn('Arquivos não carregados:', e);
       title.style.display = 'none';
       sub.style.display   = 'none';
+    }
+  }
+
+
+  // ─── Painel Admin ─────────────────────────────────────────────────────────────
+  function showAdmin() {
+    // Esconde seções normais
+    document.getElementById('loading').style.display       = 'none';
+    document.getElementById('cardsGrid').style.display     = 'none';
+    document.getElementById('emptyState').style.display    = 'none';
+    document.getElementById('filesGrid').style.display     = 'none';
+    const at = document.getElementById('arquivosTitle');
+    const as = document.getElementById('arquivosSub');
+    if (at) at.style.display = 'none';
+    if (as) as.style.display = 'none';
+
+    // Atualiza sidebar
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('adminLink').classList.add('active');
+
+    // Mostra painel admin
+    document.getElementById('adminPanel').style.display = 'block';
+
+    carregarRegistros();
+  }
+
+  function hideAdmin() {
+    document.getElementById('adminPanel').style.display = 'none';
+    document.getElementById('filesGrid').style.display = '';
+  }
+
+  async function carregarRegistros() {
+    // Dashboards
+    const { data: dbs } = await sb.from('dashboards_clientes')
+      .select('email_cliente, titulo, categoria, ativo')
+      .eq('empresa', 'Renaux')
+      .order('email_cliente');
+
+    if (dbs) {
+      document.getElementById('countDashboards').textContent = dbs.length;
+      const tb = document.getElementById('tbDashboards');
+      if (dbs.length === 0) {
+        tb.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted);text-align:center;padding:20px;">Nenhum dashboard cadastrado.</td></tr>';
+      } else {
+        tb.innerHTML = dbs.map(d => `
+          <tr>
+            <td style="color:var(--text-muted);font-size:12px;">${d.email_cliente}</td>
+            <td>${d.titulo}</td>
+            <td><span class="tag-cat">${d.categoria || 'Geral'}</span></td>
+            <td><span class="tag-ativo">Ativo</span></td>
+          </tr>`).join('');
+      }
+    }
+
+    // Arquivos
+    const { data: arqs } = await sb.from('arquivos_clientes')
+      .select('nome, descricao, ativo')
+      .eq('empresa', 'Renaux')
+      .order('id');
+
+    if (arqs) {
+      document.getElementById('countArquivos').textContent = arqs.length;
+      const tb = document.getElementById('tbArquivos');
+      if (arqs.length === 0) {
+        tb.innerHTML = '<tr><td colspan="3" style="color:var(--text-muted);text-align:center;padding:20px;">Nenhum arquivo cadastrado.</td></tr>';
+      } else {
+        tb.innerHTML = arqs.map(a => `
+          <tr>
+            <td>${a.nome}</td>
+            <td style="color:var(--text-muted);">${a.descricao || '—'}</td>
+            <td><span class="tag-ativo">Ativo</span></td>
+          </tr>`).join('');
+      }
+    }
+
+    // Usuários via dashboards_clientes (e-mails únicos da Renaux)
+    const { data: allDbs } = await sb.from('dashboards_clientes')
+      .select('email_cliente')
+      .eq('empresa', 'Renaux');
+
+    if (allDbs) {
+      const emails = [...new Set(allDbs.map(d => d.email_cliente))];
+      document.getElementById('countUsuarios').textContent = emails.length;
+      const tb = document.getElementById('tbUsuarios');
+      if (emails.length === 0) {
+        tb.innerHTML = '<tr><td colspan="3" style="color:var(--text-muted);text-align:center;padding:20px;">Nenhum usuário cadastrado.</td></tr>';
+      } else {
+        const total = dbs ? dbs.length : 0;
+        tb.innerHTML = emails.map(email => {
+          const qtd = dbs ? dbs.filter(d => d.email_cliente === email).length : 0;
+          return `<tr>
+            <td>${email}</td>
+            <td style="color:var(--text-muted);">${qtd} dashboard${qtd !== 1 ? 's' : ''}</td>
+            <td><span class="tag-ativo">Ativo</span></td>
+          </tr>`;
+        }).join('');
+      }
     }
   }
 
