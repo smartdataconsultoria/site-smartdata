@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Renaux | Acesse sua conta</title>
+  <title>SmartData | Área do Cliente</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
     :root {
       --bg-dark:     #0a0e1a;
       --bg-card:     #111827;
       --bg-input:    #1a2235;
-      --border:      #1e2d45;
-      --accent:      #f5a623;
-      --accent-dark: #c47d0e;
-      --text:        #e8eaf0;
-      --text-muted:  #6b7a99;
+      --border:      rgba(255,255,255,0.07);
+      --accent:      #4f8ef7;
+      --accent-dark: #2563eb;
+      --text:        #f1f5f9;
+      --text-muted:  #94a3b8;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,17 +29,16 @@
       justify-content: center;
       overflow: hidden;
       position: relative;
-      background-image: url('./fundo.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: var(--bg-dark);
     }
 
     body::before {
       content: '';
       position: fixed;
-      inset: 0;
-      background: rgba(8, 12, 24, 0.72);
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(79,142,247,0.1) 0%, transparent 70%);
       z-index: 0;
       pointer-events: none;
     }
@@ -49,9 +48,9 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(245,166,35,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(245,166,35,0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
+        linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
       z-index: 0;
       pointer-events: none;
     }
@@ -67,7 +66,7 @@
       max-width: 420px;
       position: relative;
       z-index: 1;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,166,35,0.07);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,142,247,0.07);
       animation: slideUp 0.5s ease;
     }
 
@@ -90,7 +89,7 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(245,166,35,0.3);
+      box-shadow: 0 8px 24px rgba(79,142,247,0.35);
     }
 
     .logo-icon svg { width: 32px; height: 32px; fill: #fff; }
@@ -150,7 +149,7 @@
 
     input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+      box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
     }
 
     input::placeholder { color: var(--text-muted); }
@@ -176,7 +175,7 @@
       border: none; border-radius: 10px;
       cursor: pointer; margin-top: 8px;
       transition: opacity 0.2s, transform 0.1s;
-      box-shadow: 0 4px 16px rgba(245,166,35,0.35);
+      box-shadow: 0 4px 16px rgba(79,142,247,0.35);
     }
 
     .btn-login:hover { opacity: 0.92; transform: translateY(-1px); }
@@ -229,8 +228,8 @@
     <div class="logo-icon">
       <svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
     </div>
-    <h1>Grupo Renaux</h1>
-    <p>Portal de Dashboards</p>
+    <h1>Smart<span style="color:var(--accent)">Data</span></h1>
+    <p>Área do Cliente</p>
   </div>
 
   <div class="msg-box msg-error" id="loginError"></div>
@@ -369,7 +368,7 @@
     btn.textContent = 'Enviando…';
 
     const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://renaux.smartdataconsultoria.com/dashboard.html'
+      redirectTo: 'https://smartdataconsultoria.com/app/dashboard.html'
     });
 
     btn.disabled = false;
