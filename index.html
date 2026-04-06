@@ -306,7 +306,7 @@
                 <li><a href="app/smartpdv.html">SmartPDV</a></li>
             </ul>
             <button class="cta-nav" onclick="window.location.href='#contato'">Fale Conosco</button>
-            <button class="cta-nav btn-diagnostico-nav" onclick="openDiagnosticoModal()">Diagnóstico Grátis</button>
+            <a href="app/diagnostico.html" class="cta-nav btn-diagnostico-nav" style="text-decoration:none;display:inline-flex;align-items:center;">Diagnóstico Grátis</a>
             <a href="area-cliente.html" class="btn-login-nav" style="text-decoration:none;">🔒 Área do Cliente</a>
             <button class="hamburger-btn" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
                 <span></span><span></span><span></span>
@@ -327,7 +327,7 @@
                 </p>
                 <div class="hero-cta">
                     <a href="https://wa.me/5581995426006" target="_blank" rel="noopener" class="btn-primary">💬 Fale com Consultor</a>
-                    <button class="btn-secondary" onclick="openDiagnosticoModal()" style="background:transparent;cursor:pointer;font-family:'Outfit',sans-serif;font-size:1rem;">🔍 Faça seu Diagnóstico</button>
+                    <a href="app/diagnostico.html" class="btn-secondary" style="font-family:'Outfit',sans-serif;font-size:1rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">🔍 Faça seu Diagnóstico</a>
                 </div>
             </div>
             <div class="hero-visual">
@@ -817,9 +817,9 @@ async function openDashboard(user) {
 const dState = { porte:'', ndash:'', freq:'', suporte:'', nfontes:'', bd:'', ti:'', ws:'', trein:'', reun:'', decisao:[], dados:[], areas:[], app:[] };
 let dCurrentStep=1;
 const dTotalSteps=7;
-function openDiagnosticoModal() { document.getElementById('diagnostico-modal').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeDiagnosticoModal() { document.getElementById('diagnostico-modal').classList.remove('open'); document.body.style.overflow=''; setTimeout(dResetForm,350); }
-function handleDiagOverlayClick(e) { if(e.target.id==='diagnostico-modal') closeDiagnosticoModal(); }
+function openDiagnosticoModal() { window.location.href='app/diagnostico.html'; }
+function closeDiagnosticoModal() { }
+function handleDiagOverlayClick(e) { }
 function dGoTo(step) {
     if(step>1&&dCurrentStep===1) { const e=document.getElementById('d-empresa').value.trim(),s=document.getElementById('d-segmento').value; if(!e||!s){alert('Preencha o nome da empresa e o segmento.');return;} }
     document.getElementById('ds'+dCurrentStep).classList.remove('active');
