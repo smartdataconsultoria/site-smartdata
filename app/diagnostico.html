@@ -8,32 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #0a0e1a;
-  --card:     #111827;
-  --card2:    #1a2235;
-  --blue:     #4f8ef7;
-  --blue-d:   #2563eb;
-  --blue-g:   rgba(79,142,247,0.15);
-  --blue-b:   rgba(79,142,247,0.25);
-  --text:     #f1f5f9;
-  --muted:    #94a3b8;
-  --dim:      #64748b;
-  --border:   rgba(255,255,255,0.07);
-  --r:        14px;
-  --rs:       8px;
+  --bg:     #0a0e1a;
+  --card:   #111827;
+  --card2:  #1a2235;
+  --blue:   #4f8ef7;
+  --blue-d: #2563eb;
+  --blue-g: rgba(79,142,247,0.15);
+  --blue-b: rgba(79,142,247,0.25);
+  --text:   #f1f5f9;
+  --muted:  #94a3b8;
+  --dim:    #64748b;
+  --border: rgba(255,255,255,0.07);
+  --r:      14px;
+  --rs:     8px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;top:-180px;left:50%;transform:translateX(-50%);width:700px;height:420px;background:radial-gradient(ellipse,rgba(79,142,247,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
 
-/* HEADER */
 .hdr{position:sticky;top:0;z-index:100;background:rgba(10,14,26,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;height:66px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:17px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:.5px}
 .logo span{color:var(--blue)}
 .hbadge{font-size:11px;font-weight:600;color:var(--blue);background:rgba(79,142,247,0.1);border:1px solid var(--blue-b);padding:5px 13px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase}
 
-/* HERO */
 .hero{max-width:720px;margin:0 auto;padding:5rem 2rem 3.5rem;text-align:center;position:relative;z-index:1}
 .htag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--blue);letter-spacing:.5px;text-transform:uppercase;background:rgba(79,142,247,0.1);border:1px solid var(--blue-b);padding:6px 16px;border-radius:20px;margin-bottom:1.5rem}
 .htag::before{content:'';width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite}
@@ -45,10 +43,8 @@ body::before{content:'';position:fixed;top:-180px;left:50%;transform:translateX(
 .sn{font-size:22px;font-weight:800;color:var(--blue)}
 .sl{font-size:12px;color:var(--dim);margin-top:2px}
 
-/* FORM */
 .fw{max-width:680px;margin:0 auto;padding:0 1.5rem 6rem;position:relative;z-index:1}
 
-/* PROGRESS */
 .pw{position:sticky;top:66px;z-index:50;background:var(--bg);padding:1rem 0 .75rem;margin-bottom:2rem}
 .pt{height:3px;background:rgba(79,142,247,0.1);border-radius:2px;overflow:hidden;margin-bottom:.75rem}
 .pf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue) 0%,#818cf8 100%);box-shadow:0 0 8px rgba(79,142,247,.4);transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
@@ -56,14 +52,12 @@ body::before{content:'';position:fixed;top:-180px;left:50%;transform:translateX(
 .pname{font-size:13px;font-weight:500;color:var(--blue)}
 .pcnt{font-size:12px;color:var(--dim)}
 
-/* STEP */
 .step{display:none;animation:fu .4s ease}
 .step.active{display:block}
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .stitle{font-size:1.45rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.5rem}
 .sdesc{font-size:14px;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:2rem}
 
-/* FIELD */
 .f{margin-bottom:1.75rem}
 .f label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
 .req{color:var(--blue);margin-left:2px}
@@ -73,28 +67,24 @@ input::placeholder,textarea::placeholder{color:var(--dim)}
 input:focus,textarea:focus{border-color:var(--blue-b);box-shadow:0 0 0 3px rgba(79,142,247,.08)}
 textarea{resize:vertical;min-height:100px}
 
-/* GRID */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:520px){.g2{grid-template-columns:1fr}}
 
-/* CHIPS */
 .chips{display:flex;flex-wrap:wrap;gap:9px}
 .chip{padding:9px 17px;border-radius:40px;border:1px solid var(--border);font-size:13px;font-weight:400;font-family:'Poppins',sans-serif;cursor:pointer;background:var(--card2);color:var(--muted);transition:all .2s;user-select:none}
 .chip:hover{border-color:var(--blue-b);color:var(--blue);background:var(--blue-g)}
 .chip.sel{background:rgba(79,142,247,0.15);border-color:var(--blue);color:var(--blue);font-weight:600;box-shadow:0 0 12px rgba(79,142,247,.2)}
 .chint{font-size:11px;color:var(--dim);margin-top:7px;font-style:italic}
 
-/* NAV */
 .nav{display:flex;gap:10px;margin-top:2.5rem}
 .btn{flex:1;padding:14px 24px;border-radius:var(--rs);font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--border);background:var(--card2);color:var(--muted)}
 .btn:hover{border-color:var(--blue-b);color:var(--blue)}
 .btn.p{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 4px 20px rgba(79,142,247,.3)}
 .btn.p:hover{background:var(--blue-d);border-color:var(--blue-d);box-shadow:0 6px 24px rgba(79,142,247,.4);transform:translateY(-1px)}
+.btn.p:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-/* DIVIDER */
 .div{height:1px;background:var(--border);margin:1.75rem 0}
 
-/* RESULT */
 .rc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 0 60px rgba(79,142,247,.06)}
 .rt{padding:2rem;background:linear-gradient(135deg,#0d1526 0%,#111827 100%);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
 .rt::after{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(79,142,247,.12) 0%,transparent 70%);pointer-events:none}
@@ -116,14 +106,13 @@ textarea{resize:vertical;min-height:100px}
 .ab:hover{border-color:var(--blue-b);color:var(--blue)}
 .ab.w{background:#25D366;border-color:#25D366;color:#fff;box-shadow:0 4px 14px rgba(37,211,102,.2)}
 .ab.w:hover{background:#1da851;transform:translateY(-1px)}
-.ab.r{flex:0 0 auto;min-width:auto}
+.ab.r2{flex:0 0 auto;min-width:auto}
 
-/* LOADING */
 .ld{text-align:center;padding:5rem 2rem}
 .spin{width:46px;height:46px;border:3px solid rgba(79,142,247,.12);border-top-color:var(--blue);border-radius:50%;margin:0 auto 1.5rem;animation:sp .85s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .lt{font-size:18px;font-weight:700;margin-bottom:6px}
-.ls{font-size:13px;color:var(--muted);font-weight:300}
+.ls2{font-size:13px;color:var(--muted);font-weight:300}
 .li{display:flex;flex-direction:column;gap:8px;max-width:260px;margin:2rem auto 0;text-align:left}
 .li-i{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dim);opacity:0;animation:fi .5s forwards}
 .li-i:nth-child(1){animation-delay:.3s}.li-i:nth-child(2){animation-delay:.9s}
@@ -131,7 +120,9 @@ textarea{resize:vertical;min-height:100px}
 @keyframes fi{to{opacity:1}}
 .li-d{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0}
 
-/* FOOTER */
+.err-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:var(--rs);padding:1.25rem 1.5rem;margin-bottom:1rem;font-size:13px;color:#fca5a5;line-height:1.6}
+.err-box strong{display:block;margin-bottom:4px;color:#f87171;font-size:14px}
+
 footer{text-align:center;padding:2rem;font-size:12px;color:var(--dim);border-top:1px solid var(--border);position:relative;z-index:1}
 footer a{color:var(--blue);text-decoration:none}
 footer a:hover{text-decoration:underline}
@@ -314,12 +305,12 @@ footer a:hover{text-decoration:underline}
     </div>
   </div>
 
-  <!-- ETAPA 5 -->
+  <!-- ETAPA 5 — RESULTADO -->
   <div class="step" id="step4">
     <div class="ld" id="ldState">
       <div class="spin"></div>
       <div class="lt">Analisando seu perfil...</div>
-      <div class="ls">A IA está preparando sua proposta personalizada</div>
+      <div class="ls2">A IA está preparando sua proposta personalizada</div>
       <div class="li">
         <div class="li-i"><div class="li-d"></div>Classificando maturidade em dados</div>
         <div class="li-i"><div class="li-d"></div>Identificando oportunidades de melhoria</div>
@@ -342,7 +333,7 @@ footer a:hover{text-decoration:underline}
         <div class="ra">
           <button class="ab" onclick="copiar()">Copiar proposta</button>
           <button class="ab w" onclick="wpp()">Enviar no WhatsApp</button>
-          <button class="ab r" onclick="reset()">Reiniciar</button>
+          <button class="ab r2" onclick="reiniciar()">Reiniciar</button>
         </div>
       </div>
     </div>
@@ -429,56 +420,63 @@ Treinamento: ${fd.trei||'não informado'}
 Desafio principal: ${fd.desafio||'não informado'}
 
 ━━━ PLANOS SMARTDATA ━━━
-• Start — R$ 3.000: diagnóstico completo, estruturação de dados, até 2 dashboards Power BI, consultoria semanal, suporte básico por WhatsApp e e-mail
-• Profissional — R$ 6.000: até 5 dashboards Power BI, treinamento da equipe, relatórios semanais, reuniões recorrentes, integração de dados, apresentação de desempenho
-• Pro Plus — R$ 10.000: até 7 dashboards, automação com IA, desenvolvimento de aplicativo personalizado, banco de dados Supabase, suporte prioritário, consultoria contínua
+• Start — R$ 3.000: diagnóstico completo, estruturação de dados, até 2 dashboards Power BI, consultoria semanal, suporte básico
+• Profissional — R$ 6.000: até 5 dashboards Power BI, treinamento da equipe, relatórios semanais, reuniões recorrentes, integração de dados
+• Pro Plus — R$ 10.000: até 7 dashboards, automação com IA, desenvolvimento de aplicativo personalizado, banco de dados Supabase, suporte prioritário
 
 ━━━ FORMATO OBRIGATÓRIO ━━━
 Siga exatamente esta estrutura. Sem markdown, sem asteriscos, sem ##. Use apenas os emojis indicados.
 
 📊 RESUMO DO CLIENTE
-[2-3 linhas sobre a empresa ${fd.emp}, setor ${fd.seg} e situação atual]
+[2-3 linhas sobre ${fd.emp}, setor ${fd.seg} e situação atual]
 
 🔎 DIAGNÓSTICO
-Maturidade: [Iniciante / Intermediário / Avançado] — [1 linha explicando o porquê]
+Maturidade: [Iniciante / Intermediário / Avançado] — [1 linha]
 Problemas identificados:
-• [problema específico ao setor ${fd.seg} e porte ${fd.porte}]
-• [problema 2 concreto]
+• [problema específico ao setor ${fd.seg}]
+• [problema 2]
 • [problema 3 se houver]
 Oportunidades:
-• [oportunidade de melhoria 1]
+• [oportunidade 1]
 • [oportunidade 2]
 
-🚀 PLANO RECOMENDADO: [NOME DO PLANO]
-[3-4 linhas justificando a escolha de forma consultiva, citando o setor e os dados informados]
+🚀 PLANO RECOMENDADO: [NOME]
+[3-4 linhas justificando a escolha]
 
 🧩 ESCOPO PERSONALIZADO
-[8 a 11 itens específicos, adaptados ao setor ${fd.seg} e às necessidades informadas — dashboards, integrações, treinamento, suporte, sistemas]
+[8 a 11 itens adaptados ao setor ${fd.seg}]
 
 💵 INVESTIMENTO
 Valor: R$ X.XXX
-[1-2 linhas sobre condições, parcelamento ou variações se necessário]
+[1-2 linhas sobre condições]
 
 🎯 O QUE VOCÊ VAI GANHAR
-• [benefício concreto e mensurável ao setor ${fd.seg}]
-• [benefício 2 — ex: economia de tempo, redução de custos]
+• [benefício 1 específico ao setor]
+• [benefício 2]
 • [benefício 3]
 • [benefício 4]
 
 📞 PRÓXIMOS PASSOS
-[Instruções claras e convidativas. Mencione o WhatsApp +55 (81) 99542-6006 e o site smartdataconsultoria.com]
+[Instruções convidativas. Mencione WhatsApp +55 (81) 99542-6006 e site smartdataconsultoria.com]
 
 ———
 SmartData Consultoria · Recife, PE · smartdataconsultoria.com
 
-REGRAS: use linguagem profissional e acessível. Cite o nome ${fd.emp} ao longo do texto. Foque em valor de negócio. Seja específico ao setor ${fd.seg}. Nunca use asteriscos ou ##.`;
+REGRAS: linguagem profissional e acessível. Cite ${fd.emp} ao longo do texto. Foque em valor de negócio. Nunca use asteriscos ou ##.`;
 
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,stream:true,messages:[{role:'user',content:prompt}]})
+  try {
+    // ✅ Chama o proxy Vercel — não a Anthropic diretamente
+    const res = await fetch('/api/gerar-proposta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
     });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Erro ' + res.status);
+    }
+
     document.getElementById('ldState').style.display='none';
     document.getElementById('resState').style.display='block';
     document.getElementById('rEmp').textContent=fd.emp;
@@ -508,17 +506,18 @@ REGRAS: use linguagem profissional e acessível. Cite o nome ${fd.emp} ao longo 
     if(low.includes('pro plus')){pc='ppp';pl='◈ Pro Plus';}
     else if(low.includes('profissional')){pc='pp';pl='◆ Profissional';}
     document.getElementById('rPill').innerHTML=`<span class="pill ${pc}">${pl}</span>`;
-  }catch(err){
+
+  } catch(err) {
     document.getElementById('ldState').style.display='none';
     document.getElementById('resState').style.display='block';
     document.getElementById('rEmp').textContent=fd.emp;
-    document.getElementById('rTxt').textContent='Erro ao conectar com a IA. Verifique sua conexão.\n\n'+err.message;
+    document.getElementById('rTxt').innerHTML=`<div class="err-box"><strong>Erro ao gerar proposta</strong>${err.message}</div>`;
   }
 }
 
 function copiar(){
   navigator.clipboard.writeText(orc).then(()=>{
-    const b=document.querySelector('.ab:not(.w):not(.r)');
+    const b=document.querySelector('.ab:not(.w):not(.r2)');
     b.textContent='✓ Copiado!';setTimeout(()=>b.textContent='Copiar proposta',2500);
   });
 }
@@ -526,7 +525,7 @@ function wpp(){
   const num=fd.tel?fd.tel.replace(/\D/g,''):'5581995426006';
   window.open('https://wa.me/55'+num+'?text='+encodeURIComponent('*Proposta SmartData Consultoria*\n\n'+orc),'_blank');
 }
-function reset(){
+function reiniciar(){
   if(!confirm('Iniciar novo diagnóstico? O orçamento atual será perdido.'))return;
   document.querySelectorAll('input,textarea').forEach(el=>el.value='');
   document.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));
