@@ -7,31 +7,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:     #0a0e1a;
-  --card:   #111827;
-  --card2:  #1a2235;
-  --blue:   #4f8ef7;
-  --blue-d: #2563eb;
-  --blue-g: rgba(79,142,247,0.15);
-  --blue-b: rgba(79,142,247,0.25);
-  --text:   #f1f5f9;
-  --muted:  #94a3b8;
-  --dim:    #64748b;
-  --border: rgba(255,255,255,0.07);
-  --r:      14px;
-  --rs:     8px;
+:root{
+  --bg:#0a0e1a;--card:#111827;--card2:#1a2235;
+  --blue:#4f8ef7;--blue-d:#2563eb;
+  --blue-g:rgba(79,142,247,0.15);--blue-b:rgba(79,142,247,0.25);
+  --text:#f1f5f9;--muted:#94a3b8;--dim:#64748b;
+  --border:rgba(255,255,255,0.07);--r:14px;--rs:8px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;top:-180px;left:50%;transform:translateX(-50%);width:700px;height:420px;background:radial-gradient(ellipse,rgba(79,142,247,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
 
+/* HEADER */
 .hdr{position:sticky;top:0;z-index:100;background:rgba(10,14,26,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;height:66px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:17px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:.5px}
 .logo span{color:var(--blue)}
 .hbadge{font-size:11px;font-weight:600;color:var(--blue);background:rgba(79,142,247,0.1);border:1px solid var(--blue-b);padding:5px 13px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase}
 
+/* HERO */
 .hero{max-width:720px;margin:0 auto;padding:5rem 2rem 3.5rem;text-align:center;position:relative;z-index:1}
 .htag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--blue);letter-spacing:.5px;text-transform:uppercase;background:rgba(79,142,247,0.1);border:1px solid var(--blue-b);padding:6px 16px;border-radius:20px;margin-bottom:1.5rem}
 .htag::before{content:'';width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite}
@@ -43,8 +37,10 @@ body::before{content:'';position:fixed;top:-180px;left:50%;transform:translateX(
 .sn{font-size:22px;font-weight:800;color:var(--blue)}
 .sl{font-size:12px;color:var(--dim);margin-top:2px}
 
+/* FORM */
 .fw{max-width:680px;margin:0 auto;padding:0 1.5rem 6rem;position:relative;z-index:1}
 
+/* PROGRESS */
 .pw{position:sticky;top:66px;z-index:50;background:var(--bg);padding:1rem 0 .75rem;margin-bottom:2rem}
 .pt{height:3px;background:rgba(79,142,247,0.1);border-radius:2px;overflow:hidden;margin-bottom:.75rem}
 .pf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue) 0%,#818cf8 100%);box-shadow:0 0 8px rgba(79,142,247,.4);transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
@@ -52,12 +48,14 @@ body::before{content:'';position:fixed;top:-180px;left:50%;transform:translateX(
 .pname{font-size:13px;font-weight:500;color:var(--blue)}
 .pcnt{font-size:12px;color:var(--dim)}
 
+/* STEP */
 .step{display:none;animation:fu .4s ease}
 .step.active{display:block}
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .stitle{font-size:1.45rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.5rem}
 .sdesc{font-size:14px;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:2rem}
 
+/* FIELDS */
 .f{margin-bottom:1.75rem}
 .f label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
 .req{color:var(--blue);margin-left:2px}
@@ -66,30 +64,30 @@ input[type=text],input[type=tel],input[type=email],textarea{width:100%;padding:1
 input::placeholder,textarea::placeholder{color:var(--dim)}
 input:focus,textarea:focus{border-color:var(--blue-b);box-shadow:0 0 0 3px rgba(79,142,247,.08)}
 textarea{resize:vertical;min-height:100px}
-
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:520px){.g2{grid-template-columns:1fr}}
 
+/* CHIPS */
 .chips{display:flex;flex-wrap:wrap;gap:9px}
 .chip{padding:9px 17px;border-radius:40px;border:1px solid var(--border);font-size:13px;font-weight:400;font-family:'Poppins',sans-serif;cursor:pointer;background:var(--card2);color:var(--muted);transition:all .2s;user-select:none}
 .chip:hover{border-color:var(--blue-b);color:var(--blue);background:var(--blue-g)}
 .chip.sel{background:rgba(79,142,247,0.15);border-color:var(--blue);color:var(--blue);font-weight:600;box-shadow:0 0 12px rgba(79,142,247,.2)}
 .chint{font-size:11px;color:var(--dim);margin-top:7px;font-style:italic}
 
+/* NAV */
 .nav{display:flex;gap:10px;margin-top:2.5rem}
 .btn{flex:1;padding:14px 24px;border-radius:var(--rs);font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--border);background:var(--card2);color:var(--muted)}
 .btn:hover{border-color:var(--blue-b);color:var(--blue)}
 .btn.p{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 4px 20px rgba(79,142,247,.3)}
-.btn.p:hover{background:var(--blue-d);border-color:var(--blue-d);box-shadow:0 6px 24px rgba(79,142,247,.4);transform:translateY(-1px)}
-.btn.p:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
+.btn.p:hover{background:var(--blue-d);border-color:var(--blue-d);transform:translateY(-1px)}
 .div{height:1px;background:var(--border);margin:1.75rem 0}
 
+/* RESULT CARD */
 .rc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 0 60px rgba(79,142,247,.06)}
 .rt{padding:2rem;background:linear-gradient(135deg,#0d1526 0%,#111827 100%);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
 .rt::after{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(79,142,247,.12) 0%,transparent 70%);pointer-events:none}
 .rbrand{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
-.rico{width:40px;height:40px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;letter-spacing:.5px}
+.rico{width:40px;height:40px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
 .rbn{font-size:14px;font-weight:700;color:var(--text)}
 .rbs{font-size:11px;color:var(--dim);margin-top:1px}
 .remp{font-size:1.65rem;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:4px}
@@ -98,9 +96,29 @@ textarea{resize:vertical;min-height:100px}
 .ps{background:rgba(79,142,247,.15);color:#7bb3f7;border:1px solid rgba(79,142,247,.3)}
 .pp{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.25)}
 .ppp{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
-.rb{padding:2rem;font-size:13.5px;line-height:1.85;color:var(--muted);font-weight:300;white-space:pre-wrap}
-.cur{display:inline-block;width:2px;height:14px;background:var(--blue);border-radius:1px;vertical-align:middle;margin-left:2px;animation:bl .7s infinite}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
+
+/* PROPOSAL BODY */
+.rb{padding:2rem}
+.sec{margin-bottom:1.75rem}
+.sec:last-child{margin-bottom:0}
+.sec-title{font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.sec-emoji{font-size:16px}
+.sec-body{font-size:14px;color:var(--muted);line-height:1.8;font-weight:300}
+.sec-body ul{list-style:none;padding:0;margin:.5rem 0 0}
+.sec-body ul li{padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,0.04)}
+.sec-body ul li:last-child{border-bottom:none}
+.sec-body ul li::before{content:'→';position:absolute;left:0;color:var(--blue);font-size:12px;top:6px}
+.maturidade-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:.5rem}
+.mat-ini{background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+.mat-int{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.mat-ava{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.valor-box{background:var(--card2);border:1px solid var(--blue-b);border-radius:var(--rs);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.valor-label{font-size:13px;color:var(--muted);font-weight:400}
+.valor-num{font-size:2rem;font-weight:800;color:var(--blue);letter-spacing:-1px}
+.valor-obs{font-size:12px;color:var(--dim);margin-top:4px}
+.divider-sec{height:1px;background:var(--border);margin:1.75rem 0}
+
+/* ACTIONS */
 .ra{display:flex;gap:10px;padding:0 2rem 2rem;flex-wrap:wrap}
 .ab{flex:1;min-width:130px;padding:12px 18px;border-radius:var(--rs);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;border:1px solid var(--border);background:var(--card2);color:var(--muted)}
 .ab:hover{border-color:var(--blue-b);color:var(--blue)}
@@ -108,6 +126,7 @@ textarea{resize:vertical;min-height:100px}
 .ab.w:hover{background:#1da851;transform:translateY(-1px)}
 .ab.r2{flex:0 0 auto;min-width:auto}
 
+/* LOADING */
 .ld{text-align:center;padding:5rem 2rem}
 .spin{width:46px;height:46px;border:3px solid rgba(79,142,247,.12);border-top-color:var(--blue);border-radius:50%;margin:0 auto 1.5rem;animation:sp .85s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -115,13 +134,10 @@ textarea{resize:vertical;min-height:100px}
 .ls2{font-size:13px;color:var(--muted);font-weight:300}
 .li{display:flex;flex-direction:column;gap:8px;max-width:260px;margin:2rem auto 0;text-align:left}
 .li-i{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dim);opacity:0;animation:fi .5s forwards}
-.li-i:nth-child(1){animation-delay:.3s}.li-i:nth-child(2){animation-delay:.9s}
-.li-i:nth-child(3){animation-delay:1.6s}.li-i:nth-child(4){animation-delay:2.3s}
+.li-i:nth-child(1){animation-delay:.3s}.li-i:nth-child(2){animation-delay:.7s}
+.li-i:nth-child(3){animation-delay:1.1s}.li-i:nth-child(4){animation-delay:1.5s}
 @keyframes fi{to{opacity:1}}
 .li-d{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0}
-
-.err-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:var(--rs);padding:1.25rem 1.5rem;margin-bottom:1rem;font-size:13px;color:#fca5a5;line-height:1.6}
-.err-box strong{display:block;margin-bottom:4px;color:#f87171;font-size:14px}
 
 footer{text-align:center;padding:2rem;font-size:12px;color:var(--dim);border-top:1px solid var(--border);position:relative;z-index:1}
 footer a{color:var(--blue);text-decoration:none}
@@ -136,7 +152,7 @@ footer a:hover{text-decoration:underline}
 </header>
 
 <section class="hero">
-  <div class="htag">Análise com Inteligência Artificial</div>
+  <div class="htag">Análise de Maturidade em Dados</div>
   <h1>Descubra o potencial<br>dos seus <span>dados</span></h1>
   <p>Responda algumas perguntas e receba uma proposta personalizada com o plano ideal para transformar dados em decisões estratégicas.</p>
   <div class="stats">
@@ -166,14 +182,14 @@ footer a:hover{text-decoration:underline}
     <div class="f">
       <label>Porte da empresa <span class="req">*</span></label>
       <div class="chips" id="porte">
-        <div class="chip" data-val="Pequeno (até 50 funcionários)">Pequeno · até 50 func.</div>
-        <div class="chip" data-val="Médio (50 a 300 funcionários)">Médio · 50–300 func.</div>
-        <div class="chip" data-val="Grande (acima de 300 funcionários)">Grande · 300+</div>
+        <div class="chip" data-val="Pequeno">Pequeno · até 50 func.</div>
+        <div class="chip" data-val="Médio">Médio · 50–300 func.</div>
+        <div class="chip" data-val="Grande">Grande · 300+</div>
       </div>
     </div>
     <div class="div"></div>
     <div class="stitle" style="font-size:1.1rem;margin-bottom:.4rem">Seus dados de contato</div>
-    <div class="sdesc" style="margin-bottom:1.25rem">Para enviarmos a proposta pelo canal que preferir.</div>
+    <div class="sdesc" style="margin-bottom:1.25rem">Para entrarmos em contato com sua proposta.</div>
     <div class="g2">
       <div class="f"><label>Nome do responsável <span class="req">*</span></label><input type="text" id="nome_contato" placeholder="Seu nome completo"></div>
       <div class="f"><label>WhatsApp</label><input type="tel" id="whatsapp" placeholder="(XX) XXXXX-XXXX"></div>
@@ -189,31 +205,31 @@ footer a:hover{text-decoration:underline}
     <div class="f">
       <label>Como sua empresa toma decisões hoje?</label>
       <div class="chips" id="decisao">
-        <div class="chip" data-val="Intuição e experiência dos gestores">Intuição / experiência</div>
-        <div class="chip" data-val="Planilhas Excel">Planilhas Excel</div>
-        <div class="chip" data-val="ERP ou sistema interno">ERP / sistema</div>
-        <div class="chip" data-val="Relatórios manuais">Relatórios manuais</div>
-        <div class="chip" data-val="Dashboard ou BI já existente">BI já existe</div>
+        <div class="chip" data-val="intuicao" data-score="0">Intuição / experiência</div>
+        <div class="chip" data-val="planilhas" data-score="1">Planilhas Excel</div>
+        <div class="chip" data-val="erp" data-score="2">ERP / sistema</div>
+        <div class="chip" data-val="relatorios" data-score="1">Relatórios manuais</div>
+        <div class="chip" data-val="bi" data-score="3">BI já existe</div>
       </div>
     </div>
     <div class="f">
       <label>Onde seus dados estão armazenados?</label>
       <div class="chips" id="dados_onde">
-        <div class="chip" data-val="Planilhas / arquivos locais">Planilhas locais</div>
-        <div class="chip" data-val="ERP (SAP, TOTVS, Protheus...)">ERP</div>
-        <div class="chip" data-val="Google Sheets / Drive">Google / Drive</div>
-        <div class="chip" data-val="Banco de dados SQL">Banco SQL</div>
-        <div class="chip" data-val="CRM ou plataformas SaaS">CRM / SaaS</div>
-        <div class="chip" data-val="Não sei, dados dispersos">Não sei</div>
+        <div class="chip" data-val="planilhas_locais" data-score="0">Planilhas locais</div>
+        <div class="chip" data-val="erp" data-score="2">ERP</div>
+        <div class="chip" data-val="google_drive" data-score="1">Google / Drive</div>
+        <div class="chip" data-val="sql" data-score="3">Banco SQL</div>
+        <div class="chip" data-val="crm" data-score="2">CRM / SaaS</div>
+        <div class="chip" data-val="nao_sei" data-score="0">Não sei</div>
       </div>
     </div>
     <div class="f">
       <label>Possui equipe ou suporte técnico (TI)?</label>
       <div class="chips" id="ti">
-        <div class="chip" data-val="Equipe de TI dedicada">Equipe dedicada</div>
-        <div class="chip" data-val="1 responsável interno">1 responsável</div>
-        <div class="chip" data-val="TI terceirizado">Terceirizado</div>
-        <div class="chip" data-val="Não possui TI">Não possuo</div>
+        <div class="chip" data-val="equipe_dedicada" data-score="3">Equipe dedicada</div>
+        <div class="chip" data-val="um_responsavel" data-score="2">1 responsável</div>
+        <div class="chip" data-val="terceirizado" data-score="1">Terceirizado</div>
+        <div class="chip" data-val="nao_possui" data-score="0">Não possuo</div>
       </div>
     </div>
     <div class="nav">
@@ -229,9 +245,9 @@ footer a:hover{text-decoration:underline}
     <div class="f">
       <label>Quantos dashboards você estima precisar?</label>
       <div class="chips" id="qtd_dash">
-        <div class="chip" data-val="1 a 2 dashboards">1 a 2</div>
-        <div class="chip" data-val="3 a 5 dashboards">3 a 5</div>
-        <div class="chip" data-val="6 ou mais dashboards">6 ou mais</div>
+        <div class="chip" data-val="1-2" data-score="1">1 a 2</div>
+        <div class="chip" data-val="3-5" data-score="2">3 a 5</div>
+        <div class="chip" data-val="6+" data-score="3">6 ou mais</div>
       </div>
     </div>
     <div class="f">
@@ -240,10 +256,10 @@ footer a:hover{text-decoration:underline}
         <div class="chip multi" data-val="Vendas">Vendas</div>
         <div class="chip multi" data-val="Financeiro">Financeiro</div>
         <div class="chip multi" data-val="Marketing">Marketing</div>
-        <div class="chip multi" data-val="Estoque / Compras">Estoque</div>
-        <div class="chip multi" data-val="RH / Pessoas">RH</div>
-        <div class="chip multi" data-val="Produção / Operações">Produção</div>
-        <div class="chip multi" data-val="Atendimento ao cliente">Atendimento</div>
+        <div class="chip multi" data-val="Estoque">Estoque</div>
+        <div class="chip multi" data-val="RH">RH</div>
+        <div class="chip multi" data-val="Produção">Produção</div>
+        <div class="chip multi" data-val="Atendimento">Atendimento</div>
         <div class="chip multi" data-val="Logística">Logística</div>
       </div>
       <div class="chint">Pode selecionar mais de um</div>
@@ -251,22 +267,22 @@ footer a:hover{text-decoration:underline}
     <div class="f">
       <label>Banco de dados atual</label>
       <div class="chips" id="banco">
-        <div class="chip" data-val="SQL (MySQL, PostgreSQL, SQL Server)">SQL</div>
-        <div class="chip" data-val="Banco do ERP">ERP</div>
-        <div class="chip" data-val="Não possui banco de dados">Não possuo</div>
-        <div class="chip" data-val="Não sei">Não sei</div>
+        <div class="chip" data-val="sql" data-score="3">SQL</div>
+        <div class="chip" data-val="erp" data-score="2">ERP</div>
+        <div class="chip" data-val="nao_possui" data-score="0">Não possuo</div>
+        <div class="chip" data-val="nao_sei" data-score="0">Não sei</div>
       </div>
     </div>
     <div class="f">
       <label>Precisa de sistema ou aplicativo? <span class="sub">(opcional)</span></label>
       <div class="chips multi" id="sistemas">
-        <div class="chip multi" data-val="Portal de gestão interno">Portal interno</div>
-        <div class="chip multi" data-val="App para equipe de vendas">App vendedores</div>
-        <div class="chip multi" data-val="Painel para clientes">Painel cliente</div>
-        <div class="chip multi" data-val="Automação de processos">Automação</div>
-        <div class="chip multi" data-val="Integração entre sistemas">Integrações</div>
-        <div class="chip multi" data-val="Site institucional">Site</div>
-        <div class="chip multi" data-val="Não preciso de sistema">Não preciso</div>
+        <div class="chip multi" data-val="Portal interno">Portal interno</div>
+        <div class="chip multi" data-val="App vendedores">App vendedores</div>
+        <div class="chip multi" data-val="Painel cliente">Painel cliente</div>
+        <div class="chip multi" data-val="Automação">Automação</div>
+        <div class="chip multi" data-val="Integrações">Integrações</div>
+        <div class="chip multi" data-val="Site">Site</div>
+        <div class="chip multi" data-val="Nenhum">Não preciso</div>
       </div>
     </div>
     <div class="nav">
@@ -278,30 +294,30 @@ footer a:hover{text-decoration:underline}
   <!-- ETAPA 4 -->
   <div class="step" id="step3">
     <div class="stitle">Últimos detalhes</div>
-    <div class="sdesc">Quase lá! Defina o suporte e nos conte seu maior desafio.</div>
+    <div class="sdesc">Quase lá! Defina o suporte desejado e nos conte seu maior desafio.</div>
     <div class="f">
       <label>Qual nível de suporte você precisa?</label>
       <div class="chips" id="suporte">
-        <div class="chip" data-val="Básico — WhatsApp e e-mail">Básico</div>
-        <div class="chip" data-val="Médio — WhatsApp + reuniões periódicas">Médio</div>
-        <div class="chip" data-val="Prioritário — atendimento dedicado">Prioritário</div>
+        <div class="chip" data-val="Básico" data-score="1">Básico</div>
+        <div class="chip" data-val="Médio" data-score="2">Médio</div>
+        <div class="chip" data-val="Prioritário" data-score="3">Prioritário</div>
       </div>
     </div>
     <div class="f">
       <label>Sua equipe precisará de treinamento?</label>
       <div class="chips" id="treinamento">
-        <div class="chip" data-val="Treinamento completo para toda a equipe">Equipe completa</div>
-        <div class="chip" data-val="Treinamento só para a liderança">Só liderança</div>
-        <div class="chip" data-val="Não precisa de treinamento">Não preciso</div>
+        <div class="chip" data-val="Equipe completa" data-score="3">Equipe completa</div>
+        <div class="chip" data-val="Só liderança" data-score="2">Só liderança</div>
+        <div class="chip" data-val="Não preciso" data-score="0">Não preciso</div>
       </div>
     </div>
     <div class="f">
       <label>Qual o maior desafio que você quer resolver? <span class="sub">(opcional)</span></label>
-      <textarea id="desafio" placeholder="Ex: Não consigo acompanhar meu estoque em tempo real. Minhas planilhas estão desatualizadas e a equipe perde horas consolidando dados..."></textarea>
+      <textarea id="desafio" placeholder="Ex: Não consigo acompanhar meu estoque em tempo real. Minhas planilhas estão desatualizadas..."></textarea>
     </div>
     <div class="nav">
       <button class="btn" onclick="prv(3)">← Voltar</button>
-      <button class="btn p" onclick="gerar()">Gerar minha proposta ✦</button>
+      <button class="btn p" onclick="gerar()">Gerar minha proposta →</button>
     </div>
   </div>
 
@@ -310,12 +326,12 @@ footer a:hover{text-decoration:underline}
     <div class="ld" id="ldState">
       <div class="spin"></div>
       <div class="lt">Analisando seu perfil...</div>
-      <div class="ls2">A IA está preparando sua proposta personalizada</div>
+      <div class="ls2">Gerando sua proposta personalizada</div>
       <div class="li">
         <div class="li-i"><div class="li-d"></div>Classificando maturidade em dados</div>
-        <div class="li-i"><div class="li-d"></div>Identificando oportunidades de melhoria</div>
+        <div class="li-i"><div class="li-d"></div>Identificando oportunidades</div>
         <div class="li-i"><div class="li-d"></div>Selecionando o plano ideal</div>
-        <div class="li-i"><div class="li-d"></div>Personalizando o escopo</div>
+        <div class="li-i"><div class="li-d"></div>Montando o escopo personalizado</div>
       </div>
     </div>
     <div id="resState" style="display:none">
@@ -329,7 +345,7 @@ footer a:hover{text-decoration:underline}
           <div class="rmeta" id="rMeta"></div>
           <div id="rPill"></div>
         </div>
-        <div class="rb" id="rTxt"></div>
+        <div class="rb" id="rBody"></div>
         <div class="ra">
           <button class="ab" onclick="copiar()">Copiar proposta</button>
           <button class="ab w" onclick="wpp()">Enviar no WhatsApp</button>
@@ -349,21 +365,27 @@ footer a:hover{text-decoration:underline}
 
 <script>
 const NOMES=['Sua empresa','Cenário atual','Necessidades de BI','Detalhes finais'];
-let step=0,fd={},orc='';
+let step=0, fd={}, textoFinal='';
 
+// ── CHIPS ─────────────────────────────────────────────────────────
 function setupChips(){
   document.querySelectorAll('.chips:not(.multi)').forEach(c=>{
     c.querySelectorAll('.chip').forEach(ch=>{
-      ch.addEventListener('click',()=>{c.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));ch.classList.add('sel');});
+      ch.addEventListener('click',()=>{
+        c.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));
+        ch.classList.add('sel');
+      });
     });
   });
   document.querySelectorAll('.chips.multi').forEach(c=>{
     c.querySelectorAll('.chip.multi').forEach(ch=>ch.addEventListener('click',()=>ch.classList.toggle('sel')));
   });
 }
-const gc=id=>{const c=document.querySelector('#'+id+' .chip.sel');return c?c.dataset.val:''};
-const gm=id=>[...document.querySelectorAll('#'+id+' .chip.sel')].map(c=>c.dataset.val);
+const gc  = id => { const c=document.querySelector('#'+id+' .chip.sel'); return c ? c.dataset.val : ''; };
+const gcs = id => { const c=document.querySelector('#'+id+' .chip.sel'); return c ? parseInt(c.dataset.score||0) : 0; };
+const gm  = id => [...document.querySelectorAll('#'+id+' .chip.sel')].map(c=>c.dataset.val);
 
+// ── PROGRESS ──────────────────────────────────────────────────────
 function prog(n){
   document.getElementById('pfill').style.width=(n>=4?100:Math.round(n/4*100))+'%';
   document.getElementById('pname').textContent=n<4?NOMES[n]:'Proposta pronta!';
@@ -372,166 +394,294 @@ function prog(n){
 function show(n){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step'+n).classList.add('active');
-  step=n;prog(n);window.scrollTo({top:0,behavior:'smooth'});
+  step=n; prog(n); window.scrollTo({top:0,behavior:'smooth'});
 }
 
+// ── NAVIGATION ────────────────────────────────────────────────────
 function nxt(from){
   if(from===0){
-    fd.emp=document.getElementById('nome_empresa').value.trim();
-    fd.seg=document.getElementById('segmento').value.trim();
-    fd.porte=gc('porte');
-    fd.nome=document.getElementById('nome_contato').value.trim();
-    fd.tel=document.getElementById('whatsapp').value.trim();
-    fd.email=document.getElementById('email').value.trim();
-    if(!fd.emp||!fd.seg||!fd.porte){alert('Preencha nome da empresa, segmento e porte para continuar.');return;}
+    fd.emp   = document.getElementById('nome_empresa').value.trim();
+    fd.seg   = document.getElementById('segmento').value.trim();
+    fd.porte = gc('porte');
+    fd.nome  = document.getElementById('nome_contato').value.trim();
+    fd.tel   = document.getElementById('whatsapp').value.trim();
+    fd.email = document.getElementById('email').value.trim();
+    if(!fd.emp||!fd.seg||!fd.porte){ alert('Preencha nome da empresa, segmento e porte para continuar.'); return; }
   }
-  if(from===1){fd.decisao=gc('decisao');fd.onde=gc('dados_onde');fd.ti=gc('ti');}
-  if(from===2){fd.dash=gc('qtd_dash');fd.areas=gm('areas');fd.banco=gc('banco');fd.sist=gm('sistemas');}
+  if(from===1){
+    fd.decisao     = gc('decisao');
+    fd.decisaoScore= gcs('decisao');
+    fd.onde        = gc('dados_onde');
+    fd.ondeScore   = gcs('dados_onde');
+    fd.ti          = gc('ti');
+    fd.tiScore     = gcs('ti');
+  }
+  if(from===2){
+    fd.dash      = gc('qtd_dash');
+    fd.dashScore = gcs('qtd_dash');
+    fd.areas     = gm('areas');
+    fd.banco     = gc('banco');
+    fd.bancoScore= gcs('banco');
+    fd.sist      = gm('sistemas');
+  }
   show(from+1);
 }
-function prv(from){show(from-1);}
+function prv(from){ show(from-1); }
 
-async function gerar(){
-  fd.sup=gc('suporte');fd.trei=gc('treinamento');fd.desafio=document.getElementById('desafio').value.trim();
+// ── GERAR PROPOSTA (lógica local, sem API) ─────────────────────────
+function gerar(){
+  fd.sup    = gc('suporte');
+  fd.supScore = gcs('suporte');
+  fd.trei   = gc('treinamento');
+  fd.treiScore = gcs('treinamento');
+  fd.desafio= document.getElementById('desafio').value.trim();
+
   show(4);
   document.getElementById('ldState').style.display='block';
   document.getElementById('resState').style.display='none';
 
-  const prompt=`Você é consultor sênior da SmartData Consultoria (Recife, PE), especialista em Business Intelligence, Power BI, banco de dados e desenvolvimento de sistemas para PMEs brasileiras.
-
-Gere uma proposta comercial ALTAMENTE PERSONALIZADA com base no diagnóstico abaixo.
-
-━━━ DADOS DO CLIENTE ━━━
-Empresa: ${fd.emp}
-Segmento: ${fd.seg}
-Porte: ${fd.porte}
-Responsável: ${fd.nome||'não informado'}
-WhatsApp: ${fd.tel||'não informado'}
-E-mail: ${fd.email||'não informado'}
-Decisão atual: ${fd.decisao||'não informado'}
-Dados armazenados em: ${fd.onde||'não informado'}
-TI: ${fd.ti||'não informado'}
-Dashboards desejados: ${fd.dash||'não informado'}
-Áreas: ${fd.areas&&fd.areas.length?fd.areas.join(', '):'não informado'}
-Banco de dados: ${fd.banco||'não informado'}
-Sistemas necessários: ${fd.sist&&fd.sist.length?fd.sist.join(', '):'nenhum'}
-Suporte desejado: ${fd.sup||'não informado'}
-Treinamento: ${fd.trei||'não informado'}
-Desafio principal: ${fd.desafio||'não informado'}
-
-━━━ PLANOS SMARTDATA ━━━
-• Start — R$ 3.000: diagnóstico completo, estruturação de dados, até 2 dashboards Power BI, consultoria semanal, suporte básico
-• Profissional — R$ 6.000: até 5 dashboards Power BI, treinamento da equipe, relatórios semanais, reuniões recorrentes, integração de dados
-• Pro Plus — R$ 10.000: até 7 dashboards, automação com IA, desenvolvimento de aplicativo personalizado, banco de dados Supabase, suporte prioritário
-
-━━━ FORMATO OBRIGATÓRIO ━━━
-Siga exatamente esta estrutura. Sem markdown, sem asteriscos, sem ##. Use apenas os emojis indicados.
-
-📊 RESUMO DO CLIENTE
-[2-3 linhas sobre ${fd.emp}, setor ${fd.seg} e situação atual]
-
-🔎 DIAGNÓSTICO
-Maturidade: [Iniciante / Intermediário / Avançado] — [1 linha]
-Problemas identificados:
-• [problema específico ao setor ${fd.seg}]
-• [problema 2]
-• [problema 3 se houver]
-Oportunidades:
-• [oportunidade 1]
-• [oportunidade 2]
-
-🚀 PLANO RECOMENDADO: [NOME]
-[3-4 linhas justificando a escolha]
-
-🧩 ESCOPO PERSONALIZADO
-[8 a 11 itens adaptados ao setor ${fd.seg}]
-
-💵 INVESTIMENTO
-Valor: R$ X.XXX
-[1-2 linhas sobre condições]
-
-🎯 O QUE VOCÊ VAI GANHAR
-• [benefício 1 específico ao setor]
-• [benefício 2]
-• [benefício 3]
-• [benefício 4]
-
-📞 PRÓXIMOS PASSOS
-[Instruções convidativas. Mencione WhatsApp +55 (81) 99542-6006 e site smartdataconsultoria.com]
-
-———
-SmartData Consultoria · Recife, PE · smartdataconsultoria.com
-
-REGRAS: linguagem profissional e acessível. Cite ${fd.emp} ao longo do texto. Foque em valor de negócio. Nunca use asteriscos ou ##.`;
-
-  try {
-    // ✅ Chama o proxy Vercel — não a Anthropic diretamente
-    const res = await fetch('/api/gerar-proposta', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Erro ' + res.status);
-    }
-
-    document.getElementById('ldState').style.display='none';
-    document.getElementById('resState').style.display='block';
-    document.getElementById('rEmp').textContent=fd.emp;
-    document.getElementById('rMeta').textContent=[fd.seg,fd.porte,new Date().toLocaleDateString('pt-BR')].filter(Boolean).join(' · ');
-
-    const reader=res.body.getReader(),dec=new TextDecoder();
-    let buf='';orc='';
-    const el=document.getElementById('rTxt');
-    el.innerHTML='<span class="cur"></span>';
-
-    while(true){
-      const{done,value}=await reader.read();
-      if(done)break;
-      buf+=dec.decode(value,{stream:true});
-      const lines=buf.split('\n');buf=lines.pop();
-      for(const ln of lines){
-        if(ln.startsWith('data: ')){
-          const d=ln.slice(6).trim();
-          if(d==='[DONE]')continue;
-          try{const j=JSON.parse(d);if(j.type==='content_block_delta'&&j.delta?.text){orc+=j.delta.text;el.textContent=orc;}}catch(e){}
-        }
-      }
-    }
-    el.textContent=orc;
-    const low=orc.toLowerCase();
-    let pc='ps',pl='⬡ Start';
-    if(low.includes('pro plus')){pc='ppp';pl='◈ Pro Plus';}
-    else if(low.includes('profissional')){pc='pp';pl='◆ Profissional';}
-    document.getElementById('rPill').innerHTML=`<span class="pill ${pc}">${pl}</span>`;
-
-  } catch(err) {
-    document.getElementById('ldState').style.display='none';
-    document.getElementById('resState').style.display='block';
-    document.getElementById('rEmp').textContent=fd.emp;
-    document.getElementById('rTxt').innerHTML=`<div class="err-box"><strong>Erro ao gerar proposta</strong>${err.message}</div>`;
-  }
+  setTimeout(()=>{ montar(); }, 2200);
 }
 
+function montar(){
+  // ── SCORE DE MATURIDADE ──────────────────────────────────────────
+  const scoreTotal = (fd.decisaoScore||0) + (fd.ondeScore||0) + (fd.tiScore||0) + (fd.bancoScore||0);
+  let maturidade, matClass, matDesc;
+  if(scoreTotal <= 3){
+    maturidade='Iniciante'; matClass='mat-ini';
+    matDesc='A empresa ainda não utiliza dados de forma estruturada para apoiar decisões. Há grande potencial de ganho com pequenas mudanças.';
+  } else if(scoreTotal <= 7){
+    maturidade='Intermediário'; matClass='mat-int';
+    matDesc='A empresa já utiliza alguma base de dados ou sistema, mas ainda falta organização e visualização centralizada das informações.';
+  } else {
+    maturidade='Avançado'; matClass='mat-ava';
+    matDesc='A empresa já possui infraestrutura de dados relevante. O foco deve ser em otimização, automação e dashboards de alto impacto.';
+  }
+
+  // ── DEFINIR PLANO ─────────────────────────────────────────────────
+  const temSistema = fd.sist && fd.sist.length && !fd.sist.includes('Nenhum');
+  const muitasAreas = fd.areas && fd.areas.length >= 4;
+  const muitosDash  = fd.dash === '6+';
+  const supPriori   = fd.sup === 'Prioritário';
+  const treiComp    = fd.trei === 'Equipe completa';
+
+  let plano, planoClass, planoEmoji, planoValor, planoDesc;
+
+  if(scoreTotal >= 7 || temSistema || muitasDash || (muitasAreas && supPriori)){
+    plano='Pro Plus'; planoClass='ppp'; planoEmoji='◈';
+    planoValor='R$ 10.000';
+    planoDesc=`O perfil da ${fd.emp} indica alta complexidade — múltiplas áreas, necessidade de integração e ${temSistema?'desenvolvimento de sistemas':'automação avançada'}. O plano Pro Plus entrega a solução completa com o máximo de inteligência de dados para o seu negócio.`;
+  } else if(scoreTotal >= 4 || muitasAreas || fd.dash==='3-5' || treiComp){
+    plano='Profissional'; planoClass='pp'; planoEmoji='◆';
+    planoValor='R$ 6.000';
+    planoDesc=`A ${fd.emp} está em crescimento e precisa de dashboards completos, treinamento e acompanhamento contínuo. O plano Profissional oferece o equilíbrio ideal entre profundidade e custo-benefício para a sua fase atual.`;
+  } else {
+    plano='Start'; planoClass='ps'; planoEmoji='⬡';
+    planoValor='R$ 3.000';
+    planoDesc=`A ${fd.emp} está dando os primeiros passos na cultura de dados. O plano Start é a porta de entrada ideal — com diagnóstico completo, estruturação e dashboards focados nas principais necessidades do negócio.`;
+  }
+
+  // ── PROBLEMAS IDENTIFICADOS ────────────────────────────────────────
+  const problemas = [];
+  if(fd.decisao==='intuicao' || fd.decisao==='relatorios')
+    problemas.push('Decisões baseadas em intuição ou relatórios manuais aumentam o risco de erros e retrabalho');
+  if(fd.decisao==='planilhas' || fd.onde==='planilhas_locais')
+    problemas.push('Dados espalhados em planilhas dificultam a consolidação e geram inconsistências');
+  if(fd.onde==='nao_sei' || fd.banco==='nao_sei' || fd.banco==='nao_possui')
+    problemas.push('Ausência de banco de dados estruturado limita o crescimento e a análise em escala');
+  if(fd.ti==='nao_possui' || fd.ti==='terceirizado')
+    problemas.push('Falta de suporte técnico interno dificulta a manutenção e evolução das soluções de dados');
+  if(fd.areas && fd.areas.length > 3)
+    problemas.push(`Múltiplas áreas (${fd.areas.join(', ')}) sem visão unificada geram decisões descentralizadas`);
+  if(problemas.length === 0)
+    problemas.push('Oportunidade de evoluir dashboards existentes para análises preditivas e automação');
+
+  // ── OPORTUNIDADES ─────────────────────────────────────────────────
+  const oportunidades = [];
+  if(fd.areas && fd.areas.includes('Vendas'))
+    oportunidades.push('Dashboard de Vendas com ranking de produtos, metas vs. realizado e tendências por período');
+  if(fd.areas && fd.areas.includes('Financeiro'))
+    oportunidades.push('Painel financeiro com fluxo de caixa, DRE simplificado e alertas de desvio');
+  if(fd.areas && fd.areas.includes('Estoque'))
+    oportunidades.push('Controle de estoque em tempo real com alertas de ruptura e giro de produtos');
+  if(fd.areas && fd.areas.includes('RH'))
+    oportunidades.push('Indicadores de RH: turnover, absenteísmo, produtividade por equipe');
+  if(oportunidades.length < 2)
+    oportunidades.push('Centralização de todos os dados em um único banco estruturado no Supabase');
+  if(oportunidades.length < 2)
+    oportunidades.push(`Dashboard executivo para ${fd.seg} com os KPIs mais relevantes do setor`);
+
+  // ── ESCOPO ────────────────────────────────────────────────────────
+  const escopo = [
+    'Diagnóstico completo de processos e fontes de dados',
+    'Estruturação e organização da base de dados',
+  ];
+  if(plano==='Start'){
+    escopo.push('Modelagem de até 2 dashboards Power BI personalizados');
+    escopo.push('Consultoria semanal de acompanhamento (4 sessões)');
+    escopo.push('Suporte por WhatsApp e e-mail');
+    if(fd.areas && fd.areas.length) escopo.push(`Dashboard focado em: ${fd.areas.slice(0,2).join(' e ')}`);
+  } else if(plano==='Profissional'){
+    escopo.push('Modelagem de até 5 dashboards Power BI por área de negócio');
+    escopo.push('Consultoria semanal recorrente');
+    escopo.push('Relatórios semanais de desempenho');
+    escopo.push('Treinamento da equipe em leitura de dashboards');
+    escopo.push('Reuniões mensais de apresentação de resultados');
+    if(fd.areas && fd.areas.length) escopo.push(`Dashboards para as áreas: ${fd.areas.join(', ')}`);
+    escopo.push('Integração de até 2 fontes de dados');
+  } else {
+    escopo.push('Modelagem de até 7 dashboards Power BI completos');
+    escopo.push('Banco de dados estruturado no Supabase (PostgreSQL)');
+    escopo.push('Automação de processos com scripts e rotinas programadas');
+    if(temSistema) escopo.push(`Desenvolvimento de: ${fd.sist.filter(s=>s!=='Nenhum').join(', ')}`);
+    escopo.push('Treinamento completo da equipe e liderança');
+    escopo.push('Consultoria estratégica mensal');
+    escopo.push('Suporte prioritário com SLA definido');
+    if(fd.areas && fd.areas.length) escopo.push(`Dashboards para todas as áreas: ${fd.areas.join(', ')}`);
+  }
+
+  // ── BENEFÍCIOS ────────────────────────────────────────────────────
+  const beneficios = [
+    `Redução de horas gastas em consolidação manual de dados — sua equipe ganha tempo para o que importa`,
+    `Tomada de decisão baseada em dados reais de ${fd.seg}, não em achismos`,
+    `Visão centralizada e atualizada de todos os indicadores da ${fd.emp}`,
+    `Escalabilidade — sua solução de dados cresce junto com o negócio`,
+  ];
+  if(fd.areas && fd.areas.includes('Financeiro'))
+    beneficios.splice(2,0,'Identificação de desvios financeiros antes que virem problemas');
+  if(fd.areas && fd.areas.includes('Vendas'))
+    beneficios.splice(1,0,'Aumento da performance comercial com visibilidade de metas e oportunidades em tempo real');
+
+  // ── MONTAR TEXTO PARA COPIAR/WHATSAPP ─────────────────────────────
+  textoFinal = `PROPOSTA COMERCIAL — SmartData Consultoria
+Empresa: ${fd.emp} | ${fd.seg} | Porte: ${fd.porte}
+Data: ${new Date().toLocaleDateString('pt-BR')}
+
+━━━ DIAGNÓSTICO ━━━
+Maturidade: ${maturidade}
+${matDesc}
+
+Problemas identificados:
+${problemas.map(p=>'• '+p).join('\n')}
+
+Oportunidades:
+${oportunidades.slice(0,2).map(o=>'• '+o).join('\n')}
+
+━━━ PLANO RECOMENDADO: ${plano} ━━━
+${planoDesc}
+
+━━━ ESCOPO PERSONALIZADO ━━━
+${escopo.map(e=>'• '+e).join('\n')}
+
+━━━ INVESTIMENTO ━━━
+Valor: ${planoValor}
+Condições de pagamento a combinar. Solicite uma reunião para alinhar detalhes.
+
+━━━ BENEFÍCIOS ESPERADOS ━━━
+${beneficios.slice(0,4).map(b=>'• '+b).join('\n')}
+
+━━━ PRÓXIMOS PASSOS ━━━
+Entre em contato com a SmartData Consultoria:
+WhatsApp: +55 (81) 99542-6006
+Site: smartdataconsultoria.com
+
+———
+SmartData Consultoria · Recife, PE · smartdataconsultoria.com`;
+
+  // ── RENDERIZAR ────────────────────────────────────────────────────
+  document.getElementById('rEmp').textContent = fd.emp;
+  document.getElementById('rMeta').textContent = [fd.seg, fd.porte, new Date().toLocaleDateString('pt-BR')].join(' · ');
+  document.getElementById('rPill').innerHTML = `<span class="pill ${planoClass}">${planoEmoji} ${plano}</span>`;
+
+  document.getElementById('rBody').innerHTML = `
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">📊</span> Resumo do Cliente</div>
+      <div class="sec-body">
+        <strong style="color:var(--text);font-size:15px">${fd.emp}</strong> é uma empresa de porte ${fd.porte.toLowerCase()} do segmento de <strong style="color:var(--text)">${fd.seg}</strong>.
+        ${fd.desafio ? `<br><br><em style="color:var(--dim)">"${fd.desafio}"</em>` : ''}
+      </div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">🔎</span> Diagnóstico</div>
+      <div class="sec-body">
+        <span class="maturidade-badge ${matClass}">Maturidade: ${maturidade}</span>
+        <p style="margin-top:.75rem">${matDesc}</p>
+        <ul style="margin-top:1rem">
+          <li style="font-weight:600;color:var(--text);border:none;padding-left:0;margin-bottom:.5rem">Problemas identificados</li>
+          ${problemas.map(p=>`<li>${p}</li>`).join('')}
+          <li style="font-weight:600;color:var(--text);border:none;padding-left:0;margin-top:1rem;margin-bottom:.5rem">Oportunidades</li>
+          ${oportunidades.slice(0,2).map(o=>`<li>${o}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">🚀</span> Plano Recomendado: ${plano}</div>
+      <div class="sec-body">${planoDesc}</div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">🧩</span> Escopo Personalizado</div>
+      <div class="sec-body"><ul>${escopo.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">💵</span> Investimento</div>
+      <div class="sec-body">
+        <div class="valor-box">
+          <div>
+            <div class="valor-label">Valor do plano ${plano}</div>
+            <div class="valor-num">${planoValor}</div>
+            <div class="valor-obs">Condições de pagamento a combinar</div>
+          </div>
+          <a href="https://wa.me/5581995426006?text=Ol%C3%A1!%20Fiz%20o%20diagn%C3%B3stico%20no%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20${encodeURIComponent(plano)}%20para%20a%20empresa%20${encodeURIComponent(fd.emp)}." target="_blank" style="display:inline-block;padding:10px 20px;background:var(--blue);color:#fff;border-radius:var(--rs);text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">Solicitar proposta</a>
+        </div>
+      </div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">🎯</span> O Que Você Vai Ganhar</div>
+      <div class="sec-body"><ul>${beneficios.slice(0,4).map(b=>`<li>${b}</li>`).join('')}</ul></div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">📞</span> Próximos Passos</div>
+      <div class="sec-body">
+        Entre em contato com a SmartData Consultoria para agendar uma reunião de alinhamento e iniciar o projeto.<br><br>
+        <a href="https://wa.me/5581995426006" target="_blank" style="color:var(--blue);font-weight:600;text-decoration:none">💬 WhatsApp: +55 (81) 99542-6006</a><br>
+        <a href="https://smartdataconsultoria.com" target="_blank" style="color:var(--blue);font-weight:600;text-decoration:none">🌐 smartdataconsultoria.com</a>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('ldState').style.display='none';
+  document.getElementById('resState').style.display='block';
+}
+
+// ── AÇÕES ─────────────────────────────────────────────────────────
 function copiar(){
-  navigator.clipboard.writeText(orc).then(()=>{
+  navigator.clipboard.writeText(textoFinal).then(()=>{
     const b=document.querySelector('.ab:not(.w):not(.r2)');
-    b.textContent='✓ Copiado!';setTimeout(()=>b.textContent='Copiar proposta',2500);
+    b.textContent='✓ Copiado!';
+    setTimeout(()=>b.textContent='Copiar proposta',2500);
   });
 }
 function wpp(){
   const num=fd.tel?fd.tel.replace(/\D/g,''):'5581995426006';
-  window.open('https://wa.me/55'+num+'?text='+encodeURIComponent('*Proposta SmartData Consultoria*\n\n'+orc),'_blank');
+  window.open('https://wa.me/55'+num+'?text='+encodeURIComponent(textoFinal),'_blank');
 }
 function reiniciar(){
-  if(!confirm('Iniciar novo diagnóstico? O orçamento atual será perdido.'))return;
+  if(!confirm('Iniciar novo diagnóstico?'))return;
   document.querySelectorAll('input,textarea').forEach(el=>el.value='');
   document.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));
-  orc='';fd={};
-  document.getElementById('rTxt').textContent='';
-  document.getElementById('rPill').innerHTML='';
+  textoFinal='';fd={};
   show(0);
 }
 
