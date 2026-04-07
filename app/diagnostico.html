@@ -839,79 +839,6 @@ Site: smartdataconsultoria.com
 ———
 SmartData Consultoria · Recife, PE · smartdataconsultoria.com`;
 
-  // ── RESUMO DO DIAGNÓSTICO ──────────────────────────────────────────
-  const tags = arr => arr && arr.length
-    ? arr.map(v=>`<span class="tag">${v}</span>`).join('')
-    : `<span class="tag empty">Não informado</span>`;
-
-  const val = (v, map) => v
-    ? `<span class="tag">${map[v]||v}</span>`
-    : `<span class="tag empty">Não informado</span>`;
-
-  document.getElementById('resumoDiag').innerHTML = `
-    <div class="diag-grid">
-      <div class="diag-item">
-        <div class="diag-item-label">Empresa</div>
-        <div class="diag-item-val">${fd.emp||'—'}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Segmento</div>
-        <div class="diag-item-val">${fd.seg||'—'}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Porte</div>
-        <div class="diag-item-val">${val(fd.porte,{})}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Responsável</div>
-        <div class="diag-item-val">${fd.nome||'Não informado'}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Tomada de decisão hoje</div>
-        <div class="diag-item-val">${val(fd.decisao, labelDecisao)}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Onde os dados estão</div>
-        <div class="diag-item-val">${val(fd.onde, labelOnde)}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Suporte técnico (TI)</div>
-        <div class="diag-item-val">${val(fd.ti, labelTI)}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Banco de dados atual</div>
-        <div class="diag-item-val">${val(fd.banco, labelBanco)}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Dashboards estimados</div>
-        <div class="diag-item-val">${val(fd.dash,{})}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Suporte desejado</div>
-        <div class="diag-item-val">${val(fd.sup,{})}</div>
-      </div>
-      <div class="diag-item">
-        <div class="diag-item-label">Treinamento</div>
-        <div class="diag-item-val">${val(fd.trei,{})}</div>
-      </div>
-      <div class="diag-item full">
-        <div class="diag-item-label">Áreas para análise</div>
-        <div class="diag-item-val">${tags(fd.areas)}</div>
-      </div>
-      ${fd.sist&&fd.sist.length&&!fd.sist.includes('Nenhum')?`
-      <div class="diag-item full">
-        <div class="diag-item-label">Sistemas / apps necessários</div>
-        <div class="diag-item-val">${tags(fd.sist)}</div>
-      </div>`:''}
-      ${fd.desafio?`
-      <div class="diag-item full">
-        <div class="diag-item-label">Principal desafio</div>
-        <div class="diag-item-val" style="font-style:italic;color:var(--muted)">"${fd.desafio}"</div>
-      </div>`:''}
-    </div>
-  `;
-  // ────────────────────────────────────────────────────────────────────
-
   document.getElementById('rEmp').textContent=fd.emp;
   document.getElementById('rMeta').textContent=[fd.seg,fd.porte,new Date().toLocaleDateString('pt-BR')].join(' · ');
   document.getElementById('rPill').innerHTML=`<span class="pill ${planoClass}">${planoEmoji} ${plano}</span>`;
@@ -930,7 +857,24 @@ SmartData Consultoria · Recife, PE · smartdataconsultoria.com`;
 
     <div class="sec">
       <div class="sec-title"><span class="sec-emoji">📋</span> O Que Você Nos Contou</div>
-      <div class="sec-body" id="resumoDiag"></div>
+      <div class="sec-body">
+        <div class="diag-grid">
+          <div class="diag-item"><div class="diag-item-label">Empresa</div><div class="diag-item-val">${fd.emp||'—'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Segmento</div><div class="diag-item-val">${fd.seg||'—'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Porte</div><div class="diag-item-val">${fd.porte||'—'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Responsável</div><div class="diag-item-val">${fd.nome||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Tomada de decisão</div><div class="diag-item-val">${labelDecisao[fd.decisao]||fd.decisao||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Dados armazenados em</div><div class="diag-item-val">${labelOnde[fd.onde]||fd.onde||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Suporte técnico (TI)</div><div class="diag-item-val">${labelTI[fd.ti]||fd.ti||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Banco de dados atual</div><div class="diag-item-val">${labelBanco[fd.banco]||fd.banco||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Dashboards estimados</div><div class="diag-item-val">${fd.dash||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Suporte desejado</div><div class="diag-item-val">${fd.sup||'Não informado'}</div></div>
+          <div class="diag-item"><div class="diag-item-label">Treinamento</div><div class="diag-item-val">${fd.trei||'Não informado'}</div></div>
+          <div class="diag-item full"><div class="diag-item-label">Áreas para análise</div><div class="diag-item-val">${fd.areas&&fd.areas.length?fd.areas.map(v=>`<span class="tag">${v}</span>`).join(''):'<span class="tag empty">Não informado</span>'}</div></div>
+          ${fd.sist&&fd.sist.filter(s=>s!=='Nenhum').length?`<div class="diag-item full"><div class="diag-item-label">Sistemas / apps</div><div class="diag-item-val">${fd.sist.filter(s=>s!=='Nenhum').map(v=>`<span class="tag">${v}</span>`).join('')}</div></div>`:''}
+          ${fd.desafio?`<div class="diag-item full"><div class="diag-item-label">Principal desafio</div><div class="diag-item-val" style="font-style:italic;color:var(--muted)">"${fd.desafio}"</div></div>`:''}
+        </div>
+      </div>
     </div>
     <div class="divider-sec"></div>
 
