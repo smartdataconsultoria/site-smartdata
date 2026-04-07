@@ -787,10 +787,10 @@ function montar(){
   if(fd.areas&&fd.areas.includes('Vendas'))
     beneficios.splice(1,0,'Aumento da performance comercial com visibilidade de metas em tempo real');
 
-  const labelDecisaoTxt = {intuicao:'Intuição / experiência',planilhas:'Planilhas Excel',erp:'ERP / sistema',relatorios:'Relatórios manuais',bi:'BI já existe'};
-  const labelOndeTxt    = {planilhas_locais:'Planilhas locais',erp:'ERP',google_drive:'Google / Drive',sql:'Banco SQL',crm:'CRM / SaaS',nao_sei:'Não sei'};
-  const labelTITxt      = {equipe_dedicada:'Equipe dedicada',um_responsavel:'1 responsável',terceirizado:'Terceirizado',nao_possui:'Não possuo'};
-  const labelBancoTxt   = {sql:'SQL',erp:'ERP',nao_possui:'Não possuo',nao_sei:'Não sei'};
+  const labelDecisao = {intuicao:'Intuição / experiência',planilhas:'Planilhas Excel',erp:'ERP / sistema',relatorios:'Relatórios manuais',bi:'BI já existe'};
+  const labelOnde    = {planilhas_locais:'Planilhas locais',erp:'ERP',google_drive:'Google / Drive',sql:'Banco SQL',crm:'CRM / SaaS',nao_sei:'Não sei'};
+  const labelTI      = {equipe_dedicada:'Equipe dedicada',um_responsavel:'1 responsável',terceirizado:'Terceirizado',nao_possui:'Não possuo'};
+  const labelBanco   = {sql:'SQL',erp:'ERP',nao_possui:'Não possuo',nao_sei:'Não sei'};
 
   textoFinal=`PROPOSTA COMERCIAL — SmartData Consultoria
 Empresa: ${fd.emp} | ${fd.seg} | Porte: ${fd.porte}
@@ -798,10 +798,10 @@ Data: ${new Date().toLocaleDateString('pt-BR')}
 
 ━━━ RESPOSTAS DO DIAGNÓSTICO ━━━
 Responsável: ${fd.nome||'Não informado'}
-Tomada de decisão: ${labelDecisaoTxt[fd.decisao]||fd.decisao||'Não informado'}
-Dados armazenados em: ${labelOndeTxt[fd.onde]||fd.onde||'Não informado'}
-Suporte técnico (TI): ${labelTITxt[fd.ti]||fd.ti||'Não informado'}
-Banco de dados atual: ${labelBancoTxt[fd.banco]||fd.banco||'Não informado'}
+Tomada de decisão: ${labelDecisao[fd.decisao]||fd.decisao||'Não informado'}
+Dados armazenados em: ${labelOnde[fd.onde]||fd.onde||'Não informado'}
+Suporte técnico (TI): ${labelTI[fd.ti]||fd.ti||'Não informado'}
+Banco de dados atual: ${labelBanco[fd.banco]||fd.banco||'Não informado'}
 Dashboards estimados: ${fd.dash||'Não informado'}
 Áreas para análise: ${fd.areas&&fd.areas.length?fd.areas.join(', '):'Não informado'}
 Sistemas/apps necessários: ${fd.sist&&fd.sist.filter(s=>s!=='Nenhum').length?fd.sist.filter(s=>s!=='Nenhum').join(', '):'Nenhum'}
@@ -840,21 +840,6 @@ Site: smartdataconsultoria.com
 SmartData Consultoria · Recife, PE · smartdataconsultoria.com`;
 
   // ── RESUMO DO DIAGNÓSTICO ──────────────────────────────────────────
-  const labelDecisao = {
-    intuicao:'Intuição / experiência', planilhas:'Planilhas Excel',
-    erp:'ERP / sistema', relatorios:'Relatórios manuais', bi:'BI já existe'
-  };
-  const labelOnde = {
-    planilhas_locais:'Planilhas locais', erp:'ERP', google_drive:'Google / Drive',
-    sql:'Banco SQL', crm:'CRM / SaaS', nao_sei:'Não sei'
-  };
-  const labelTI = {
-    equipe_dedicada:'Equipe dedicada', um_responsavel:'1 responsável',
-    terceirizado:'Terceirizado', nao_possui:'Não possuo'
-  };
-  const labelBanco = { sql:'SQL', erp:'ERP', nao_possui:'Não possuo', nao_sei:'Não sei' };
-  const labelSup = { Basico:'Básico', Medio:'Médio', Prioritario:'Prioritário' };
-
   const tags = arr => arr && arr.length
     ? arr.map(v=>`<span class="tag">${v}</span>`).join('')
     : `<span class="tag empty">Não informado</span>`;
