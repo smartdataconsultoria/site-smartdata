@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SmartData | Área do Cliente</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:#f1f5f9}
@@ -393,9 +394,11 @@ function entrarApp(){
 }
 
 function fazerSair(){
-  usr=null;todosOsDashs=[];
-  localStorage.removeItem('sd_sessao');
-  window.location.href='../area-cliente.html';
+  var _sb = supabase.createClient(SB_URL, SB_KEY);
+  _sb.auth.signOut().finally(function(){
+    usr = null; todosOsDashs = [];
+    window.location.href = '../area-cliente.html';
+  });
 }
 
 function carregarDashboards(){
@@ -746,17 +749,32 @@ function removerAcesso(btn){
   .catch(function(e){toast('Erro: '+e.message,'err');btn.disabled=false;btn.textContent='Remover';});
 }
 
-/* ── RESTAURAR SESSÃO ── */
-window.addEventListener('load',function(){
-  var salvo=localStorage.getItem('sd_sessao');
-  if(!salvo){window.location.href='../area-cliente.html';return;}
-  var s=null;try{s=JSON.parse(salvo);}catch(e){localStorage.removeItem('sd_sessao');window.location.href='../area-cliente.html';return;}
-  if(!s||!s.token||!s.email){localStorage.removeItem('sd_sessao');window.location.href='../area-cliente.html';return;}
-  usr=s;
-  fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
-  .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
-  .then(function(res){if(res.ok&&res.d.email)entrarApp();else{localStorage.removeItem('sd_sessao');window.location.href='../area-cliente.html';}})
-  .catch(function(){entrarApp();});
+/* ── RESTAURAR SESSÃO via Supabase SDK ── */
+window.addEventListener('load', function(){
+  var _sb = supabase.createClient(SB_URL, SB_KEY);
+
+  _sb.auth.getSession().then(function(result){
+    var session = result.data && result.data.session;
+    if(!session){
+      window.location.href = '../area-cliente.html';
+      return;
+    }
+    usr = {
+      email: session.user.email,
+      nome:  (session.user.user_metadata && session.user.user_metadata.nome) || session.user.email.split('@')[0],
+      token: session.access_token
+    };
+    entrarApp();
+  }).catch(function(){
+    window.location.href = '../area-cliente.html';
+  });
+
+  // Escuta mudanças de sessão (logout em outra aba, expiração, etc.)
+  _sb.auth.onAuthStateChange(function(event, session){
+    if(event === 'SIGNED_OUT' || !session){
+      window.location.href = '../area-cliente.html';
+    }
+  });
 });
 </script>
 </body>
