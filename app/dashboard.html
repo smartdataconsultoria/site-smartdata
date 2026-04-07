@@ -404,9 +404,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         <div id="mu-arqs-lista"></div>
         <!-- select para adicionar arquivo -->
         <div id="mu-add-arq-area" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(79,142,247,.06)">
-          <select id="mu-add-arq-sel" class="ainp" style="margin-bottom:8px">
-            <option value="">Selecione um arquivo...</option>
-          </select>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+            <input id="mu-arq-nome" class="ainp" type="text" placeholder="Nome do arquivo *" style="margin-bottom:0">
+            <input id="mu-arq-url" class="ainp" type="url" placeholder="Link do arquivo (URL) *" style="margin-bottom:0">
+            <input id="mu-arq-desc" class="ainp" type="text" placeholder="Descrição (opcional)" style="margin-bottom:0">
+            <input id="mu-arq-cat" class="ainp" type="text" placeholder="Categoria (opcional)" style="margin-bottom:0">
+          </div>
           <div style="display:flex;gap:8px">
             <button onclick="confirmarAddArq()" class="abtn abtn-primary" style="flex:1">Adicionar</button>
             <button onclick="document.getElementById('mu-add-arq-area').style.display='none'" style="background:transparent;border:1px solid rgba(241,245,249,.1);border-radius:8px;color:rgba(241,245,249,.4);padding:8px 16px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:13px">Cancelar</button>
@@ -1029,34 +1032,36 @@ function removerDashUsuario(id,titulo){
 }
 
 function abrirAddArqUsuario(){
-  fetch(SB_URL+'/rest/v1/arquivos_clientes?select=id,nome,categoria,descricao,url,empresa&order=nome',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
-  .then(function(r){return r.json();})
-  .then(function(data){
-    var sel=document.getElementById('mu-add-arq-sel');
-    var unicos=[];var vistos={};
-    (data||[]).forEach(function(a){if(!vistos[a.nome]){vistos[a.nome]=true;unicos.push(a);}});
-    sel.innerHTML='<option value="">Selecione um arquivo...</option>'+
-      unicos.map(function(a){return '<option value="'+a.id+'">'+H(a.nome)+' ('+H(a.categoria||'—')+')</option>';}).join('');
-    document.getElementById('mu-add-arq-area').style.display='block';
+  // Limpa campos e mostra formulário
+  ['mu-arq-nome','mu-arq-url','mu-arq-desc','mu-arq-cat'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
   });
+  document.getElementById('mu-add-arq-area').style.display='block';
+  document.getElementById('mu-arq-nome').focus();
 }
 
 function confirmarAddArq(){
-  var sel=document.getElementById('mu-add-arq-sel');
-  if(!sel.value){toast('Selecione um arquivo','err');return;}
-  // Busca dados completos do arquivo selecionado
-  fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+sel.value,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
-  .then(function(r){return r.json();})
-  .then(function(data){
-    var a=data&&data[0];if(!a){toast('Arquivo não encontrado','err');return;}
-    var u=todosUsuarios.find(function(x){return x.email===_muEmail;});
-    return fetch(SB_URL+'/rest/v1/arquivos_clientes',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({nome:a.nome,descricao:a.descricao||'',url:a.url,categoria:a.categoria||'',email_cliente:_muEmail,empresa:a.empresa||(u?u.empresa:'')||''})});
+  var nome=(document.getElementById('mu-arq-nome').value||'').trim();
+  var url=(document.getElementById('mu-arq-url').value||'').trim();
+  var desc=(document.getElementById('mu-arq-desc').value||'').trim();
+  var cat=(document.getElementById('mu-arq-cat').value||'').trim();
+  if(!nome){toast('Informe o nome do arquivo','err');return;}
+  if(!url){toast('Informe o link (URL) do arquivo','err');return;}
+  var u=todosUsuarios.find(function(x){return x.email===_muEmail;});
+  fetch(SB_URL+'/rest/v1/arquivos_clientes',{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({nome:nome,descricao:desc,url:url,categoria:cat,email_cliente:_muEmail,empresa:(u?u.empresa:'')||''})
   })
   .then(function(r){
-    if(r&&r.ok){toast('Arquivo adicionado!','ok');document.getElementById('mu-add-arq-area').style.display='none';carregarDadosModalUsuario();}
-    else if(r)return r.json().then(function(x){toast(x.message||'Erro','err');});
-  }).catch(function(e){toast('Erro: '+e.message,'err');});
+    if(r.ok){
+      toast('Arquivo adicionado!','ok');
+      document.getElementById('mu-add-arq-area').style.display='none';
+      carregarDadosModalUsuario();
+      carregarListaArquivos();
+    } else return r.json().then(function(x){toast(x.message||'Erro ao salvar','err');});
+  })
+  .catch(function(e){toast('Erro: '+e.message,'err');});
 }
 
 function removerArqUsuario(id){
