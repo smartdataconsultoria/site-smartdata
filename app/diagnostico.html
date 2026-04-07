@@ -266,6 +266,32 @@ textarea{resize:none;min-height:110px;font-size:15px}
 }
 .divider-sec{height:1px;background:var(--border);margin:1.5rem 0}
 
+/* ── RESUMO DO DIAGNÓSTICO ─────────────────── */
+.diag-grid{display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:.5rem}
+@media(min-width:520px){.diag-grid{grid-template-columns:1fr 1fr}}
+.diag-item{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--rs);padding:.875rem 1rem;
+}
+.diag-item-label{
+  font-size:11px;font-weight:600;color:var(--dim);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;
+}
+.diag-item-val{
+  font-size:13px;font-weight:500;color:var(--text);line-height:1.5;
+}
+.diag-item-val .tag{
+  display:inline-block;background:rgba(79,142,247,0.12);
+  border:1px solid rgba(79,142,247,0.25);color:var(--blue);
+  border-radius:20px;padding:3px 10px;font-size:12px;
+  font-weight:500;margin:2px 3px 2px 0;
+}
+.diag-item-val .tag.empty{
+  background:rgba(255,255,255,0.04);border-color:var(--border);
+  color:var(--dim);font-style:italic;
+}
+.diag-item.full{grid-column:1/-1}
+
 /* ── ACTION BUTTONS ───────────────────────── */
 .ra{display:flex;flex-direction:column;gap:10px;padding:0 1.25rem 1.25rem}
 .ab{
@@ -761,9 +787,26 @@ function montar(){
   if(fd.areas&&fd.areas.includes('Vendas'))
     beneficios.splice(1,0,'Aumento da performance comercial com visibilidade de metas em tempo real');
 
+  const labelDecisaoTxt = {intuicao:'Intuição / experiência',planilhas:'Planilhas Excel',erp:'ERP / sistema',relatorios:'Relatórios manuais',bi:'BI já existe'};
+  const labelOndeTxt    = {planilhas_locais:'Planilhas locais',erp:'ERP',google_drive:'Google / Drive',sql:'Banco SQL',crm:'CRM / SaaS',nao_sei:'Não sei'};
+  const labelTITxt      = {equipe_dedicada:'Equipe dedicada',um_responsavel:'1 responsável',terceirizado:'Terceirizado',nao_possui:'Não possuo'};
+  const labelBancoTxt   = {sql:'SQL',erp:'ERP',nao_possui:'Não possuo',nao_sei:'Não sei'};
+
   textoFinal=`PROPOSTA COMERCIAL — SmartData Consultoria
 Empresa: ${fd.emp} | ${fd.seg} | Porte: ${fd.porte}
 Data: ${new Date().toLocaleDateString('pt-BR')}
+
+━━━ RESPOSTAS DO DIAGNÓSTICO ━━━
+Responsável: ${fd.nome||'Não informado'}
+Tomada de decisão: ${labelDecisaoTxt[fd.decisao]||fd.decisao||'Não informado'}
+Dados armazenados em: ${labelOndeTxt[fd.onde]||fd.onde||'Não informado'}
+Suporte técnico (TI): ${labelTITxt[fd.ti]||fd.ti||'Não informado'}
+Banco de dados atual: ${labelBancoTxt[fd.banco]||fd.banco||'Não informado'}
+Dashboards estimados: ${fd.dash||'Não informado'}
+Áreas para análise: ${fd.areas&&fd.areas.length?fd.areas.join(', '):'Não informado'}
+Sistemas/apps necessários: ${fd.sist&&fd.sist.filter(s=>s!=='Nenhum').length?fd.sist.filter(s=>s!=='Nenhum').join(', '):'Nenhum'}
+Suporte desejado: ${fd.sup||'Não informado'}
+Treinamento: ${fd.trei||'Não informado'}${fd.desafio?'\nDesafio principal: '+fd.desafio:''}
 
 ━━━ DIAGNÓSTICO ━━━
 Maturidade: ${maturidade}
@@ -796,6 +839,94 @@ Site: smartdataconsultoria.com
 ———
 SmartData Consultoria · Recife, PE · smartdataconsultoria.com`;
 
+  // ── RESUMO DO DIAGNÓSTICO ──────────────────────────────────────────
+  const labelDecisao = {
+    intuicao:'Intuição / experiência', planilhas:'Planilhas Excel',
+    erp:'ERP / sistema', relatorios:'Relatórios manuais', bi:'BI já existe'
+  };
+  const labelOnde = {
+    planilhas_locais:'Planilhas locais', erp:'ERP', google_drive:'Google / Drive',
+    sql:'Banco SQL', crm:'CRM / SaaS', nao_sei:'Não sei'
+  };
+  const labelTI = {
+    equipe_dedicada:'Equipe dedicada', um_responsavel:'1 responsável',
+    terceirizado:'Terceirizado', nao_possui:'Não possuo'
+  };
+  const labelBanco = { sql:'SQL', erp:'ERP', nao_possui:'Não possuo', nao_sei:'Não sei' };
+  const labelSup = { Basico:'Básico', Medio:'Médio', Prioritario:'Prioritário' };
+
+  const tags = arr => arr && arr.length
+    ? arr.map(v=>`<span class="tag">${v}</span>`).join('')
+    : `<span class="tag empty">Não informado</span>`;
+
+  const val = (v, map) => v
+    ? `<span class="tag">${map[v]||v}</span>`
+    : `<span class="tag empty">Não informado</span>`;
+
+  document.getElementById('resumoDiag').innerHTML = `
+    <div class="diag-grid">
+      <div class="diag-item">
+        <div class="diag-item-label">Empresa</div>
+        <div class="diag-item-val">${fd.emp||'—'}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Segmento</div>
+        <div class="diag-item-val">${fd.seg||'—'}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Porte</div>
+        <div class="diag-item-val">${val(fd.porte,{})}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Responsável</div>
+        <div class="diag-item-val">${fd.nome||'Não informado'}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Tomada de decisão hoje</div>
+        <div class="diag-item-val">${val(fd.decisao, labelDecisao)}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Onde os dados estão</div>
+        <div class="diag-item-val">${val(fd.onde, labelOnde)}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Suporte técnico (TI)</div>
+        <div class="diag-item-val">${val(fd.ti, labelTI)}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Banco de dados atual</div>
+        <div class="diag-item-val">${val(fd.banco, labelBanco)}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Dashboards estimados</div>
+        <div class="diag-item-val">${val(fd.dash,{})}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Suporte desejado</div>
+        <div class="diag-item-val">${val(fd.sup,{})}</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-label">Treinamento</div>
+        <div class="diag-item-val">${val(fd.trei,{})}</div>
+      </div>
+      <div class="diag-item full">
+        <div class="diag-item-label">Áreas para análise</div>
+        <div class="diag-item-val">${tags(fd.areas)}</div>
+      </div>
+      ${fd.sist&&fd.sist.length&&!fd.sist.includes('Nenhum')?`
+      <div class="diag-item full">
+        <div class="diag-item-label">Sistemas / apps necessários</div>
+        <div class="diag-item-val">${tags(fd.sist)}</div>
+      </div>`:''}
+      ${fd.desafio?`
+      <div class="diag-item full">
+        <div class="diag-item-label">Principal desafio</div>
+        <div class="diag-item-val" style="font-style:italic;color:var(--muted)">"${fd.desafio}"</div>
+      </div>`:''}
+    </div>
+  `;
+  // ────────────────────────────────────────────────────────────────────
+
   document.getElementById('rEmp').textContent=fd.emp;
   document.getElementById('rMeta').textContent=[fd.seg,fd.porte,new Date().toLocaleDateString('pt-BR')].join(' · ');
   document.getElementById('rPill').innerHTML=`<span class="pill ${planoClass}">${planoEmoji} ${plano}</span>`;
@@ -809,6 +940,12 @@ SmartData Consultoria · Recife, PE · smartdataconsultoria.com`;
         <strong style="color:var(--text)">${fd.emp}</strong> — empresa de porte ${fd.porte.toLowerCase()} no segmento de <strong style="color:var(--text)">${fd.seg}</strong>.
         ${fd.desafio?`<br><br><em style="color:var(--dim)">"${fd.desafio}"</em>`:''}
       </div>
+    </div>
+    <div class="divider-sec"></div>
+
+    <div class="sec">
+      <div class="sec-title"><span class="sec-emoji">📋</span> O Que Você Nos Contou</div>
+      <div class="sec-body" id="resumoDiag"></div>
     </div>
     <div class="divider-sec"></div>
 
