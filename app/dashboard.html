@@ -259,6 +259,8 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <button class="admin-tab" onclick="adminTab('novo-usuario')">➕ Novo usuário</button>
           <button class="admin-tab" onclick="adminTab('dashboards')">📊 Dashboards</button>
           <button class="admin-tab" onclick="adminTab('novo-dash')">➕ Novo dashboard</button>
+          <button class="admin-tab" onclick="adminTab('arquivos')">📁 Arquivos</button>
+          <button class="admin-tab" onclick="adminTab('novo-arquivo')">➕ Novo arquivo</button>
         </div>
 
         <!-- Tab usuários -->
@@ -268,7 +270,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
             <input class="srch" type="text" placeholder="Buscar por e-mail ou empresa..." oninput="filtrarTabUsuarios(this.value)">
             <div style="overflow-x:auto">
               <table class="atable">
-                <thead><tr><th>E-mail</th><th>Perfil</th><th>Empresa</th><th>Dashboards</th><th>Status</th><th></th></tr></thead>
+                <thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Empresa</th><th>Dashboards</th><th>Status</th><th></th></tr></thead>
                 <tbody id="tbody-usuarios"></tbody>
               </table>
             </div>
@@ -327,10 +329,94 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           </div>
         </div>
 
+        <!-- Tab arquivos -->
+        <div id="adm-arquivos" class="admin-section" style="display:none">
+          <div class="admin-card">
+            <div class="admin-card-title">Arquivos cadastrados <span id="total-arq" style="font-size:12px;color:rgba(241,245,249,.3)"></span></div>
+            <input class="srch" type="text" placeholder="Buscar por nome ou categoria..." oninput="filtrarTabArq(this.value)">
+            <div style="overflow-x:auto">
+              <table class="atable">
+                <thead><tr><th>Nome</th><th>Descrição</th><th>Usuário</th><th>Categoria</th><th>Status</th><th></th></tr></thead>
+                <tbody id="tbody-arq"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab novo arquivo -->
+        <div id="adm-novo-arquivo" class="admin-section" style="display:none">
+          <div class="admin-card">
+            <div class="admin-card-title">Adicionar novo arquivo</div>
+            <div class="arow">
+              <div class="afield"><label class="albl">Nome <span>*</span></label><input class="ainp" type="text" id="na-nome" placeholder="Ex: Planilha de Lançamentos"></div>
+              <div class="afield"><label class="albl">Categoria</label><input class="ainp" type="text" id="na-categoria" placeholder="Ex: Financeiro, Vendas..."></div>
+            </div>
+            <div class="afield"><label class="albl">URL do arquivo <span>*</span></label><input class="ainp" type="url" id="na-url" placeholder="https://docs.google.com/... ou link para download"></div>
+            <div class="afield"><label class="albl">Descrição</label><input class="ainp" type="text" id="na-desc" placeholder="Breve descrição do arquivo"></div>
+            <div class="albl" style="margin-bottom:8px">Liberar acesso para <span>*</span></div>
+            <div class="sel-grid" id="na-user-lista"></div>
+            <button class="abtn abtn-primary" id="btn-salvar-arq" onclick="salvarNovoArquivo()">Salvar Arquivo</button>
+          </div>
+        </div>
+
       </div><!-- /pg-admin -->
     </div><!-- /main -->
   </div><!-- /app-body -->
 </div><!-- /tela-app -->
+
+<!-- MODAL GERENCIAR USUÁRIO -->
+<div id="modal-usuario" style="position:fixed;inset:0;background:rgba(8,11,20,.88);backdrop-filter:blur(6px);z-index:998;display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:18px;width:100%;max-width:680px;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)">
+    <div style="padding:20px 24px;border-bottom:1px solid rgba(79,142,247,.08);display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:#f1f5f9" id="mu-nome"></div>
+        <div style="font-size:12px;color:rgba(241,245,249,.35);margin-top:3px" id="mu-email"></div>
+      </div>
+      <button onclick="fecharModalUsuario()" style="background:transparent;border:none;color:rgba(241,245,249,.3);font-size:20px;cursor:pointer;transition:color .2s" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='rgba(241,245,249,.3)'">✕</button>
+    </div>
+    <div style="overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:20px">
+
+      <!-- Dashboards vinculados -->
+      <div style="background:#0d1526;border:1px solid rgba(79,142,247,.08);border-radius:12px;padding:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:700;color:rgba(241,245,249,.6)">📊 Dashboards vinculados</div>
+          <button onclick="abrirAddDashUsuario()" style="background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:8px;color:#4f8ef7;font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:'Poppins',sans-serif">+ Adicionar</button>
+        </div>
+        <div id="mu-dashs-lista"></div>
+        <!-- select para adicionar dash -->
+        <div id="mu-add-dash-area" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(79,142,247,.06)">
+          <select id="mu-add-dash-sel" class="ainp" style="margin-bottom:8px">
+            <option value="">Selecione um dashboard...</option>
+          </select>
+          <div style="display:flex;gap:8px">
+            <button onclick="confirmarAddDash()" class="abtn abtn-primary" style="flex:1">Adicionar</button>
+            <button onclick="document.getElementById('mu-add-dash-area').style.display='none'" style="background:transparent;border:1px solid rgba(241,245,249,.1);border-radius:8px;color:rgba(241,245,249,.4);padding:8px 16px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:13px">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arquivos vinculados -->
+      <div style="background:#0d1526;border:1px solid rgba(79,142,247,.08);border-radius:12px;padding:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:700;color:rgba(241,245,249,.6)">📁 Arquivos vinculados</div>
+          <button onclick="abrirAddArqUsuario()" style="background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:8px;color:#4f8ef7;font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:'Poppins',sans-serif">+ Adicionar</button>
+        </div>
+        <div id="mu-arqs-lista"></div>
+        <!-- select para adicionar arquivo -->
+        <div id="mu-add-arq-area" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(79,142,247,.06)">
+          <select id="mu-add-arq-sel" class="ainp" style="margin-bottom:8px">
+            <option value="">Selecione um arquivo...</option>
+          </select>
+          <div style="display:flex;gap:8px">
+            <button onclick="confirmarAddArq()" class="abtn abtn-primary" style="flex:1">Adicionar</button>
+            <button onclick="document.getElementById('mu-add-arq-area').style.display='none'" style="background:transparent;border:1px solid rgba(241,245,249,.1);border-radius:8px;color:rgba(241,245,249,.4);padding:8px 16px;cursor:pointer;font-family:'Poppins',sans-serif;font-size:13px">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <!-- MODAL ACESSO -->
 <div id="modal-acesso">
@@ -483,7 +569,7 @@ function toggleAdmin(){
 
 function adminTab(tab){
   if(!isAdmin())return;
-  var tabs=['usuarios','novo-usuario','dashboards','novo-dash'];
+  var tabs=['usuarios','novo-usuario','dashboards','novo-dash','arquivos','novo-arquivo'];
   document.querySelectorAll('.admin-tab').forEach(function(t,i){t.classList.toggle('on',tabs[i]===tab);});
   tabs.forEach(function(t){
     var el=document.getElementById('adm-'+t);
@@ -491,6 +577,8 @@ function adminTab(tab){
   });
   if(tab==='novo-usuario')carregarDashsParaPermissao();
   if(tab==='novo-dash')carregarUsersParaNovoDash();
+  if(tab==='arquivos')carregarListaArquivos();
+  if(tab==='novo-arquivo')carregarUsersParaNovoArq();
 }
 
 function carregarAdmin(){if(!isAdmin())return;carregarListaUsuarios();carregarListaDashboards();}
@@ -511,14 +599,20 @@ function carregarListaUsuarios(){
 function renderTabUsuarios(lista){
   document.getElementById('total-users').textContent='('+lista.length+')';
   document.getElementById('tbody-usuarios').innerHTML=lista.length===0
-    ?'<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(241,245,249,.2)">Nenhum usuário</td></tr>'
+    ?'<tr><td colspan="7" style="text-align:center;padding:40px;color:rgba(241,245,249,.2)">Nenhum usuário</td></tr>'
     :lista.map(function(u){
-      var ini=u.email.substring(0,2).toUpperCase();
-      return '<tr><td><div class="ucell"><div class="av">'+ini+'</div><div style="font-size:13px;font-weight:500">'+H(u.email)+'</div></div></td>'
-        +'<td><span class="badge-cliente">👤 Cliente</span></td><td>'+H(u.empresa)+'</td>'
+      var ini=(u.nome||u.email).substring(0,2).toUpperCase();
+      return '<tr>'
+        +'<td><div class="ucell"><div class="av">'+ini+'</div><div style="font-size:13px;font-weight:600;color:#f1f5f9">'+H(u.nome||'—')+'</div></div></td>'
+        +'<td style="font-size:12px;color:rgba(241,245,249,.45)">'+H(u.email)+'</td>'
+        +'<td><span class="badge-cliente">👤 Cliente</span></td>'
+        +'<td>'+H(u.empresa)+'</td>'
         +'<td style="color:rgba(241,245,249,.35)">'+u.qtd+' dashboards</td>'
         +'<td><span class="sdot"></span>Ativo</td>'
-        +'<td><button class="actbtn" data-email="'+H(u.email)+'" onclick="excluirUsuario(this)" title="Excluir">🗑</button></td></tr>';
+        +'<td style="white-space:nowrap">'
+          +'<button class="actbtn actbtn-mgr" data-email="'+H(u.email)+'" data-nome="'+H(u.nome||u.email)+'" onclick="abrirModalUsuario(this)" title="Gerenciar">✏ gerenciar</button> '
+          +'<button class="actbtn" data-email="'+H(u.email)+'" onclick="excluirUsuario(this)" title="Excluir">🗑 excluir</button>'
+        +'</td></tr>';
     }).join('');
 }
 
@@ -747,6 +841,228 @@ function removerAcesso(btn){
   fetch(SB_URL+'/rest/v1/dashboards_clientes?titulo=eq.'+encodeURIComponent(d.titulo)+'&categoria=eq.'+encodeURIComponent(d.categoria||'')+'&email_cliente=eq.'+encodeURIComponent(email),{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
   .then(function(){toast('Acesso removido de '+email,'ok');carregarModal();})
   .catch(function(e){toast('Erro: '+e.message,'err');btn.disabled=false;btn.textContent='Remover';});
+}
+
+/* ── ARQUIVOS ── */
+var todosArquivos = [];
+
+function carregarListaArquivos(){
+  if(!isAdmin())return;
+  fetch(SB_URL+'/rest/v1/arquivos_clientes?select=id,nome,descricao,url,categoria,email_cliente,empresa&order=nome',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    todosArquivos=data||[];
+    renderTabArq(todosArquivos);
+  }).catch(function(){renderTabArq([]);});
+}
+
+function renderTabArq(lista){
+  document.getElementById('total-arq').textContent='('+lista.length+')';
+  if(!lista.length){document.getElementById('tbody-arq').innerHTML='<tr><td colspan="6" style="text-align:center;padding:40px;color:rgba(241,245,249,.2)">Nenhum arquivo</td></tr>';return;}
+  document.getElementById('tbody-arq').innerHTML=lista.map(function(a){
+    return '<tr>'
+      +'<td><div style="font-weight:500;color:#f1f5f9">'+H(a.nome)+'</div></td>'
+      +'<td style="font-size:12px;color:rgba(241,245,249,.35)">'+H(a.descricao||'—')+'</td>'
+      +'<td style="font-size:12px;color:rgba(241,245,249,.4)">'+H(a.email_cliente||'—')+'</td>'
+      +'<td><span class="dash-tag-badge">'+H(a.categoria||'—')+'</span></td>'
+      +'<td><span class="sdot"></span>Ativo</td>'
+      +'<td><button class="actbtn" data-id="'+a.id+'" onclick="excluirArquivo(this)" title="Excluir">🗑</button></td>'
+      +'</tr>';
+  }).join('');
+}
+
+function filtrarTabArq(q){
+  var ql=q.toLowerCase();
+  renderTabArq(todosArquivos.filter(function(a){return(a.nome+(a.categoria||'')+(a.email_cliente||'')).toLowerCase().includes(ql);}));
+}
+
+function carregarUsersParaNovoArq(){
+  if(!isAdmin())return;
+  if(todosUsuarios.length>0){renderUsersNovoArq(todosUsuarios);return;}
+  fetch(SB_URL+'/rest/v1/usuarios_portal?order=nome',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    todosUsuarios=(data||[]).map(function(u){return{email:u.email,nome:u.nome||u.email.split('@')[0],empresa:u.empresa||'—',qtd:0};});
+    renderUsersNovoArq(todosUsuarios);
+  });
+}
+
+function renderUsersNovoArq(lista){
+  if(!lista||!lista.length){document.getElementById('na-user-lista').innerHTML='<div style="grid-column:span 2;text-align:center;padding:20px;color:rgba(241,245,249,.2);font-size:13px">Nenhum usuário cadastrado ainda.</div>';return;}
+  document.getElementById('na-user-lista').innerHTML=lista.map(function(u){
+    return '<div class="sel-item" data-email="'+H(u.email)+'" onclick="this.classList.toggle(\'on\')">'
+      +'<div class="dcheck"></div>'
+      +'<div><div style="font-size:13px;font-weight:500;color:#f1f5f9">'+H(u.email)+'</div>'
+      +'<div style="font-size:11px;color:rgba(241,245,249,.25)">'+H(u.nome)+' · '+H(u.empresa)+'</div></div></div>';
+  }).join('');
+}
+
+function salvarNovoArquivo(){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
+  var nome=document.getElementById('na-nome').value.trim(),
+      categoria=document.getElementById('na-categoria').value.trim(),
+      url=document.getElementById('na-url').value.trim(),
+      desc=document.getElementById('na-desc').value.trim();
+  if(!nome||!url){toast('Preencha nome e URL do arquivo','err');return;}
+  var usersSel=[];
+  document.querySelectorAll('#na-user-lista .sel-item.on').forEach(function(el){usersSel.push(el.getAttribute('data-email'));});
+  if(!usersSel.length){toast('Selecione ao menos um usuário','err');return;}
+  var btn=document.getElementById('btn-salvar-arq');btn.disabled=true;btn.textContent='Salvando...';
+  var categoria=document.getElementById('na-categoria').value.trim();
+  var inserts=usersSel.map(function(em){
+    var u=todosUsuarios.find(function(x){return x.email===em;});
+    return{nome:nome,descricao:desc,url:url,categoria:categoria,email_cliente:em,empresa:(u?u.empresa:'')||''};
+  });
+  fetch(SB_URL+'/rest/v1/arquivos_clientes',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(inserts)})
+  .then(function(r){
+    if(r.ok){toast('Arquivo salvo para '+usersSel.length+' usuário(s)!','ok');limparNovoArq();carregarListaArquivos();}
+    else return r.json().then(function(d){toast(d.message||'Erro','err');});
+  })
+  .catch(function(e){toast('Erro: '+e.message,'err');})
+  .finally(function(){btn.disabled=false;btn.textContent='Salvar Arquivo';});
+}
+
+function excluirArquivo(btn){
+  if(!isAdmin()){toast('Acesso não autorizado.','err');return;}
+  var id=btn.getAttribute('data-id');
+  if(!confirm('Excluir este arquivo?'))return;
+  fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+id,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(){toast('Arquivo excluído','ok');carregarListaArquivos();});
+}
+
+function limparNovoArq(){
+  ['na-nome','na-categoria','na-url','na-desc'].forEach(function(id){document.getElementById(id).value='';});
+  document.querySelectorAll('#na-user-lista .sel-item').forEach(function(el){el.classList.remove('on');});
+}
+
+/* ── MODAL GERENCIAR USUÁRIO ── */
+var _muEmail = null;
+var _muNome  = null;
+
+function abrirModalUsuario(btn){
+  if(!isAdmin())return;
+  _muEmail = btn.getAttribute('data-email');
+  _muNome  = btn.getAttribute('data-nome');
+  document.getElementById('mu-nome').textContent = _muNome;
+  document.getElementById('mu-email').textContent = _muEmail;
+  document.getElementById('mu-add-dash-area').style.display='none';
+  document.getElementById('mu-add-arq-area').style.display='none';
+  document.getElementById('modal-usuario').style.display='flex';
+  carregarDadosModalUsuario();
+}
+
+function fecharModalUsuario(){
+  document.getElementById('modal-usuario').style.display='none';
+  _muEmail=null;_muNome=null;
+}
+
+document.getElementById('modal-usuario').addEventListener('click',function(e){
+  if(e.target===this)fecharModalUsuario();
+});
+
+function carregarDadosModalUsuario(){
+  if(!_muEmail)return;
+  document.getElementById('mu-dashs-lista').innerHTML='<div style="font-size:12px;color:rgba(241,245,249,.2);padding:8px 0">Carregando...</div>';
+  document.getElementById('mu-arqs-lista').innerHTML='<div style="font-size:12px;color:rgba(241,245,249,.2);padding:8px 0">Carregando...</div>';
+  Promise.all([
+    fetch(SB_URL+'/rest/v1/dashboards_clientes?email_cliente=eq.'+encodeURIComponent(_muEmail)+'&order=titulo',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}}).then(function(r){return r.json();}),
+    fetch(SB_URL+'/rest/v1/arquivos_clientes?email_cliente=eq.'+encodeURIComponent(_muEmail)+'&order=nome',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}}).then(function(r){return r.json();})
+  ]).then(function(res){
+    renderMuDashs(res[0]||[]);
+    renderMuArqs(res[1]||[]);
+  }).catch(function(e){toast('Erro ao carregar: '+e.message,'err');});
+}
+
+function renderMuDashs(lista){
+  var el=document.getElementById('mu-dashs-lista');
+  if(!lista.length){el.innerHTML='<div style="font-size:13px;color:rgba(241,245,249,.25);padding:4px 0">Nenhum dashboard vinculado.</div>';return;}
+  el.innerHTML=lista.map(function(d){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(79,142,247,.04)">'
+      +'<div><div style="font-size:13px;font-weight:500;color:#f1f5f9">'+H(d.titulo)+'</div>'
+      +'<div style="font-size:11px;color:rgba(241,245,249,.3)">'+H(d.categoria||'—')+'</div></div>'
+      +'<button onclick="removerDashUsuario(\''+H(d.id)+'\',\''+H(d.titulo)+'\')" class="btn-rm">Remover</button>'
+      +'</div>';
+  }).join('');
+}
+
+function renderMuArqs(lista){
+  var el=document.getElementById('mu-arqs-lista');
+  if(!lista.length){el.innerHTML='<div style="font-size:13px;color:rgba(241,245,249,.25);padding:4px 0">Nenhum arquivo vinculado.</div>';return;}
+  el.innerHTML=lista.map(function(a){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(79,142,247,.04)">'
+      +'<div><div style="font-size:13px;font-weight:500;color:#f1f5f9">'+H(a.nome)+'</div>'
+      +'<div style="font-size:11px;color:rgba(241,245,249,.3)">'+H(a.categoria||'—')+' · '+H(a.descricao||'')+'</div></div>'
+      +'<button onclick="removerArqUsuario(\''+a.id+'\')" class="btn-rm">Remover</button>'
+      +'</div>';
+  }).join('');
+}
+
+function abrirAddDashUsuario(){
+  // Popula select com dashboards únicos disponíveis
+  var unicos=[];var vistos={};
+  todosDashboards.forEach(function(d){var k=d.titulo+'|||'+(d.categoria||'');if(!vistos[k]){vistos[k]=true;unicos.push(d);}});
+  var sel=document.getElementById('mu-add-dash-sel');
+  sel.innerHTML='<option value="">Selecione um dashboard...</option>'+
+    unicos.map(function(d){return '<option value="'+d.id+'" data-titulo="'+H(d.titulo)+'" data-cat="'+H(d.categoria||'')+'" data-url="'+H(d.url)+'">'+H(d.titulo)+' ('+H(d.categoria||'—')+')</option>';}).join('');
+  document.getElementById('mu-add-dash-area').style.display='block';
+}
+
+function confirmarAddDash(){
+  var sel=document.getElementById('mu-add-dash-sel');
+  var opt=sel.options[sel.selectedIndex];
+  if(!sel.value){toast('Selecione um dashboard','err');return;}
+  var d=todosDashboards.find(function(x){return String(x.id)===sel.value;});
+  if(!d){toast('Dashboard não encontrado','err');return;}
+  var u=todosUsuarios.find(function(x){return x.email===_muEmail;});
+  fetch(SB_URL+'/rest/v1/dashboards_clientes',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+    body:JSON.stringify({titulo:d.titulo,categoria:d.categoria||'',url:d.url,email_cliente:_muEmail,empresa:d.empresa||(u?u.empresa:'')||'',descricao:d.descricao||''})})
+  .then(function(r){
+    if(r.ok){toast('Dashboard adicionado!','ok');document.getElementById('mu-add-dash-area').style.display='none';carregarDadosModalUsuario();}
+    else return r.json().then(function(x){toast(x.message||'Erro','err');});
+  }).catch(function(e){toast('Erro: '+e.message,'err');});
+}
+
+function removerDashUsuario(id,titulo){
+  if(!confirm('Remover "'+titulo+'" deste usuário?'))return;
+  fetch(SB_URL+'/rest/v1/dashboards_clientes?id=eq.'+id,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(){toast('Dashboard removido','ok');carregarDadosModalUsuario();carregarListaDashboards();});
+}
+
+function abrirAddArqUsuario(){
+  fetch(SB_URL+'/rest/v1/arquivos_clientes?select=id,nome,categoria,descricao,url,empresa&order=nome',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var sel=document.getElementById('mu-add-arq-sel');
+    var unicos=[];var vistos={};
+    (data||[]).forEach(function(a){if(!vistos[a.nome]){vistos[a.nome]=true;unicos.push(a);}});
+    sel.innerHTML='<option value="">Selecione um arquivo...</option>'+
+      unicos.map(function(a){return '<option value="'+a.id+'">'+H(a.nome)+' ('+H(a.categoria||'—')+')</option>';}).join('');
+    document.getElementById('mu-add-arq-area').style.display='block';
+  });
+}
+
+function confirmarAddArq(){
+  var sel=document.getElementById('mu-add-arq-sel');
+  if(!sel.value){toast('Selecione um arquivo','err');return;}
+  // Busca dados completos do arquivo selecionado
+  fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+sel.value,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var a=data&&data[0];if(!a){toast('Arquivo não encontrado','err');return;}
+    var u=todosUsuarios.find(function(x){return x.email===_muEmail;});
+    return fetch(SB_URL+'/rest/v1/arquivos_clientes',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({nome:a.nome,descricao:a.descricao||'',url:a.url,categoria:a.categoria||'',email_cliente:_muEmail,empresa:a.empresa||(u?u.empresa:'')||''})});
+  })
+  .then(function(r){
+    if(r&&r.ok){toast('Arquivo adicionado!','ok');document.getElementById('mu-add-arq-area').style.display='none';carregarDadosModalUsuario();}
+    else if(r)return r.json().then(function(x){toast(x.message||'Erro','err');});
+  }).catch(function(e){toast('Erro: '+e.message,'err');});
+}
+
+function removerArqUsuario(id){
+  if(!confirm('Remover este arquivo deste usuário?'))return;
+  fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+id,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}})
+  .then(function(){toast('Arquivo removido','ok');carregarDadosModalUsuario();});
 }
 
 /* ── RESTAURAR SESSÃO via Supabase SDK ── */
