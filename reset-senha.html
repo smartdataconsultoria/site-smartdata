@@ -309,30 +309,45 @@
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
   // ─── Verificar token na URL ────────────────────────────────────────────────────
-  // O Supabase envia o token tanto em hash (#access_token=...) quanto em query (?code=...)
   (async () => {
     const hash   = window.location.hash;
     const params = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(hash.replace('#', ''));
 
-    const hasHash = hash.includes('access_token') && hash.includes('type=recovery');
-    const hasCode = params.get('code');
+    const accessToken  = hashParams.get('access_token');
+    const refreshToken = hashParams.get('refresh_token');
+    const type         = hashParams.get('type');
+    const code         = params.get('code');
 
-    if (!hasHash && !hasCode) {
-      // Nenhum token válido — mostrar aviso
-      document.getElementById('cardReset').style.display    = 'none';
-      document.getElementById('cardInvalido').style.display = 'block';
+    // Formato hash: #access_token=...&type=recovery
+    if (accessToken && type === 'recovery') {
+      const { error } = await sb.auth.setSession({
+        access_token:  accessToken,
+        refresh_token: refreshToken || ''
+      });
+      if (error) {
+        document.getElementById('cardReset').style.display    = 'none';
+        document.getElementById('cardInvalido').style.display = 'block';
+      }
       return;
     }
 
-    // Se vier como code (PKCE), trocar pela sessão
-    if (hasCode) {
+    // Formato PKCE: ?code=...
+    if (code) {
       const { error } = await sb.auth.exchangeCodeForSession(window.location.href);
       if (error) {
         document.getElementById('cardReset').style.display    = 'none';
         document.getElementById('cardInvalido').style.display = 'block';
       }
+      return;
     }
-    // Se vier como hash, o Supabase JS já processa automaticamente
+
+    // Nenhum token — verificar se já tem sessão ativa (ex: clicou de volta)
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      document.getElementById('cardReset').style.display    = 'none';
+      document.getElementById('cardInvalido').style.display = 'block';
+    }
   })();
 
   // ─── Toggle senha ─────────────────────────────────────────────────────────────
