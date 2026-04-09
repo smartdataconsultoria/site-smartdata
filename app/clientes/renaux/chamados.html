@@ -466,7 +466,7 @@ select.finput option { background: var(--bg2); }
     <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">
       Faça login no portal para acessar os chamados.
     </p>
-    <a href="/login.html" class="btn btn-gold">Ir para o login</a>
+    <a href="/app/clientes/renaux/login.html" class="btn btn-gold">Ir para o login</a>
   </div>
 </div>
 
@@ -478,7 +478,7 @@ select.finput option { background: var(--bg2); }
   <!-- HEADER -->
   <header class="top-header">
     <div class="header-left">
-      <a href="/dashboard.html" class="back-btn">
+      <a href="/app/clientes/renaux/dashboard.html" class="back-btn">
         ← <span>Voltar ao Portal</span>
       </a>
       <div class="header-divider"></div>
@@ -849,7 +849,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   await iniciar(session.user);
 
   db.auth.onAuthStateChange(async (ev, s) => {
-    if (ev === 'SIGNED_OUT') window.location.href = '/login.html';
+    if (ev === 'SIGNED_OUT') window.location.href = '/app/clientes/renaux/login.html';
   });
 });
 
