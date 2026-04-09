@@ -368,7 +368,7 @@
     btn.textContent = 'Enviando…';
 
     const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://smartdataconsultoria.com/app/dashboard.html'
+      redirectTo: 'https://smartdataconsultoria.com/reset-senha.html'
     });
 
     btn.disabled = false;
