@@ -687,6 +687,7 @@
 
   <div class="topbar-user">
     <span class="user-email" id="userEmail">—</span>
+    <span style="font-size:12px;color:var(--text-muted);" id="userName"></span>
     <button class="btn-logout" id="btnLogout">Sair</button>
   </div>
 </header>
@@ -720,8 +721,8 @@
 
   <!-- MAIN -->
   <main class="main">
-    <h1 class="page-title">Dashboards</h1>
-    <p class="page-sub">Bem-vindo ao seu painel de dashboards.</p>
+    <h1 class="page-title" id="saudacaoTitulo">Dashboards</h1>
+    <p class="page-sub" id="saudacaoSub">Bem-vindo ao seu painel de dashboards.</p>
 
     <!-- Admin bar -->
     <div class="admin-bar" id="adminBar">
@@ -942,6 +943,23 @@
 
     currentUser = session.user;
     document.getElementById('userEmail').textContent = currentUser.email;
+
+    // Buscar nome na tabela usuarios_portal
+    const { data: perfilData } = await sb
+      .from('usuarios_portal')
+      .select('nome')
+      .eq('email', currentUser.email)
+      .single();
+
+    const nomeExibido = perfilData?.nome || currentUser.email.split('@')[0];
+
+    // Saudação por horário
+    const hora = new Date().getHours();
+    const saudacao = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
+
+    document.getElementById('saudacaoTitulo').textContent = saudacao + ', ' + nomeExibido + '! 👋';
+    document.getElementById('saudacaoSub').textContent = 'Aqui estão seus dashboards disponíveis.';
+    document.getElementById('userName').textContent = nomeExibido;
 
     const isAdmin = currentUser.email === ADMIN_EMAIL;
     if (isAdmin) {
@@ -1180,14 +1198,17 @@
     const btn = document.getElementById('btnCriarUser');
     btn.disabled = true; btn.textContent = 'Criando…';
 
-    const { data: authData, error } = await sb.auth.signUp({ email, password: senha });
+    const nomeUsuario = document.getElementById('uNome').value.trim() || email.split('@')[0];
+
+    const { data: authData, error } = await sb.auth.signUp({
+      email,
+      password: senha,
+      options: { data: { full_name: nomeUsuario } }
+    });
 
     btn.disabled = false; btn.textContent = 'Criar Usuário';
 
     if (error) { showMsg('msgUser', 'Erro: ' + error.message, false); return; }
-
-    // Registra também na tabela usuarios_portal
-    const nomeUsuario = document.getElementById('uNome').value.trim() || email.split('@')[0];
     await sb.from('usuarios_portal').insert([{
       email,
       nome: nomeUsuario,
