@@ -980,7 +980,10 @@
   // ─── Supabase config ────────────────────────────────────────────────────────
   const SUPABASE_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
-  const ADMIN_EMAIL   = 'tecnologia@smartdataconsultoria.com';
+  const ADMIN_EMAILS  = [
+    'tecnologia@smartdataconsultoria.com',
+    'comercial@smartdataconsultoria.com'
+  ];
 
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -1014,7 +1017,7 @@
     document.getElementById('saudacaoSub').textContent = 'Aqui estão seus dashboards disponíveis.';
     document.getElementById('userName').textContent = nomeExibido;
 
-    const isAdmin = currentUser.email === ADMIN_EMAIL;
+    const isAdmin = ADMIN_EMAILS.includes(currentUser.email);
     if (isAdmin) {
       document.getElementById('adminBar').style.display = 'flex';
       document.getElementById('adminLink').style.display = 'flex';
@@ -1360,7 +1363,7 @@
     const sub   = document.getElementById('arquivosSub');
 
     try {
-      const isAdmin = currentUser.email === ADMIN_EMAIL;
+      const isAdmin = ADMIN_EMAILS.includes(currentUser.email);
       let query = sb.from('arquivos_clientes')
         .select('*')
         .eq('empresa', 'Renaux')
