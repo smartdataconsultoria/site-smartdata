@@ -752,7 +752,7 @@ select.finput option { background: var(--bg2); }
           </div>
         </div>
 
-        <div class="dbox" id="det-historico-box" style="display:none;">
+        <div class="dbox">
           <div class="dbox-label">Histórico</div>
           <div class="timeline" id="det-timeline"></div>
         </div>
@@ -935,8 +935,8 @@ async function iniciar(user) {
 async function carregar() {
   let q = db.from('ch_chamados').select('*').order('created_at', { ascending: false });
   if (!isAdmin) {
-    // cliente: só seus chamados
-    q = q.eq('user_id', me.id);
+    // cliente: só seus chamados (excluindo cancelados)
+    q = q.eq('user_id', me.id).neq('status', 'Cancelado');
   } else {
     // admin: apenas chamados da Renaux (não mistura com SmartData)
     q = q.eq('empresa', 'renaux');
@@ -1086,6 +1086,11 @@ async function verDetalhe(id) {
   setText('det-open',  fData(c.created_at));
   setText('det-prazo', fPrazo(c.prazo));
   document.getElementById('det-sts').innerHTML  = `<span class="badge ${STS_CLS[c.status]||'b-aberto'}">${c.status}</span>`;
+
+  // Bloquear comentários se cancelado
+  const cancelado = c.status === 'Cancelado';
+  const cmRow = document.querySelector('.cm-row');
+  if (cmRow) cmRow.style.display = cancelado ? 'none' : 'flex';
   document.getElementById('det-prio').innerHTML = `<span class="badge ${prioCls(c.prioridade)}">${c.prioridade||'Média'}</span>`;
 
   // SLA bar
@@ -1096,13 +1101,11 @@ async function verDetalhe(id) {
     document.getElementById('det-cli-row').style.display = 'flex';
     setText('det-cli', c.cliente_email || '—');
     document.getElementById('adm-sts-box').style.display = 'block';
-    document.getElementById('det-historico-box').style.display = 'block';
     novoSts = c.status;
     renderStsBtns(c.status);
   } else {
     document.getElementById('det-cli-row').style.display = 'none';
     document.getElementById('adm-sts-box').style.display = 'none';
-    document.getElementById('det-historico-box').style.display = 'none';
   }
 
   await Promise.all([loadAnexos(c.id), loadComents(c.id), loadTimeline(c.id)]);
