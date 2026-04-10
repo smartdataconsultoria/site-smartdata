@@ -456,6 +456,7 @@ select.finput option { background: var(--bg2); }
 <div id="loading">
   <div class="spin"></div>
   <p style="color:var(--muted);font-size:13px;">Verificando sessão...</p>
+  <div id="debug-log" style="margin-top:20px;max-width:500px;text-align:left;font-size:11px;font-family:monospace;color:#6b7a99;line-height:1.8;"></div>
 </div>
 
 <!-- ACESSO NEGADO -->
@@ -834,14 +835,38 @@ const STS_CLS = {
 const STS_ALL = ['Aberto','Em Análise','Em Andamento','Aguardando Cliente','Concluído'];
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  INIT — mesma lógica de auth do dashboard Renaux
+//  INIT — auth robusto com debug visível
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 let _iniciado = false;
 
-window.addEventListener('DOMContentLoaded', async () => {
+function dbg(msg) {
+  const el = document.getElementById('debug-log');
+  if (el) el.innerHTML += `<div>▸ ${msg}</div>`;
+  console.log('[chamados]', msg);
+}
 
-  // 1) Listener principal — captura SIGNED_IN, INITIAL_SESSION, TOKEN_REFRESHED
+window.addEventListener('DOMContentLoaded', async () => {
+  dbg('Página carregada. Verificando sessão...');
+  dbg('Supabase URL: ' + SUPABASE_URL.slice(0,40));
+
+  // Verificar localStorage manualmente
+  const lsKey = 'sb-rbahvyejqybajnufftio-auth-token';
+  const lsVal = localStorage.getItem(lsKey);
+  dbg('localStorage token: ' + (lsVal ? 'ENCONTRADO (' + lsVal.length + ' chars)' : 'NÃO ENCONTRADO'));
+
+  // 1) getSession direto
+  const { data: { session }, error: sessErr } = await db.auth.getSession();
+  dbg('getSession → ' + (session ? 'sessão OK: ' + session.user.email : 'null') + (sessErr ? ' ERRO: ' + sessErr.message : ''));
+
+  if (session && !_iniciado) {
+    _iniciado = true;
+    await iniciar(session.user);
+    return;
+  }
+
+  // 2) Listener como fallback
   db.auth.onAuthStateChange(async (ev, session) => {
+    dbg('onAuthStateChange: ' + ev + (session ? ' | ' + session.user.email : ''));
     if (ev === 'SIGNED_OUT') {
       window.location.href = '/app/clientes/renaux/login.html';
       return;
@@ -852,21 +877,20 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // 2) Fallback imediato: getSession para casos em que onAuthStateChange demora
-  const { data: { session } } = await db.auth.getSession();
-  if (session && !_iniciado) {
-    _iniciado = true;
-    await iniciar(session.user);
-    return;
-  }
-
-  // 3) Sem sessão após 4s → exibe tela de acesso negado
+  // 3) Sem sessão após 5s → mostra diagnóstico
   setTimeout(() => {
     if (!_iniciado) {
-      hide('loading');
-      show('acesso-negado');
+      dbg('TIMEOUT: nenhuma sessão encontrada após 5s');
+      // Não redireciona — mostra o debug para diagnóstico
+      const loadEl = document.getElementById('loading');
+      if (loadEl) {
+        const spinEl = loadEl.querySelector('.spin');
+        if (spinEl) spinEl.style.display = 'none';
+        const pEl = loadEl.querySelector('p');
+        if (pEl) pEl.textContent = 'Sessão não encontrada. Veja o diagnóstico abaixo:';
+      }
     }
-  }, 4000);
+  }, 5000);
 });
 
 async function iniciar(user) {
