@@ -812,7 +812,10 @@ select.finput option { background: var(--bg2); }
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const SUPABASE_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
-const ADMIN_EMAIL   = 'tecnologia@smartdataconsultoria.com';
+const ADMIN_EMAILS  = [
+  'tecnologia@smartdataconsultoria.com',
+  'comercial@smartdataconsultoria.com'
+];
 const BUCKET = 'ch-anexos';
 
 const { createClient } = supabase;
@@ -904,7 +907,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 async function iniciar(user) {
   me      = user;
-  isAdmin = user.email === ADMIN_EMAIL;
+  isAdmin = ADMIN_EMAILS.includes(user.email);
 
   // Preenche UI com dados do usuário
   const initials = user.email.split('@')[0].slice(0,2).toUpperCase();
