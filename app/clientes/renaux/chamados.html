@@ -479,7 +479,7 @@ select.finput option { background: var(--bg2); }
   <!-- HEADER -->
   <header class="top-header">
     <div class="header-left">
-      <a href="/app/clientes/renaux/dashboard.html" class="back-btn">
+      <a href="dashboard.html" class="back-btn">
         ← <span>Voltar ao Portal</span>
       </a>
       <div class="header-divider"></div>
@@ -868,7 +868,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   db.auth.onAuthStateChange(async (ev, session) => {
     dbg('onAuthStateChange: ' + ev + (session ? ' | ' + session.user.email : ''));
     if (ev === 'SIGNED_OUT') {
-      window.location.href = '/app/clientes/renaux/login.html';
+      window.location.href = 'login.html';
       return;
     }
     if (session && !_iniciado) {
