@@ -224,6 +224,7 @@ td { padding: 13px 16px; font-size: 13px; vertical-align: middle; }
 .b-alta  { background: rgba(239,68,68,.12);  color: #fca5a5; }
 .b-media { background: rgba(245,158,11,.12); color: #fcd34d; }
 .b-baixa { background: rgba(34,197,94,.12);  color: #86efac; }
+.b-cancelado { background: rgba(107,114,128,.15); color: #9ca3af; border: 1px solid rgba(107,114,128,.3); }
 
 /* ── SLA BAR ── */
 .sla-wrap { min-width: 80px; }
@@ -786,6 +787,14 @@ select.finput option { background: var(--bg2); }
           <button class="btn btn-gold btn-sm w-full mt-16" onclick="gravarStatus()">
             Salvar status
           </button>
+          <button class="btn btn-sm w-full mt-8" onclick="cancelarChamado()" style="
+            background: transparent;
+            border: 1px solid rgba(239,68,68,.4);
+            color: #fca5a5;
+            margin-top: 8px;
+          ">
+            Cancelar chamado
+          </button>
         </div>
 
       </div>
@@ -830,7 +839,7 @@ const SLA = {
 
 const STS_CLS = {
   'Aberto':'b-aberto','Em Análise':'b-analise','Em Andamento':'b-andamento',
-  'Aguardando Cliente':'b-aguardando','Concluído':'b-concluido'
+  'Aguardando Cliente':'b-aguardando','Concluído':'b-concluido','Cancelado':'b-cancelado'
 };
 const STS_ALL = ['Aberto','Em Análise','Em Andamento','Aguardando Cliente','Concluído'];
 
@@ -1181,6 +1190,28 @@ async function gravarStatus() {
   atual.status = novoSts;
   document.getElementById('det-sts').innerHTML = `<span class="badge ${STS_CLS[novoSts]}">${novoSts}</span>`;
   toast(`Status → ${novoSts}`, 'success');
+  await carregar();
+}
+
+async function cancelarChamado() {
+  if (!atual) return;
+  if (atual.status === 'Cancelado') { toast('Chamado já cancelado', 'info'); return; }
+  if (!confirm(`Tem certeza que deseja cancelar o chamado ${atual.numero}?\n\nEssa ação não pode ser desfeita.`)) return;
+
+  const { error } = await db.from('ch_chamados').update({ status: 'Cancelado' }).eq('id', atual.id);
+  if (error) { toast('Erro: ' + error.message, 'error'); return; }
+
+  await db.from('ch_historico').insert({
+    chamado_id: atual.id,
+    descricao: `Chamado cancelado por ${me.email}`,
+    cor: '#ef4444'
+  });
+
+  atual.status = 'Cancelado';
+  document.getElementById('det-sts').innerHTML = '<span class="badge b-cancelado">Cancelado</span>';
+  // Esconde botões de ação após cancelar
+  document.getElementById('adm-sts-box').style.display = 'none';
+  toast(`Chamado ${atual.numero} cancelado`, 'info');
   await carregar();
 }
 
