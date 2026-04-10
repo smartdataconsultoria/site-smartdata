@@ -466,7 +466,7 @@ select.finput option { background: var(--bg2); }
     <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">
       Faça login no portal para acessar os chamados.
     </p>
-    <a href="/app/clientes/renaux/login.html" class="btn btn-gold">Ir para o login</a>
+    <a href="/login.html" class="btn btn-gold">Ir para o login</a>
   </div>
 </div>
 
@@ -834,23 +834,39 @@ const STS_CLS = {
 const STS_ALL = ['Aberto','Em Análise','Em Andamento','Aguardando Cliente','Concluído'];
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  INIT — verifica sessão existente do dashboard
+//  INIT — mesma lógica de auth do dashboard Renaux
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-window.addEventListener('DOMContentLoaded', async () => {
-  const { data: { session } } = await db.auth.getSession();
+let _iniciado = false;
 
-  if (!session) {
-    // Sem sessão → redireciona para login do portal
-    hide('loading');
-    show('acesso-negado');
+window.addEventListener('DOMContentLoaded', async () => {
+
+  // 1) Listener principal — captura SIGNED_IN, INITIAL_SESSION, TOKEN_REFRESHED
+  db.auth.onAuthStateChange(async (ev, session) => {
+    if (ev === 'SIGNED_OUT') {
+      window.location.href = '/app/clientes/renaux/login.html';
+      return;
+    }
+    if (session && !_iniciado) {
+      _iniciado = true;
+      await iniciar(session.user);
+    }
+  });
+
+  // 2) Fallback imediato: getSession para casos em que onAuthStateChange demora
+  const { data: { session } } = await db.auth.getSession();
+  if (session && !_iniciado) {
+    _iniciado = true;
+    await iniciar(session.user);
     return;
   }
 
-  await iniciar(session.user);
-
-  db.auth.onAuthStateChange(async (ev, s) => {
-    if (ev === 'SIGNED_OUT') window.location.href = '/app/clientes/renaux/login.html';
-  });
+  // 3) Sem sessão após 4s → exibe tela de acesso negado
+  setTimeout(() => {
+    if (!_iniciado) {
+      hide('loading');
+      show('acesso-negado');
+    }
+  }, 4000);
 });
 
 async function iniciar(user) {
