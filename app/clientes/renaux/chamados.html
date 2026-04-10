@@ -585,9 +585,9 @@ select.finput option { background: var(--bg2); }
         </div>
         <div class="metric metric-red">
           <div class="metric-icon">🚨</div>
-          <div class="metric-label">SLA vencido</div>
+          <div class="metric-label">Em atraso</div>
           <div class="metric-value" id="adm-vec">—</div>
-          <div class="metric-sub" style="color:var(--danger);">requerem atenção</div>
+          <div class="metric-sub" style="color:var(--danger);">em atraso</div>
         </div>
         <div class="metric metric-green">
           <div class="metric-icon">✅</div>
@@ -599,7 +599,7 @@ select.finput option { background: var(--bg2); }
       <!-- tabs admin -->
       <div class="tab-strip">
         <div class="tab-item on" onclick="tabAdmin('todos',this)">Todos os chamados</div>
-        <div class="tab-item" onclick="tabAdmin('vencidos',this)">SLA vencido</div>
+        <div class="tab-item" onclick="tabAdmin('vencidos',this)">Em atraso</div>
         <div class="tab-item" onclick="tabAdmin('hoje',this)">Vencem hoje</div>
       </div>
 
@@ -1034,7 +1034,7 @@ function tabAdmin(tab, el) {
   tabAtual = tab;
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
-  const titles = { todos:'Todos os chamados', vencidos:'SLA vencido', hoje:'Vencem hoje' };
+  const titles = { todos:'Todos os chamados', vencidos:'Em atraso', hoje:'Vencem hoje' };
   setText('adm-card-title', titles[tab]);
   aplicar();
 }
@@ -1317,7 +1317,7 @@ function renderSLA(c) {
   const cls=pct>=90?'sla-late':pct>=70?'sla-warn':'sla-ok';
   fill.className='prog-fill '+cls; fill.style.width=pct+'%';
   const rest=pr-ag;
-  txt.textContent=rest<0?'SLA vencido':`${Math.ceil(rest/86400000)} dias restantes (${pct}% do prazo)`;
+  txt.textContent=rest<0?'Em atraso':`${Math.ceil(rest/86400000)} dias restantes (${pct}% do prazo)`;
 }
 
 function fPrazo(p) {
