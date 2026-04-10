@@ -752,7 +752,7 @@ select.finput option { background: var(--bg2); }
           </div>
         </div>
 
-        <div class="dbox">
+        <div class="dbox" id="det-historico-box" style="display:none;">
           <div class="dbox-label">Histórico</div>
           <div class="timeline" id="det-timeline"></div>
         </div>
@@ -1096,11 +1096,13 @@ async function verDetalhe(id) {
     document.getElementById('det-cli-row').style.display = 'flex';
     setText('det-cli', c.cliente_email || '—');
     document.getElementById('adm-sts-box').style.display = 'block';
+    document.getElementById('det-historico-box').style.display = 'block';
     novoSts = c.status;
     renderStsBtns(c.status);
   } else {
     document.getElementById('det-cli-row').style.display = 'none';
     document.getElementById('adm-sts-box').style.display = 'none';
+    document.getElementById('det-historico-box').style.display = 'none';
   }
 
   await Promise.all([loadAnexos(c.id), loadComents(c.id), loadTimeline(c.id)]);
