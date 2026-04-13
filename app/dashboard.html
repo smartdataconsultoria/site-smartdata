@@ -444,9 +444,14 @@ async function entrarApp(){
   var nome = '';
   var empresa = '';
   try {
-    var { data: uData } = await sb.from('usuarios_portal').select('nome,empresa').eq('email', usr.email).single();
-    if(uData){ nome = uData.nome || ''; empresa = uData.empresa || ''; }
-  } catch(e){}
+    var uRes = await fetch(SB_URL + '/rest/v1/usuarios_portal?select=nome,empresa&email=eq.' + encodeURIComponent(usr.email), {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + usr.token, 'Content-Type': 'application/json' }
+    });
+    if(uRes.ok){
+      var uArr = await uRes.json();
+      if(uArr && uArr[0]){ nome = uArr[0].nome || ''; empresa = uArr[0].empresa || ''; }
+    }
+  } catch(e){ console.warn('usuarios_portal:', e); }
 
   // saudação
   document.getElementById('greetingText').innerHTML = gerarSaudacao(nome);
@@ -473,14 +478,22 @@ async function entrarApp(){
 ───────────────────────────────────────────────────────────────── */
 async function carregarDashboards(){
   try {
-    var query = sb.from('dashboards_clientes').select('*').order('categoria');
-    if(usr.email !== ADMIN) query = query.eq('email_cliente', usr.email);
-    var { data, error } = await query;
-    if(error) throw error;
+    var url = SB_URL + '/rest/v1/dashboards_clientes?select=*&order=categoria';
+    if(usr.email !== ADMIN) url += '&email_cliente=eq.' + encodeURIComponent(usr.email);
+    var res = await fetch(url, {
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + usr.token,
+        'Content-Type': 'application/json'
+      }
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    var data = await res.json();
     meusDashboards = data || [];
     renderDashboards(meusDashboards);
   } catch(e){
-    document.getElementById('dash-grid').innerHTML = '<div class="empty-state"><p>Erro ao carregar dashboards.</p></div>';
+    console.error('Erro dashboards:', e);
+    document.getElementById('dash-grid').innerHTML = '<div class="empty-state"><p>Nenhum dashboard disponível.</p></div>';
   }
 }
 
@@ -565,11 +578,18 @@ function fecharViewer(){
 async function carregarArquivos(){
   var grid = document.getElementById('arq-grid');
   try {
-    var query = sb.from('arquivos_clientes').select('*').order('nome');
-    if(usr.email !== ADMIN) query = query.eq('email_cliente', usr.email);
-    var { data, error } = await query;
-    if(error) throw error;
-    var lista = data || [];
+    var url = SB_URL + '/rest/v1/arquivos_clientes?select=*&order=nome';
+    if(usr.email !== ADMIN) url += '&email_cliente=eq.' + encodeURIComponent(usr.email);
+    var res = await fetch(url, {
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + usr.token,
+        'Content-Type': 'application/json'
+      }
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    var lista = await res.json();
+    lista = lista || [];
 
     if(!lista.length){
       grid.innerHTML = '<div class="arq-empty">Nenhum arquivo disponível.</div>';
@@ -583,7 +603,8 @@ async function carregarArquivos(){
       '</a>';
     }).join('');
   } catch(e){
-    grid.innerHTML = '<div class="arq-empty">Erro ao carregar arquivos.</div>';
+    console.error('Erro arquivos:', e);
+    grid.innerHTML = '<div class="arq-empty">Nenhum arquivo disponível.</div>';
   }
 }
 
@@ -622,23 +643,25 @@ function showAdminTab(aba){
    ADMIN: CARREGAR
 ───────────────────────────────────────────────────────────────── */
 async function carregarAdmin(){
+  var headers = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + usr.token, 'Content-Type': 'application/json' };
+
   // usuários
   try {
-    var { data: u } = await sb.from('usuarios_portal').select('*').order('email');
-    todosUsuarios = u || [];
-  } catch(e){}
+    var r = await fetch(SB_URL + '/rest/v1/usuarios_portal?select=*&order=email', { headers });
+    todosUsuarios = r.ok ? (await r.json()) : [];
+  } catch(e){ todosUsuarios = []; }
 
   // dashboards
   try {
-    var { data: d } = await sb.from('dashboards_clientes').select('*').order('titulo');
-    todosDashboards = d || [];
-  } catch(e){}
+    var r2 = await fetch(SB_URL + '/rest/v1/dashboards_clientes?select=*&order=titulo', { headers });
+    todosDashboards = r2.ok ? (await r2.json()) : [];
+  } catch(e){ todosDashboards = []; }
 
   // arquivos
   try {
-    var { data: a } = await sb.from('arquivos_clientes').select('*').order('nome');
-    todosArquivos = a || [];
-  } catch(e){}
+    var r3 = await fetch(SB_URL + '/rest/v1/arquivos_clientes?select=*&order=nome', { headers });
+    todosArquivos = r3.ok ? (await r3.json()) : [];
+  } catch(e){ todosArquivos = []; }
 
   renderAdminUsuarios();
   popularSelects();
@@ -910,9 +933,15 @@ window.addEventListener('load', async function(){
       window.location.href = '../area-cliente.html';
       return;
     }
+    // Garantir que o cliente usa o token autenticado em todas as queries
+    await sb.auth.setSession({
+      access_token: session.access_token,
+      refresh_token: session.refresh_token
+    });
     usr = { email: session.user.email, token: session.access_token };
     await entrarApp();
   } catch(e){
+    console.error('Erro sessão:', e);
     window.location.href = '../area-cliente.html';
   }
 });
