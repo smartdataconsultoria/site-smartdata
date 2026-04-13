@@ -760,22 +760,28 @@ async function fazerLogin(){
   const email = document.getElementById('loginEmail').value.trim();
   const senha = document.getElementById('loginSenha').value;
   const btn   = document.getElementById('btnLogin');
-  const msg   = document.getElementById('login-msg');
 
   if(!email || !senha){ showMsgLogin('Preencha e-mail e senha.', false); return; }
 
   btn.disabled = true; btn.textContent = 'Entrando…';
-  msg.style.display = 'none';
 
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+  try {
+    // Fazer logout de qualquer sessão ativa primeiro para evitar conflito
+    await sb.auth.signOut();
 
-  btn.disabled = false; btn.textContent = 'Entrar';
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
 
-  if(error){ showMsgLogin('E-mail ou senha incorretos.', false); return; }
+    if(error){ showMsgLogin('E-mail ou senha incorretos.', false); return; }
 
-  currentUser = data.user;
-  sessionStorage.setItem('admin_mode', '1');
-  iniciarAdmin();
+    // Guardar flag e redirecionar para si mesmo — evita qualquer interceptação externa
+    sessionStorage.setItem('admin_mode', '1');
+    window.location.href = 'admin.html';
+
+  } catch(e){
+    showMsgLogin('Erro inesperado: ' + e.message, false);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
 }
 
 function showMsgLogin(txt, ok){
@@ -803,22 +809,15 @@ async function iniciarAdmin(){
 }
 
 window.addEventListener('load', async () => {
-  // Bloquear qualquer redirect externo - estamos no admin
   sessionStorage.setItem('admin_mode', '1');
 
   const { data: { session } } = await sb.auth.getSession();
   if(session){
+    // Sessão ativa — entrar direto no painel
     currentUser = session.user;
     iniciarAdmin();
   }
-});
-
-// Garantir que mudanças de sessão não redirecionem para fora do admin
-sb.auth.onAuthStateChange((event, session) => {
-  if(event === 'SIGNED_IN' && session && !currentUser){
-    currentUser = session.user;
-    iniciarAdmin();
-  }
+  // Sem sessão — mostrar tela de login (já visível por padrão)
 });
 
 /* ── NAVEGAÇÃO ─────────────────────────────────────────────────── */
