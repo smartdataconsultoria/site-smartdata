@@ -447,11 +447,10 @@ async function entrarApp(){
     var uRes = await fetch(SB_URL + '/rest/v1/usuarios_portal?select=nome,empresa&email=eq.' + encodeURIComponent(usr.email), {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + usr.token, 'Content-Type': 'application/json' }
     });
-    if(uRes.ok){
-      var uArr = await uRes.json();
-      if(uArr && uArr[0]){ nome = uArr[0].nome || ''; empresa = uArr[0].empresa || ''; }
-    }
-  } catch(e){ console.warn('usuarios_portal:', e); }
+    var uArr = await uRes.json();
+    console.log('DEBUG usuarios_portal status:', uRes.status, 'data:', JSON.stringify(uArr));
+    if(uRes.ok && uArr && uArr[0]){ nome = uArr[0].nome || ''; empresa = uArr[0].empresa || ''; }
+  } catch(e){ console.warn('usuarios_portal erro:', e); }
 
   // saudação
   document.getElementById('greetingText').innerHTML = gerarSaudacao(nome);
@@ -487,8 +486,9 @@ async function carregarDashboards(){
         'Content-Type': 'application/json'
       }
     });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
     var data = await res.json();
+    console.log('DEBUG dashboards status:', res.status, 'email usado:', usr.email, 'total:', Array.isArray(data) ? data.length : data);
+    if(!res.ok) throw new Error('HTTP ' + res.status + ' - ' + JSON.stringify(data));
     meusDashboards = data || [];
     renderDashboards(meusDashboards);
   } catch(e){
@@ -928,17 +928,23 @@ function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&l
 ───────────────────────────────────────────────────────────────── */
 window.addEventListener('load', async function(){
   try {
-    var { data: { session } } = await sb.auth.getSession();
-    if(!session){
+    // Tentar renovar a sessão para garantir token fresco
+    var sessionData;
+    var { data: refreshed, error: refreshErr } = await sb.auth.refreshSession();
+    if(!refreshErr && refreshed && refreshed.session){
+      sessionData = refreshed.session;
+    } else {
+      var { data: { session } } = await sb.auth.getSession();
+      sessionData = session;
+    }
+
+    if(!sessionData || !sessionData.access_token){
       window.location.href = '../area-cliente.html';
       return;
     }
-    // Garantir que o cliente usa o token autenticado em todas as queries
-    await sb.auth.setSession({
-      access_token: session.access_token,
-      refresh_token: session.refresh_token
-    });
-    usr = { email: session.user.email, token: session.access_token };
+
+    usr = { email: sessionData.user.email, token: sessionData.access_token };
+    console.log('Sessão OK, email:', usr.email, 'token:', usr.token.substring(0,30));
     await entrarApp();
   } catch(e){
     console.error('Erro sessão:', e);
