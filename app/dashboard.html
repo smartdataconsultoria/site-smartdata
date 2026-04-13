@@ -529,7 +529,8 @@ function renderDashboards(lista){
     return;
   }
 
-  grid.innerHTML = lista.map(function(d){
+  window._dashUrls = lista.map(function(d){ return d.url; });
+  grid.innerHTML = lista.map(function(d, i){
     return '<div class="dash-card" data-categoria="' + esc(d.categoria||'') + '">' +
       '<div class="dash-card-preview"><div class="chart-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>' +
       '<div class="dash-card-body">' +
@@ -538,7 +539,7 @@ function renderDashboards(lista){
         '<div class="dash-card-desc">' + esc(d.descricao||'Dashboard de Business Intelligence.') + '</div>' +
         '<div class="dash-card-footer">' +
           '<span class="dash-status"><span class="dash-status-dot"></span>Ativo</span>' +
-          '<button class="dash-btn" onclick="abrirDash(' + JSON.stringify(d.titulo) + ',' + JSON.stringify(d.url) + ')"><svg viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 11,6 2,11"/></svg>Abrir</button>' +
+          '<button class="dash-btn" onclick="abrirDash(' + i + ')"><svg viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 11,6 2,11"/></svg>Abrir</button>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -562,9 +563,9 @@ function filtrarCategoria(cat){
   });
 }
 
-function abrirDash(titulo, url){
-  // Power BI bloqueia iframe - abrir em nova aba
-  window.open(url, '_blank');
+function abrirDash(idx){
+  var url = window._dashUrls && window._dashUrls[idx];
+  if(url) window.open(url, '_blank');
 }
 function fecharViewer(){
   document.getElementById('viewer').style.display = 'none';
