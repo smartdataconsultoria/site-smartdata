@@ -563,9 +563,8 @@ function filtrarCategoria(cat){
 }
 
 function abrirDash(titulo, url){
-  document.getElementById('viewer-title').textContent = titulo;
-  document.getElementById('viewer-iframe').src = url;
-  document.getElementById('viewer').style.display = 'flex';
+  // Power BI bloqueia iframe - abrir em nova aba
+  window.open(url, '_blank');
 }
 function fecharViewer(){
   document.getElementById('viewer').style.display = 'none';
