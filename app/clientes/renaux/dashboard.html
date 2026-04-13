@@ -8,17 +8,17 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:#f1f5f9}
-
+ 
 /* ── LOADING ────────────────────────────── */
 #tela-loading{position:fixed;inset:0;background:#0a0e1a;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px}
 .loading-logo{font-size:22px;font-weight:800;color:#f1f5f9}
 .loading-logo span{color:#4f8ef7}
 .spinner{width:36px;height:36px;border:3px solid rgba(79,142,247,.15);border-top-color:#4f8ef7;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
+ 
 /* ── APP ────────────────────────────────── */
 #tela-app{display:none;height:100vh;flex-direction:column}
-
+ 
 /* ── TOPBAR ─────────────────────────────── */
 .topbar{height:62px;background:#0a0e1a;border-bottom:1px solid rgba(79,142,247,.12);padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50}
 .t-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -32,10 +32,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .t-admin{background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.25);border-radius:8px;color:#4f8ef7;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:none;font-family:'Poppins',sans-serif}
 .t-admin:hover{background:rgba(79,142,247,.15)}
 .t-admin.ativo{background:rgba(79,142,247,.2);border-color:rgba(79,142,247,.5)}
-
+ 
 /* ── APP BODY ───────────────────────────── */
 .app-body{display:flex;flex:1;overflow:hidden}
-
+ 
 /* ── SIDEBAR ────────────────────────────── */
 .sidebar{width:220px;background:#0a0e1a;border-right:1px solid rgba(79,142,247,.08);padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column}
 .sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin:20px 0 8px}
@@ -47,22 +47,22 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .sb-badge{background:rgba(79,142,247,.15);color:#4f8ef7;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700}
 .sb-item.ativo .sb-badge{background:rgba(79,142,247,.25)}
 .sb-divider{height:1px;background:rgba(79,142,247,.06);margin:8px 0}
-
+ 
 /* ── MAIN ───────────────────────────────── */
 .main{flex:1;overflow-y:auto;padding:40px 48px;background:#0d1120}
-
+ 
 /* ── GREETING ───────────────────────────── */
 .greeting-block{margin-bottom:40px}
 .greeting-title{font-size:32px;font-weight:700;color:#f1f5f9;line-height:1.2;margin-bottom:6px}
 .greeting-title .emoji{font-size:28px}
 .greeting-sub{font-size:14px;color:rgba(241,245,249,.4);font-weight:400}
-
+ 
 /* ── FILTRO TABS ─────────────────────────── */
 .filter-tabs{display:flex;gap:8px;margin-bottom:28px}
 .ftab{padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid rgba(79,142,247,.15);background:transparent;color:rgba(241,245,249,.4);transition:all .2s;font-family:'Poppins',sans-serif}
 .ftab:hover{border-color:rgba(79,142,247,.35);color:rgba(241,245,249,.7)}
 .ftab.ativo{background:rgba(79,142,247,.15);border-color:rgba(79,142,247,.4);color:#4f8ef7;font-weight:600}
-
+ 
 /* ── DASHBOARD GRID ─────────────────────── */
 .dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:48px}
 .dash-card{background:#111827;border:1px solid rgba(79,142,247,.1);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;display:flex;flex-direction:column}
@@ -89,12 +89,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .dash-btn{display:flex;align-items:center;gap:6px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);color:#4f8ef7;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
 .dash-btn:hover{background:rgba(79,142,247,.2);border-color:rgba(79,142,247,.5)}
 .dash-btn svg{width:12px;height:12px}
-
+ 
 /* ── SECTION TITLE ──────────────────────── */
 .section-title{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
 .section-title svg{color:#4f8ef7}
 .section-sub{font-size:13px;color:rgba(241,245,249,.35);margin-bottom:24px}
-
+ 
 /* ── ARQUIVOS GRID ──────────────────────── */
 .arq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:60px}
 .arq-card{background:#111827;border:1px solid rgba(79,142,247,.08);border-radius:12px;padding:20px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .2s;text-decoration:none}
@@ -105,12 +105,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .arq-nome{font-size:13px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
 .arq-desc{font-size:11px;color:rgba(241,245,249,.35);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .arq-empty{text-align:center;padding:40px;color:rgba(241,245,249,.2);font-size:13px;grid-column:1/-1}
-
+ 
 /* ── EMPTY STATE ────────────────────────── */
 .empty-state{text-align:center;padding:60px 20px;color:rgba(241,245,249,.2)}
 .empty-state svg{width:48px;height:48px;margin-bottom:16px;opacity:.3}
 .empty-state p{font-size:14px}
-
+ 
 /* ── VIEWER ─────────────────────────────── */
 #viewer{position:fixed;inset:0;background:#000;z-index:200;display:none;flex-direction:column}
 .viewer-bar{height:52px;background:#0a0e1a;border-bottom:1px solid rgba(79,142,247,.12);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
@@ -118,25 +118,25 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .viewer-close{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#ef4444;border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .viewer-close:hover{background:rgba(239,68,68,.18)}
 #viewer iframe{flex:1;border:none;width:100%;height:100%}
-
+ 
 /* ── TOAST ──────────────────────────────── */
 #toast{position:fixed;bottom:28px;right:28px;background:#1a2235;border:1px solid rgba(79,142,247,.25);color:#f1f5f9;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
 #toast.show{opacity:1;transform:translateY(0)}
 #toast.ok{border-color:rgba(52,201,126,.3);color:#34c97e}
 #toast.err{border-color:rgba(239,68,68,.3);color:#ef4444}
-
+ 
 /* ── ADMIN BAR (banner topo) ────────────── */
 .admin-bar{background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.18);border-radius:10px;padding:12px 18px;font-size:13px;color:#4f8ef7;margin-bottom:28px;display:none;align-items:center;gap:10px}
 .admin-bar strong{font-weight:700}
 .btn-novo-dash{margin-left:auto;background:#4f8ef7;color:#fff;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;border-radius:6px;padding:7px 16px;cursor:pointer;transition:opacity .2s}
 .btn-novo-dash:hover{opacity:.85}
-
+ 
 /* ── ADMIN PANEL ────────────────────────── */
 #admin-panel{display:none;padding:0;background:#0d1120;overflow-y:auto;flex:1}
 .admin-panel-inner{padding:40px 48px}
 .admin-panel-title{font-size:22px;font-weight:700;color:#f1f5f9;margin-bottom:4px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
 .admin-panel-sub{font-size:13px;color:rgba(241,245,249,.35);margin-bottom:28px}
-
+ 
 /* ── ADMIN TABLE WRAP ───────────────────── */
 .adm-wrap{background:#111827;border:1px solid rgba(79,142,247,.1);border-radius:12px;overflow:hidden;margin-bottom:28px}
 .adm-wrap-hd{padding:14px 20px;border-bottom:1px solid rgba(79,142,247,.08);display:flex;align-items:center;justify-content:space-between}
@@ -155,7 +155,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .btn-gerenciar:hover{background:rgba(79,142,247,.2)}
 .btn-excluir{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:#ef4444;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .btn-excluir:hover{background:rgba(239,68,68,.18)}
-
+ 
 /* ── FORM GROUPS ────────────────────────── */
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.35);margin-bottom:6px}
@@ -167,11 +167,11 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .btn-primary:hover{background:rgba(79,142,247,.25)}
 .btn-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#ef4444;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .btn-danger:hover{background:rgba(239,68,68,.18)}
-
+ 
 /* ── MODAL OVERLAY ──────────────────────── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
-
+ 
 /* Modal novo dashboard / usuário / arquivo */
 .modal-box{background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:16px;width:90%;max-width:560px;padding:32px;animation:slideUp .3s ease;max-height:85vh;overflow-y:auto}
 @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -182,10 +182,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .btn-cancel{background:#0a0e1a;border:1px solid rgba(79,142,247,.12);color:rgba(241,245,249,.5);font-family:'Poppins',sans-serif;font-size:13px;padding:9px 20px;border-radius:8px;cursor:pointer}
 .btn-save{background:#4f8ef7;color:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;border:none;padding:9px 22px;border-radius:8px;cursor:pointer;transition:opacity .2s}
 .btn-save:hover{opacity:.88}
-
+ 
 /* Modal gerenciar usuário */
 .modal-user{background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:16px;width:90%;max-width:580px;padding:32px;animation:slideUp .3s ease;max-height:85vh;overflow-y:auto}
-
+ 
 /* ── RESPONSIVO ─────────────────────────── */
 @media(max-width:768px){
   .main,#admin-panel{padding:24px 20px}
@@ -197,16 +197,16 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 </style>
 </head>
 <body>
-
+ 
 <!-- LOADING -->
 <div id="tela-loading">
   <div class="loading-logo"><span>Smart</span>Data</div>
   <div class="spinner"></div>
 </div>
-
+ 
 <!-- APP -->
 <div id="tela-app">
-
+ 
   <!-- TOPBAR -->
   <div class="topbar">
     <a class="t-logo" href="#">
@@ -225,10 +225,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
       <button class="t-sair" onclick="sair()">↩ Sair</button>
     </div>
   </div>
-
+ 
   <!-- APP BODY -->
   <div class="app-body">
-
+ 
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin-bottom:8px">MENU</div>
@@ -239,11 +239,11 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         </span>
         <span class="sb-badge" id="badge-todos">0</span>
       </button>
-
+ 
       <div class="sb-divider" style="margin:12px 0"></div>
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin-bottom:8px">CATEGORIAS</div>
       <div id="sb-categorias"></div>
-
+ 
       <div class="sb-divider" style="margin:12px 0"></div>
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin-bottom:8px">ATALHOS</div>
       <button class="sb-item" onclick="scrollToArquivos()" id="sb-arquivos">
@@ -259,26 +259,26 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         </span>
       </button>
     </div>
-
+ 
     <!-- MAIN -->
     <div class="main" id="main-content">
-
+ 
       <!-- ADMIN BAR (visível só para admin) -->
       <div class="admin-bar" id="adminBar">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         Você está como <strong>Administrador</strong>. Gerencie quais dashboards cada usuário pode ver.
         <button class="btn-novo-dash" onclick="abrirModalNovo('db')">+ Novo Dashboard</button>
       </div>
-
+ 
       <!-- GREETING -->
       <div class="greeting-block">
         <div class="greeting-title" id="greetingText">Olá! <span class="emoji">👋</span></div>
         <div class="greeting-sub">Aqui estão seus dashboards disponíveis.</div>
       </div>
-
+ 
       <!-- FILTER TABS -->
       <div class="filter-tabs" id="filter-tabs"></div>
-
+ 
       <!-- DASHBOARD GRID -->
       <div class="dash-grid" id="dash-grid">
         <div class="empty-state">
@@ -286,7 +286,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <p>Carregando dashboards...</p>
         </div>
       </div>
-
+ 
       <!-- ARQUIVOS -->
       <div id="arquivos-section">
         <div class="section-title">
@@ -298,15 +298,15 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <div class="arq-empty">Carregando arquivos...</div>
         </div>
       </div>
-
+ 
     </div><!-- /main -->
-
+ 
     <!-- ADMIN PANEL (modelo Renaux) -->
     <div id="admin-panel">
       <div class="admin-panel-inner">
         <div class="admin-panel-title">⚙️ Administração</div>
         <div class="admin-panel-sub">Visão geral de usuários, dashboards e arquivos cadastrados.</div>
-
+ 
         <!-- Tabela usuários -->
         <div class="adm-wrap">
           <div class="adm-wrap-hd">
@@ -318,7 +318,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
             <tbody id="tbUsuarios"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando…</td></tr></tbody>
           </table>
         </div>
-
+ 
         <!-- Tabela dashboards -->
         <div class="adm-wrap">
           <div class="adm-wrap-hd">
@@ -330,7 +330,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
             <tbody id="tbDashboards"><tr><td colspan="4" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando…</td></tr></tbody>
           </table>
         </div>
-
+ 
         <!-- Tabela arquivos -->
         <div class="adm-wrap">
           <div class="adm-wrap-hd">
@@ -344,10 +344,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         </div>
       </div>
     </div><!-- /admin-panel -->
-
+ 
   </div><!-- /app-body -->
 </div><!-- /tela-app -->
-
+ 
 <!-- VIEWER -->
 <div id="viewer">
   <div class="viewer-bar">
@@ -356,7 +356,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
   </div>
   <iframe id="viewer-iframe" src="" allowfullscreen></iframe>
 </div>
-
+ 
 <!-- MODAL PRINCIPAL: Novo Dashboard / Novo Usuário / Novo Arquivo -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
@@ -365,7 +365,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
       <button class="mtab"        id="mtabUser" onclick="switchTab('user')">+ Novo Usuário</button>
       <button class="mtab"        id="mtabFile" onclick="switchTab('file')">+ Novo Arquivo</button>
     </div>
-
+ 
     <!-- ABA: Dashboard -->
     <div id="panelDb">
       <div class="form-group"><label>E-mail do usuário</label><input type="email" id="mEmail" placeholder="cliente@empresa.com"></div>
@@ -379,7 +379,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         <button class="btn-save" id="btnSalvar" onclick="salvarNovoDash()">Salvar Dashboard</button>
       </div>
     </div>
-
+ 
     <!-- ABA: Usuário -->
     <div id="panelUser" style="display:none">
       <div class="form-group"><label>Nome completo</label><input type="text" id="uNome" placeholder="Ex.: Maria Silva"></div>
@@ -392,7 +392,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         <button class="btn-save" id="btnCriarUser" onclick="criarUsuario()">Criar Usuário</button>
       </div>
     </div>
-
+ 
     <!-- ABA: Arquivo -->
     <div id="panelFile" style="display:none">
       <div class="form-group"><label>E-mail do usuário</label><input type="email" id="fEmail" placeholder="cliente@empresa.com"></div>
@@ -408,7 +408,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL GERENCIAR USUÁRIO -->
 <div class="modal-overlay" id="modalUsuario">
   <div class="modal-user">
@@ -419,7 +419,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
       </div>
       <button onclick="fecharModalUsuario()" style="background:none;border:none;color:rgba(241,245,249,.4);font-size:20px;cursor:pointer;line-height:1">✕</button>
     </div>
-
+ 
     <!-- Dashboards vinculados -->
     <div style="margin-bottom:24px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
@@ -439,7 +439,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         <div id="muDbMsg" style="display:none;font-size:12px;margin-top:8px;padding:6px 10px;border-radius:6px"></div>
       </div>
     </div>
-
+ 
     <!-- Arquivos vinculados -->
     <div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
@@ -461,7 +461,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
     </div>
   </div>
 </div>
-
+ 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ─────────────────────────────────────────────────────────────────
@@ -470,11 +470,11 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 var SB_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
 var SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
 var ADMIN   = 'tecnologia@smartdataconsultoria.com';
-
+ 
 var sb = supabase.createClient(SB_URL, SB_KEY);
 var usr = null;
 var meusDashboards = [];
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    TOAST
 ───────────────────────────────────────────────────────────────── */
@@ -485,7 +485,7 @@ function toast(msg, tipo){
   clearTimeout(el._t);
   el._t = setTimeout(function(){ el.className = ''; }, 3200);
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    SAUDAÇÃO
 ───────────────────────────────────────────────────────────────── */
@@ -497,7 +497,7 @@ function gerarSaudacao(nome){
   var texto = primeiroNome ? (periodo + ', ' + primeiroNome + '!') : (periodo + '!');
   return '<span>' + texto + '</span> <span class="emoji">' + emoji + '</span>';
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    INICIALIZAR APP
 ───────────────────────────────────────────────────────────────── */
@@ -505,10 +505,10 @@ async function entrarApp(){
   document.getElementById('tela-loading').style.display = 'none';
   var app = document.getElementById('tela-app');
   app.style.display = 'flex';
-
+ 
   // topbar
   document.getElementById('topEmail').textContent = usr.email;
-
+ 
   // buscar dados do usuário no Supabase
   var nome = '';
   var empresa = '';
@@ -520,28 +520,28 @@ async function entrarApp(){
     console.log('DEBUG usuarios_portal status:', uRes.status, 'data:', JSON.stringify(uArr));
     if(uRes.ok && uArr && uArr[0]){ nome = uArr[0].nome || ''; empresa = uArr[0].empresa || ''; }
   } catch(e){ console.warn('usuarios_portal erro:', e); }
-
+ 
   // saudação
   document.getElementById('greetingText').innerHTML = gerarSaudacao(nome);
-
+ 
   // empresa topbar
   if(empresa){
     var el = document.getElementById('topEmpresa');
     el.textContent = empresa;
     el.style.display = '';
   }
-
+ 
   // admin
   if(usr.email === ADMIN){
     document.getElementById('btnAdmin').style.display = '';
     document.getElementById('adminBar').style.display = 'flex';
     document.getElementById('sb-admin-link').style.display = '';
   }
-
+ 
   await carregarDashboards();
   await carregarArquivos();
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    DASHBOARDS
 ───────────────────────────────────────────────────────────────── */
@@ -566,39 +566,39 @@ async function carregarDashboards(){
     document.getElementById('dash-grid').innerHTML = '<div class="empty-state"><p>Nenhum dashboard disponível.</p></div>';
   }
 }
-
+ 
 function renderDashboards(lista){
   var grid = document.getElementById('dash-grid');
   var tabs = document.getElementById('filter-tabs');
   var sbCats = document.getElementById('sb-categorias');
-
+ 
   // categorias únicas
   var cats = [];
   lista.forEach(function(d){ if(d.categoria && cats.indexOf(d.categoria) < 0) cats.push(d.categoria); });
-
+ 
   // badge total
   document.getElementById('badge-todos').textContent = lista.length;
-
+ 
   // filter tabs
   var tabsHTML = '<button class="ftab ativo" onclick="filtrarCategoria(\'todos\')" id="ftab-todos">Todos (' + lista.length + ')</button>';
   cats.forEach(function(c){
     tabsHTML += '<button class="ftab" onclick="filtrarCategoria(\'' + esc(c) + '\')" id="ftab-' + esc(c) + '">' + esc(c) + ' (' + lista.filter(function(d){return d.categoria===c;}).length + ')</button>';
   });
   tabs.innerHTML = tabsHTML;
-
+ 
   // sidebar categorias
   var sbHTML = '';
   cats.forEach(function(c){
     sbHTML += '<button class="sb-item" onclick="filtrarCategoria(\'' + esc(c) + '\')" id="sb-cat-' + esc(c) + '"><span style="display:flex;align-items:center;gap:8px"><span class="sb-dot"></span>' + esc(c) + '</span><span class="sb-badge">' + lista.filter(function(d){return d.categoria===c;}).length + '</span></button>';
   });
   sbCats.innerHTML = sbHTML;
-
+ 
   // cards
   if(!lista.length){
     grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="6" width="36" height="36" rx="6"/><path d="M16 32V20M24 32V16M32 32V24"/></svg><p>Nenhum dashboard disponível ainda.</p></div>';
     return;
   }
-
+ 
   window._dashUrls = lista.map(function(d){ return d.url; });
   grid.innerHTML = lista.map(function(d, i){
     return '<div class="dash-card" data-categoria="' + esc(d.categoria||'') + '">' +
@@ -615,7 +615,7 @@ function renderDashboards(lista){
     '</div>';
   }).join('');
 }
-
+ 
 function filtrarCategoria(cat){
   // ativar tab
   document.querySelectorAll('.ftab').forEach(function(el){ el.classList.remove('ativo'); });
@@ -632,7 +632,7 @@ function filtrarCategoria(cat){
     card.style.display = (cat === 'todos' || card.dataset.categoria === cat) ? '' : 'none';
   });
 }
-
+ 
 function abrirDash(idx){
   var url = window._dashUrls && window._dashUrls[idx];
   if(url) window.open(url, '_blank');
@@ -641,7 +641,7 @@ function fecharViewer(){
   document.getElementById('viewer').style.display = 'none';
   document.getElementById('viewer-iframe').src = '';
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    ARQUIVOS
 ───────────────────────────────────────────────────────────────── */
@@ -660,12 +660,12 @@ async function carregarArquivos(){
     if(!res.ok) throw new Error('HTTP ' + res.status);
     var lista = await res.json();
     lista = lista || [];
-
+ 
     if(!lista.length){
       grid.innerHTML = '<div class="arq-empty">Nenhum arquivo disponível.</div>';
       return;
     }
-
+ 
     grid.innerHTML = lista.map(function(a){
       return '<a class="arq-card" href="' + esc(a.url||'#') + '" target="_blank" rel="noopener">' +
         '<div class="arq-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 3h8l4 4v11a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M12 3v5h5"/></svg></div>' +
@@ -677,11 +677,11 @@ async function carregarArquivos(){
     grid.innerHTML = '<div class="arq-empty">Nenhum arquivo disponível.</div>';
   }
 }
-
+ 
 function scrollToArquivos(){
   document.getElementById('arquivos-section').scrollIntoView({behavior:'smooth'});
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    SAIR
 ───────────────────────────────────────────────────────────────── */
@@ -689,7 +689,7 @@ async function sair(){
   await sb.auth.signOut();
   window.location.href = '../area-cliente.html';
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    ADMIN TOGGLE
 ───────────────────────────────────────────────────────────────── */
@@ -713,14 +713,14 @@ function toggleAdmin(){
     carregarRegistros();
   }
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    ADMIN: TABELAS (visão geral)
 ───────────────────────────────────────────────────────────────── */
 async function carregarRegistros(){
   var headers = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + usr.token, 'Content-Type': 'application/json' };
   var dbs = [];
-
+ 
   // Dashboards
   try {
     var r = await fetch(SB_URL + '/rest/v1/dashboards_clientes?select=email_cliente,titulo,categoria,ativo&order=email_cliente', { headers });
@@ -731,7 +731,7 @@ async function carregarRegistros(){
     else { tb.innerHTML = dbs.map(function(d){ return '<tr><td style="color:rgba(241,245,249,.35);font-size:12px">'+esc(d.email_cliente)+'</td><td>'+esc(d.titulo)+'</td><td><span class="tag-cat">'+esc(d.categoria||'Geral')+'</span></td><td><span class="tag-ativo">Ativo</span></td></tr>'; }).join(''); }
     window._admDbs = dbs;
   } catch(e){ console.warn(e); window._admDbs = []; }
-
+ 
   // Arquivos
   try {
     var r2 = await fetch(SB_URL + '/rest/v1/arquivos_clientes?select=nome,descricao,email_cliente,categoria,ativo&order=nome', { headers });
@@ -741,7 +741,7 @@ async function carregarRegistros(){
     if(!arqs.length){ tb2.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum arquivo.</td></tr>'; }
     else { tb2.innerHTML = arqs.map(function(a){ return '<tr><td>'+esc(a.nome)+'</td><td style="color:rgba(241,245,249,.35);font-size:12px">'+esc(a.descricao||'—')+'</td><td style="color:rgba(241,245,249,.35);font-size:12px">'+esc(a.email_cliente||'—')+'</td><td>'+(a.categoria?'<span class="tag-cat">'+esc(a.categoria)+'</span>':'<span style="color:rgba(241,245,249,.2);font-size:12px">—</span>')+'</td><td><span class="tag-ativo">● Ativo</span></td></tr>'; }).join(''); }
   } catch(e){ console.warn(e); }
-
+ 
   // Usuários
   try {
     var r3 = await fetch(SB_URL + '/rest/v1/usuarios_portal?select=email,nome,empresa,ativo&order=nome', { headers });
@@ -765,7 +765,7 @@ async function carregarRegistros(){
     }).join(''); }
   } catch(e){ console.warn(e); }
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    MODAL NOVO (abas Dashboard / Usuário / Arquivo)
 ───────────────────────────────────────────────────────────────── */
@@ -773,20 +773,20 @@ function abrirModalNovo(tab){
   document.getElementById('modalOverlay').classList.add('show');
   switchTab(tab || 'db');
 }
-
+ 
 function switchTab(tab){
   ['panelDb','panelUser','panelFile'].forEach(function(id){ document.getElementById(id).style.display='none'; });
   ['mtabDb','mtabUser','mtabFile'].forEach(function(id){ document.getElementById(id).classList.remove('active'); });
   document.getElementById(tab==='db'?'panelDb':tab==='user'?'panelUser':'panelFile').style.display = 'block';
   document.getElementById(tab==='db'?'mtabDb':tab==='user'?'mtabUser':'mtabFile').classList.add('active');
 }
-
+ 
 function fecharModal(){
   document.getElementById('modalOverlay').classList.remove('show');
   ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uNome','uEmail','uSenha','uEmpresa','fEmail','fNome','fDesc','fCategoria','fUrl'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
   ['msgDb','msgUser','msgFile'].forEach(function(id){ var el=document.getElementById(id); if(el) el.style.display='none'; });
 }
-
+ 
 function showMsg(id, txt, ok){
   var el = document.getElementById(id);
   el.textContent = txt; el.style.display = 'block';
@@ -794,7 +794,7 @@ function showMsg(id, txt, ok){
   el.style.border = ok ? '1px solid rgba(52,201,126,.3)' : '1px solid rgba(239,68,68,.3)';
   el.style.color  = ok ? '#34c97e' : '#ef4444';
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    SALVAR NOVO DASHBOARD
 ───────────────────────────────────────────────────────────────── */
@@ -818,7 +818,7 @@ async function salvarNovoDash(){
   } catch(e){ showMsg('msgDb','Erro: '+e.message,false); }
   finally { btn.disabled=false; btn.textContent='Salvar Dashboard'; }
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    CRIAR USUÁRIO
 ───────────────────────────────────────────────────────────────── */
@@ -847,7 +847,7 @@ async function criarUsuario(){
   } catch(e){ showMsg('msgUser','Erro: '+e.message,false); }
   finally { btn.disabled=false; btn.textContent='Criar Usuário'; }
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    SALVAR NOVO ARQUIVO
 ───────────────────────────────────────────────────────────────── */
@@ -871,12 +871,12 @@ async function salvarNovoArquivo(){
   } catch(e){ showMsg('msgFile','Erro: '+e.message,false); }
   finally { btn.disabled=false; btn.textContent='Salvar Arquivo'; }
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    MODAL GERENCIAR USUÁRIO
 ───────────────────────────────────────────────────────────────── */
 var _muEmail = '';
-
+ 
 function abrirUsuario(email, nome){
   _muEmail = email;
   document.getElementById('muNome').textContent  = nome || email;
@@ -886,15 +886,15 @@ function abrirUsuario(email, nome){
   document.getElementById('formAddArq').style.display = 'none';
   carregarItensUsuario();
 }
-
+ 
 function fecharModalUsuario(){ document.getElementById('modalUsuario').classList.remove('show'); _muEmail=''; }
-
+ 
 function mostrarFormDb()  { document.getElementById('formAddDb').style.display  = 'block'; }
 function mostrarFormArq() { document.getElementById('formAddArq').style.display = 'block'; }
-
+ 
 async function carregarItensUsuario(){
   var headers = { 'apikey':SB_KEY, 'Authorization':'Bearer '+usr.token };
-
+ 
   // Dashboards
   var rDb = await fetch(SB_URL+'/rest/v1/dashboards_clientes?select=id,titulo,categoria,url,descricao&email_cliente=eq.'+encodeURIComponent(_muEmail)+'&ativo=eq.true', { headers });
   var dbs = rDb.ok ? await rDb.json() : [];
@@ -915,7 +915,7 @@ async function carregarItensUsuario(){
     +'<button onclick="salvarEdicaoDb('+d.id+')" style="background:#4f8ef7;color:#fff;font-family:\'Poppins\',sans-serif;font-size:12px;font-weight:600;border:none;padding:6px 14px;border-radius:6px;cursor:pointer">Salvar</button>'
     +'</div><div id="eDbMsg_'+d.id+'" style="display:none;font-size:12px;margin-top:6px;padding:5px 8px;border-radius:5px"></div></div></div>';
   }).join(''); }
-
+ 
   // Arquivos
   var rArq = await fetch(SB_URL+'/rest/v1/arquivos_clientes?select=id,nome,descricao,url,categoria&email_cliente=eq.'+encodeURIComponent(_muEmail)+'&ativo=eq.true', { headers });
   var arqs = rArq.ok ? await rArq.json() : [];
@@ -936,17 +936,17 @@ async function carregarItensUsuario(){
     +'</div><div id="eArqMsg_'+a.id+'" style="display:none;font-size:12px;margin-top:6px;padding:5px 8px;border-radius:5px"></div></div></div>';
   }).join(''); }
 }
-
+ 
 function muMsg(id, txt, ok){
   var el=document.getElementById(id); el.textContent=txt;
   el.style.cssText = ok
     ? 'display:block;background:rgba(52,201,126,.12);border:1px solid rgba(52,201,126,.3);color:#34c97e;font-size:12px;padding:6px 10px;border-radius:6px;margin-top:8px'
     : 'display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444;font-size:12px;padding:6px 10px;border-radius:6px;margin-top:8px';
 }
-
+ 
 function editarDb(id){ document.getElementById('dbView_'+id).style.display='none'; document.getElementById('dbEdit_'+id).style.display='block'; }
 function editarArq(id){ document.getElementById('arqView_'+id).style.display='none'; document.getElementById('arqEdit_'+id).style.display='block'; }
-
+ 
 async function salvarEdicaoDb(id){
   var titulo=document.getElementById('eDbTitulo_'+id).value.trim();
   var cat=document.getElementById('eDbCat_'+id).value.trim();
@@ -961,7 +961,7 @@ async function salvarEdicaoDb(id){
   muMsg('eDbMsg_'+id,'✓ Salvo!',true);
   setTimeout(function(){ carregarItensUsuario(); carregarRegistros(); }, 800);
 }
-
+ 
 async function salvarEdicaoArq(id){
   var nome=document.getElementById('eArqNome_'+id).value.trim();
   var desc=document.getElementById('eArqDesc_'+id).value.trim();
@@ -975,7 +975,7 @@ async function salvarEdicaoArq(id){
   muMsg('eArqMsg_'+id,'✓ Salvo!',true);
   setTimeout(function(){ carregarItensUsuario(); carregarRegistros(); }, 800);
 }
-
+ 
 async function salvarDbUsuario(){
   var titulo=document.getElementById('muDbTitulo').value.trim();
   var cat=document.getElementById('muDbCat').value.trim();
@@ -991,7 +991,7 @@ async function salvarDbUsuario(){
   ['muDbTitulo','muDbCat','muDbDesc','muDbUrl'].forEach(function(id){ document.getElementById(id).value=''; });
   setTimeout(function(){ document.getElementById('formAddDb').style.display='none'; document.getElementById('muDbMsg').style.display='none'; carregarItensUsuario(); carregarRegistros(); }, 1000);
 }
-
+ 
 async function salvarArqUsuario(){
   var nome=document.getElementById('muArqNome').value.trim();
   var cat=document.getElementById('muArqCat').value.trim();
@@ -1007,19 +1007,19 @@ async function salvarArqUsuario(){
   ['muArqNome','muArqCat','muArqDesc','muArqUrl'].forEach(function(id){ document.getElementById(id).value=''; });
   setTimeout(function(){ document.getElementById('formAddArq').style.display='none'; document.getElementById('muArqMsg').style.display='none'; carregarItensUsuario(); carregarRegistros(); }, 1000);
 }
-
+ 
 async function removerDb(id){
   if(!confirm('Remover este dashboard do usuário?')) return;
   await fetch(SB_URL+'/rest/v1/dashboards_clientes?id=eq.'+id, { method:'PATCH', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' }, body:JSON.stringify({ ativo:false }) });
   carregarItensUsuario(); carregarRegistros();
 }
-
+ 
 async function removerArq(id){
   if(!confirm('Remover este arquivo do usuário?')) return;
   await fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+id, { method:'PATCH', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' }, body:JSON.stringify({ ativo:false }) });
   carregarItensUsuario(); carregarRegistros();
 }
-
+ 
 async function excluirUsuario(email, nome){
   if(!confirm('Excluir o usuário "'+nome+'"?\n\nIsso removerá o acesso. Não pode ser desfeito.')) return;
   try {
@@ -1037,12 +1037,12 @@ async function excluirUsuario(email, nome){
     carregarRegistros();
   } catch(e){ toast('Erro: '+e.message,'err'); }
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    UTIL
 ───────────────────────────────────────────────────────────────── */
 function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
+ 
 /* ─────────────────────────────────────────────────────────────────
    SESSÃO (via Supabase SDK)
 ───────────────────────────────────────────────────────────────── */
@@ -1057,12 +1057,12 @@ window.addEventListener('load', async function(){
       var { data: { session } } = await sb.auth.getSession();
       sessionData = session;
     }
-
+ 
     if(!sessionData || !sessionData.access_token){
       window.location.href = '../area-cliente.html';
       return;
     }
-
+ 
     usr = { email: sessionData.user.email, token: sessionData.access_token };
     console.log('Sessão OK, email:', usr.email, 'token:', usr.token.substring(0,30));
     await entrarApp();
