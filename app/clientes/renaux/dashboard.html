@@ -252,6 +252,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           Arquivos
         </span>
       </button>
+      <button class="sb-item" id="sb-admin-link" style="display:none;margin-top:4px" onclick="toggleAdmin()">
+        <span style="display:flex;align-items:center;gap:8px">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
+          Administração
+        </span>
+      </button>
     </div>
 
     <!-- MAIN -->
@@ -529,6 +535,7 @@ async function entrarApp(){
   if(usr.email === ADMIN){
     document.getElementById('btnAdmin').style.display = '';
     document.getElementById('adminBar').style.display = 'flex';
+    document.getElementById('sb-admin-link').style.display = '';
   }
 
   await carregarDashboards();
@@ -690,16 +697,19 @@ function toggleAdmin(){
   var main  = document.getElementById('main-content');
   var admin = document.getElementById('admin-panel');
   var btn   = document.getElementById('btnAdmin');
+  var sbLink = document.getElementById('sb-admin-link');
   var vis   = admin.style.display === 'flex';
   if(vis){
     admin.style.display = 'none';
     main.style.display  = 'block';
     btn.classList.remove('ativo');
+    if(sbLink) sbLink.classList.remove('ativo');
   } else {
     main.style.display  = 'none';
     admin.style.display = 'flex';
     admin.style.flexDirection = 'column';
     btn.classList.add('ativo');
+    if(sbLink) sbLink.classList.add('ativo');
     carregarRegistros();
   }
 }
