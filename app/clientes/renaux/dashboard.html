@@ -8,17 +8,17 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:#f1f5f9}
- 
+
 /* ── LOADING ────────────────────────────── */
 #tela-loading{position:fixed;inset:0;background:#0a0e1a;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px}
 .loading-logo{font-size:22px;font-weight:800;color:#f1f5f9}
 .loading-logo span{color:#4f8ef7}
 .spinner{width:36px;height:36px;border:3px solid rgba(79,142,247,.15);border-top-color:#4f8ef7;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
- 
+
 /* ── APP ────────────────────────────────── */
 #tela-app{display:none;height:100vh;flex-direction:column}
- 
+
 /* ── TOPBAR ─────────────────────────────── */
 .topbar{height:62px;background:#0a0e1a;border-bottom:1px solid rgba(79,142,247,.12);padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50}
 .t-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -32,10 +32,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .t-admin{background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.25);border-radius:8px;color:#4f8ef7;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:none;font-family:'Poppins',sans-serif}
 .t-admin:hover{background:rgba(79,142,247,.15)}
 .t-admin.ativo{background:rgba(79,142,247,.2);border-color:rgba(79,142,247,.5)}
- 
+
 /* ── APP BODY ───────────────────────────── */
 .app-body{display:flex;flex:1;overflow:hidden}
- 
+
 /* ── SIDEBAR ────────────────────────────── */
 .sidebar{width:220px;background:#0a0e1a;border-right:1px solid rgba(79,142,247,.08);padding:20px 12px;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column}
 .sb-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin:20px 0 8px}
@@ -47,22 +47,22 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .sb-badge{background:rgba(79,142,247,.15);color:#4f8ef7;border-radius:20px;padding:1px 8px;font-size:11px;font-weight:700}
 .sb-item.ativo .sb-badge{background:rgba(79,142,247,.25)}
 .sb-divider{height:1px;background:rgba(79,142,247,.06);margin:8px 0}
- 
+
 /* ── MAIN ───────────────────────────────── */
 .main{flex:1;overflow-y:auto;padding:40px 48px;background:#0d1120}
- 
+
 /* ── GREETING ───────────────────────────── */
 .greeting-block{margin-bottom:40px}
 .greeting-title{font-size:32px;font-weight:700;color:#f1f5f9;line-height:1.2;margin-bottom:6px}
 .greeting-title .emoji{font-size:28px}
 .greeting-sub{font-size:14px;color:rgba(241,245,249,.4);font-weight:400}
- 
+
 /* ── FILTRO TABS ─────────────────────────── */
 .filter-tabs{display:flex;gap:8px;margin-bottom:28px}
 .ftab{padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid rgba(79,142,247,.15);background:transparent;color:rgba(241,245,249,.4);transition:all .2s;font-family:'Poppins',sans-serif}
 .ftab:hover{border-color:rgba(79,142,247,.35);color:rgba(241,245,249,.7)}
 .ftab.ativo{background:rgba(79,142,247,.15);border-color:rgba(79,142,247,.4);color:#4f8ef7;font-weight:600}
- 
+
 /* ── DASHBOARD GRID ─────────────────────── */
 .dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:48px}
 .dash-card{background:#111827;border:1px solid rgba(79,142,247,.1);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s;display:flex;flex-direction:column}
@@ -89,12 +89,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .dash-btn{display:flex;align-items:center;gap:6px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);color:#4f8ef7;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
 .dash-btn:hover{background:rgba(79,142,247,.2);border-color:rgba(79,142,247,.5)}
 .dash-btn svg{width:12px;height:12px}
- 
+
 /* ── SECTION TITLE ──────────────────────── */
 .section-title{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
 .section-title svg{color:#4f8ef7}
 .section-sub{font-size:13px;color:rgba(241,245,249,.35);margin-bottom:24px}
- 
+
 /* ── ARQUIVOS GRID ──────────────────────── */
 .arq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:60px}
 .arq-card{background:#111827;border:1px solid rgba(79,142,247,.08);border-radius:12px;padding:20px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .2s;text-decoration:none}
@@ -105,12 +105,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .arq-nome{font-size:13px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
 .arq-desc{font-size:11px;color:rgba(241,245,249,.35);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .arq-empty{text-align:center;padding:40px;color:rgba(241,245,249,.2);font-size:13px;grid-column:1/-1}
- 
+
 /* ── EMPTY STATE ────────────────────────── */
 .empty-state{text-align:center;padding:60px 20px;color:rgba(241,245,249,.2)}
 .empty-state svg{width:48px;height:48px;margin-bottom:16px;opacity:.3}
 .empty-state p{font-size:14px}
- 
+
 /* ── VIEWER ─────────────────────────────── */
 #viewer{position:fixed;inset:0;background:#000;z-index:200;display:none;flex-direction:column}
 .viewer-bar{height:52px;background:#0a0e1a;border-bottom:1px solid rgba(79,142,247,.12);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
@@ -118,74 +118,51 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 .viewer-close{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#ef4444;border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .viewer-close:hover{background:rgba(239,68,68,.18)}
 #viewer iframe{flex:1;border:none;width:100%;height:100%}
- 
+
 /* ── TOAST ──────────────────────────────── */
 #toast{position:fixed;bottom:28px;right:28px;background:#1a2235;border:1px solid rgba(79,142,247,.25);color:#f1f5f9;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
 #toast.show{opacity:1;transform:translateY(0)}
 #toast.ok{border-color:rgba(52,201,126,.3);color:#34c97e}
 #toast.err{border-color:rgba(239,68,68,.3);color:#ef4444}
- 
-/* ── ADMIN BAR (banner topo) ────────────── */
-.admin-bar{background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.18);border-radius:10px;padding:12px 18px;font-size:13px;color:#4f8ef7;margin-bottom:28px;display:none;align-items:center;gap:10px}
-.admin-bar strong{font-weight:700}
-.btn-novo-dash{margin-left:auto;background:#4f8ef7;color:#fff;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;border-radius:6px;padding:7px 16px;cursor:pointer;transition:opacity .2s}
-.btn-novo-dash:hover{opacity:.85}
- 
+
 /* ── ADMIN PANEL ────────────────────────── */
-#admin-panel{display:none;padding:0;background:#0d1120;overflow-y:auto;flex:1}
-.admin-panel-inner{padding:40px 48px}
-.admin-panel-title{font-size:22px;font-weight:700;color:#f1f5f9;margin-bottom:4px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
-.admin-panel-sub{font-size:13px;color:rgba(241,245,249,.35);margin-bottom:28px}
- 
-/* ── ADMIN TABLE WRAP ───────────────────── */
-.adm-wrap{background:#111827;border:1px solid rgba(79,142,247,.1);border-radius:12px;overflow:hidden;margin-bottom:28px}
-.adm-wrap-hd{padding:14px 20px;border-bottom:1px solid rgba(79,142,247,.08);display:flex;align-items:center;justify-content:space-between}
-.adm-wrap-hd h3{font-size:14px;font-weight:600;color:#f1f5f9}
-.adm-count{font-size:12px;color:rgba(241,245,249,.35);background:rgba(79,142,247,.06);padding:3px 10px;border-radius:20px}
-.adm-table{width:100%;border-collapse:collapse}
-.adm-table thead th{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(241,245,249,.25);padding:11px 20px;text-align:left;border-bottom:1px solid rgba(79,142,247,.06);background:rgba(255,255,255,.01)}
-.adm-table tbody tr{border-bottom:1px solid rgba(79,142,247,.04);transition:background .15s}
-.adm-table tbody tr:last-child{border-bottom:none}
-.adm-table tbody tr:hover{background:rgba(79,142,247,.04)}
-.adm-table tbody td{padding:12px 20px;font-size:13px;color:rgba(241,245,249,.75);vertical-align:middle}
-.tag-cat{background:rgba(79,142,247,.12);color:#4f8ef7;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px}
-.tag-ativo{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#34c97e}
-.tag-ativo::before{content:'';width:6px;height:6px;border-radius:50%;background:#34c97e}
-.btn-gerenciar{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:#4f8ef7;font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
-.btn-gerenciar:hover{background:rgba(79,142,247,.2)}
-.btn-excluir{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:#ef4444;font-size:11px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
-.btn-excluir:hover{background:rgba(239,68,68,.18)}
- 
-/* ── FORM GROUPS ────────────────────────── */
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.35);margin-bottom:6px}
-.form-group input,.form-group select,.form-group textarea{width:100%;background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:10px 14px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;transition:border .2s}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(79,142,247,.45)}
-.form-group select option{background:#0a0e1a}
-.form-group textarea{resize:vertical;min-height:80px}
+#admin-panel{display:none;padding:40px 48px;background:#0d1120;overflow-y:auto;flex:1}
+.admin-tabs{display:flex;gap:4px;margin-bottom:32px;background:rgba(79,142,247,.04);border:1px solid rgba(79,142,247,.08);border-radius:10px;padding:4px}
+.admin-tab{padding:8px 20px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;color:rgba(241,245,249,.4);border:none;background:none;font-family:'Poppins',sans-serif;transition:all .2s}
+.admin-tab.ativo{background:rgba(79,142,247,.12);color:#4f8ef7;font-weight:600}
+.admin-section{display:none}
+.admin-section.ativo{display:block}
+
+/* ── FORM ───────────────────────────────── */
+.form-card{background:#111827;border:1px solid rgba(79,142,247,.1);border-radius:14px;padding:28px;margin-bottom:28px;max-width:600px}
+.form-title{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:20px}
+.form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.form-row label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.35)}
+.form-row input,.form-row select,.form-row textarea{background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:10px 14px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;transition:border .2s;width:100%}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:rgba(79,142,247,.45)}
+.form-row select option{background:#0a0e1a}
+.form-row textarea{resize:vertical;min-height:80px}
 .btn-primary{background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.35);color:#4f8ef7;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .btn-primary:hover{background:rgba(79,142,247,.25)}
 .btn-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#ef4444;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .btn-danger:hover{background:rgba(239,68,68,.18)}
- 
-/* ── MODAL OVERLAY ──────────────────────── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:none;align-items:center;justify-content:center}
+
+/* ── TABLE ──────────────────────────────── */
+.admin-table{width:100%;border-collapse:collapse;font-size:13px}
+.admin-table th{text-align:left;padding:10px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.25);border-bottom:1px solid rgba(79,142,247,.08)}
+.admin-table td{padding:12px 16px;border-bottom:1px solid rgba(79,142,247,.04);color:rgba(241,245,249,.7);vertical-align:middle}
+.admin-table tr:hover td{background:rgba(79,142,247,.03)}
+.pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(79,142,247,.1);color:#4f8ef7}
+
+/* ── MODAL ──────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
- 
-/* Modal novo dashboard / usuário / arquivo */
-.modal-box{background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:16px;width:90%;max-width:560px;padding:32px;animation:slideUp .3s ease;max-height:85vh;overflow-y:auto}
-@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.modal-tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid rgba(79,142,247,.1)}
-.mtab{flex:1;padding:10px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(241,245,249,.4);font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.mtab.active{border-bottom-color:#4f8ef7;color:#4f8ef7}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-.btn-cancel{background:#0a0e1a;border:1px solid rgba(79,142,247,.12);color:rgba(241,245,249,.5);font-family:'Poppins',sans-serif;font-size:13px;padding:9px 20px;border-radius:8px;cursor:pointer}
-.btn-save{background:#4f8ef7;color:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;border:none;padding:9px 22px;border-radius:8px;cursor:pointer;transition:opacity .2s}
-.btn-save:hover{opacity:.88}
- 
-/* Modal gerenciar usuário */
-.modal-user{background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:16px;width:90%;max-width:580px;padding:32px;animation:slideUp .3s ease;max-height:85vh;overflow-y:auto}
- 
+.modal-box{background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:16px;padding:32px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:24px;color:#f1f5f9}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.btn-secondary{background:transparent;border:1px solid rgba(241,245,249,.1);color:rgba(241,245,249,.5);border-radius:8px;padding:9px 20px;font-size:13px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+.btn-secondary:hover{border-color:rgba(241,245,249,.25);color:rgba(241,245,249,.8)}
+
 /* ── RESPONSIVO ─────────────────────────── */
 @media(max-width:768px){
   .main,#admin-panel{padding:24px 20px}
@@ -197,16 +174,16 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 </style>
 </head>
 <body>
- 
+
 <!-- LOADING -->
 <div id="tela-loading">
   <div class="loading-logo"><span>Smart</span>Data</div>
   <div class="spinner"></div>
 </div>
- 
+
 <!-- APP -->
 <div id="tela-app">
- 
+
   <!-- TOPBAR -->
   <div class="topbar">
     <a class="t-logo" href="#">
@@ -225,10 +202,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
       <button class="t-sair" onclick="sair()">↩ Sair</button>
     </div>
   </div>
- 
+
   <!-- APP BODY -->
   <div class="app-body">
- 
+
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin-bottom:8px">MENU</div>
@@ -239,11 +216,11 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
         </span>
         <span class="sb-badge" id="badge-todos">0</span>
       </button>
- 
+
       <div class="sb-divider" style="margin:12px 0"></div>
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin-bottom:8px">CATEGORIAS</div>
       <div id="sb-categorias"></div>
- 
+
       <div class="sb-divider" style="margin:12px 0"></div>
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(241,245,249,.2);padding:0 12px;margin-bottom:8px">ATALHOS</div>
       <button class="sb-item" onclick="scrollToArquivos()" id="sb-arquivos">
@@ -252,33 +229,20 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           Arquivos
         </span>
       </button>
-      <button class="sb-item" id="sb-admin-link" style="display:none;margin-top:4px" onclick="toggleAdmin()">
-        <span style="display:flex;align-items:center;gap:8px">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
-          Administração
-        </span>
-      </button>
     </div>
- 
+
     <!-- MAIN -->
     <div class="main" id="main-content">
- 
-      <!-- ADMIN BAR (visível só para admin) -->
-      <div class="admin-bar" id="adminBar">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Você está como <strong>Administrador</strong>. Gerencie quais dashboards cada usuário pode ver.
-        <button class="btn-novo-dash" onclick="abrirModalNovo('db')">+ Novo Dashboard</button>
-      </div>
- 
+
       <!-- GREETING -->
       <div class="greeting-block">
         <div class="greeting-title" id="greetingText">Olá! <span class="emoji">👋</span></div>
         <div class="greeting-sub">Aqui estão seus dashboards disponíveis.</div>
       </div>
- 
+
       <!-- FILTER TABS -->
       <div class="filter-tabs" id="filter-tabs"></div>
- 
+
       <!-- DASHBOARD GRID -->
       <div class="dash-grid" id="dash-grid">
         <div class="empty-state">
@@ -286,7 +250,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <p>Carregando dashboards...</p>
         </div>
       </div>
- 
+
       <!-- ARQUIVOS -->
       <div id="arquivos-section">
         <div class="section-title">
@@ -298,56 +262,99 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <div class="arq-empty">Carregando arquivos...</div>
         </div>
       </div>
- 
+
     </div><!-- /main -->
- 
-    <!-- ADMIN PANEL (modelo Renaux) -->
+
+    <!-- ADMIN PANEL -->
     <div id="admin-panel">
-      <div class="admin-panel-inner">
-        <div class="admin-panel-title">⚙️ Administração</div>
-        <div class="admin-panel-sub">Visão geral de usuários, dashboards e arquivos cadastrados.</div>
- 
-        <!-- Tabela usuários -->
-        <div class="adm-wrap">
-          <div class="adm-wrap-hd">
-            <h3>👥 Usuários cadastrados</h3>
-            <span class="adm-count" id="countUsuarios">0</span>
-          </div>
-          <table class="adm-table">
-            <thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Dashboards</th><th>Status</th></tr></thead>
-            <tbody id="tbUsuarios"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando…</td></tr></tbody>
-          </table>
-        </div>
- 
-        <!-- Tabela dashboards -->
-        <div class="adm-wrap">
-          <div class="adm-wrap-hd">
-            <h3>📊 Dashboards cadastrados</h3>
-            <span class="adm-count" id="countDashboards">0</span>
-          </div>
-          <table class="adm-table">
-            <thead><tr><th>Usuário</th><th>Título</th><th>Categoria</th><th>Status</th></tr></thead>
-            <tbody id="tbDashboards"><tr><td colspan="4" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando…</td></tr></tbody>
-          </table>
-        </div>
- 
-        <!-- Tabela arquivos -->
-        <div class="adm-wrap">
-          <div class="adm-wrap-hd">
-            <h3>📁 Arquivos cadastrados</h3>
-            <span class="adm-count" id="countArquivos">0</span>
-          </div>
-          <table class="adm-table">
-            <thead><tr><th>Nome</th><th>Descrição</th><th>Usuário</th><th>Categoria</th><th>Status</th></tr></thead>
-            <tbody id="tbArquivos"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando…</td></tr></tbody>
+      <div class="admin-tabs">
+        <button class="admin-tab ativo" onclick="showAdminTab('usuarios')">👥 Usuários</button>
+        <button class="admin-tab" onclick="showAdminTab('dashboards')">📊 Dashboards</button>
+        <button class="admin-tab" onclick="showAdminTab('arquivos')">📁 Arquivos</button>
+        <button class="admin-tab" onclick="showAdminTab('novo-usuario')">➕ Novo Usuário</button>
+        <button class="admin-tab" onclick="showAdminTab('novo-dash')">➕ Novo Dashboard</button>
+        <button class="admin-tab" onclick="showAdminTab('novo-arquivo')">➕ Novo Arquivo</button>
+      </div>
+
+      <!-- ABA: USUÁRIOS -->
+      <div class="admin-section ativo" id="aba-usuarios">
+        <div class="form-card" style="max-width:100%">
+          <div class="form-title">Usuários cadastrados</div>
+          <table class="admin-table" id="tabela-usuarios">
+            <thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Dashboards</th><th>Arquivos</th><th>Ações</th></tr></thead>
+            <tbody id="tbody-usuarios"><tr><td colspan="6" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando...</td></tr></tbody>
           </table>
         </div>
       </div>
+
+      <!-- ABA: DASHBOARDS -->
+      <div class="admin-section" id="aba-dashboards">
+        <div class="form-card" style="max-width:100%">
+          <div class="form-title">Dashboards cadastrados</div>
+          <table class="admin-table">
+            <thead><tr><th>Título</th><th>Categoria</th><th>URL</th><th>Acesso</th><th>Ações</th></tr></thead>
+            <tbody id="tbody-dashboards"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ABA: ARQUIVOS -->
+      <div class="admin-section" id="aba-arquivos">
+        <div class="form-card" style="max-width:100%">
+          <div class="form-title">Arquivos cadastrados</div>
+          <table class="admin-table">
+            <thead><tr><th>Nome</th><th>Descrição</th><th>URL</th><th>Empresa</th><th>Ações</th></tr></thead>
+            <tbody id="tbody-arquivos"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ABA: NOVO USUÁRIO -->
+      <div class="admin-section" id="aba-novo-usuario">
+        <div class="form-card">
+          <div class="form-title">Criar novo usuário</div>
+          <div class="form-row"><label>Nome completo</label><input type="text" id="nu-nome" placeholder="Ex: Maria Silva"></div>
+          <div class="form-row"><label>E-mail</label><input type="email" id="nu-email" placeholder="cliente@empresa.com"></div>
+          <div class="form-row"><label>Senha provisória</label><input type="text" id="nu-senha" placeholder="Mínimo 6 caracteres"></div>
+          <div class="form-row"><label>Empresa</label><input type="text" id="nu-empresa" placeholder="Nome da empresa"></div>
+          <button class="btn-primary" onclick="criarUsuario()">Criar usuário</button>
+        </div>
+      </div>
+
+      <!-- ABA: NOVO DASHBOARD -->
+      <div class="admin-section" id="aba-novo-dash">
+        <div class="form-card">
+          <div class="form-title">Adicionar dashboard</div>
+          <div class="form-row"><label>Título</label><input type="text" id="nd-titulo" placeholder="Ex: Gestão Comercial"></div>
+          <div class="form-row"><label>Descrição</label><textarea id="nd-descricao" placeholder="Breve descrição do dashboard"></textarea></div>
+          <div class="form-row"><label>Categoria</label><input type="text" id="nd-categoria" placeholder="Ex: Comercial, Financeiro, Vendas..."></div>
+          <div class="form-row"><label>URL do Power BI</label><input type="url" id="nd-url" placeholder="https://app.powerbi.com/..."></div>
+          <div class="form-row"><label>Usuário (e-mail)</label>
+            <select id="nd-usuario"><option value="">Selecione o usuário...</option></select>
+          </div>
+          <button class="btn-primary" onclick="salvarNovoDash()">Salvar dashboard</button>
+        </div>
+      </div>
+
+      <!-- ABA: NOVO ARQUIVO -->
+      <div class="admin-section" id="aba-novo-arquivo">
+        <div class="form-card">
+          <div class="form-title">Adicionar arquivo</div>
+          <div class="form-row"><label>Nome</label><input type="text" id="na-nome" placeholder="Ex: Base_Suprimentos"></div>
+          <div class="form-row"><label>Descrição</label><textarea id="na-descricao" placeholder="Ex: Planilha de Lançamentos"></textarea></div>
+          <div class="form-row"><label>URL (SharePoint, Drive, etc.)</label><input type="url" id="na-url" placeholder="https://..."></div>
+          <div class="form-row"><label>Usuário (e-mail)</label>
+            <select id="na-usuario"><option value="">Selecione o usuário...</option></select>
+          </div>
+          <button class="btn-primary" onclick="salvarNovoArquivo()">Salvar arquivo</button>
+        </div>
+      </div>
+
     </div><!-- /admin-panel -->
- 
+
   </div><!-- /app-body -->
 </div><!-- /tela-app -->
- 
+
 <!-- VIEWER -->
 <div id="viewer">
   <div class="viewer-bar">
@@ -356,112 +363,32 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
   </div>
   <iframe id="viewer-iframe" src="" allowfullscreen></iframe>
 </div>
- 
-<!-- MODAL PRINCIPAL: Novo Dashboard / Novo Usuário / Novo Arquivo -->
-<div class="modal-overlay" id="modalOverlay">
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MODAL: GERENCIAR USUÁRIO -->
+<div class="modal-overlay" id="modal-usuario">
   <div class="modal-box">
-    <div class="modal-tabs">
-      <button class="mtab active" id="mtabDb"   onclick="switchTab('db')">+ Novo Dashboard</button>
-      <button class="mtab"        id="mtabUser" onclick="switchTab('user')">+ Novo Usuário</button>
-      <button class="mtab"        id="mtabFile" onclick="switchTab('file')">+ Novo Arquivo</button>
+    <div class="modal-title" id="modal-usuario-title">Gerenciar usuário</div>
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.3);margin-bottom:12px">Dashboards vinculados</div>
+    <div id="modal-dash-lista" style="margin-bottom:16px"></div>
+    <div id="modal-add-dash-area">
+      <select id="modal-dash-select" style="background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:8px 12px;font-size:12px;font-family:'Poppins',sans-serif;width:100%;margin-bottom:8px"><option value="">Selecione um dashboard para adicionar...</option></select>
+      <button class="btn-primary" onclick="addDashUsuario()" style="width:100%;font-size:12px;padding:8px">+ Adicionar dashboard</button>
     </div>
- 
-    <!-- ABA: Dashboard -->
-    <div id="panelDb">
-      <div class="form-group"><label>E-mail do usuário</label><input type="email" id="mEmail" placeholder="cliente@empresa.com"></div>
-      <div class="form-group"><label>Título</label><input type="text" id="mTitulo" placeholder="Ex.: Gestão Comercial"></div>
-      <div class="form-group"><label>Categoria</label><input type="text" id="mCategoria" placeholder="Ex.: Comercial, Financeiro..."></div>
-      <div class="form-group"><label>Descrição</label><textarea id="mDesc" placeholder="Breve descrição do dashboard" style="min-height:70px"></textarea></div>
-      <div class="form-group"><label>URL Power BI</label><input type="url" id="mUrl" placeholder="https://app.powerbi.com/..."></div>
-      <div id="msgDb" style="display:none;font-size:12px;padding:8px 12px;border-radius:6px;margin-top:8px;"></div>
-      <div class="modal-actions">
-        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-        <button class="btn-save" id="btnSalvar" onclick="salvarNovoDash()">Salvar Dashboard</button>
-      </div>
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.3);margin:20px 0 12px">Arquivos vinculados</div>
+    <div id="modal-arq-lista" style="margin-bottom:16px"></div>
+    <div id="modal-add-arq-area">
+      <select id="modal-arq-select" style="background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:8px 12px;font-size:12px;font-family:'Poppins',sans-serif;width:100%;margin-bottom:8px"><option value="">Selecione um arquivo para adicionar...</option></select>
+      <button class="btn-primary" onclick="addArqUsuario()" style="width:100%;font-size:12px;padding:8px">+ Adicionar arquivo</button>
     </div>
- 
-    <!-- ABA: Usuário -->
-    <div id="panelUser" style="display:none">
-      <div class="form-group"><label>Nome completo</label><input type="text" id="uNome" placeholder="Ex.: Maria Silva"></div>
-      <div class="form-group"><label>E-mail</label><input type="email" id="uEmail" placeholder="cliente@empresa.com"></div>
-      <div class="form-group"><label>Senha provisória</label><input type="text" id="uSenha" placeholder="Mínimo 6 caracteres"></div>
-      <div class="form-group"><label>Empresa</label><input type="text" id="uEmpresa" placeholder="Nome da empresa"></div>
-      <div id="msgUser" style="display:none;font-size:12px;padding:8px 12px;border-radius:6px;margin-top:8px;"></div>
-      <div class="modal-actions">
-        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-        <button class="btn-save" id="btnCriarUser" onclick="criarUsuario()">Criar Usuário</button>
-      </div>
-    </div>
- 
-    <!-- ABA: Arquivo -->
-    <div id="panelFile" style="display:none">
-      <div class="form-group"><label>E-mail do usuário</label><input type="email" id="fEmail" placeholder="cliente@empresa.com"></div>
-      <div class="form-group"><label>Nome do arquivo</label><input type="text" id="fNome" placeholder="Ex.: Base_Suprimentos"></div>
-      <div class="form-group"><label>Descrição</label><input type="text" id="fDesc" placeholder="Ex.: Planilha de Lançamentos"></div>
-      <div class="form-group"><label>Categoria</label><input type="text" id="fCategoria" placeholder="Ex.: Suprimentos"></div>
-      <div class="form-group"><label>URL (SharePoint, Drive, etc.)</label><input type="url" id="fUrl" placeholder="https://..."></div>
-      <div id="msgFile" style="display:none;font-size:12px;padding:8px 12px;border-radius:6px;margin-top:8px;"></div>
-      <div class="modal-actions">
-        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-        <button class="btn-save" id="btnSalvarFile" onclick="salvarNovoArquivo()">Salvar Arquivo</button>
-      </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="fecharModal()">Fechar</button>
     </div>
   </div>
 </div>
- 
-<!-- MODAL GERENCIAR USUÁRIO -->
-<div class="modal-overlay" id="modalUsuario">
-  <div class="modal-user">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-      <div>
-        <h2 style="font-size:18px;font-weight:700;color:#f1f5f9" id="muNome">Usuário</h2>
-        <p style="font-size:12px;color:rgba(241,245,249,.35);margin-top:2px" id="muEmail"></p>
-      </div>
-      <button onclick="fecharModalUsuario()" style="background:none;border:none;color:rgba(241,245,249,.4);font-size:20px;cursor:pointer;line-height:1">✕</button>
-    </div>
- 
-    <!-- Dashboards vinculados -->
-    <div style="margin-bottom:24px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <h3 style="font-size:13px;font-weight:600;color:#f1f5f9">📊 Dashboards vinculados</h3>
-        <button onclick="mostrarFormDb()" style="font-size:11px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:#4f8ef7;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif">+ Adicionar</button>
-      </div>
-      <div id="muDbList" style="font-size:13px;color:rgba(241,245,249,.4)">Carregando…</div>
-      <div id="formAddDb" style="display:none;background:#0a0e1a;border-radius:8px;padding:14px;margin-top:10px">
-        <div class="form-group"><label>Título</label><input type="text" id="muDbTitulo" placeholder="Ex.: Gestão Comercial"></div>
-        <div class="form-group"><label>Categoria</label><input type="text" id="muDbCat" placeholder="Ex.: Comercial"></div>
-        <div class="form-group"><label>Descrição</label><input type="text" id="muDbDesc" placeholder="Breve descrição"></div>
-        <div class="form-group"><label>URL Power BI</label><input type="url" id="muDbUrl" placeholder="https://app.powerbi.com/..."></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end">
-          <button onclick="document.getElementById('formAddDb').style.display='none'" style="background:#111827;border:1px solid rgba(79,142,247,.12);color:rgba(241,245,249,.5);font-family:'Poppins',sans-serif;font-size:12px;padding:7px 14px;border-radius:6px;cursor:pointer">Cancelar</button>
-          <button onclick="salvarDbUsuario()" style="background:#4f8ef7;color:#fff;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;padding:7px 16px;border-radius:6px;cursor:pointer">Salvar</button>
-        </div>
-        <div id="muDbMsg" style="display:none;font-size:12px;margin-top:8px;padding:6px 10px;border-radius:6px"></div>
-      </div>
-    </div>
- 
-    <!-- Arquivos vinculados -->
-    <div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <h3 style="font-size:13px;font-weight:600;color:#f1f5f9">📁 Arquivos vinculados</h3>
-        <button onclick="mostrarFormArq()" style="font-size:11px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:#4f8ef7;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Poppins',sans-serif">+ Adicionar</button>
-      </div>
-      <div id="muArqList" style="font-size:13px;color:rgba(241,245,249,.4)">Carregando…</div>
-      <div id="formAddArq" style="display:none;background:#0a0e1a;border-radius:8px;padding:14px;margin-top:10px">
-        <div class="form-group"><label>Nome do arquivo</label><input type="text" id="muArqNome" placeholder="Ex.: Planilha de Vendas"></div>
-        <div class="form-group"><label>Categoria</label><input type="text" id="muArqCat" placeholder="Ex.: Suprimentos"></div>
-        <div class="form-group"><label>Descrição</label><input type="text" id="muArqDesc" placeholder="Ex.: Preenchimento semanal"></div>
-        <div class="form-group"><label>Link (SharePoint, Drive, etc.)</label><input type="url" id="muArqUrl" placeholder="https://..."></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end">
-          <button onclick="document.getElementById('formAddArq').style.display='none'" style="background:#111827;border:1px solid rgba(79,142,247,.12);color:rgba(241,245,249,.5);font-family:'Poppins',sans-serif;font-size:12px;padding:7px 14px;border-radius:6px;cursor:pointer">Cancelar</button>
-          <button onclick="salvarArqUsuario()" style="background:#4f8ef7;color:#fff;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;border:none;padding:7px 16px;border-radius:6px;cursor:pointer">Salvar</button>
-        </div>
-        <div id="muArqMsg" style="display:none;font-size:12px;margin-top:8px;padding:6px 10px;border-radius:6px"></div>
-      </div>
-    </div>
-  </div>
-</div>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ─────────────────────────────────────────────────────────────────
@@ -470,11 +397,15 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 var SB_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
 var SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
 var ADMIN   = 'tecnologia@smartdataconsultoria.com';
- 
+
 var sb = supabase.createClient(SB_URL, SB_KEY);
 var usr = null;
+var todosUsuarios = [];
+var todosDashboards = [];
+var todosArquivos = [];
 var meusDashboards = [];
- 
+var _muEmail = '';
+
 /* ─────────────────────────────────────────────────────────────────
    TOAST
 ───────────────────────────────────────────────────────────────── */
@@ -485,7 +416,7 @@ function toast(msg, tipo){
   clearTimeout(el._t);
   el._t = setTimeout(function(){ el.className = ''; }, 3200);
 }
- 
+
 /* ─────────────────────────────────────────────────────────────────
    SAUDAÇÃO
 ───────────────────────────────────────────────────────────────── */
@@ -497,7 +428,7 @@ function gerarSaudacao(nome){
   var texto = primeiroNome ? (periodo + ', ' + primeiroNome + '!') : (periodo + '!');
   return '<span>' + texto + '</span> <span class="emoji">' + emoji + '</span>';
 }
- 
+
 /* ─────────────────────────────────────────────────────────────────
    INICIALIZAR APP
 ───────────────────────────────────────────────────────────────── */
@@ -505,10 +436,10 @@ async function entrarApp(){
   document.getElementById('tela-loading').style.display = 'none';
   var app = document.getElementById('tela-app');
   app.style.display = 'flex';
- 
+
   // topbar
   document.getElementById('topEmail').textContent = usr.email;
- 
+
   // buscar dados do usuário no Supabase
   var nome = '';
   var empresa = '';
@@ -520,28 +451,27 @@ async function entrarApp(){
     console.log('DEBUG usuarios_portal status:', uRes.status, 'data:', JSON.stringify(uArr));
     if(uRes.ok && uArr && uArr[0]){ nome = uArr[0].nome || ''; empresa = uArr[0].empresa || ''; }
   } catch(e){ console.warn('usuarios_portal erro:', e); }
- 
+
   // saudação
   document.getElementById('greetingText').innerHTML = gerarSaudacao(nome);
- 
+
   // empresa topbar
   if(empresa){
     var el = document.getElementById('topEmpresa');
     el.textContent = empresa;
     el.style.display = '';
   }
- 
+
   // admin
   if(usr.email === ADMIN){
     document.getElementById('btnAdmin').style.display = '';
-    document.getElementById('adminBar').style.display = 'flex';
-    document.getElementById('sb-admin-link').style.display = '';
+    await carregarAdmin();
   }
- 
+
   await carregarDashboards();
   await carregarArquivos();
 }
- 
+
 /* ─────────────────────────────────────────────────────────────────
    DASHBOARDS
 ───────────────────────────────────────────────────────────────── */
@@ -566,39 +496,39 @@ async function carregarDashboards(){
     document.getElementById('dash-grid').innerHTML = '<div class="empty-state"><p>Nenhum dashboard disponível.</p></div>';
   }
 }
- 
+
 function renderDashboards(lista){
   var grid = document.getElementById('dash-grid');
   var tabs = document.getElementById('filter-tabs');
   var sbCats = document.getElementById('sb-categorias');
- 
+
   // categorias únicas
   var cats = [];
   lista.forEach(function(d){ if(d.categoria && cats.indexOf(d.categoria) < 0) cats.push(d.categoria); });
- 
+
   // badge total
   document.getElementById('badge-todos').textContent = lista.length;
- 
+
   // filter tabs
   var tabsHTML = '<button class="ftab ativo" onclick="filtrarCategoria(\'todos\')" id="ftab-todos">Todos (' + lista.length + ')</button>';
   cats.forEach(function(c){
     tabsHTML += '<button class="ftab" onclick="filtrarCategoria(\'' + esc(c) + '\')" id="ftab-' + esc(c) + '">' + esc(c) + ' (' + lista.filter(function(d){return d.categoria===c;}).length + ')</button>';
   });
   tabs.innerHTML = tabsHTML;
- 
+
   // sidebar categorias
   var sbHTML = '';
   cats.forEach(function(c){
     sbHTML += '<button class="sb-item" onclick="filtrarCategoria(\'' + esc(c) + '\')" id="sb-cat-' + esc(c) + '"><span style="display:flex;align-items:center;gap:8px"><span class="sb-dot"></span>' + esc(c) + '</span><span class="sb-badge">' + lista.filter(function(d){return d.categoria===c;}).length + '</span></button>';
   });
   sbCats.innerHTML = sbHTML;
- 
+
   // cards
   if(!lista.length){
     grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="6" width="36" height="36" rx="6"/><path d="M16 32V20M24 32V16M32 32V24"/></svg><p>Nenhum dashboard disponível ainda.</p></div>';
     return;
   }
- 
+
   window._dashUrls = lista.map(function(d){ return d.url; });
   grid.innerHTML = lista.map(function(d, i){
     return '<div class="dash-card" data-categoria="' + esc(d.categoria||'') + '">' +
@@ -615,7 +545,7 @@ function renderDashboards(lista){
     '</div>';
   }).join('');
 }
- 
+
 function filtrarCategoria(cat){
   // ativar tab
   document.querySelectorAll('.ftab').forEach(function(el){ el.classList.remove('ativo'); });
@@ -632,7 +562,7 @@ function filtrarCategoria(cat){
     card.style.display = (cat === 'todos' || card.dataset.categoria === cat) ? '' : 'none';
   });
 }
- 
+
 function abrirDash(idx){
   var url = window._dashUrls && window._dashUrls[idx];
   if(url) window.open(url, '_blank');
@@ -641,7 +571,7 @@ function fecharViewer(){
   document.getElementById('viewer').style.display = 'none';
   document.getElementById('viewer-iframe').src = '';
 }
- 
+
 /* ─────────────────────────────────────────────────────────────────
    ARQUIVOS
 ───────────────────────────────────────────────────────────────── */
@@ -660,12 +590,12 @@ async function carregarArquivos(){
     if(!res.ok) throw new Error('HTTP ' + res.status);
     var lista = await res.json();
     lista = lista || [];
- 
+
     if(!lista.length){
       grid.innerHTML = '<div class="arq-empty">Nenhum arquivo disponível.</div>';
       return;
     }
- 
+
     grid.innerHTML = lista.map(function(a){
       return '<a class="arq-card" href="' + esc(a.url||'#') + '" target="_blank" rel="noopener">' +
         '<div class="arq-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 3h8l4 4v11a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M12 3v5h5"/></svg></div>' +
@@ -677,372 +607,322 @@ async function carregarArquivos(){
     grid.innerHTML = '<div class="arq-empty">Nenhum arquivo disponível.</div>';
   }
 }
- 
+
 function scrollToArquivos(){
   document.getElementById('arquivos-section').scrollIntoView({behavior:'smooth'});
 }
- 
+
 /* ─────────────────────────────────────────────────────────────────
-   SAIR
+   SAIR / ADMIN TOGGLE
 ───────────────────────────────────────────────────────────────── */
 async function sair(){
   await sb.auth.signOut();
   window.location.href = '../area-cliente.html';
 }
- 
-/* ─────────────────────────────────────────────────────────────────
-   ADMIN TOGGLE
-───────────────────────────────────────────────────────────────── */
+
 function toggleAdmin(){
-  var main  = document.getElementById('main-content');
+  var main = document.getElementById('main-content');
   var admin = document.getElementById('admin-panel');
-  var btn   = document.getElementById('btnAdmin');
-  var sbLink = document.getElementById('sb-admin-link');
-  var vis   = admin.style.display === 'flex';
-  if(vis){
-    admin.style.display = 'none';
-    main.style.display  = 'block';
-    btn.classList.remove('ativo');
-    if(sbLink) sbLink.classList.remove('ativo');
-  } else {
-    main.style.display  = 'none';
-    admin.style.display = 'flex';
-    admin.style.flexDirection = 'column';
-    btn.classList.add('ativo');
-    if(sbLink) sbLink.classList.add('ativo');
-    carregarRegistros();
-  }
+  var btn = document.getElementById('btnAdmin');
+  var visible = admin.style.display === 'block';
+  admin.style.display = visible ? 'none' : 'block';
+  main.style.display = visible ? 'block' : 'none';
+  btn.classList.toggle('ativo', !visible);
 }
- 
+
+function showAdminTab(aba){
+  document.querySelectorAll('.admin-section').forEach(function(s){ s.classList.remove('ativo'); });
+  document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.remove('ativo'); });
+  document.getElementById('aba-' + aba).classList.add('ativo');
+  event.target.classList.add('ativo');
+  if(aba === 'dashboards') renderAdminDashboards();
+  if(aba === 'arquivos') renderAdminArquivos();
+}
+
 /* ─────────────────────────────────────────────────────────────────
-   ADMIN: TABELAS (visão geral)
+   ADMIN: CARREGAR
 ───────────────────────────────────────────────────────────────── */
-async function carregarRegistros(){
+async function carregarAdmin(){
   var headers = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + usr.token, 'Content-Type': 'application/json' };
-  var dbs = [];
- 
-  // Dashboards
+
+  // usuários
   try {
-    var r = await fetch(SB_URL + '/rest/v1/dashboards_clientes?select=email_cliente,titulo,categoria,ativo&order=email_cliente', { headers });
-    dbs = r.ok ? await r.json() : [];
-    document.getElementById('countDashboards').textContent = dbs.length;
-    var tb = document.getElementById('tbDashboards');
-    if(!dbs.length){ tb.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum dashboard.</td></tr>'; }
-    else { tb.innerHTML = dbs.map(function(d){ return '<tr><td style="color:rgba(241,245,249,.35);font-size:12px">'+esc(d.email_cliente)+'</td><td>'+esc(d.titulo)+'</td><td><span class="tag-cat">'+esc(d.categoria||'Geral')+'</span></td><td><span class="tag-ativo">Ativo</span></td></tr>'; }).join(''); }
-    window._admDbs = dbs;
-  } catch(e){ console.warn(e); window._admDbs = []; }
- 
-  // Arquivos
+    var r = await fetch(SB_URL + '/rest/v1/usuarios_portal?select=*&order=email', { headers });
+    todosUsuarios = r.ok ? (await r.json()) : [];
+  } catch(e){ todosUsuarios = []; }
+
+  // dashboards
   try {
-    var r2 = await fetch(SB_URL + '/rest/v1/arquivos_clientes?select=nome,descricao,email_cliente,categoria,ativo&order=nome', { headers });
-    var arqs = r2.ok ? await r2.json() : [];
-    document.getElementById('countArquivos').textContent = arqs.length;
-    var tb2 = document.getElementById('tbArquivos');
-    if(!arqs.length){ tb2.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum arquivo.</td></tr>'; }
-    else { tb2.innerHTML = arqs.map(function(a){ return '<tr><td>'+esc(a.nome)+'</td><td style="color:rgba(241,245,249,.35);font-size:12px">'+esc(a.descricao||'—')+'</td><td style="color:rgba(241,245,249,.35);font-size:12px">'+esc(a.email_cliente||'—')+'</td><td>'+(a.categoria?'<span class="tag-cat">'+esc(a.categoria)+'</span>':'<span style="color:rgba(241,245,249,.2);font-size:12px">—</span>')+'</td><td><span class="tag-ativo">● Ativo</span></td></tr>'; }).join(''); }
-  } catch(e){ console.warn(e); }
- 
-  // Usuários
+    var r2 = await fetch(SB_URL + '/rest/v1/dashboards_clientes?select=*&order=titulo', { headers });
+    todosDashboards = r2.ok ? (await r2.json()) : [];
+  } catch(e){ todosDashboards = []; }
+
+  // arquivos
   try {
-    var r3 = await fetch(SB_URL + '/rest/v1/usuarios_portal?select=email,nome,empresa,ativo&order=nome', { headers });
-    var usuarios = r3.ok ? await r3.json() : [];
-    document.getElementById('countUsuarios').textContent = usuarios.length;
-    var tb3 = document.getElementById('tbUsuarios');
-    if(!usuarios.length){ tb3.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum usuário.</td></tr>'; }
-    else { tb3.innerHTML = usuarios.map(function(u){
-      var qtd = dbs.filter(function(d){ return d.email_cliente===u.email; }).length;
-      var st = u.ativo!==false ? '<span class="tag-ativo">● Ativo</span>' : '<span style="color:rgba(241,245,249,.3);font-size:12px">● Inativo</span>';
-      var em = esc(u.email), nm = esc((u.nome||'').replace(/'/g,"\\'"));
-      return '<tr>'
-        +'<td style="cursor:pointer" onclick="abrirUsuario(\''+em+'\',\''+nm+'\')">'+ esc(u.nome||'—')+'</td>'
-        +'<td style="color:rgba(241,245,249,.35);font-size:12px;cursor:pointer" onclick="abrirUsuario(\''+em+'\',\''+nm+'\')">'+ em+'</td>'
-        +'<td style="color:rgba(241,245,249,.5);font-size:12px">'+ esc(u.empresa||'—')+'</td>'
-        +'<td style="color:rgba(241,245,249,.5);font-size:12px">'+qtd+' dashboard'+(qtd!==1?'s':'')+'</td>'
-        +'<td><div style="display:flex;align-items:center;gap:8px">'+st
-        +'<button class="btn-gerenciar" onclick="abrirUsuario(\''+em+'\',\''+nm+'\')">✏ gerenciar</button>'
-        +'<button class="btn-excluir" onclick="excluirUsuario(\''+em+'\',\''+nm+'\')">🗑 excluir</button>'
-        +'</div></td></tr>';
-    }).join(''); }
-  } catch(e){ console.warn(e); }
+    var r3 = await fetch(SB_URL + '/rest/v1/arquivos_clientes?select=*&order=nome', { headers });
+    todosArquivos = r3.ok ? (await r3.json()) : [];
+  } catch(e){ todosArquivos = []; }
+
+  renderAdminUsuarios();
+  popularSelects();
 }
- 
+
+function popularSelects(){
+  var opts = todosUsuarios.map(function(u){ return '<option value="' + esc(u.email) + '">' + esc(u.email) + ' (' + esc(u.empresa||'') + ')</option>'; }).join('');
+  document.getElementById('nd-usuario').innerHTML = '<option value="">Selecione o usuário...</option>' + opts;
+  document.getElementById('na-usuario').innerHTML = '<option value="">Selecione o usuário...</option>' + opts;
+}
+
 /* ─────────────────────────────────────────────────────────────────
-   MODAL NOVO (abas Dashboard / Usuário / Arquivo)
+   ADMIN: USUÁRIOS
 ───────────────────────────────────────────────────────────────── */
-function abrirModalNovo(tab){
-  document.getElementById('modalOverlay').classList.add('show');
-  switchTab(tab || 'db');
+function renderAdminUsuarios(){
+  var tbody = document.getElementById('tbody-usuarios');
+  if(!todosUsuarios.length){
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum usuário.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = todosUsuarios.map(function(u){
+    var nDash = todosDashboards.filter(function(d){return d.email_cliente===u.email;}).length;
+    var nArq  = todosArquivos.filter(function(a){return a.email_cliente===u.email;}).length;
+    return '<tr>' +
+      '<td>' + esc(u.nome||'—') + '</td>' +
+      '<td>' + esc(u.email) + '</td>' +
+      '<td>' + esc(u.empresa||'—') + '</td>' +
+      '<td><span class="pill">' + nDash + '</span></td>' +
+      '<td><span class="pill">' + nArq + '</span></td>' +
+      '<td style="display:flex;gap:8px"><button class="btn-primary" style="font-size:11px;padding:5px 12px" onclick="abrirModalUsuario(\'' + esc(u.email) + '\')">✏ Gerenciar</button><button class="btn-danger" onclick="excluirUsuario(\'' + esc(u.email) + '\')">🗑</button></td>' +
+    '</tr>';
+  }).join('');
 }
- 
-function switchTab(tab){
-  ['panelDb','panelUser','panelFile'].forEach(function(id){ document.getElementById(id).style.display='none'; });
-  ['mtabDb','mtabUser','mtabFile'].forEach(function(id){ document.getElementById(id).classList.remove('active'); });
-  document.getElementById(tab==='db'?'panelDb':tab==='user'?'panelUser':'panelFile').style.display = 'block';
-  document.getElementById(tab==='db'?'mtabDb':tab==='user'?'mtabUser':'mtabFile').classList.add('active');
+
+function renderAdminDashboards(){
+  var tbody = document.getElementById('tbody-dashboards');
+  if(!todosDashboards.length){
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum dashboard.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = todosDashboards.map(function(d){
+    return '<tr>' +
+      '<td>' + esc(d.titulo) + '</td>' +
+      '<td><span class="pill">' + esc(d.categoria||'—') + '</span></td>' +
+      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a href="' + esc(d.url) + '" target="_blank" style="color:#4f8ef7;font-size:11px">' + esc(d.url) + '</a></td>' +
+      '<td style="font-size:12px">' + esc(d.email_cliente||'—') + '</td>' +
+      '<td><button class="btn-danger" onclick="excluirDash(' + d.id + ')">🗑 Excluir</button></td>' +
+    '</tr>';
+  }).join('');
 }
- 
-function fecharModal(){
-  document.getElementById('modalOverlay').classList.remove('show');
-  ['mEmail','mTitulo','mCategoria','mDesc','mUrl','uNome','uEmail','uSenha','uEmpresa','fEmail','fNome','fDesc','fCategoria','fUrl'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
-  ['msgDb','msgUser','msgFile'].forEach(function(id){ var el=document.getElementById(id); if(el) el.style.display='none'; });
+
+function renderAdminArquivos(){
+  var tbody = document.getElementById('tbody-arquivos');
+  if(!todosArquivos.length){
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum arquivo.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = todosArquivos.map(function(a){
+    return '<tr>' +
+      '<td>' + esc(a.nome) + '</td>' +
+      '<td style="font-size:12px;color:rgba(241,245,249,.4)">' + esc(a.descricao||'—') + '</td>' +
+      '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a href="' + esc(a.url||'#') + '" target="_blank" style="color:#4f8ef7;font-size:11px">' + esc(a.url||'—') + '</a></td>' +
+      '<td style="font-size:12px">' + esc(a.empresa||'—') + '</td>' +
+      '<td><button class="btn-danger" onclick="excluirArquivo(' + a.id + ')">🗑 Excluir</button></td>' +
+    '</tr>';
+  }).join('');
 }
- 
-function showMsg(id, txt, ok){
-  var el = document.getElementById(id);
-  el.textContent = txt; el.style.display = 'block';
-  el.style.background = ok ? 'rgba(52,201,126,.12)' : 'rgba(239,68,68,.12)';
-  el.style.border = ok ? '1px solid rgba(52,201,126,.3)' : '1px solid rgba(239,68,68,.3)';
-  el.style.color  = ok ? '#34c97e' : '#ef4444';
-}
- 
+
 /* ─────────────────────────────────────────────────────────────────
-   SALVAR NOVO DASHBOARD
-───────────────────────────────────────────────────────────────── */
-async function salvarNovoDash(){
-  var email  = (document.getElementById('mEmail').value||'').trim();
-  var titulo = (document.getElementById('mTitulo').value||'').trim();
-  var cat    = (document.getElementById('mCategoria').value||'').trim();
-  var desc   = (document.getElementById('mDesc').value||'').trim();
-  var url    = (document.getElementById('mUrl').value||'').trim();
-  if(!email || !titulo){ showMsg('msgDb','E-mail e título são obrigatórios.',false); return; }
-  var btn = document.getElementById('btnSalvar');
-  btn.disabled=true; btn.textContent='Salvando…';
-  try {
-    var res = await fetch(SB_URL+'/rest/v1/dashboards_clientes', {
-      method:'POST', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' },
-      body: JSON.stringify({ email_cliente:email, titulo:titulo, categoria:cat||'Geral', descricao:desc, url:url||null, ativo:true })
-    });
-    if(!res.ok){ var e=await res.json(); throw new Error(e.message||'Erro'); }
-    showMsg('msgDb','Dashboard cadastrado!',true);
-    setTimeout(function(){ fecharModal(); if(document.getElementById('admin-panel').style.display!=='none') carregarRegistros(); carregarDashboards(); }, 1200);
-  } catch(e){ showMsg('msgDb','Erro: '+e.message,false); }
-  finally { btn.disabled=false; btn.textContent='Salvar Dashboard'; }
-}
- 
-/* ─────────────────────────────────────────────────────────────────
-   CRIAR USUÁRIO
+   ADMIN: CRIAR USUÁRIO
 ───────────────────────────────────────────────────────────────── */
 async function criarUsuario(){
-  var nome    = (document.getElementById('uNome').value||'').trim();
-  var email   = (document.getElementById('uEmail').value||'').trim();
-  var senha   = (document.getElementById('uSenha').value||'').trim();
-  var empresa = (document.getElementById('uEmpresa').value||'').trim();
-  if(!email || !senha){ showMsg('msgUser','Preencha e-mail e senha.',false); return; }
-  if(senha.length<6){ showMsg('msgUser','Senha mínima de 6 caracteres.',false); return; }
-  var btn = document.getElementById('btnCriarUser');
-  btn.disabled=true; btn.textContent='Criando…';
+  var nome    = document.getElementById('nu-nome').value.trim();
+  var email   = document.getElementById('nu-email').value.trim();
+  var senha   = document.getElementById('nu-senha').value.trim();
+  var empresa = document.getElementById('nu-empresa').value.trim();
+  if(!email || !senha){ toast('Preencha e-mail e senha.','err'); return; }
+
   try {
-    var authRes = await fetch(SB_URL+'/auth/v1/admin/users', {
-      method:'POST', headers:{ 'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC,'Content-Type':'application/json' },
-      body: JSON.stringify({ email:email, password:senha, email_confirm:true, user_metadata:{ full_name:nome } })
-    });
-    var authData = await authRes.json();
-    if(!authRes.ok) throw new Error(authData.message || authData.msg || 'Erro no Auth');
-    await fetch(SB_URL+'/rest/v1/usuarios_portal', {
-      method:'POST', headers:{ 'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates' },
-      body: JSON.stringify({ email:email, nome:nome, empresa:empresa, ativo:true })
-    });
-    showMsg('msgUser','Usuário criado com sucesso!',true);
-    setTimeout(function(){ fecharModal(); if(document.getElementById('admin-panel').style.display!=='none') carregarRegistros(); }, 1500);
-  } catch(e){ showMsg('msgUser','Erro: '+e.message,false); }
-  finally { btn.disabled=false; btn.textContent='Criar Usuário'; }
+    var { error } = await sb.auth.admin.createUser({ email, password: senha, email_confirm: true, user_metadata: { full_name: nome } });
+    if(error) throw error;
+    await sb.from('usuarios_portal').upsert({ email, nome, empresa });
+    toast('Usuário criado!','ok');
+    document.getElementById('nu-nome').value = '';
+    document.getElementById('nu-email').value = '';
+    document.getElementById('nu-senha').value = '';
+    document.getElementById('nu-empresa').value = '';
+    await carregarAdmin();
+  } catch(e){
+    toast('Erro: ' + e.message,'err');
+  }
 }
- 
+
 /* ─────────────────────────────────────────────────────────────────
-   SALVAR NOVO ARQUIVO
+   ADMIN: SALVAR DASHBOARD
+───────────────────────────────────────────────────────────────── */
+async function salvarNovoDash(){
+  var titulo    = document.getElementById('nd-titulo').value.trim();
+  var descricao = document.getElementById('nd-descricao').value.trim();
+  var categoria = document.getElementById('nd-categoria').value.trim();
+  var url       = document.getElementById('nd-url').value.trim();
+  var email     = document.getElementById('nd-usuario').value;
+  if(!titulo || !url || !email){ toast('Preencha todos os campos obrigatórios.','err'); return; }
+
+  try {
+    var { error } = await sb.from('dashboards_clientes').insert({ titulo, descricao, categoria, url, email_cliente: email });
+    if(error) throw error;
+    toast('Dashboard salvo!','ok');
+    document.getElementById('nd-titulo').value = '';
+    document.getElementById('nd-descricao').value = '';
+    document.getElementById('nd-categoria').value = '';
+    document.getElementById('nd-url').value = '';
+    document.getElementById('nd-usuario').value = '';
+    await carregarAdmin();
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ADMIN: SALVAR ARQUIVO
 ───────────────────────────────────────────────────────────────── */
 async function salvarNovoArquivo(){
-  var email = (document.getElementById('fEmail').value||'').trim();
-  var nome  = (document.getElementById('fNome').value||'').trim();
-  var desc  = (document.getElementById('fDesc').value||'').trim();
-  var cat   = (document.getElementById('fCategoria').value||'').trim();
-  var url   = (document.getElementById('fUrl').value||'').trim();
-  if(!nome || !url){ showMsg('msgFile','Nome e URL são obrigatórios.',false); return; }
-  var btn = document.getElementById('btnSalvarFile');
-  btn.disabled=true; btn.textContent='Salvando…';
+  var nome      = document.getElementById('na-nome').value.trim();
+  var descricao = document.getElementById('na-descricao').value.trim();
+  var url       = document.getElementById('na-url').value.trim();
+  var email     = document.getElementById('na-usuario').value;
+  if(!nome || !url || !email){ toast('Preencha todos os campos obrigatórios.','err'); return; }
+
+  var u = todosUsuarios.find(function(x){ return x.email === email; });
   try {
-    var res = await fetch(SB_URL+'/rest/v1/arquivos_clientes', {
-      method:'POST', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' },
-      body: JSON.stringify({ email_cliente:email||null, nome:nome, descricao:desc, categoria:cat||null, url:url, ativo:true })
-    });
-    if(!res.ok){ var e=await res.json(); throw new Error(e.message||'Erro'); }
-    showMsg('msgFile','Arquivo cadastrado!',true);
-    setTimeout(function(){ fecharModal(); if(document.getElementById('admin-panel').style.display!=='none') carregarRegistros(); }, 1200);
-  } catch(e){ showMsg('msgFile','Erro: '+e.message,false); }
-  finally { btn.disabled=false; btn.textContent='Salvar Arquivo'; }
+    var { error } = await sb.from('arquivos_clientes').insert({ nome, descricao, url, email_cliente: email, empresa: (u ? u.empresa : '') || '' });
+    if(error) throw error;
+    toast('Arquivo salvo!','ok');
+    document.getElementById('na-nome').value = '';
+    document.getElementById('na-descricao').value = '';
+    document.getElementById('na-url').value = '';
+    document.getElementById('na-usuario').value = '';
+    await carregarAdmin();
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
 }
- 
+
+/* ─────────────────────────────────────────────────────────────────
+   ADMIN: EXCLUIR
+───────────────────────────────────────────────────────────────── */
+async function excluirUsuario(email){
+  if(!confirm('Excluir usuário ' + email + '?')) return;
+  try {
+    await sb.from('dashboards_clientes').delete().eq('email_cliente', email);
+    await sb.from('arquivos_clientes').delete().eq('email_cliente', email);
+    await sb.from('usuarios_portal').delete().eq('email', email);
+    toast('Usuário excluído.','ok');
+    await carregarAdmin();
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
+async function excluirDash(id){
+  if(!confirm('Excluir este dashboard?')) return;
+  try {
+    await sb.from('dashboards_clientes').delete().eq('id', id);
+    toast('Dashboard excluído.','ok');
+    await carregarAdmin();
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
+async function excluirArquivo(id){
+  if(!confirm('Excluir este arquivo?')) return;
+  try {
+    await sb.from('arquivos_clientes').delete().eq('id', id);
+    toast('Arquivo excluído.','ok');
+    await carregarAdmin();
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
 /* ─────────────────────────────────────────────────────────────────
    MODAL GERENCIAR USUÁRIO
 ───────────────────────────────────────────────────────────────── */
-var _muEmail = '';
- 
-function abrirUsuario(email, nome){
+function abrirModalUsuario(email){
   _muEmail = email;
-  document.getElementById('muNome').textContent  = nome || email;
-  document.getElementById('muEmail').textContent = email;
-  document.getElementById('modalUsuario').classList.add('show');
-  document.getElementById('formAddDb').style.display  = 'none';
-  document.getElementById('formAddArq').style.display = 'none';
-  carregarItensUsuario();
+  document.getElementById('modal-usuario-title').textContent = 'Gerenciar: ' + email;
+  renderModalDash(email);
+  renderModalArq(email);
+  document.getElementById('modal-usuario').classList.add('show');
+  // popular selects do modal
+  var dashOpts = todosDashboards.filter(function(d){ return d.email_cliente !== email; });
+  document.getElementById('modal-dash-select').innerHTML = '<option value="">Selecione...</option>' + dashOpts.map(function(d){ return '<option value="' + d.id + '">' + esc(d.titulo) + ' (' + esc(d.categoria||'') + ')</option>'; }).join('');
+  var arqOpts = todosArquivos.filter(function(a){ return a.email_cliente !== email; });
+  document.getElementById('modal-arq-select').innerHTML = '<option value="">Selecione...</option>' + arqOpts.map(function(a){ return '<option value="' + a.id + '">' + esc(a.nome) + '</option>'; }).join('');
 }
- 
-function fecharModalUsuario(){ document.getElementById('modalUsuario').classList.remove('show'); _muEmail=''; }
- 
-function mostrarFormDb()  { document.getElementById('formAddDb').style.display  = 'block'; }
-function mostrarFormArq() { document.getElementById('formAddArq').style.display = 'block'; }
- 
-async function carregarItensUsuario(){
-  var headers = { 'apikey':SB_KEY, 'Authorization':'Bearer '+usr.token };
- 
-  // Dashboards
-  var rDb = await fetch(SB_URL+'/rest/v1/dashboards_clientes?select=id,titulo,categoria,url,descricao&email_cliente=eq.'+encodeURIComponent(_muEmail)+'&ativo=eq.true', { headers });
-  var dbs = rDb.ok ? await rDb.json() : [];
-  var dbEl = document.getElementById('muDbList');
-  if(!dbs.length){ dbEl.innerHTML='<span style="color:rgba(241,245,249,.3);font-size:12px">Nenhum dashboard vinculado.</span>'; }
-  else { dbEl.innerHTML = dbs.map(function(d){
-    return '<div style="padding:10px 0;border-bottom:1px solid rgba(79,142,247,.06)">'
-    +'<div id="dbView_'+d.id+'" style="display:flex;align-items:center;justify-content:space-between">'
-    +'<div><div style="font-size:13px;color:#f1f5f9">'+esc(d.titulo)+'</div><div style="font-size:11px;color:rgba(241,245,249,.35)">'+esc(d.categoria||'Geral')+'</div></div>'
-    +'<div style="display:flex;gap:6px"><button class="btn-gerenciar" onclick="editarDb('+d.id+')">✏ Editar</button><button class="btn-excluir" onclick="removerDb('+d.id+')">Remover</button></div></div>'
-    +'<div id="dbEdit_'+d.id+'" style="display:none;margin-top:10px;background:#0a0e1a;border-radius:8px;padding:12px">'
-    +'<div class="form-group"><label>Título</label><input type="text" id="eDbTitulo_'+d.id+'" value="'+esc(d.titulo||'')+'"></div>'
-    +'<div class="form-group"><label>Categoria</label><input type="text" id="eDbCat_'+d.id+'" value="'+esc(d.categoria||'')+'"></div>'
-    +'<div class="form-group"><label>Descrição</label><input type="text" id="eDbDesc_'+d.id+'" value="'+esc(d.descricao||'')+'"></div>'
-    +'<div class="form-group"><label>URL Power BI</label><input type="url" id="eDbUrl_'+d.id+'" value="'+esc(d.url||'')+'"></div>'
-    +'<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">'
-    +'<button onclick="document.getElementById(\'dbEdit_'+d.id+'\').style.display=\'none\';document.getElementById(\'dbView_'+d.id+'\').style.display=\'flex\'" style="background:#111827;border:1px solid rgba(79,142,247,.12);color:rgba(241,245,249,.5);font-family:\'Poppins\',sans-serif;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer">Cancelar</button>'
-    +'<button onclick="salvarEdicaoDb('+d.id+')" style="background:#4f8ef7;color:#fff;font-family:\'Poppins\',sans-serif;font-size:12px;font-weight:600;border:none;padding:6px 14px;border-radius:6px;cursor:pointer">Salvar</button>'
-    +'</div><div id="eDbMsg_'+d.id+'" style="display:none;font-size:12px;margin-top:6px;padding:5px 8px;border-radius:5px"></div></div></div>';
-  }).join(''); }
- 
-  // Arquivos
-  var rArq = await fetch(SB_URL+'/rest/v1/arquivos_clientes?select=id,nome,descricao,url,categoria&email_cliente=eq.'+encodeURIComponent(_muEmail)+'&ativo=eq.true', { headers });
-  var arqs = rArq.ok ? await rArq.json() : [];
-  var arqEl = document.getElementById('muArqList');
-  if(!arqs.length){ arqEl.innerHTML='<span style="color:rgba(241,245,249,.3);font-size:12px">Nenhum arquivo vinculado.</span>'; }
-  else { arqEl.innerHTML = arqs.map(function(a){
-    return '<div style="padding:10px 0;border-bottom:1px solid rgba(79,142,247,.06)">'
-    +'<div id="arqView_'+a.id+'" style="display:flex;align-items:center;justify-content:space-between">'
-    +'<div><div style="font-size:13px;color:#f1f5f9">'+esc(a.nome)+'</div><div style="font-size:11px;color:rgba(241,245,249,.35)">'+esc(a.descricao||'—')+'</div></div>'
-    +'<div style="display:flex;gap:6px"><button class="btn-gerenciar" onclick="editarArq('+a.id+')">✏ Editar</button><button class="btn-excluir" onclick="removerArq('+a.id+')">Remover</button></div></div>'
-    +'<div id="arqEdit_'+a.id+'" style="display:none;margin-top:10px;background:#0a0e1a;border-radius:8px;padding:12px">'
-    +'<div class="form-group"><label>Nome</label><input type="text" id="eArqNome_'+a.id+'" value="'+esc(a.nome||'')+'"></div>'
-    +'<div class="form-group"><label>Descrição</label><input type="text" id="eArqDesc_'+a.id+'" value="'+esc(a.descricao||'')+'"></div>'
-    +'<div class="form-group"><label>Link</label><input type="url" id="eArqUrl_'+a.id+'" value="'+esc(a.url||'')+'"></div>'
-    +'<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">'
-    +'<button onclick="document.getElementById(\'arqEdit_'+a.id+'\').style.display=\'none\';document.getElementById(\'arqView_'+a.id+'\').style.display=\'flex\'" style="background:#111827;border:1px solid rgba(79,142,247,.12);color:rgba(241,245,249,.5);font-family:\'Poppins\',sans-serif;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer">Cancelar</button>'
-    +'<button onclick="salvarEdicaoArq('+a.id+')" style="background:#4f8ef7;color:#fff;font-family:\'Poppins\',sans-serif;font-size:12px;font-weight:600;border:none;padding:6px 14px;border-radius:6px;cursor:pointer">Salvar</button>'
-    +'</div><div id="eArqMsg_'+a.id+'" style="display:none;font-size:12px;margin-top:6px;padding:5px 8px;border-radius:5px"></div></div></div>';
-  }).join(''); }
+
+function fecharModal(){ document.getElementById('modal-usuario').classList.remove('show'); }
+
+function renderModalDash(email){
+  var lista = todosDashboards.filter(function(d){ return d.email_cliente === email; });
+  var el = document.getElementById('modal-dash-lista');
+  if(!lista.length){ el.innerHTML = '<p style="font-size:12px;color:rgba(241,245,249,.3);margin-bottom:8px">Nenhum dashboard vinculado.</p>'; return; }
+  el.innerHTML = lista.map(function(d){ return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(79,142,247,.05);border-radius:8px;margin-bottom:6px;font-size:12px">' + esc(d.titulo) + '<button class="btn-danger" onclick="removerDashUsuario(' + d.id + ')">✕</button></div>'; }).join('');
 }
- 
-function muMsg(id, txt, ok){
-  var el=document.getElementById(id); el.textContent=txt;
-  el.style.cssText = ok
-    ? 'display:block;background:rgba(52,201,126,.12);border:1px solid rgba(52,201,126,.3);color:#34c97e;font-size:12px;padding:6px 10px;border-radius:6px;margin-top:8px'
-    : 'display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444;font-size:12px;padding:6px 10px;border-radius:6px;margin-top:8px';
+
+function renderModalArq(email){
+  var lista = todosArquivos.filter(function(a){ return a.email_cliente === email; });
+  var el = document.getElementById('modal-arq-lista');
+  if(!lista.length){ el.innerHTML = '<p style="font-size:12px;color:rgba(241,245,249,.3);margin-bottom:8px">Nenhum arquivo vinculado.</p>'; return; }
+  el.innerHTML = lista.map(function(a){ return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(79,142,247,.05);border-radius:8px;margin-bottom:6px;font-size:12px">' + esc(a.nome) + '<button class="btn-danger" onclick="removerArqUsuario(' + a.id + ')">✕</button></div>'; }).join('');
 }
- 
-function editarDb(id){ document.getElementById('dbView_'+id).style.display='none'; document.getElementById('dbEdit_'+id).style.display='block'; }
-function editarArq(id){ document.getElementById('arqView_'+id).style.display='none'; document.getElementById('arqEdit_'+id).style.display='block'; }
- 
-async function salvarEdicaoDb(id){
-  var titulo=document.getElementById('eDbTitulo_'+id).value.trim();
-  var cat=document.getElementById('eDbCat_'+id).value.trim();
-  var desc=document.getElementById('eDbDesc_'+id).value.trim();
-  var url=document.getElementById('eDbUrl_'+id).value.trim();
-  if(!titulo){ muMsg('eDbMsg_'+id,'Título obrigatório.',false); return; }
-  var res = await fetch(SB_URL+'/rest/v1/dashboards_clientes?id=eq.'+id, {
-    method:'PATCH', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' },
-    body: JSON.stringify({ titulo:titulo, categoria:cat||'Geral', descricao:desc, url:url||null })
-  });
-  if(!res.ok){ muMsg('eDbMsg_'+id,'Erro ao salvar.',false); return; }
-  muMsg('eDbMsg_'+id,'✓ Salvo!',true);
-  setTimeout(function(){ carregarItensUsuario(); carregarRegistros(); }, 800);
-}
- 
-async function salvarEdicaoArq(id){
-  var nome=document.getElementById('eArqNome_'+id).value.trim();
-  var desc=document.getElementById('eArqDesc_'+id).value.trim();
-  var url=document.getElementById('eArqUrl_'+id).value.trim();
-  if(!nome||!url){ muMsg('eArqMsg_'+id,'Nome e URL obrigatórios.',false); return; }
-  var res = await fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+id, {
-    method:'PATCH', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' },
-    body: JSON.stringify({ nome:nome, descricao:desc, url:url })
-  });
-  if(!res.ok){ muMsg('eArqMsg_'+id,'Erro ao salvar.',false); return; }
-  muMsg('eArqMsg_'+id,'✓ Salvo!',true);
-  setTimeout(function(){ carregarItensUsuario(); carregarRegistros(); }, 800);
-}
- 
-async function salvarDbUsuario(){
-  var titulo=document.getElementById('muDbTitulo').value.trim();
-  var cat=document.getElementById('muDbCat').value.trim();
-  var desc=document.getElementById('muDbDesc').value.trim();
-  var url=document.getElementById('muDbUrl').value.trim();
-  if(!titulo){ muMsg('muDbMsg','Título é obrigatório.',false); return; }
-  var res = await fetch(SB_URL+'/rest/v1/dashboards_clientes', {
-    method:'POST', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' },
-    body: JSON.stringify({ email_cliente:_muEmail, titulo:titulo, categoria:cat||'Geral', descricao:desc, url:url||null, ativo:true })
-  });
-  if(!res.ok){ muMsg('muDbMsg','Erro ao salvar.',false); return; }
-  muMsg('muDbMsg','Dashboard adicionado!',true);
-  ['muDbTitulo','muDbCat','muDbDesc','muDbUrl'].forEach(function(id){ document.getElementById(id).value=''; });
-  setTimeout(function(){ document.getElementById('formAddDb').style.display='none'; document.getElementById('muDbMsg').style.display='none'; carregarItensUsuario(); carregarRegistros(); }, 1000);
-}
- 
-async function salvarArqUsuario(){
-  var nome=document.getElementById('muArqNome').value.trim();
-  var cat=document.getElementById('muArqCat').value.trim();
-  var desc=document.getElementById('muArqDesc').value.trim();
-  var url=document.getElementById('muArqUrl').value.trim();
-  if(!nome||!url){ muMsg('muArqMsg','Nome e URL são obrigatórios.',false); return; }
-  var res = await fetch(SB_URL+'/rest/v1/arquivos_clientes', {
-    method:'POST', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' },
-    body: JSON.stringify({ email_cliente:_muEmail, nome:nome, descricao:desc, url:url, categoria:cat||null, ativo:true })
-  });
-  if(!res.ok){ muMsg('muArqMsg','Erro ao salvar.',false); return; }
-  muMsg('muArqMsg','Arquivo adicionado!',true);
-  ['muArqNome','muArqCat','muArqDesc','muArqUrl'].forEach(function(id){ document.getElementById(id).value=''; });
-  setTimeout(function(){ document.getElementById('formAddArq').style.display='none'; document.getElementById('muArqMsg').style.display='none'; carregarItensUsuario(); carregarRegistros(); }, 1000);
-}
- 
-async function removerDb(id){
-  if(!confirm('Remover este dashboard do usuário?')) return;
-  await fetch(SB_URL+'/rest/v1/dashboards_clientes?id=eq.'+id, { method:'PATCH', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' }, body:JSON.stringify({ ativo:false }) });
-  carregarItensUsuario(); carregarRegistros();
-}
- 
-async function removerArq(id){
-  if(!confirm('Remover este arquivo do usuário?')) return;
-  await fetch(SB_URL+'/rest/v1/arquivos_clientes?id=eq.'+id, { method:'PATCH', headers:{ 'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json','Prefer':'return=minimal' }, body:JSON.stringify({ ativo:false }) });
-  carregarItensUsuario(); carregarRegistros();
-}
- 
-async function excluirUsuario(email, nome){
-  if(!confirm('Excluir o usuário "'+nome+'"?\n\nIsso removerá o acesso. Não pode ser desfeito.')) return;
+
+async function addDashUsuario(){
+  var sel = document.getElementById('modal-dash-select');
+  if(!sel.value){ toast('Selecione um dashboard.','err'); return; }
+  var dash = todosDashboards.find(function(d){ return String(d.id) === sel.value; });
+  if(!dash){ toast('Dashboard não encontrado.','err'); return; }
+  var u = todosUsuarios.find(function(x){ return x.email === _muEmail; });
   try {
-    // Desativar no portal
-    await fetch(SB_URL+'/rest/v1/usuarios_portal?email=eq.'+encodeURIComponent(email), {
-      method:'PATCH', headers:{ 'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC,'Content-Type':'application/json','Prefer':'return=minimal' },
-      body: JSON.stringify({ ativo:false })
-    });
-    // Buscar e deletar do Auth
-    var r = await fetch(SB_URL+'/auth/v1/admin/users?email='+encodeURIComponent(email), { headers:{ 'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC } });
-    var data = await r.json();
-    var u = (data.users||[]).find(function(x){ return x.email===email; });
-    if(u){ await fetch(SB_URL+'/auth/v1/admin/users/'+u.id, { method:'DELETE', headers:{ 'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC } }); }
-    toast('Usuário removido.','ok');
-    carregarRegistros();
-  } catch(e){ toast('Erro: '+e.message,'err'); }
+    var { error } = await sb.from('dashboards_clientes').insert({ titulo: dash.titulo, descricao: dash.descricao||'', categoria: dash.categoria||'', url: dash.url, email_cliente: _muEmail });
+    if(error) throw error;
+    toast('Dashboard adicionado!','ok');
+    await carregarAdmin();
+    abrirModalUsuario(_muEmail);
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
 }
- 
+
+async function addArqUsuario(){
+  var sel = document.getElementById('modal-arq-select');
+  if(!sel.value){ toast('Selecione um arquivo.','err'); return; }
+  var arq = todosArquivos.find(function(a){ return String(a.id) === sel.value; });
+  if(!arq){ toast('Arquivo não encontrado.','err'); return; }
+  var u = todosUsuarios.find(function(x){ return x.email === _muEmail; });
+  try {
+    var { error } = await sb.from('arquivos_clientes').insert({ nome: arq.nome, descricao: arq.descricao||'', url: arq.url, email_cliente: _muEmail, empresa: (u ? u.empresa : '') || '' });
+    if(error) throw error;
+    toast('Arquivo adicionado!','ok');
+    await carregarAdmin();
+    abrirModalUsuario(_muEmail);
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
+async function removerDashUsuario(id){
+  if(!confirm('Remover este dashboard deste usuário?')) return;
+  try {
+    await sb.from('dashboards_clientes').delete().eq('id', id);
+    toast('Removido.','ok');
+    await carregarAdmin();
+    renderModalDash(_muEmail);
+    renderModalArq(_muEmail);
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
+async function removerArqUsuario(id){
+  if(!confirm('Remover este arquivo deste usuário?')) return;
+  try {
+    await sb.from('arquivos_clientes').delete().eq('id', id);
+    toast('Removido.','ok');
+    await carregarAdmin();
+    renderModalDash(_muEmail);
+    renderModalArq(_muEmail);
+  } catch(e){ toast('Erro: ' + e.message,'err'); }
+}
+
 /* ─────────────────────────────────────────────────────────────────
    UTIL
 ───────────────────────────────────────────────────────────────── */
 function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
- 
+
 /* ─────────────────────────────────────────────────────────────────
    SESSÃO (via Supabase SDK)
 ───────────────────────────────────────────────────────────────── */
@@ -1057,12 +937,12 @@ window.addEventListener('load', async function(){
       var { data: { session } } = await sb.auth.getSession();
       sessionData = session;
     }
- 
+
     if(!sessionData || !sessionData.access_token){
       window.location.href = '../area-cliente.html';
       return;
     }
- 
+
     usr = { email: sessionData.user.email, token: sessionData.access_token };
     console.log('Sessão OK, email:', usr.email, 'token:', usr.token.substring(0,30));
     await entrarApp();
