@@ -332,7 +332,12 @@
       btn.disabled = false;
       btn.textContent = 'Entrar';
     } else {
-      window.location.href = 'dashboard.html';
+      // Se veio do admin, voltar para o admin
+      if (sessionStorage.getItem('admin_mode') === '1') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
     }
   }
 
@@ -391,6 +396,10 @@
 
   // ─── Redirecionar se já logado ────────────────────────────────────────────────
   (async () => {
+    // Se veio do admin ou está em modo admin, não redirecionar
+    if (sessionStorage.getItem('admin_mode') === '1') return;
+    if (document.referrer && document.referrer.includes('admin.html')) return;
+
     const { data: { session } } = await sb.auth.getSession();
     if (session) window.location.href = 'dashboard.html';
   })();
