@@ -774,6 +774,7 @@ async function fazerLogin(){
   if(error){ showMsgLogin('E-mail ou senha incorretos.', false); return; }
 
   currentUser = data.user;
+  sessionStorage.setItem('admin_mode', '1');
   iniciarAdmin();
 }
 
@@ -802,8 +803,19 @@ async function iniciarAdmin(){
 }
 
 window.addEventListener('load', async () => {
+  // Bloquear qualquer redirect externo - estamos no admin
+  sessionStorage.setItem('admin_mode', '1');
+
   const { data: { session } } = await sb.auth.getSession();
   if(session){
+    currentUser = session.user;
+    iniciarAdmin();
+  }
+});
+
+// Garantir que mudanças de sessão não redirecionem para fora do admin
+sb.auth.onAuthStateChange((event, session) => {
+  if(event === 'SIGNED_IN' && session && !currentUser){
     currentUser = session.user;
     iniciarAdmin();
   }
