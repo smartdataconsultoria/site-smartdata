@@ -183,39 +183,10 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 #toast.err{border-color:rgba(239,68,68,.3);color:#ef4444}
 
 /* ── ADMIN ── */
-#admin-panel{display:none;padding:36px 44px;background:#0d1120;overflow-y:auto;flex:1}
-.admin-tabs{display:flex;gap:4px;margin-bottom:32px;background:rgba(79,142,247,.04);border:1px solid rgba(79,142,247,.08);border-radius:10px;padding:4px;flex-wrap:wrap}
-.admin-tab{padding:8px 16px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;color:rgba(241,245,249,.4);border:none;background:none;font-family:'Poppins',sans-serif;transition:all .2s}
-.admin-tab.ativo{background:rgba(79,142,247,.12);color:#4f8ef7;font-weight:600}
-.admin-section{display:none}
-.admin-section.ativo{display:block}
-.form-card{background:#111827;border:1px solid rgba(79,142,247,.1);border-radius:14px;padding:24px;margin-bottom:24px;max-width:600px}
-.form-title{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:18px}
-.form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.form-row label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.35)}
-.form-row input,.form-row select,.form-row textarea{background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:10px 14px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;transition:border .2s;width:100%}
-.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:rgba(79,142,247,.45)}
-.form-row select option{background:#0a0e1a}
-.form-row textarea{resize:vertical;min-height:80px}
-.btn-primary{background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.35);color:#4f8ef7;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
-.btn-primary:hover{background:rgba(79,142,247,.25)}
-.btn-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#ef4444;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
-.btn-danger:hover{background:rgba(239,68,68,.18)}
-.admin-table{width:100%;border-collapse:collapse;font-size:13px}
-.admin-table th{text-align:left;padding:10px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.25);border-bottom:1px solid rgba(79,142,247,.08)}
-.admin-table td{padding:12px 16px;border-bottom:1px solid rgba(79,142,247,.04);color:rgba(241,245,249,.7);vertical-align:middle}
-.admin-table tr:hover td{background:rgba(79,142,247,.03)}
-.pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(79,142,247,.1);color:#4f8ef7}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center}
-.modal-overlay.show{display:flex}
-.modal-box{background:#111827;border:1px solid rgba(79,142,247,.15);border-radius:16px;padding:28px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto}
-.modal-title{font-size:16px;font-weight:700;margin-bottom:20px;color:#f1f5f9}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-.btn-secondary{background:transparent;border:1px solid rgba(241,245,249,.1);color:rgba(241,245,249,.5);border-radius:8px;padding:9px 20px;font-size:13px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
-.btn-secondary:hover{border-color:rgba(241,245,249,.25);color:rgba(241,245,249,.8)}
+
 
 @media(max-width:768px){
-  .main,#admin-panel{padding:20px 16px}
+  .main{padding:20px 16px}
   .sidebar{display:none}
   .dash-grid{grid-template-columns:1fr}
   .arq-grid{grid-template-columns:1fr}
@@ -241,7 +212,6 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
     <div class="t-right">
       <span class="t-empresa" id="topEmpresa" style="display:none"></span>
       <span class="t-usuario" id="topEmail"></span>
-      <button class="t-admin" id="btnAdmin" onclick="toggleAdmin()">⚙ Admin</button>
       <button class="t-sair" onclick="sair()">↩ Sair</button>
     </div>
   </div>
@@ -369,7 +339,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
             Tutoriais
           </div>
         </div>
-        <div class="section-sub">Vídeos explicativos sobre seus dashboards e processos.</div>
+        <div class="section-sub">Vídeos e materiais explicativos sobre seus dashboards e processos.</div>
         <div class="tut-grid" id="tut-grid">
           <div class="tut-empty">Carregando tutoriais...</div>
         </div>
@@ -389,77 +359,9 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 
     </div><!-- /main -->
 
-    <!-- ADMIN PANEL -->
-    <div id="admin-panel">
-      <div class="admin-tabs">
-        <button class="admin-tab ativo" onclick="showAdminTab('usuarios')">👥 Usuários</button>
-        <button class="admin-tab" onclick="showAdminTab('dashboards')">📊 Dashboards</button>
-        <button class="admin-tab" onclick="showAdminTab('arquivos')">📁 Arquivos</button>
-        <button class="admin-tab" onclick="showAdminTab('novo-usuario')">➕ Novo Usuário</button>
-        <button class="admin-tab" onclick="showAdminTab('novo-dash')">➕ Novo Dashboard</button>
-        <button class="admin-tab" onclick="showAdminTab('novo-arquivo')">➕ Novo Arquivo</button>
-        <button class="admin-tab" onclick="showAdminTab('novo-tutorial')">🎬 Novo Tutorial</button>
-      </div>
-      <div class="admin-section ativo" id="aba-usuarios">
-        <div class="form-card" style="max-width:100%">
-          <div class="form-title">Usuários cadastrados</div>
-          <table class="admin-table"><thead><tr><th>Nome</th><th>E-mail</th><th>Empresa</th><th>Dashboards</th><th>Arquivos</th><th>Ações</th></tr></thead><tbody id="tbody-usuarios"><tr><td colspan="6" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando...</td></tr></tbody></table>
-        </div>
-      </div>
-      <div class="admin-section" id="aba-dashboards">
-        <div class="form-card" style="max-width:100%">
-          <div class="form-title">Dashboards cadastrados</div>
-          <table class="admin-table"><thead><tr><th>Título</th><th>Categoria</th><th>URL</th><th>Acesso</th><th>Ações</th></tr></thead><tbody id="tbody-dashboards"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando...</td></tr></tbody></table>
-        </div>
-      </div>
-      <div class="admin-section" id="aba-arquivos">
-        <div class="form-card" style="max-width:100%">
-          <div class="form-title">Arquivos cadastrados</div>
-          <table class="admin-table"><thead><tr><th>Nome</th><th>Descrição</th><th>URL</th><th>Empresa</th><th>Ações</th></tr></thead><tbody id="tbody-arquivos"><tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Carregando...</td></tr></tbody></table>
-        </div>
-      </div>
-      <div class="admin-section" id="aba-novo-usuario">
-        <div class="form-card">
-          <div class="form-title">Criar novo usuário</div>
-          <div class="form-row"><label>Nome completo</label><input type="text" id="nu-nome" placeholder="Ex: Maria Silva"></div>
-          <div class="form-row"><label>E-mail</label><input type="email" id="nu-email" placeholder="cliente@empresa.com"></div>
-          <div class="form-row"><label>Senha provisória</label><input type="text" id="nu-senha" placeholder="Mínimo 6 caracteres"></div>
-          <div class="form-row"><label>Empresa</label><input type="text" id="nu-empresa" placeholder="Nome da empresa"></div>
-          <button class="btn-primary" onclick="criarUsuario()">Criar usuário</button>
-        </div>
-      </div>
-      <div class="admin-section" id="aba-novo-dash">
-        <div class="form-card">
-          <div class="form-title">Adicionar dashboard</div>
-          <div class="form-row"><label>Título</label><input type="text" id="nd-titulo" placeholder="Ex: Gestão Comercial"></div>
-          <div class="form-row"><label>Descrição</label><textarea id="nd-descricao" placeholder="Breve descrição do dashboard"></textarea></div>
-          <div class="form-row"><label>Categoria</label><input type="text" id="nd-categoria" placeholder="Ex: Comercial, Financeiro..."></div>
-          <div class="form-row"><label>URL do Power BI</label><input type="url" id="nd-url" placeholder="https://app.powerbi.com/..."></div>
-          <div class="form-row"><label>Usuário (e-mail)</label><select id="nd-usuario"><option value="">Selecione o usuário...</option></select></div>
-          <button class="btn-primary" onclick="salvarNovoDash()">Salvar dashboard</button>
-        </div>
-      </div>
-      <div class="admin-section" id="aba-novo-arquivo">
-        <div class="form-card">
-          <div class="form-title">Adicionar arquivo</div>
-          <div class="form-row"><label>Nome</label><input type="text" id="na-nome" placeholder="Ex: Base_Suprimentos"></div>
-          <div class="form-row"><label>Descrição</label><textarea id="na-descricao" placeholder="Ex: Planilha de Lançamentos"></textarea></div>
-          <div class="form-row"><label>URL (SharePoint, Drive, etc.)</label><input type="url" id="na-url" placeholder="https://..."></div>
-          <div class="form-row"><label>Usuário (e-mail)</label><select id="na-usuario"><option value="">Selecione o usuário...</option></select></div>
-          <button class="btn-primary" onclick="salvarNovoArquivo()">Salvar arquivo</button>
-        </div>
-      </div>
-      <div class="admin-section" id="aba-novo-tutorial">
-        <div class="form-card">
-          <div class="form-title">Adicionar tutorial em vídeo</div>
-          <div class="form-row"><label>Título *</label><input type="text" id="nt-titulo" placeholder="Ex: Como usar o dashboard Comercial"></div>
-          <div class="form-row"><label>Descrição</label><textarea id="nt-descricao" placeholder="Breve descrição do que o vídeo explica..."></textarea></div>
-          <div class="form-row"><label>URL do YouTube *</label><input type="url" id="nt-url" placeholder="https://www.youtube.com/watch?v=..."></div>
-          <div class="form-row"><label>Usuário (e-mail) *</label><select id="nt-usuario"><option value="">Selecione o usuário...</option></select></div>
-          <button class="btn-primary" onclick="salvarNovoTutorial()">Salvar tutorial</button>
-        </div>
-      </div>
-    </div>
+    </div><!-- /main -->
+
+
   </div>
 </div>
 
@@ -473,25 +375,6 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
 
 <div id="toast"></div>
 
-<div class="modal-overlay" id="modal-usuario">
-  <div class="modal-box">
-    <div class="modal-title" id="modal-usuario-title">Gerenciar usuário</div>
-    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.3);margin-bottom:12px">Dashboards vinculados</div>
-    <div id="modal-dash-lista" style="margin-bottom:16px"></div>
-    <div id="modal-add-dash-area">
-      <select id="modal-dash-select" style="background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:8px 12px;font-size:12px;font-family:'Poppins',sans-serif;width:100%;margin-bottom:8px"><option value="">Selecione um dashboard...</option></select>
-      <button class="btn-primary" onclick="addDashUsuario()" style="width:100%;font-size:12px;padding:8px">+ Adicionar dashboard</button>
-    </div>
-    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(241,245,249,.3);margin:20px 0 12px">Arquivos vinculados</div>
-    <div id="modal-arq-lista" style="margin-bottom:16px"></div>
-    <div id="modal-add-arq-area">
-      <select id="modal-arq-select" style="background:#0a0e1a;border:1px solid rgba(79,142,247,.15);border-radius:8px;color:#f1f5f9;padding:8px 12px;font-size:12px;font-family:'Poppins',sans-serif;width:100%;margin-bottom:8px"><option value="">Selecione um arquivo...</option></select>
-      <button class="btn-primary" onclick="addArqUsuario()" style="width:100%;font-size:12px;padding:8px">+ Adicionar arquivo</button>
-    </div>
-    <div class="modal-actions"><button class="btn-secondary" onclick="fecharModal()">Fechar</button></div>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 var SB_URL = 'https://rbahvyejqybajnufftio.supabase.co';
@@ -499,7 +382,7 @@ var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 var SB_SVC = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA2MDkyMiwiZXhwIjoyMDg5NjM2OTIyfQ.LSvsUoFXOeEclanyvPymI_StFQNLxglMTxfbo-Y8kbU';
 var ADMIN = 'tecnologia@smartdataconsultoria.com';
 var sb = supabase.createClient(SB_URL, SB_KEY);
-var usr = null, todosUsuarios = [], todosDashboards = [], todosArquivos = [], meusDashboards = [], _muEmail = '';
+var usr = null, todosUsuarios = [], todosDashboards = [], todosArquivos = [], meusDashboards = [];
 
 function toast(msg, tipo){ var el=document.getElementById('toast'); el.textContent=msg; el.className='show '+(tipo||''); clearTimeout(el._t); el._t=setTimeout(function(){ el.className=''; },3200); }
 
@@ -525,8 +408,6 @@ async function entrarApp(){
 
   document.getElementById('greetingText').innerHTML=gerarSaudacao(nome);
   if(empresa){ var el=document.getElementById('topEmpresa'); el.textContent=empresa; el.style.display=''; }
-  if(usr.email===ADMIN){ document.getElementById('btnAdmin').style.display=''; carregarAdmin().catch(function(){}); }
-
   await carregarDashboards();
   await carregarArquivos();
   await carregarChamados();
@@ -653,25 +534,42 @@ function scrollToTutoriais(){ document.getElementById('tutoriais-section').scrol
 async function carregarTutoriais(){
   var grid=document.getElementById('tut-grid');
   try {
-    var url=SB_URL+'/rest/v1/tutoriais_clientes?select=*&order=created_at.desc&ativo=eq.true';
-    if(usr.email!==ADMIN) url+='&email_cliente=eq.'+encodeURIComponent(usr.email);
+    var url=SB_URL+'/rest/v1/tutoriais_clientes?select=*&order=created_at.desc&ativo=eq.true&email_cliente=eq.'+encodeURIComponent(usr.email);
     var res=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}});
     if(!res.ok) throw new Error();
     var lista=await res.json()||[];
     if(!lista.length){ grid.innerHTML='<div class="tut-empty">Nenhum tutorial disponível no momento.</div>'; return; }
     grid.innerHTML=lista.map(function(t){
-      var vid=extrairYouTubeId(t.url_youtube);
+      var isVideo=(t.tipo||'video')==='video';
+      var vid=isVideo?extrairYouTubeId(t.url_youtube):null;
       var thumb=vid?'https://img.youtube.com/vi/'+vid+'/mqdefault.jpg':'';
-      return '<div class="tut-card" onclick="abrirTutorial(''+esc(t.url_youtube)+'')">'+
-        '<div class="tut-thumb">'+
-          (thumb?'<img src="'+thumb+'" alt="'+esc(t.titulo)+'" loading="lazy">':'<div style="position:absolute;inset:0;background:#111827"></div>')+
-          '<div class="tut-play"><div class="tut-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><polygon points="6,4 20,12 6,20"/></svg></div></div>'+
-        '</div>'+
-        '<div class="tut-body">'+
-          '<div class="tut-title">'+esc(t.titulo)+'</div>'+
-          (t.descricao?'<div class="tut-desc">'+esc(t.descricao)+'</div>':'')+
-        '</div>'+
-      '</div>';
+      var url=isVideo?(t.url_youtube||'#'):(t.url_arquivo||'#');
+      if(isVideo){
+        return '<div class="tut-card" onclick="abrirTutorial(''+esc(url)+'')">'+
+          '<div class="tut-thumb">'+
+            (thumb?'<img src="'+thumb+'" alt="'+esc(t.titulo)+'" loading="lazy">':'<div style="position:absolute;inset:0;background:#111827;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(79,142,247,.3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="rgba(79,142,247,.3)" stroke="none"/></svg></div>')+
+            '<div class="tut-play"><div class="tut-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><polygon points="6,4 20,12 6,20"/></svg></div></div>'+
+          '</div>'+
+          '<div class="tut-body">'+
+            '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4f8ef7;margin-bottom:4px">🎬 Vídeo</div>'+
+            '<div class="tut-title">'+esc(t.titulo)+'</div>'+
+            (t.descricao?'<div class="tut-desc">'+esc(t.descricao)+'</div>':'')+
+          '</div>'+
+        '</div>';
+      } else {
+        return '<div class="tut-card" onclick="abrirTutorial(''+esc(url)+'')" style="display:flex;flex-direction:column">'+
+          '<div style="background:linear-gradient(135deg,#0f1929,#111d35);height:120px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+
+            '<div style="width:56px;height:56px;background:rgba(79,142,247,.15);border-radius:14px;display:flex;align-items:center;justify-content:center">'+
+              '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'+
+            '</div>'+
+          '</div>'+
+          '<div class="tut-body">'+
+            '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#ffb703;margin-bottom:4px">📄 Material</div>'+
+            '<div class="tut-title">'+esc(t.titulo)+'</div>'+
+            (t.descricao?'<div class="tut-desc">'+esc(t.descricao)+'</div>':'')+
+          '</div>'+
+        '</div>';
+      }
     }).join('');
   } catch(e){ grid.innerHTML='<div class="tut-empty">Não foi possível carregar os tutoriais.</div>'; }
 }
@@ -684,129 +582,23 @@ function extrairYouTubeId(url){
 
 function abrirTutorial(url){ if(url) window.open(url,'_blank'); }
 
-async function salvarNovoTutorial(){
-  var titulo=document.getElementById('nt-titulo').value.trim();
-  var descricao=document.getElementById('nt-descricao').value.trim();
-  var url=document.getElementById('nt-url').value.trim();
-  var email=document.getElementById('nt-usuario').value;
-  if(!titulo||!url||!email){ toast('Preencha todos os campos obrigatórios.','err'); return; }
-  var u=todosUsuarios.find(function(x){return x.email===email;});
-  try {
-    var {error}=await sb.from('tutoriais_clientes').insert({titulo,descricao,url_youtube:url,email_cliente:email,empresa:(u?u.empresa:'')||'',ativo:true});
-    if(error) throw error;
-    toast('Tutorial salvo!','ok');
-    ['nt-titulo','nt-descricao','nt-url'].forEach(function(id){document.getElementById(id).value='';});
-    document.getElementById('nt-usuario').value='';
-  } catch(e){ toast('Erro: '+e.message,'err'); }
-}
 function scrollToChamados(){ document.getElementById('chamados-section').scrollIntoView({behavior:'smooth'}); }
 
 async function sair(){ await sb.auth.signOut(); window.location.href='../area-cliente.html'; }
 
-function toggleAdmin(){
-  var main=document.getElementById('main-content'), admin=document.getElementById('admin-panel'), btn=document.getElementById('btnAdmin');
-  var visible=admin.style.display==='block';
-  admin.style.display=visible?'none':'block'; main.style.display=visible?'block':'none';
-  btn.classList.toggle('ativo',!visible);
-}
 
-function showAdminTab(aba){
-  document.querySelectorAll('.admin-section').forEach(function(s){ s.classList.remove('ativo'); });
-  document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.remove('ativo'); });
-  document.getElementById('aba-'+aba).classList.add('ativo');
-  event.target.classList.add('ativo');
-  if(aba==='dashboards') renderAdminDashboards();
-  if(aba==='arquivos') renderAdminArquivos();
-}
 
-async function carregarAdmin(){
-  var headers={'apikey':SB_KEY,'Authorization':'Bearer '+usr.token,'Content-Type':'application/json'};
-  try { var r=await fetch(SB_URL+'/rest/v1/usuarios_portal?select=*&order=email',{headers}); todosUsuarios=r.ok?(await r.json()):[];} catch(e){ todosUsuarios=[]; }
-  try { var r2=await fetch(SB_URL+'/rest/v1/dashboards_clientes?select=*&order=titulo',{headers}); todosDashboards=r2.ok?(await r2.json()):[];} catch(e){ todosDashboards=[]; }
-  try { var r3=await fetch(SB_URL+'/rest/v1/arquivos_clientes?select=*&order=nome',{headers}); todosArquivos=r3.ok?(await r3.json()):[];} catch(e){ todosArquivos=[]; }
-  renderAdminUsuarios(); popularSelects();
-}
 
-function popularSelects(){
-  var opts=todosUsuarios.map(function(u){ return '<option value="'+esc(u.email)+'">'+esc(u.email)+' ('+esc(u.empresa||'')+')</option>'; }).join('');
-  document.getElementById('nd-usuario').innerHTML='<option value="">Selecione o usuário...</option>'+opts;
-  document.getElementById('na-usuario').innerHTML='<option value="">Selecione o usuário...</option>'+opts;
-  var ntEl=document.getElementById('nt-usuario'); if(ntEl) ntEl.innerHTML='<option value="">Selecione o usuário...</option>'+opts;
-}
 
-function renderAdminUsuarios(){
-  var tbody=document.getElementById('tbody-usuarios');
-  if(!todosUsuarios.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum usuário.</td></tr>'; return; }
-  tbody.innerHTML=todosUsuarios.map(function(u){
-    var nD=todosDashboards.filter(function(d){return d.email_cliente===u.email;}).length;
-    var nA=todosArquivos.filter(function(a){return a.email_cliente===u.email;}).length;
-    return '<tr><td>'+esc(u.nome||'—')+'</td><td>'+esc(u.email)+'</td><td>'+esc(u.empresa||'—')+'</td><td><span class="pill">'+nD+'</span></td><td><span class="pill">'+nA+'</span></td><td style="display:flex;gap:8px"><button class="btn-primary" style="font-size:11px;padding:5px 12px" onclick="abrirModalUsuario(\''+esc(u.email)+'\')">✏ Gerenciar</button><button class="btn-danger" onclick="excluirUsuario(\''+esc(u.email)+'\')">🗑</button></td></tr>';
-  }).join('');
-}
 
-function renderAdminDashboards(){
-  var tbody=document.getElementById('tbody-dashboards');
-  if(!todosDashboards.length){ tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum dashboard.</td></tr>'; return; }
-  tbody.innerHTML=todosDashboards.map(function(d){ return '<tr><td>'+esc(d.titulo)+'</td><td><span class="pill">'+esc(d.categoria||'—')+'</span></td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a href="'+esc(d.url)+'" target="_blank" style="color:#4f8ef7;font-size:11px">'+esc(d.url)+'</a></td><td style="font-size:12px">'+esc(d.email_cliente||'—')+'</td><td><button class="btn-danger" onclick="excluirDash('+d.id+')">🗑 Excluir</button></td></tr>'; }).join('');
-}
 
-function renderAdminArquivos(){
-  var tbody=document.getElementById('tbody-arquivos');
-  if(!todosArquivos.length){ tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:rgba(241,245,249,.2)">Nenhum arquivo.</td></tr>'; return; }
-  tbody.innerHTML=todosArquivos.map(function(a){ return '<tr><td>'+esc(a.nome)+'</td><td style="font-size:12px;color:rgba(241,245,249,.4)">'+esc(a.descricao||'—')+'</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a href="'+esc(a.url||'#')+'" target="_blank" style="color:#4f8ef7;font-size:11px">'+esc(a.url||'—')+'</a></td><td style="font-size:12px">'+esc(a.empresa||'—')+'</td><td><button class="btn-danger" onclick="excluirArquivo('+a.id+')">🗑 Excluir</button></td></tr>'; }).join('');
-}
 
-async function criarUsuario(){
-  var nome=document.getElementById('nu-nome').value.trim(), email=document.getElementById('nu-email').value.trim(), senha=document.getElementById('nu-senha').value.trim(), empresa=document.getElementById('nu-empresa').value.trim();
-  if(!email||!senha){ toast('Preencha e-mail e senha.','err'); return; }
-  try {
-    var authRes=await fetch(SB_URL+'/auth/v1/admin/users',{method:'POST',headers:{'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC,'Content-Type':'application/json'},body:JSON.stringify({email,password:senha,email_confirm:true,user_metadata:{full_name:nome}})});
-    var authData=await authRes.json();
-    if(!authRes.ok) throw new Error(authData.message||'Erro ao criar usuário');
-    var upsertRes=await fetch(SB_URL+'/rest/v1/usuarios_portal',{method:'POST',headers:{'apikey':SB_SVC,'Authorization':'Bearer '+SB_SVC,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify({email,nome,empresa})});
-    if(!upsertRes.ok){ var e2=await upsertRes.json(); throw new Error(e2.message||'Erro ao salvar'); }
-    toast('Usuário criado!','ok');
-    ['nu-nome','nu-email','nu-senha','nu-empresa'].forEach(function(id){ document.getElementById(id).value=''; });
-    await carregarAdmin();
-  } catch(e){ toast('Erro: '+e.message,'err'); }
-}
 
-async function salvarNovoDash(){
-  var titulo=document.getElementById('nd-titulo').value.trim(), descricao=document.getElementById('nd-descricao').value.trim(), categoria=document.getElementById('nd-categoria').value.trim(), url=document.getElementById('nd-url').value.trim(), email=document.getElementById('nd-usuario').value;
-  if(!titulo||!url||!email){ toast('Preencha todos os campos.','err'); return; }
-  try { var {error}=await sb.from('dashboards_clientes').insert({titulo,descricao,categoria,url,email_cliente:email}); if(error) throw error; toast('Dashboard salvo!','ok'); ['nd-titulo','nd-descricao','nd-categoria','nd-url'].forEach(function(id){document.getElementById(id).value='';}); document.getElementById('nd-usuario').value=''; await carregarAdmin(); } catch(e){ toast('Erro: '+e.message,'err'); }
-}
 
-async function salvarNovoArquivo(){
-  var nome=document.getElementById('na-nome').value.trim(), descricao=document.getElementById('na-descricao').value.trim(), url=document.getElementById('na-url').value.trim(), email=document.getElementById('na-usuario').value;
-  if(!nome||!url||!email){ toast('Preencha todos os campos.','err'); return; }
-  var u=todosUsuarios.find(function(x){return x.email===email;});
-  try { var {error}=await sb.from('arquivos_clientes').insert({nome,descricao,url,email_cliente:email,empresa:(u?u.empresa:'')||''}); if(error) throw error; toast('Arquivo salvo!','ok'); ['na-nome','na-descricao','na-url'].forEach(function(id){document.getElementById(id).value='';}); document.getElementById('na-usuario').value=''; await carregarAdmin(); } catch(e){ toast('Erro: '+e.message,'err'); }
-}
 
-async function excluirUsuario(email){ if(!confirm('Excluir usuário '+email+'?')) return; try { await sb.from('dashboards_clientes').delete().eq('email_cliente',email); await sb.from('arquivos_clientes').delete().eq('email_cliente',email); await sb.from('usuarios_portal').delete().eq('email',email); toast('Usuário excluído.','ok'); await carregarAdmin(); } catch(e){ toast('Erro: '+e.message,'err'); } }
-async function excluirDash(id){ if(!confirm('Excluir este dashboard?')) return; try { await sb.from('dashboards_clientes').delete().eq('id',id); toast('Dashboard excluído.','ok'); await carregarAdmin(); } catch(e){ toast('Erro: '+e.message,'err'); } }
-async function excluirArquivo(id){ if(!confirm('Excluir este arquivo?')) return; try { await sb.from('arquivos_clientes').delete().eq('id',id); toast('Arquivo excluído.','ok'); await carregarAdmin(); } catch(e){ toast('Erro: '+e.message,'err'); } }
 
-function abrirModalUsuario(email){
-  _muEmail=email;
-  document.getElementById('modal-usuario-title').textContent='Gerenciar: '+email;
-  renderModalDash(email); renderModalArq(email);
-  document.getElementById('modal-usuario').classList.add('show');
-  var dashOpts=todosDashboards.filter(function(d){return d.email_cliente!==email;});
-  document.getElementById('modal-dash-select').innerHTML='<option value="">Selecione...</option>'+dashOpts.map(function(d){return '<option value="'+d.id+'">'+esc(d.titulo)+' ('+esc(d.categoria||'')+')</option>';}).join('');
-  var arqOpts=todosArquivos.filter(function(a){return a.email_cliente!==email;});
-  document.getElementById('modal-arq-select').innerHTML='<option value="">Selecione...</option>'+arqOpts.map(function(a){return '<option value="'+a.id+'">'+esc(a.nome)+'</option>';}).join('');
-}
 
-function fecharModal(){ document.getElementById('modal-usuario').classList.remove('show'); }
-function renderModalDash(email){ var lista=todosDashboards.filter(function(d){return d.email_cliente===email;}); var el=document.getElementById('modal-dash-lista'); if(!lista.length){el.innerHTML='<p style="font-size:12px;color:rgba(241,245,249,.3);margin-bottom:8px">Nenhum dashboard vinculado.</p>';return;} el.innerHTML=lista.map(function(d){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(79,142,247,.05);border-radius:8px;margin-bottom:6px;font-size:12px">'+esc(d.titulo)+'<button class="btn-danger" onclick="removerDashUsuario('+d.id+')">✕</button></div>';}).join(''); }
-function renderModalArq(email){ var lista=todosArquivos.filter(function(a){return a.email_cliente===email;}); var el=document.getElementById('modal-arq-lista'); if(!lista.length){el.innerHTML='<p style="font-size:12px;color:rgba(241,245,249,.3);margin-bottom:8px">Nenhum arquivo vinculado.</p>';return;} el.innerHTML=lista.map(function(a){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(79,142,247,.05);border-radius:8px;margin-bottom:6px;font-size:12px">'+esc(a.nome)+'<button class="btn-danger" onclick="removerArqUsuario('+a.id+')">✕</button></div>';}).join(''); }
 
-async function addDashUsuario(){ var sel=document.getElementById('modal-dash-select'); if(!sel.value){toast('Selecione um dashboard.','err');return;} var dash=todosDashboards.find(function(d){return String(d.id)===sel.value;}); if(!dash){toast('Não encontrado.','err');return;} try { var{error}=await sb.from('dashboards_clientes').insert({titulo:dash.titulo,descricao:dash.descricao||'',categoria:dash.categoria||'',url:dash.url,email_cliente:_muEmail}); if(error) throw error; toast('Dashboard adicionado!','ok'); await carregarAdmin(); abrirModalUsuario(_muEmail); } catch(e){toast('Erro: '+e.message,'err');} }
-async function addArqUsuario(){ var sel=document.getElementById('modal-arq-select'); if(!sel.value){toast('Selecione um arquivo.','err');return;} var arq=todosArquivos.find(function(a){return String(a.id)===sel.value;}); if(!arq){toast('Não encontrado.','err');return;} var u=todosUsuarios.find(function(x){return x.email===_muEmail;}); try { var{error}=await sb.from('arquivos_clientes').insert({nome:arq.nome,descricao:arq.descricao||'',url:arq.url,email_cliente:_muEmail,empresa:(u?u.empresa:'')||''}); if(error) throw error; toast('Arquivo adicionado!','ok'); await carregarAdmin(); abrirModalUsuario(_muEmail); } catch(e){toast('Erro: '+e.message,'err');} }
-async function removerDashUsuario(id){ if(!confirm('Remover?')) return; try { await sb.from('dashboards_clientes').delete().eq('id',id); toast('Removido.','ok'); await carregarAdmin(); renderModalDash(_muEmail); renderModalArq(_muEmail); } catch(e){toast('Erro: '+e.message,'err');} }
-async function removerArqUsuario(id){ if(!confirm('Remover?')) return; try { await sb.from('arquivos_clientes').delete().eq('id',id); toast('Removido.','ok'); await carregarAdmin(); renderModalDash(_muEmail); renderModalArq(_muEmail); } catch(e){toast('Erro: '+e.message,'err');} }
 
 function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
