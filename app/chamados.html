@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chamados — SmartData Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg: #070b14;
+    --surface: #0d1424;
+    --surface2: #111827;
+    --border: #1e2d45;
+    --primary: #4f8ef7;
+    --primary-glow: rgba(79,142,247,0.15);
+    --accent: #00e5c3;
+    --danger: #ff4d6d;
+    --warning: #ffb703;
+    --success: #22c55e;
+    --text: #e8edf5;
+    --muted: #6b7fa3;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .hidden { display: none !important; }
+
+  /* ── TOAST ── */
+  #toast-wrap { position: fixed; top: 18px; right: 18px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+  .toast { padding: 11px 18px; border-radius: 10px; font-size: 13px; font-weight: 500; pointer-events: all; animation: fadeUp .2s ease; max-width: 300px; }
+  .toast-success { background: #0d2218; color: #4ade80; border: 1px solid #22c55e44; }
+  .toast-error   { background: #200d0d; color: #fca5a5; border: 1px solid #ef444444; }
+  .toast-info    { background: rgba(79,142,247,0.1); color: var(--primary); border: 1px solid rgba(79,142,247,0.3); }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── LOADING ── */
+  #loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 8000; flex-direction: column; gap: 14px; }
+  .spin { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--border); border-top-color: var(--primary); animation: spin .65s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── APP SHELL ── */
+  #app { display: none; flex-direction: row; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar { width: 240px; min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 100; }
+  .sidebar-logo { padding: 24px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .sidebar-logo .dot { width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 800; font-size: 14px; color: #fff; }
+  .sidebar-logo .brand { font-family: var(--font-head); font-size: 14px; font-weight: 700; line-height: 1.2; }
+  .sidebar-logo .brand small { display: block; font-size: 9px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+  nav { flex: 1; padding: 16px 12px; }
+  .nav-section { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); padding: 12px 8px 6px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--muted); transition: all 0.15s; margin-bottom: 2px; text-decoration: none; }
+  .nav-item:hover { background: var(--primary-glow); color: var(--text); }
+  .nav-item.active { background: var(--primary-glow); color: var(--primary); }
+  .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .sidebar-footer { padding: 16px 12px; border-top: 1px solid var(--border); }
+  .user-pill { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--surface2); }
+  .user-pill .avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: #fff; }
+  .user-pill .info { flex: 1; overflow: hidden; }
+  .user-pill .info span { display: block; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-pill .info small { font-size: 10px; color: var(--accent); }
+  .logout-btn { width: 100%; margin-top: 8px; padding: 8px; background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
+  .logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+  /* MAIN */
+  .main { margin-left: 240px; flex: 1; padding: 32px; min-height: 100vh; }
+  .page-header { margin-bottom: 28px; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+  .page-header h1 { font-family: var(--font-head); font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+  .page-header p { color: var(--muted); font-size: 14px; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; position: relative; overflow: hidden; }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .stat-card.blue::before { background: linear-gradient(90deg, var(--primary), var(--accent)); }
+  .stat-card.orange::before { background: var(--warning); }
+  .stat-card.red::before { background: var(--danger); }
+  .stat-card.green::before { background: var(--success); }
+  .stat-card .label { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-card .value { font-family: var(--font-head); font-size: 32px; font-weight: 700; }
+  .stat-card .sub { font-size: 12px; color: var(--accent); margin-top: 4px; }
+  .stat-card .icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); opacity: 0.07; font-size: 48px; }
+
+  /* TABS */
+  .tab-strip { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .tab-item { padding: 11px 20px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; white-space: nowrap; }
+  .tab-item:hover { color: var(--text); }
+  .tab-item.on { color: var(--primary); border-bottom-color: var(--primary); }
+
+  /* CARD TABLE */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+  .card-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .card-header h3 { font-family: var(--font-head); font-size: 15px; font-weight: 700; }
+  .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  .search-input { padding: 8px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; outline: none; font-family: var(--font-body); min-width: 180px; transition: border-color 0.2s; }
+  .search-input:focus { border-color: var(--primary); }
+  .filter-sel { padding: 8px 10px; font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); outline: none; font-family: var(--font-body); cursor: pointer; }
+  .filter-sel option { background: var(--surface); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 12px 22px; text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  td { padding: 13px 22px; font-size: 13px; border-bottom: 1px solid rgba(30,45,69,0.5); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr { cursor: pointer; transition: background .1s; }
+  tbody tr:hover td { background: var(--primary-glow); }
+  .td-num { color: var(--muted); font-size: 12px; font-family: monospace; }
+  .td-title { font-weight: 500; margin-bottom: 2px; }
+  .td-sub { font-size: 11px; color: var(--muted); }
+
+  /* BADGES */
+  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .b-aberto     { background: rgba(79,142,247,.15); color: #93c5fd; border: 1px solid rgba(79,142,247,.3); }
+  .b-analise    { background: rgba(245,158,11,.15); color: #fcd34d; border: 1px solid rgba(245,158,11,.3); }
+  .b-andamento  { background: rgba(0,229,195,.12);  color: var(--accent); border: 1px solid rgba(0,229,195,.3); }
+  .b-aguardando { background: rgba(148,163,184,.1); color: #94a3b8; border: 1px solid rgba(148,163,184,.2); }
+  .b-concluido  { background: rgba(34,197,94,.12);  color: #86efac; border: 1px solid rgba(34,197,94,.3); }
+  .b-cancelado  { background: rgba(107,114,128,.15); color: #9ca3af; border: 1px solid rgba(107,114,128,.3); }
+  .b-alta  { background: rgba(255,77,109,.12);  color: #fca5a5; }
+  .b-media { background: rgba(255,183,3,.12); color: #fcd34d; }
+  .b-baixa { background: rgba(34,197,94,.12);  color: #86efac; }
+
+  /* SLA BAR */
+  .sla-wrap { min-width: 80px; }
+  .sla-track { height: 3px; background: var(--border); border-radius: 2px; }
+  .sla-fill { height: 3px; border-radius: 2px; }
+  .sla-ok   { background: var(--success); }
+  .sla-warn { background: var(--warning); }
+  .sla-late { background: var(--danger); }
+  .sla-text { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* EMPTY */
+  .empty { padding: 56px; text-align: center; color: var(--muted); }
+  .empty .icon { font-size: 36px; margin-bottom: 12px; opacity: .3; }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 20px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; font-family: var(--font-body); }
+  .btn-primary { background: linear-gradient(135deg, var(--primary), #3a7bd5); color: #fff; }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { color: var(--text); border-color: var(--primary); }
+  .btn-sm { padding: 6px 14px; font-size: 12px; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .w-full { width: 100%; }
+
+  /* MODAL */
+  .overlay { position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,.7); backdrop-filter: blur(4px); display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; overflow-y: auto; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; padding: 28px; margin: auto 0; position: relative; flex-shrink: 0; }
+  .modal-sm { max-width: 520px; }
+  .modal-md { max-width: 620px; }
+  .modal-lg { max-width: 860px; }
+  .modal-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+  .modal-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; }
+  .modal-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .close-x { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; flex-shrink: 0; font-family: inherit; }
+  .close-x:hover { color: var(--text); border-color: var(--primary); }
+  .modal-foot { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
+
+  /* FORM */
+  .fg { margin-bottom: 16px; }
+  .flabel { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 6px; }
+  .finput, select.finput, textarea.finput { width: 100%; padding: 10px 13px; font-size: 13px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); outline: none; transition: border-color .2s, box-shadow .2s; font-family: inherit; }
+  .finput:focus, select.finput:focus, textarea.finput:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+  .finput::placeholder { color: var(--muted); }
+  textarea.finput { resize: vertical; min-height: 90px; }
+  select.finput option { background: var(--surface); }
+  .sla-tip { margin-top: 8px; padding: 9px 13px; background: var(--primary-glow); border: 1px solid rgba(79,142,247,.3); border-radius: 8px; font-size: 12px; color: var(--primary); display: none; }
+
+  /* UPLOAD */
+  .drop-zone { border: 2px dashed var(--border); border-radius: 12px; padding: 22px; text-align: center; cursor: pointer; transition: all .2s; position: relative; }
+  .drop-zone:hover, .drop-zone.over { border-color: var(--primary); background: var(--primary-glow); }
+  .drop-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .drop-icon { font-size: 28px; margin-bottom: 6px; opacity: .4; }
+  .drop-text { font-size: 13px; color: var(--muted); }
+  .drop-hint { font-size: 11px; color: var(--muted); margin-top: 3px; opacity: .6; }
+  .file-chips { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .file-chip { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; background: var(--surface2); border-radius: 8px; font-size: 12px; border: 1px solid var(--border); }
+  .chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 280px; }
+  .chip-size { color: var(--muted); flex-shrink: 0; margin: 0 8px; }
+  .chip-rm { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; }
+  .chip-rm:hover { color: var(--danger); }
+
+  /* DETALHE */
+  .det-grid { display: grid; grid-template-columns: 1fr 280px; gap: 18px; }
+  .det-col { display: flex; flex-direction: column; gap: 14px; }
+  .dbox { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .dbox-label { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+  .meta-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .meta-row:last-child { border-bottom: none; }
+  .meta-k { color: var(--muted); }
+  .meta-v { font-weight: 500; text-align: right; }
+
+  /* TIMELINE */
+  .timeline { padding-left: 14px; border-left: 2px solid var(--border); display: flex; flex-direction: column; }
+  .tl { position: relative; padding-bottom: 16px; }
+  .tl:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; left: -19px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--primary); border: 2px solid var(--surface); }
+  .tl-time { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .tl-txt { font-size: 13px; }
+
+  /* COMENTÁRIOS */
+  .comments { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; max-height: 200px; overflow-y: auto; }
+  .comment { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; }
+  .cm-head { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .cm-author { font-size: 12px; font-weight: 600; color: var(--primary); }
+  .cm-time { font-size: 11px; color: var(--muted); }
+  .cm-text { font-size: 13px; line-height: 1.5; }
+  .cm-row { display: flex; gap: 8px; }
+  .cm-input { flex: 1; padding: 8px 12px; font-size: 13px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); outline: none; font-family: inherit; }
+  .cm-input:focus { border-color: var(--primary); }
+  .cm-input::placeholder { color: var(--muted); }
+
+  /* ANEXOS */
+  .attach-list { display: flex; flex-direction: column; gap: 7px; }
+  .attach-item { display: flex; align-items: center; gap: 9px; padding: 7px 11px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); transition: border-color .15s; font-size: 12px; }
+  .attach-item:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* STATUS BTNS */
+  .status-btns { display: flex; gap: 7px; flex-wrap: wrap; }
+  .st-btn { padding: 6px 13px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); transition: all .15s; font-family: inherit; }
+  .st-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .st-btn.sel { border-color: var(--primary); color: var(--primary); background: var(--primary-glow); }
+
+  /* SLA PROGRESS */
+  .prog-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 3px; transition: width .4s; }
+
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .det-grid { grid-template-columns: 1fr; }
+    .main { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast-wrap"></div>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="spin"></div>
+  <p style="color:var(--muted);font-size:13px;">Verificando sessão...</p>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="dot">S</div>
+      <div class="brand">SmartData<small>Portal Cliente</small></div>
+    </div>
+    <nav>
+      <div class="nav-section">Visão Geral</div>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <div class="nav-section">Gestão</div>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Empresas / Clientes
+      </a>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Usuários
+      </a>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Arquivos
+      </a>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Dashboards
+      </a>
+      <a class="nav-item active" href="chamados.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chamados
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="avatar" id="user-avatar">T</div>
+        <div class="info">
+          <span id="user-name">Admin</span>
+          <small id="user-role">Administrador</small>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Sair da conta</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Chamados</h1>
+        <p id="page-subtitle">Central de suporte — todos os clientes</p>
+      </div>
+      <button class="btn btn-primary" onclick="abrirModalNovo()">+ Novo Chamado</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="label">Abertos</div>
+        <div class="value" id="m-ab">—</div>
+        <div class="sub">aguardando início</div>
+        <div class="icon">📋</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="label">Em Andamento</div>
+        <div class="value" id="m-and">—</div>
+        <div class="sub">em execução</div>
+        <div class="icon">⚡</div>
+      </div>
+      <div class="stat-card red">
+        <div class="label">Em Atraso</div>
+        <div class="value" id="m-vec">—</div>
+        <div class="sub">prazo vencido</div>
+        <div class="icon">⏰</div>
+      </div>
+      <div class="stat-card green">
+        <div class="label">Concluídos (mês)</div>
+        <div class="value" id="m-conc">—</div>
+        <div class="sub">este mês</div>
+        <div class="icon">✅</div>
+      </div>
+    </div>
+
+    <!-- TABS (admin) -->
+    <div class="tab-strip" id="admin-tabs">
+      <div class="tab-item on" onclick="tabAdmin('todos',this)">Todos os chamados</div>
+      <div class="tab-item" onclick="tabAdmin('vencidos',this)">Em atraso</div>
+      <div class="tab-item" onclick="tabAdmin('hoje',this)">Vencem hoje</div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="card">
+      <div class="card-header">
+        <h3 id="card-title">Todos os chamados</h3>
+        <div class="toolbar">
+          <input class="search-input" placeholder="Buscar cliente, título..." oninput="filtroAdm(this.value)">
+          <select class="filter-sel" onchange="filtroAdmSts(this.value)">
+            <option value="">Todos os status</option>
+            <option>Aberto</option>
+            <option>Em Análise</option>
+            <option>Em Andamento</option>
+            <option>Aguardando Cliente</option>
+            <option>Concluído</option>
+          </select>
+          <select class="filter-sel" onchange="filtroAdmTipo(this.value)">
+            <option value="">Todos os tipos</option>
+            <option value="Melhorias de BI">BI</option>
+            <option value="Atualizações">Atualização</option>
+            <option value="Melhorias na Base">Base</option>
+            <option value="Novo Projeto">Projeto</option>
+            <option value="Treinamento">Treinamento</option>
+            <option value="Refazer Projeto">Refazer</option>
+          </select>
+          <select class="filter-sel" onchange="filtroEmpresa(this.value)" id="sel-empresa">
+            <option value="">Todas as empresas</option>
+          </select>
+        </div>
+      </div>
+      <div id="tbl-chamados"></div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL: NOVO CHAMADO -->
+<div id="ov-novo" class="overlay hidden">
+  <div class="modal modal-md">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Abrir novo chamado</div>
+        <div class="modal-sub">Preencha os campos — responderemos no prazo definido</div>
+      </div>
+      <button class="close-x" onclick="fecharModal('ov-novo')">✕</button>
+    </div>
+
+    <div class="fg">
+      <label class="flabel">Empresa *</label>
+      <select class="finput" id="nc-empresa">
+        <option value="">Selecione a empresa...</option>
+      </select>
+    </div>
+
+    <div class="fg">
+      <label class="flabel">Tipo de solicitação *</label>
+      <select class="finput" id="nc-tipo" onchange="calcSLA()">
+        <option value="">Selecione...</option>
+        <option value="Melhorias de BI">Melhorias de BI</option>
+        <option value="Atualizações">Atualizações</option>
+        <option value="Melhorias na Base">Melhorias na Base / Planilhas</option>
+        <option value="Novo Projeto">Novo Projeto</option>
+        <option value="Treinamento">Treinamento</option>
+        <option value="Refazer Projeto">Refazer Projeto</option>
+      </select>
+      <div class="sla-tip" id="sla-tip">—</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="fg" style="margin:0;">
+        <label class="flabel">Prioridade</label>
+        <select class="finput" id="nc-prio">
+          <option value="Média">Média</option>
+          <option value="Alta">Alta</option>
+          <option value="Baixa">Baixa</option>
+        </select>
+      </div>
+      <div class="fg" style="margin:0;">
+        <label class="flabel">Área / Setor</label>
+        <input class="finput" id="nc-setor" placeholder="Ex: Financeiro, TI...">
+      </div>
+    </div>
+    <div style="margin-bottom:16px;"></div>
+
+    <div class="fg">
+      <label class="flabel">Título do chamado *</label>
+      <input class="finput" id="nc-titulo" placeholder="Resumo objetivo da solicitação" maxlength="120">
+    </div>
+
+    <div class="fg">
+      <label class="flabel">Descrição detalhada *</label>
+      <textarea class="finput" id="nc-desc" rows="4" placeholder="Explique o contexto, o que precisa ser feito, erros encontrados..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="flabel">Anexos (imagens, planilhas, PDFs)</label>
+      <div class="drop-zone" id="drop-zone" ondragover="dOver(event)" ondragleave="dLeave()" ondrop="dDrop(event)">
+        <input type="file" id="nc-files" multiple accept="image/*,.pdf,.xlsx,.csv,.docx,.pptx" onchange="onFiles(event)">
+        <div class="drop-icon">📎</div>
+        <div class="drop-text">Arraste arquivos ou clique para selecionar</div>
+        <div class="drop-hint">Máx. 10 MB por arquivo</div>
+      </div>
+      <div class="file-chips" id="file-chips"></div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="fecharModal('ov-novo')">Cancelar</button>
+      <button class="btn btn-primary" id="btn-salvar" onclick="salvarChamado()">▶ Abrir chamado</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: DETALHE -->
+<div id="ov-det" class="overlay hidden">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px;" id="det-num">#0000</div>
+        <div class="modal-title" id="det-titulo">—</div>
+      </div>
+      <button class="close-x" onclick="fecharModal('ov-det')">✕</button>
+    </div>
+
+    <div class="det-grid">
+      <div class="det-col">
+        <div class="dbox">
+          <div class="dbox-label">Descrição</div>
+          <p id="det-desc" style="font-size:13px;white-space:pre-wrap;line-height:1.65;"></p>
+        </div>
+        <div class="dbox" id="det-attach-box">
+          <div class="dbox-label">Anexos</div>
+          <div class="attach-list" id="det-attach"></div>
+        </div>
+        <div class="dbox">
+          <div class="dbox-label">Comentários</div>
+          <div class="comments" id="det-comments"></div>
+          <div class="cm-row">
+            <input class="cm-input" id="cm-inp" placeholder="Adicione um comentário..." onkeypress="if(event.key==='Enter')enviarCmt()">
+            <button class="btn btn-primary btn-sm" onclick="enviarCmt()">Enviar</button>
+          </div>
+        </div>
+        <div class="dbox">
+          <div class="dbox-label">Histórico</div>
+          <div class="timeline" id="det-timeline"></div>
+        </div>
+      </div>
+
+      <div class="det-col">
+        <div class="dbox">
+          <div class="dbox-label">Informações</div>
+          <div class="meta-row"><span class="meta-k">Status</span><span class="meta-v" id="det-sts">—</span></div>
+          <div class="meta-row"><span class="meta-k">Prioridade</span><span class="meta-v" id="det-prio">—</span></div>
+          <div class="meta-row"><span class="meta-k">Tipo</span><span class="meta-v" id="det-tipo">—</span></div>
+          <div class="meta-row"><span class="meta-k">Setor</span><span class="meta-v" id="det-setor">—</span></div>
+          <div class="meta-row"><span class="meta-k">Empresa</span><span class="meta-v" id="det-empresa">—</span></div>
+          <div class="meta-row"><span class="meta-k">Cliente</span><span class="meta-v" id="det-cli" style="font-size:11px;word-break:break-all">—</span></div>
+          <div class="meta-row"><span class="meta-k">Responsável</span><span class="meta-v" id="det-resp" style="font-size:11px;word-break:break-all">—</span></div>
+          <div class="meta-row"><span class="meta-k">Abertura</span><span class="meta-v" id="det-open">—</span></div>
+          <div class="meta-row"><span class="meta-k">Prazo</span><span class="meta-v" id="det-prazo">—</span></div>
+        </div>
+
+        <div class="dbox">
+          <div class="dbox-label">SLA</div>
+          <div class="prog-bar"><div class="prog-fill" id="det-sla-fill"></div></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:7px;" id="det-sla-txt">—</div>
+        </div>
+
+        <div class="dbox" id="adm-sts-box">
+          <div class="dbox-label">Atualizar status</div>
+          <div class="status-btns" id="sts-btns"></div>
+          <button class="btn btn-primary btn-sm w-full" style="margin-top:16px;" onclick="gravarStatus()">Salvar status</button>
+
+          <div class="dbox-label" style="margin-top:16px;">Atribuir responsável</div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <input class="finput" id="inp-responsavel" placeholder="email@smartdata.com" style="flex:1;padding:8px 10px;font-size:12px;">
+            <button class="btn btn-ghost btn-sm" onclick="atribuirResponsavel()">✓</button>
+          </div>
+
+          <button class="btn btn-sm w-full" style="margin-top:12px;background:transparent;border:1px solid rgba(255,77,109,.4);color:#fca5a5;" onclick="cancelarChamado()">Cancelar chamado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw';
+const ADMIN_EMAILS  = ['tecnologia@smartdataconsultoria.com','comercial@smartdataconsultoria.com'];
+const BUCKET = 'ch-anexos';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let me = null, isAdmin = false, todos = [], filtrados = [], atual = null, novoSts = null, arquivos = [];
+let filtroTxt = '', filtroSts = '', filtroTipo = '', filtroEmp = '', tabAtual = 'todos';
+
+const SLA = {
+  'Melhorias de BI':   { dias:3,  label:'3 dias úteis' },
+  'Melhorias na Base': { dias:7,  label:'7 dias úteis' },
+  'Novo Projeto':      { dias:15, label:'15 dias úteis' },
+  'Refazer Projeto':   { dias:15, label:'15 dias úteis' },
+  'Atualizações':      { horas:24,label:'24 horas corridas' },
+  'Treinamento':       { dias:-1, label:'A agendar' },
+};
+const STS_CLS = { 'Aberto':'b-aberto','Em Análise':'b-analise','Em Andamento':'b-andamento','Aguardando Cliente':'b-aguardando','Concluído':'b-concluido','Cancelado':'b-cancelado' };
+const STS_ALL = ['Aberto','Em Análise','Em Andamento','Aguardando Cliente','Concluído'];
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await db.auth.getSession();
+  if (session) { await iniciar(session.user); return; }
+  db.auth.onAuthStateChange(async (ev, session) => {
+    if (session) await iniciar(session.user);
+    else window.location.href = '../area-cliente.html';
+  });
+  setTimeout(() => { if (!me) window.location.href = '../area-cliente.html'; }, 5000);
+});
+
+async function iniciar(user) {
+  me = user;
+  isAdmin = ADMIN_EMAILS.includes(user.email);
+  const name = user.email.split('@')[0];
+  document.getElementById('user-avatar').textContent = name[0].toUpperCase();
+  document.getElementById('user-name').textContent = user.email;
+  document.getElementById('user-role').textContent = isAdmin ? 'Administrador' : 'Usuário';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  await carregar();
+  await popularEmpresasFiltro();
+}
+
+async function doLogout() {
+  await db.auth.signOut();
+  window.location.href = '../area-cliente.html';
+}
+
+async function carregar() {
+  let q = db.from('ch_chamados').select('*').order('created_at', { ascending: false });
+  if (!isAdmin) q = q.eq('user_id', me.id).neq('status', 'Cancelado');
+  const { data, error } = await q;
+  if (error) { toast('Erro ao carregar: ' + error.message, 'error'); return; }
+  todos = data || [];
+  aplicarFiltros();
+  calcMetricas();
+}
+
+async function popularEmpresasFiltro() {
+  const { data } = await db.from('ch_chamados').select('empresa').neq('empresa', null);
+  const emps = [...new Set((data||[]).map(r => r.empresa).filter(Boolean))];
+  const sel = document.getElementById('sel-empresa');
+  emps.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e.charAt(0).toUpperCase() + e.slice(1); sel.appendChild(o); });
+
+  // popular select do modal novo chamado
+  const nc = document.getElementById('nc-empresa');
+  emps.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e.charAt(0).toUpperCase() + e.slice(1); nc.appendChild(o); });
+}
+
+function calcMetricas() {
+  const agora = new Date();
+  const inicio = new Date(agora.getFullYear(), agora.getMonth(), 1);
+  document.getElementById('m-ab').textContent   = todos.filter(c => c.status === 'Aberto').length;
+  document.getElementById('m-and').textContent  = todos.filter(c => ['Em Andamento','Em Análise'].includes(c.status)).length;
+  document.getElementById('m-conc').textContent = todos.filter(c => c.status === 'Concluído' && new Date(c.created_at) >= inicio).length;
+  document.getElementById('m-vec').textContent  = todos.filter(c => c.prazo && new Date(c.prazo) < agora && c.status !== 'Concluído').length;
+}
+
+function aplicarFiltros() {
+  const agora = new Date();
+  let lista = [...todos];
+  if (tabAtual === 'vencidos') lista = lista.filter(c => c.prazo && new Date(c.prazo) < agora && c.status !== 'Concluído');
+  if (tabAtual === 'hoje')     lista = lista.filter(c => { if (!c.prazo) return false; const d = new Date(c.prazo)-agora; return d >= 0 && d < 86400000; });
+  if (filtroTxt) lista = lista.filter(c => (c.titulo||'').toLowerCase().includes(filtroTxt) || (c.cliente_email||'').toLowerCase().includes(filtroTxt) || (c.numero||'').toLowerCase().includes(filtroTxt));
+  if (filtroSts) lista = lista.filter(c => c.status === filtroSts);
+  if (filtroTipo) lista = lista.filter(c => c.tipo === filtroTipo);
+  if (filtroEmp) lista = lista.filter(c => c.empresa === filtroEmp);
+  filtrados = lista;
+  renderTabela();
+}
+
+function tabAdmin(tab, el) {
+  tabAtual = tab;
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  const titles = { todos:'Todos os chamados', vencidos:'Em atraso', hoje:'Vencem hoje' };
+  document.getElementById('card-title').textContent = titles[tab];
+  aplicarFiltros();
+}
+
+function filtroAdm(v)      { filtroTxt  = v.toLowerCase(); aplicarFiltros(); }
+function filtroAdmSts(v)   { filtroSts  = v; aplicarFiltros(); }
+function filtroAdmTipo(v)  { filtroTipo = v; aplicarFiltros(); }
+function filtroEmpresa(v)  { filtroEmp  = v; aplicarFiltros(); }
+
+function renderTabela() {
+  const el = document.getElementById('tbl-chamados');
+  if (!filtrados.length) { el.innerHTML = '<div class="empty"><div class="icon">📋</div><p>Nenhum chamado encontrado</p></div>'; return; }
+  el.innerHTML = '<table><thead><tr><th>#</th><th>Título</th><th>Empresa</th><th>Cliente</th><th>Tipo</th><th>Status</th><th>Prazo</th><th>SLA</th></tr></thead><tbody>' +
+    filtrados.map(c => '<tr onclick="verDetalhe(\'' + c.id + '\')">' +
+      '<td class="td-num">' + esc(c.numero) + '</td>' +
+      '<td><div class="td-title">' + esc(c.titulo) + '</div><div class="td-sub">' + esc(c.setor||'') + '</div></td>' +
+      '<td>' + esc((c.empresa||'—').charAt(0).toUpperCase() + (c.empresa||'').slice(1)) + '</td>' +
+      '<td class="td-sub">' + esc(c.cliente_email||'—') + '</td>' +
+      '<td><span class="badge b-media" style="font-size:10px">' + tipoCurto(c.tipo) + '</span></td>' +
+      '<td><span class="badge ' + (STS_CLS[c.status]||'') + '">' + esc(c.status) + '</span></td>' +
+      '<td style="color:' + prazoColor(c) + ';font-size:12px">' + fPrazo(c.prazo) + '</td>' +
+      '<td>' + slaBar(c) + '</td>' +
+    '</tr>').join('') +
+  '</tbody></table>';
+}
+
+// ── VER DETALHE ──
+async function verDetalhe(id) {
+  atual = todos.find(c => c.id === id);
+  if (!atual) return;
+  document.getElementById('det-num').textContent    = atual.numero;
+  document.getElementById('det-titulo').textContent = atual.titulo;
+  document.getElementById('det-desc').textContent   = atual.descricao || '—';
+  document.getElementById('det-sts').innerHTML      = '<span class="badge ' + (STS_CLS[atual.status]||'') + '">' + esc(atual.status) + '</span>';
+  document.getElementById('det-prio').innerHTML     = '<span class="badge ' + prioCls(atual.prioridade) + '">' + esc(atual.prioridade) + '</span>';
+  document.getElementById('det-tipo').textContent   = atual.tipo || '—';
+  document.getElementById('det-setor').textContent  = atual.setor || '—';
+  document.getElementById('det-empresa').textContent= atual.empresa ? atual.empresa.charAt(0).toUpperCase() + atual.empresa.slice(1) : '—';
+  document.getElementById('det-cli').textContent    = atual.cliente_email || '—';
+  document.getElementById('det-resp').textContent    = atual.responsavel_email || 'Não atribuído';
+  const inpResp = document.getElementById('inp-responsavel'); if(inpResp) inpResp.value = atual.responsavel_email||'';
+  document.getElementById('det-open').textContent   = fData(atual.created_at);
+  document.getElementById('det-prazo').textContent  = fPrazo(atual.prazo);
+  renderSLA(atual);
+
+  // admin: botões de status
+  const stsBox = document.getElementById('adm-sts-box');
+  stsBox.style.display = (isAdmin && atual.status !== 'Cancelado') ? 'block' : 'none';
+  if (isAdmin) {
+    novoSts = atual.status;
+    document.getElementById('sts-btns').innerHTML = STS_ALL.map(s =>
+      '<button class="st-btn ' + (s === atual.status ? 'sel' : '') + '" onclick="selSts(\'' + s + '\',this)">' + s + '</button>'
+    ).join('');
+  }
+
+  // anexos
+  const { data: anexos } = await db.from('ch_anexos').select('*').eq('chamado_id', atual.id);
+  const attachEl = document.getElementById('det-attach');
+  if (anexos && anexos.length) {
+    attachEl.innerHTML = anexos.map(a => {
+      const { data: urlData } = db.storage.from(BUCKET).getPublicUrl(a.storage_path);
+      return '<a class="attach-item" href="' + (urlData?.publicUrl||'#') + '" target="_blank">📎 ' + esc(a.nome_arquivo) + ' <span style="color:var(--muted);font-size:11px;margin-left:auto">' + fBytes(a.tamanho) + '</span></a>';
+    }).join('');
+    document.getElementById('det-attach-box').style.display = 'block';
+  } else {
+    document.getElementById('det-attach-box').style.display = 'none';
+  }
+
+  // comentários
+  const { data: cmts } = await db.from('ch_comentarios').select('*').eq('chamado_id', atual.id).order('created_at');
+  const cmtEl = document.getElementById('det-comments');
+  cmtEl.innerHTML = (cmts||[]).map(c => '<div class="comment"><div class="cm-head"><span class="cm-author">' + esc(c.autor_email||'Sistema') + '</span><span class="cm-time">' + fData(c.created_at) + '</span></div><div class="cm-text">' + esc(c.texto) + '</div></div>').join('') || '<p style="color:var(--muted);font-size:13px">Sem comentários ainda.</p>';
+
+  // histórico
+  const { data: hist } = await db.from('ch_historico').select('*').eq('chamado_id', atual.id).order('created_at');
+  document.getElementById('det-timeline').innerHTML = (hist||[]).map(h =>
+    '<div class="tl"><div class="tl-dot" style="background:' + (h.cor||'var(--primary)') + '"></div><div class="tl-time">' + fData(h.created_at) + '</div><div class="tl-txt">' + esc(h.descricao) + '</div></div>'
+  ).join('') || '<p style="color:var(--muted);font-size:13px">Sem histórico.</p>';
+
+  document.getElementById('cm-inp').value = '';
+  show('ov-det');
+}
+
+// ── COMENTÁRIO ──
+async function enviarCmt() {
+  const txt = document.getElementById('cm-inp').value.trim();
+  if (!txt || !atual) return;
+  const { error } = await db.from('ch_comentarios').insert({ chamado_id: atual.id, autor_email: me.email, texto: txt });
+  if (error) { toast('Erro: ' + error.message, 'error'); return; }
+  document.getElementById('cm-inp').value = '';
+  await verDetalhe(atual.id);
+  toast('Comentário enviado', 'success');
+}
+
+// ── STATUS ──
+function selSts(s, el) {
+  novoSts = s;
+  document.querySelectorAll('.st-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+async function gravarStatus() {
+  if (!novoSts || !atual) return;
+  const { error } = await db.from('ch_chamados').update({ status: novoSts }).eq('id', atual.id);
+  if (error) { toast('Erro: ' + error.message, 'error'); return; }
+  await db.from('ch_historico').insert({ chamado_id: atual.id, descricao: 'Status alterado para ' + novoSts + ' por ' + me.email, cor: 'var(--primary)' });
+  atual.status = novoSts;
+  document.getElementById('det-sts').innerHTML = '<span class="badge ' + (STS_CLS[novoSts]||'') + '">' + esc(novoSts) + '</span>';
+  toast('Status atualizado para ' + novoSts, 'success');
+  // Dispara email se concluído
+  if (novoSts === 'Concluído') {
+    await chamarEdgeFunction('notificar-chamado', { tipo: 'concluido', chamado_id: atual.id, email: atual.cliente_email, numero: atual.numero, titulo: atual.titulo });
+  }
+  await carregar();
+}
+
+async function atribuirResponsavel() {
+  if (!atual) return;
+  const email = document.getElementById('inp-responsavel').value.trim();
+  if (!email) { toast('Digite o e-mail do responsável', 'error'); return; }
+  const { error } = await db.from('ch_chamados').update({ responsavel_email: email }).eq('id', atual.id);
+  if (error) { toast('Erro: ' + error.message, 'error'); return; }
+  await db.from('ch_historico').insert({ chamado_id: atual.id, descricao: 'Chamado atribuído a ' + email + ' por ' + me.email, cor: 'var(--accent)' });
+  atual.responsavel_email = email;
+  document.getElementById('det-resp').textContent = email;
+  // Dispara email para o responsável
+  await chamarEdgeFunction('notificar-chamado', { tipo: 'atribuido', chamado_id: atual.id, email: email, numero: atual.numero, titulo: atual.titulo, empresa: atual.empresa });
+  toast('Responsável atribuído e notificado!', 'success');
+}
+
+async function cancelarChamado() {
+  if (!atual) return;
+  if (!confirm('Cancelar o chamado ' + atual.numero + '? Esta ação não pode ser desfeita.')) return;
+  await db.from('ch_chamados').update({ status: 'Cancelado' }).eq('id', atual.id);
+  await db.from('ch_historico').insert({ chamado_id: atual.id, descricao: 'Chamado cancelado por ' + me.email, cor: 'var(--danger)' });
+  atual.status = 'Cancelado';
+  document.getElementById('det-sts').innerHTML = '<span class="badge b-cancelado">Cancelado</span>';
+  document.getElementById('adm-sts-box').style.display = 'none';
+  toast('Chamado ' + atual.numero + ' cancelado', 'info');
+  await carregar();
+}
+
+async function chamarEdgeFunction(nome, payload) {
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    const token = session?.access_token || '';
+    const resp = await fetch('https://rbahvyejqybajnufftio.supabase.co/functions/v1/' + nome, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJiYWh2eWVqcXliYWpudWZmdGlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNjA5MjIsImV4cCI6MjA4OTYzNjkyMn0.nUIo2CT3o41YL1TT8Hrp5kq-_ZS-bMMf-gvUMCEyYMw'
+      },
+      body: JSON.stringify(payload)
+    });
+    const result = await resp.json();
+    console.log('Edge function resultado:', result);
+  } catch(e) {
+    console.warn('Edge function erro:', e.message);
+  }
+}
+
+// ── NOVO CHAMADO ──
+function abrirModalNovo() {
+  arquivos = [];
+  ['nc-tipo','nc-titulo','nc-desc','nc-setor'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('nc-prio').value = 'Média';
+  document.getElementById('sla-tip').style.display = 'none';
+  document.getElementById('file-chips').innerHTML = '';
+  show('ov-novo');
+}
+
+function calcSLA() {
+  const tipo = document.getElementById('nc-tipo').value;
+  const tip  = document.getElementById('sla-tip');
+  if (SLA[tipo]) { tip.textContent = '⏱ Prazo: ' + SLA[tipo].label; tip.style.display = 'block'; }
+  else tip.style.display = 'none';
+}
+
+async function salvarChamado() {
+  const empresa = document.getElementById('nc-empresa').value;
+  const tipo    = document.getElementById('nc-tipo').value;
+  const titulo  = document.getElementById('nc-titulo').value.trim();
+  const desc    = document.getElementById('nc-desc').value.trim();
+  const prio    = document.getElementById('nc-prio').value;
+  const setor   = document.getElementById('nc-setor').value.trim();
+
+  if (!empresa || !tipo || !titulo || !desc) { toast('Preencha todos os campos obrigatórios', 'error'); return; }
+
+  const btn = document.getElementById('btn-salvar');
+  btn.disabled = true; btn.textContent = 'Salvando...';
+
+  try {
+    const cfg = SLA[tipo];
+    let prazo = null;
+    if (cfg && cfg.dias > 0)   prazo = addDU(new Date(), cfg.dias).toISOString();
+    else if (cfg && cfg.horas) prazo = new Date(Date.now() + cfg.horas*3600000).toISOString();
+
+    const prefix = empresa.slice(0,3).toUpperCase();
+    const { data: existentes } = await db.from('ch_chamados').select('numero').eq('empresa', empresa);
+    let maxNum = 0;
+    (existentes||[]).forEach(r => { const n = parseInt((r.numero||'').split('-')[1]||'0'); if(n > maxNum) maxNum = n; });
+    const numero = prefix + '-' + String(maxNum + 1).padStart(4,'0');
+
+    const { data: ch, error } = await db.from('ch_chamados').insert({
+      user_id: me.id, cliente_email: me.email,
+      empresa, tipo, titulo, descricao: desc,
+      prioridade: prio, setor: setor||null, prazo, status:'Aberto', numero
+    }).select().single();
+    if (error) throw error;
+
+    for (const f of arquivos) {
+      const path = empresa + '/' + ch.id + '/' + Date.now() + '_' + f.name;
+      const { error: ue } = await db.storage.from(BUCKET).upload(path, f);
+      if (!ue) await db.from('ch_anexos').insert({ chamado_id: ch.id, user_id: me.id, nome_arquivo: f.name, storage_path: path, tipo_arquivo: f.type, tamanho: f.size });
+    }
+
+    await db.from('ch_historico').insert({ chamado_id: ch.id, descricao: 'Chamado aberto por ' + me.email, cor: 'var(--primary)' });
+
+    // Notifica cliente por email
+    await chamarEdgeFunction('notificar-chamado', {
+      tipo: 'abertura',
+      chamado_id: ch.id,
+      email: me.email,
+      numero: numero,
+      titulo: titulo,
+      prazo: prazo,
+      empresa: empresa
+    });
+
+    fecharModal('ov-novo');
+    toast(numero + ' aberto! Confirmação enviada por e-mail.', 'success');
+    await carregar();
+  } catch(e) {
+    toast('Erro: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = '▶ Abrir chamado';
+  }
+}
+
+// ── UPLOAD ──
+function onFiles(e)  { addFiles(Array.from(e.target.files)); }
+function dOver(e)    { e.preventDefault(); document.getElementById('drop-zone').classList.add('over'); }
+function dLeave()    { document.getElementById('drop-zone').classList.remove('over'); }
+function dDrop(e)    { e.preventDefault(); dLeave(); addFiles(Array.from(e.dataTransfer.files)); }
+function addFiles(fs) {
+  for (const f of fs) {
+    if (f.size > 10*1024*1024) { toast(f.name + ' excede 10 MB', 'error'); continue; }
+    arquivos.push(f);
+  }
+  renderChips();
+}
+function renderChips() {
+  document.getElementById('file-chips').innerHTML = arquivos.map((f,i) =>
+    '<div class="file-chip"><span class="chip-name">📎 ' + esc(f.name) + '</span><span class="chip-size">' + fBytes(f.size) + '</span><button class="chip-rm" onclick="rmFile(' + i + ')">✕</button></div>'
+  ).join('');
+}
+function rmFile(i) { arquivos.splice(i,1); renderChips(); }
+
+// ── HELPERS ──
+function addDU(d, dias) { let r=new Date(d),n=0; while(n<dias){r.setDate(r.getDate()+1);if(r.getDay()!==0&&r.getDay()!==6)n++;} return r; }
+function slaBar(c) {
+  if (!c.prazo || c.status==='Concluído') return '<span style="font-size:11px;color:var(--muted);">—</span>';
+  const ag=Date.now(),cr=new Date(c.created_at).getTime(),pr=new Date(c.prazo).getTime();
+  const pct=Math.min(100,Math.max(0,Math.round(((ag-cr)/(pr-cr))*100)));
+  const cls=pct>=90?'sla-late':pct>=70?'sla-warn':'sla-ok';
+  const rest=pr-ag; const d=Math.ceil(rest/86400000);
+  const lbl=rest<0?'Vencido':d===0?'Hoje':d+'d';
+  return '<div class="sla-wrap"><div class="sla-track"><div class="sla-fill '+cls+'" style="width:'+pct+'%"></div></div><div class="sla-text">'+lbl+'</div></div>';
+}
+function renderSLA(c) {
+  const fill=document.getElementById('det-sla-fill'), txt=document.getElementById('det-sla-txt');
+  if (!c.prazo) { fill.style.width='0%'; txt.textContent='Sem prazo definido'; return; }
+  const ag=Date.now(),cr=new Date(c.created_at).getTime(),pr=new Date(c.prazo).getTime();
+  const pct=Math.min(100,Math.max(0,Math.round(((ag-cr)/(pr-cr))*100)));
+  const cls=pct>=90?'sla-late':pct>=70?'sla-warn':'sla-ok';
+  fill.className='prog-fill '+cls; fill.style.width=pct+'%';
+  const rest=pr-ag;
+  txt.textContent=rest<0?'Em atraso':Math.ceil(rest/86400000)+'d restantes ('+pct+'% do prazo)';
+}
+function fPrazo(p) { if(!p)return'—'; const d=new Date(p),ag=new Date(),diff=d-ag; if(diff<0)return'Vencido'; if(diff<86400000)return'Hoje'; return d.toLocaleDateString('pt-BR'); }
+function prazoColor(c) { if(!c.prazo||c.status==='Concluído')return'var(--muted)'; const d=new Date(c.prazo)-new Date(); if(d<0)return'var(--danger)'; if(d<86400000)return'var(--warning)'; return'var(--text)'; }
+function fData(iso) { if(!iso)return'—'; return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function fBytes(b) { if(b<1024)return b+' B'; if(b<1048576)return(b/1024).toFixed(1)+' KB'; return(b/1048576).toFixed(1)+' MB'; }
+function tipoCurto(t) { return({'Melhorias de BI':'BI','Atualizações':'Atualiz.','Melhorias na Base':'Base','Novo Projeto':'Projeto','Treinamento':'Treino','Refazer Projeto':'Refazer'}[t]||t); }
+function prioCls(p) { return p==='Alta'?'b-alta':p==='Baixa'?'b-baixa':'b-media'; }
+function esc(s) { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function show(id) { document.getElementById(id)?.classList.remove('hidden'); }
+function hide(id) { document.getElementById(id)?.classList.add('hidden'); }
+function fecharModal(id) { hide(id); }
+function toast(msg, type='info') { const el=document.createElement('div'); el.className='toast toast-'+type; el.textContent=msg; document.getElementById('toast-wrap').appendChild(el); setTimeout(()=>el.remove(),3800); }
+
+// fechar overlay clicando fora
+document.querySelectorAll('.overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.add('hidden'); }));
+</script>
+</body>
+</html>
