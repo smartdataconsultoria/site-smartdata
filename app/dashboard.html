@@ -545,7 +545,7 @@ async function carregarTutoriais(){
       var thumb=vid?'https://img.youtube.com/vi/'+vid+'/mqdefault.jpg':'';
       var url=isVideo?(t.url_youtube||'#'):(t.url_arquivo||'#');
       if(isVideo){
-        return '<div class="tut-card" onclick="abrirTutorial(''+esc(url)+'')">'+
+        return '<div class="tut-card" onclick="abrirTutorial(this.dataset.url)" data-url="'+esc(url)+'">'+
           '<div class="tut-thumb">'+
             (thumb?'<img src="'+thumb+'" alt="'+esc(t.titulo)+'" loading="lazy">':'<div style="position:absolute;inset:0;background:#111827;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(79,142,247,.3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="rgba(79,142,247,.3)" stroke="none"/></svg></div>')+
             '<div class="tut-play"><div class="tut-play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><polygon points="6,4 20,12 6,20"/></svg></div></div>'+
@@ -557,7 +557,7 @@ async function carregarTutoriais(){
           '</div>'+
         '</div>';
       } else {
-        return '<div class="tut-card" onclick="abrirTutorial(''+esc(url)+'')" style="display:flex;flex-direction:column">'+
+        return '<div class="tut-card" onclick="abrirTutorial(this.dataset.url)" data-url="'+esc(url)+'" style="display:flex;flex-direction:column">'+
           '<div style="background:linear-gradient(135deg,#0f1929,#111d35);height:120px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+
             '<div style="width:56px;height:56px;background:rgba(79,142,247,.15);border-radius:14px;display:flex;align-items:center;justify-content:center">'+
               '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'+
