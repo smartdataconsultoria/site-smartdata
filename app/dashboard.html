@@ -300,6 +300,12 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <div class="stat-mini-value" id="stat-ch-and">0</div>
           <div class="stat-mini-sub">em execução</div>
         </div>
+        <div class="stat-mini" style="border-top-color:transparent">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#a855f7,#6366f1)"></div>
+          <div class="stat-mini-label">Meus Acessos</div>
+          <div class="stat-mini-value" id="stat-acessos">—</div>
+          <div class="stat-mini-sub" id="stat-acessos-ultimo">último login...</div>
+        </div>
       </div>
 
       <!-- FILTER TABS -->
@@ -412,6 +418,7 @@ async function entrarApp(){
   await carregarArquivos();
   await carregarChamados();
   await carregarTutoriais();
+  await carregarAcessos();
 
   document.getElementById('stats-row').style.display='';
 }
@@ -583,6 +590,26 @@ function extrairYouTubeId(url){
 function abrirTutorial(url){ if(url) window.open(url,'_blank'); }
 
 function scrollToChamados(){ document.getElementById('chamados-section').scrollIntoView({behavior:'smooth'}); }
+
+async function carregarAcessos(){
+  try {
+    var url=SB_URL+'/rest/v1/logs_acesso?select=*&email=eq.'+encodeURIComponent(usr.email)+'&evento=eq.login&order=criado_em.desc';
+    var res=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}});
+    if(!res.ok) throw new Error();
+    var lista=await res.json()||[];
+    document.getElementById('stat-acessos').textContent=lista.length;
+    if(lista.length>1){
+      var dt=new Date(lista[1].criado_em); // penúltimo = login anterior
+      var dia=dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+      var hora=dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('stat-acessos-ultimo').textContent='anterior: '+dia+' às '+hora;
+    } else {
+      document.getElementById('stat-acessos-ultimo').textContent='primeiro acesso';
+    }
+  } catch(e){
+    document.getElementById('stat-acessos').textContent='—';
+  }
+}
 
 async function sair(){ await sb.auth.signOut(); window.location.href='../area-cliente.html'; }
 
