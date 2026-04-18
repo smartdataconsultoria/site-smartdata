@@ -506,7 +506,7 @@ async function carregarChamados(){
   try {
     var url=SB_URL+'/rest/v1/ch_chamados?select=*&order=created_at.desc&limit=5';
     if(usr.email!==ADMIN) url+='&cliente_email=eq.'+encodeURIComponent(usr.email);
-    url+='&status=neq.Concluiío&status=neq.Cancelado';
+    url+='&status=neq.Concluído&status=neq.Cancelado';
     var res=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}});
     if(!res.ok) throw new Error();
     var lista=await res.json()||[];
@@ -526,7 +526,7 @@ async function carregarChamados(){
 
       var clsMap={'Aberto':'ch-b-aberto','Em Análise':'ch-b-analise','Em Andamento':'ch-b-andamento','Aguardando Cliente':'ch-b-aguardando'};
       el.innerHTML=lista.map(function(c){
-        return '<div class="ch-row" onclick="window.location.href='chamados.html'">'+
+        return '<div class="ch-row" onclick="window.location.href=\'chamados.html\'">'+
           '<span class="ch-num">'+esc(c.numero)+'</span>'+
           '<span class="ch-titulo">'+esc(c.titulo)+'</span>'+
           '<span class="ch-empresa">'+esc(c.empresa||'')+'</span>'+
