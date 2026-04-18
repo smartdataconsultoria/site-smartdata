@@ -264,7 +264,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
           <div class="greeting-title" id="greetingText">Olá! 👋</div>
           <div class="greeting-sub">Aqui estão seus dashboards e recursos disponíveis.</div>
         </div>
-        <a class="chamados-btn" href="chamados.html">
+        <a class="chamados-btn" href="chamados.html" id="hero-chamados-btn" style="display:none">
           <div class="chamados-btn-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
@@ -323,7 +323,7 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:#0a0e1a;color:
       </div>
 
       <!-- CHAMADOS EM ABERTO -->
-      <div id="chamados-section" style="margin-bottom:36px">
+      <div id="chamados-section" style="margin-bottom:36px;display:none">
         <div class="section-header">
           <div class="section-title">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -501,10 +501,12 @@ async function carregarArquivos(){
 
 async function carregarChamados(){
   var el=document.getElementById('ch-lista');
+  var secao=document.getElementById('chamados-section');
+  var heroBtnCh=document.getElementById('hero-chamados-btn');
   try {
     var url=SB_URL+'/rest/v1/ch_chamados?select=*&order=created_at.desc&limit=5';
     if(usr.email!==ADMIN) url+='&cliente_email=eq.'+encodeURIComponent(usr.email);
-    url+='&status=neq.Concluído&status=neq.Cancelado';
+    url+='&status=neq.Concluiío&status=neq.Cancelado';
     var res=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}});
     if(!res.ok) throw new Error();
     var lista=await res.json()||[];
@@ -515,23 +517,24 @@ async function carregarChamados(){
     document.getElementById('stat-ch-and').textContent=andamento;
 
     if(lista.length>0){
+      heroBtnCh.style.display='flex';
+      secao.style.display='';
       document.getElementById('hero-ch-badge').style.display='';
       document.getElementById('hero-ch-count').textContent=lista.length;
       document.getElementById('sb-ch-badge').style.display='';
       document.getElementById('sb-ch-badge').textContent=lista.length;
+
+      var clsMap={'Aberto':'ch-b-aberto','Em Análise':'ch-b-analise','Em Andamento':'ch-b-andamento','Aguardando Cliente':'ch-b-aguardando'};
+      el.innerHTML=lista.map(function(c){
+        return '<div class="ch-row" onclick="window.location.href='chamados.html'">'+
+          '<span class="ch-num">'+esc(c.numero)+'</span>'+
+          '<span class="ch-titulo">'+esc(c.titulo)+'</span>'+
+          '<span class="ch-empresa">'+esc(c.empresa||'')+'</span>'+
+          '<span class="ch-badge '+(clsMap[c.status]||'ch-b-aberto')+'">'+esc(c.status)+'</span>'+
+        '</div>';
+      }).join('');
     }
-
-    if(!lista.length){ el.innerHTML='<div class="ch-empty">✅ Nenhum chamado em aberto no momento.</div>'; return; }
-
-    var clsMap={'Aberto':'ch-b-aberto','Em Análise':'ch-b-analise','Em Andamento':'ch-b-andamento','Aguardando Cliente':'ch-b-aguardando'};
-    el.innerHTML=lista.map(function(c){
-      return '<div class="ch-row" onclick="window.location.href=\'chamados.html\'">'+
-        '<span class="ch-num">'+esc(c.numero)+'</span>'+
-        '<span class="ch-titulo">'+esc(c.titulo)+'</span>'+
-        '<span class="ch-empresa">'+esc(c.empresa||'')+'</span>'+
-        '<span class="ch-badge '+(clsMap[c.status]||'ch-b-aberto')+'">'+esc(c.status)+'</span>'+
-      '</div>';
-    }).join('');
+    // sem chamados: hero btn e secao ficam ocultos
   } catch(e){ el.innerHTML='<div class="ch-empty">Não foi possível carregar os chamados.</div>'; }
 }
 
@@ -593,21 +596,33 @@ function scrollToChamados(){ document.getElementById('chamados-section').scrollI
 
 async function carregarAcessos(){
   try {
-    var url=SB_URL+'/rest/v1/logs_acesso?select=*&email=eq.'+encodeURIComponent(usr.email)+'&evento=eq.login&order=criado_em.desc';
-    var res=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}});
+    // Busca por usuario_id (mais confiavel) com fallback por email
+    var sessionResult = await sb.auth.getSession();
+    var uid = sessionResult.data && sessionResult.data.session ? sessionResult.data.session.user.id : null;
+
+    var params = uid
+      ? 'usuario_id=eq.'+uid+'&evento=eq.login&order=criado_em.desc'
+      : 'email=eq.'+encodeURIComponent(usr.email)+'&evento=eq.login&order=criado_em.desc';
+
+    var res=await fetch(SB_URL+'/rest/v1/logs_acesso?select=*&'+params,{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+usr.token}
+    });
     if(!res.ok) throw new Error();
     var lista=await res.json()||[];
+
     document.getElementById('stat-acessos').textContent=lista.length;
     if(lista.length>1){
-      var dt=new Date(lista[1].criado_em); // penúltimo = login anterior
-      var dia=dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+      // lista[0] = acesso atual, lista[1] = acesso anterior
+      var dt=new Date(lista[1].criado_em);
+      var dia=dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'});
       var hora=dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-      document.getElementById('stat-acessos-ultimo').textContent='anterior: '+dia+' às '+hora;
+      document.getElementById('stat-acessos-ultimo').textContent='anterior: '+dia+' as '+hora;
     } else {
       document.getElementById('stat-acessos-ultimo').textContent='primeiro acesso';
     }
   } catch(e){
-    document.getElementById('stat-acessos').textContent='—';
+    document.getElementById('stat-acessos').textContent='erro';
+    console.error('Erro acessos:', e);
   }
 }
 
