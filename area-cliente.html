@@ -324,13 +324,22 @@
     btn.disabled = true;
     btn.textContent = 'Entrando…';
 
-    const { error } = await sb.auth.signInWithPassword({ email, password: senha });
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
 
     if (error) {
       showMsg('loginError', 'E-mail ou senha inválidos. Tente novamente.');
       btn.disabled = false;
       btn.textContent = 'Entrar';
     } else {
+      // ─── Registra o login na tabela logs_acesso ───────────────────────────────
+      await sb.from('logs_acesso').insert({
+        usuario_id: data.user.id,
+        email:      data.user.email,
+        evento:     'login',
+        pagina:     window.location.pathname,
+        user_agent: navigator.userAgent
+      });
+
       window.location.href = 'app/dashboard.html';
     }
   }
