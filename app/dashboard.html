@@ -626,21 +626,7 @@ async function carregarAcessos(){
   }
 }
 
-async function sair(){ await sb.auth.signOut(); window.location.href='../area-cliente.html'; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+async function sair(){ await sb.auth.signOut(); window.location.href='../login'; }
 
 function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
@@ -650,10 +636,10 @@ window.addEventListener('load', async function(){
     var {data:refreshed,error:refreshErr}=await sb.auth.refreshSession();
     if(!refreshErr&&refreshed&&refreshed.session){ sessionData=refreshed.session; }
     else { var {data:{session}}=await sb.auth.getSession(); sessionData=session; }
-    if(!sessionData||!sessionData.access_token){ window.location.href='../area-cliente.html'; return; }
+    if(!sessionData||!sessionData.access_token){ window.location.href='../login'; return; }
     usr={email:sessionData.user.email,token:sessionData.access_token};
     await entrarApp();
-  } catch(e){ window.location.href='../area-cliente.html'; }
+  } catch(e){ window.location.href='../login'; }
 });
 </script>
 </body>
