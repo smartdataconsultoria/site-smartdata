@@ -13,7 +13,7 @@
     },
     {
       "source": "/login",
-      "destination": "/area-cliente.html"
+      "destination": "/area-cliente"
     }
   ]
 }
