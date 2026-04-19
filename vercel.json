@@ -10,10 +10,6 @@
         }
       ],
       "destination": "/app/clientes/renaux/login.html"
-    },
-    {
-      "source": "/login",
-      "destination": "/area-cliente"
     }
   ]
 }
