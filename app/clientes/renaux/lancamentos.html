@@ -1388,8 +1388,8 @@ async function exportarExcel(modulo) {
 var _modelos = {
   hcp: ['Mês','Ano','ID PVE','Incluído em (AAAA-MM-DD)','Liberado em (AAAA-MM-DD)','Data Necessidade (AAAA-MM-DD)','Data Assinatura (AAAA-MM-DD)','Data Início (AAAA-MM-DD)','Motivo','Departamento','Regional (1=PE 2=SP 3=ADM)','Coordenador ID','Função','Status (NO PRAZO / FORA DO PRAZO)','Setor Relacionado','Observação'],
   absentes: ['Mês','Ano','Matrícula','Data Início Falta (AAAA-MM-DD)','Data Fim Falta (AAAA-MM-DD)','Qtd Dias Faltosos','Status (JUSTIFICADA / INJUSTIFICADA / DISCIPLINADA)','CID','Detalhe CID','Escala ID'],
-  treinamentos: ['Mês','Ano','Data (AAAA-MM-DD)','Cliente','Regional ID (1=PE 2=SP 3=ADM)','Coordenador ID','Analista','Status (Realizado / Não Realizado / Agendada / Cancelada)','Tema','Qtd Participantes','Observação'],
-  colaboradores: ['Matrícula','Nome','CPF','Cargo','Departamento / Contrato','Regional ID (1=PE 2=SP 3=ADM)','Coordenador ID','Escala ID','Data Admissão (AAAA-MM-DD)','Data Desligamento (AAAA-MM-DD)','UF','Situação (ATIVO / DESLIGADO)']
+  treinamentos: ['Mês','Ano','Data (AAAA-MM-DD)','Cliente','Regional (PE / SP / ADM)','Coordenador','Analista','Status (Realizado / Não Realizado / Agendada / Cancelada)','Tema','Qtd Participantes','Observação'],
+  colaboradores: ['Matrícula','Nome Completo','Cargo','Departamento / Contrato','Regional','Coordenador','Escala','Data Admissão','Data Desligamento','Situação']
 };
 
 var _nomesModelo = {
@@ -1501,21 +1501,54 @@ async function importarPlanilha(input, modulo) {
       }
 
       else if (modulo === 'colaboradores') {
+        // Mapas de nome → ID buscados do banco
+        var {data: coordsDb} = await db.from('coordenadores').select('id,nome');
+        var {data: escalasDb} = await db.from('escalas').select('id,codigo');
+        var {data: regioesDb} = await db.from('regioes').select('id,sigla');
+
+        var mapCoord  = {}; (coordsDb||[]).forEach(function(c){ mapCoord[c.nome.toUpperCase().trim()] = c.id; });
+        var mapEscala = {}; (escalasDb||[]).forEach(function(e){ mapEscala[e.codigo.toUpperCase().trim()] = e.id; });
+        var mapRegiao = {}; (regioesDb||[]).forEach(function(r){ mapRegiao[r.sigla.toUpperCase().trim()] = r.id; });
+
         rows.forEach(function(r, i) {
-          if (!r['Matrícula'] || !r['Nome']) { erros.push('Linha '+(i+2)+': Matrícula e Nome obrigatórios'); return; }
+          var mat  = String(r['Matrícula']||'').trim();
+          var nome = String(r['Nome Completo']||r['Nome']||'').trim();
+          if (!mat || !nome) { erros.push('Linha '+(i+2)+': Matrícula e Nome obrigatórios'); return; }
+
+          var coordNome  = String(r['Coordenador']||'').toUpperCase().trim();
+          var escalaCod  = String(r['Escala']||'').toUpperCase().trim();
+          var regSigla   = String(r['Regional']||'').toUpperCase().trim();
+
+          // Converter data de DD/MM/AAAA → AAAA-MM-DD se necessário
+          function parseDt(v) {
+            if (!v || v === '0' || v == 0) return null;
+            var s = String(v).trim();
+            if (!s) return null;
+            // já no formato ISO
+            if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+            // formato DD/MM/AAAA
+            var p = s.split('/');
+            if (p.length === 3) return p[2]+'-'+p[1]+'-'+p[0];
+            // número serial do Excel (dias desde 1900-01-01)
+            var n = parseInt(s);
+            if (!isNaN(n) && n > 1000) {
+              var d = new Date((n - 25569) * 86400 * 1000);
+              return d.toISOString().split('T')[0];
+            }
+            return null;
+          }
+
           payload.push({
-            matricula:         String(r['Matrícula']),
-            nome:              r['Nome'] || '',
-            cpf:               r['CPF'] || null,
-            cargo:             r['Cargo'] || null,
-            departamento:      r['Departamento / Contrato'] || null,
-            regional_id:       parseInt(r['Regional ID (1=PE 2=SP 3=ADM)']) || null,
-            coordenador_id:    parseInt(r['Coordenador ID']) || null,
-            escala_id:         parseInt(r['Escala ID']) || null,
-            data_admissao:     r['Data Admissão (AAAA-MM-DD)'] || null,
-            data_desligamento: r['Data Desligamento (AAAA-MM-DD)'] || null,
-            uf:                r['UF'] || null,
-            situacao:          r['Situação (ATIVO / DESLIGADO)'] || 'ATIVO'
+            matricula:         mat,
+            nome:              nome,
+            cargo:             String(r['Cargo']||'').trim() || null,
+            departamento:      String(r['Departamento / Contrato']||'').trim() || null,
+            regional_id:       mapRegiao[regSigla] || null,
+            coordenador_id:    mapCoord[coordNome] || null,
+            escala_id:         mapEscala[escalaCod] || null,
+            data_admissao:     parseDt(r['Data Admissão']),
+            data_desligamento: parseDt(r['Data Desligamento']),
+            situacao:          String(r['Situação']||'ATIVO').toUpperCase().trim() || 'ATIVO'
           });
         });
       }
