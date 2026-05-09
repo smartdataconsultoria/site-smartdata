@@ -98,6 +98,9 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:var(--navy);co
 .tbl-head{padding:16px 22px;border-bottom:1px solid var(--navy-border);display:flex;align-items:center;justify-content:space-between}
 .tbl-head-title{font-size:13px;font-weight:700;color:var(--text)}
 .tbl-count{font-size:11px;color:var(--text-muted)}
+.btn-export{display:flex;align-items:center;gap:6px;background:rgba(52,201,126,.1);border:1px solid rgba(52,201,126,.25);color:var(--green);border-radius:7px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+.btn-export:hover{background:rgba(52,201,126,.2);border-color:rgba(52,201,126,.5)}
+.btn-export svg{width:13px;height:13px}
 table{width:100%;border-collapse:collapse;font-size:12px}
 thead th{text-align:left;padding:10px 16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--text-muted);background:rgba(30,48,80,.3);border-bottom:1px solid var(--navy-border)}
 tbody td{padding:11px 16px;border-bottom:1px solid rgba(30,48,80,.4);color:rgba(232,237,245,.75);vertical-align:middle}
@@ -291,7 +294,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <div class="tbl-head-title">Vagas registradas</div>
-            <div class="tbl-count" id="tbl-hcp-count">0 registros</div>
+            <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-hcp-count">0 registros</div><button class="btn-export" onclick="exportarExcel('hcp')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -392,7 +395,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
           <div class="tbl-wrap">
             <div class="tbl-head">
               <div class="tbl-head-title">Faltas registradas</div>
-              <div class="tbl-count" id="tbl-abs-count">0 registros</div>
+              <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-abs-count">0 registros</div><button class="btn-export" onclick="exportarExcel('absentes')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
             </div>
             <div style="overflow-x:auto">
               <table>
@@ -525,7 +528,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <div class="tbl-head-title">Treinamentos registrados</div>
-            <div class="tbl-count" id="tbl-tre-count">0 registros</div>
+            <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-tre-count">0 registros</div><button class="btn-export" onclick="exportarExcel('treinamentos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -808,7 +811,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <div class="tbl-head-title">Colaboradores cadastrados</div>
-            <div class="tbl-count" id="tbl-col-count">0 registros</div>
+            <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-col-count">0 registros</div><button class="btn-export" onclick="exportarExcel('colaboradores')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -881,6 +884,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────
 var SB_URL  = 'https://rbahvyejqybajnufftio.supabase.co';
@@ -1254,6 +1258,119 @@ async function deletar(tabela,id,callback,isText){
   var {error}=await (isText?query.eq('matricula',id):query.eq('id',id));
   if(error){toast('Erro ao excluir.','err');}
   else{toast('Excluído.','ok');callback();}
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// EXPORTAR EXCEL
+// ══════════════════════════════════════════════════════════════════
+var _dadosExport = {
+  hcp: [], absentes: [], treinamentos: [], colaboradores: []
+};
+
+async function exportarExcel(modulo) {
+  toast('Gerando planilha...', '');
+  try {
+    var dados = [];
+    var nomeArquivo = '';
+    var hoje = new Date().toLocaleDateString('pt-BR').replace(/\//g,'-');
+
+    if (modulo === 'hcp') {
+      var {data} = await db.from('hcp_vagas').select('*').order('periodo_ano',{ascending:false}).order('periodo_mes');
+      nomeArquivo = 'HCP_Vagas_' + hoje + '.xlsx';
+      dados = (data||[]).map(function(r){ return {
+        'Mês':            r.periodo_mes || '',
+        'Ano':            r.periodo_ano || '',
+        'ID PVE':         r.id_pve || '',
+        'Incluído em':    r.incluido_em || '',
+        'Liberado em':    r.liberado_em || '',
+        'Qtd Dias Lib.':  r.qtd_dias_liberacao || '',
+        'Data Necessidade': r.data_necessidade || '',
+        'Data Assinatura':  r.data_assinatura_contrato || '',
+        'Data Início':    r.data_inicio_contrato || '',
+        'Motivo':         r.motivo || '',
+        'Departamento':   r.departamento || '',
+        'Função':         r.funcao || '',
+        'Status':         r.status_preenchimento || '',
+        'Setor Relac.':   r.setor_relacionado || '',
+        'Observação':     r.observacao || ''
+      };});
+    }
+
+    else if (modulo === 'absentes') {
+      var {data} = await db.from('faltas').select('*,escala:escala_id(codigo)').order('ano',{ascending:false}).order('mes');
+      nomeArquivo = 'Absenteismo_' + hoje + '.xlsx';
+      dados = (data||[]).map(function(r){ return {
+        'Mês':              r.mes || '',
+        'Ano':              r.ano || '',
+        'Matrícula':        r.matricula || '',
+        'Data Início Falta':r.data_inicio_falta || '',
+        'Data Fim Falta':   r.data_final_falta || '',
+        'Qtd Dias Faltosos':r.qtd_dias_faltosos || '',
+        'Status Falta':     r.status_falta || '',
+        'CID':              r.cid || '',
+        'Detalhe CID':      r.detalhe_cid || '',
+        'Escala':           r.escala ? r.escala.codigo : ''
+      };});
+    }
+
+    else if (modulo === 'treinamentos') {
+      var {data} = await db.from('treinamentos').select('*').order('ano',{ascending:false}).order('mes');
+      nomeArquivo = 'Treinamentos_' + hoje + '.xlsx';
+      dados = (data||[]).map(function(r){ return {
+        'Mês':              r.mes || '',
+        'Ano':              r.ano || '',
+        'Data':             r.data_treinamento || '',
+        'Cliente':          r.cliente || '',
+        'Analista':         r.analista || '',
+        'Status':           r.status || '',
+        'Tema':             r.tema || '',
+        'Qtd Participantes':r.qtd_participantes || 0,
+        'Observação':       r.observacao || ''
+      };});
+    }
+
+    else if (modulo === 'colaboradores') {
+      var {data} = await db.from('colaboradores').select('*,escala:escala_id(codigo),coordenador:coordenador_id(nome),regional:regional_id(sigla)').order('nome');
+      nomeArquivo = 'Colaboradores_' + hoje + '.xlsx';
+      dados = (data||[]).map(function(r){ return {
+        'Matrícula':         r.matricula || '',
+        'Nome':              r.nome || '',
+        'CPF':               r.cpf || '',
+        'Cargo':             r.cargo || '',
+        'Departamento':      r.departamento || '',
+        'Regional':          r.regional ? r.regional.sigla : '',
+        'Coordenador':       r.coordenador ? r.coordenador.nome : '',
+        'Escala':            r.escala ? r.escala.codigo : '',
+        'Data Admissão':     r.data_admissao || '',
+        'Data Desligamento': r.data_desligamento || '',
+        'UF':                r.uf || '',
+        'Situação':          r.situacao || '',
+        'CPF':               r.cpf || ''
+      };});
+    }
+
+    if (!dados.length) { toast('Nenhum dado para exportar.', 'err'); return; }
+
+    var ws   = XLSX.utils.json_to_sheet(dados);
+    var wb   = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Dados');
+
+    // Ajustar largura das colunas automaticamente
+    var cols = Object.keys(dados[0]).map(function(k){
+      var max = k.length;
+      dados.forEach(function(row){ var v=String(row[k]||''); if(v.length>max)max=v.length; });
+      return { wch: Math.min(max + 2, 50) };
+    });
+    ws['!cols'] = cols;
+
+    XLSX.writeFile(wb, nomeArquivo);
+    toast('Planilha gerada!', 'ok');
+
+  } catch(e) {
+    console.error(e);
+    toast('Erro ao gerar planilha.', 'err');
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
