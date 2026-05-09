@@ -101,6 +101,14 @@ html,body{height:100%;font-family:'Poppins',sans-serif;background:var(--navy);co
 .btn-export{display:flex;align-items:center;gap:6px;background:rgba(52,201,126,.1);border:1px solid rgba(52,201,126,.25);color:var(--green);border-radius:7px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
 .btn-export:hover{background:rgba(52,201,126,.2);border-color:rgba(52,201,126,.5)}
 .btn-export svg{width:13px;height:13px}
+.btn-modelo{display:flex;align-items:center;gap:6px;background:rgba(200,146,42,.1);border:1px solid rgba(200,146,42,.28);color:var(--gold);border-radius:7px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+.btn-modelo:hover{background:rgba(200,146,42,.2);border-color:rgba(200,146,42,.5)}
+.btn-modelo svg{width:13px;height:13px}
+.btn-import{display:flex;align-items:center;gap:6px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.28);color:#7ab3f7;border-radius:7px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+.btn-import:hover{background:rgba(79,142,247,.2);border-color:rgba(79,142,247,.5)}
+.btn-import svg{width:13px;height:13px}
+.btn-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#input-import{display:none}
 table{width:100%;border-collapse:collapse;font-size:12px}
 thead th{text-align:left;padding:10px 16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--text-muted);background:rgba(30,48,80,.3);border-bottom:1px solid var(--navy-border)}
 tbody td{padding:11px 16px;border-bottom:1px solid rgba(30,48,80,.4);color:rgba(232,237,245,.75);vertical-align:middle}
@@ -294,7 +302,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <div class="tbl-head-title">Vagas registradas</div>
-            <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-hcp-count">0 registros</div><button class="btn-export" onclick="exportarExcel('hcp')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
+            <div class="btn-group"><div class="tbl-count" id="tbl-hcp-count">0 registros</div><button class="btn-export" onclick="exportarExcel('hcp')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button><button class="btn-modelo" onclick="baixarModelo('hcp')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Baixar Modelo</button><button class="btn-import" onclick="abrirImport('hcp')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar Planilha</button></div><input type="file" id="import-hcp" accept=".xlsx,.xls" onchange="importarPlanilha(this,'hcp')" style="display:none">
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -395,7 +403,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
           <div class="tbl-wrap">
             <div class="tbl-head">
               <div class="tbl-head-title">Faltas registradas</div>
-              <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-abs-count">0 registros</div><button class="btn-export" onclick="exportarExcel('absentes')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
+              <div class="btn-group"><div class="tbl-count" id="tbl-abs-count">0 registros</div><button class="btn-export" onclick="exportarExcel('absentes')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button><button class="btn-modelo" onclick="baixarModelo('absentes')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Baixar Modelo</button><button class="btn-import" onclick="abrirImport('absentes')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar Planilha</button></div><input type="file" id="import-absentes" accept=".xlsx,.xls" onchange="importarPlanilha(this,'absentes')" style="display:none">
             </div>
             <div style="overflow-x:auto">
               <table>
@@ -528,7 +536,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <div class="tbl-head-title">Treinamentos registrados</div>
-            <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-tre-count">0 registros</div><button class="btn-export" onclick="exportarExcel('treinamentos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
+            <div class="btn-group"><div class="tbl-count" id="tbl-tre-count">0 registros</div><button class="btn-export" onclick="exportarExcel('treinamentos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button><button class="btn-modelo" onclick="baixarModelo('treinamentos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Baixar Modelo</button><button class="btn-import" onclick="abrirImport('treinamentos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar Planilha</button></div><input type="file" id="import-treinamentos" accept=".xlsx,.xls" onchange="importarPlanilha(this,'treinamentos')" style="display:none">
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -811,7 +819,7 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
         <div class="tbl-wrap">
           <div class="tbl-head">
             <div class="tbl-head-title">Colaboradores cadastrados</div>
-            <div style="display:flex;align-items:center;gap:12px"><div class="tbl-count" id="tbl-col-count">0 registros</div><button class="btn-export" onclick="exportarExcel('colaboradores')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button></div>
+            <div class="btn-group"><div class="tbl-count" id="tbl-col-count">0 registros</div><button class="btn-export" onclick="exportarExcel('colaboradores')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button><button class="btn-modelo" onclick="baixarModelo('colaboradores')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Baixar Modelo</button><button class="btn-import" onclick="abrirImport('colaboradores')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar Planilha</button></div><input type="file" id="import-colaboradores" accept=".xlsx,.xls" onchange="importarPlanilha(this,'colaboradores')" style="display:none">
           </div>
           <div style="overflow-x:auto">
             <table>
@@ -1371,6 +1379,191 @@ async function exportarExcel(modulo) {
     console.error(e);
     toast('Erro ao gerar planilha.', 'err');
   }
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// BAIXAR MODELO (planilha vazia com cabeçalhos)
+// ══════════════════════════════════════════════════════════════════
+var _modelos = {
+  hcp: ['Mês','Ano','ID PVE','Incluído em (AAAA-MM-DD)','Liberado em (AAAA-MM-DD)','Data Necessidade (AAAA-MM-DD)','Data Assinatura (AAAA-MM-DD)','Data Início (AAAA-MM-DD)','Motivo','Departamento','Regional (1=PE 2=SP 3=ADM)','Coordenador ID','Função','Status (NO PRAZO / FORA DO PRAZO)','Setor Relacionado','Observação'],
+  absentes: ['Mês','Ano','Matrícula','Data Início Falta (AAAA-MM-DD)','Data Fim Falta (AAAA-MM-DD)','Qtd Dias Faltosos','Status (JUSTIFICADA / INJUSTIFICADA / DISCIPLINADA)','CID','Detalhe CID','Escala ID'],
+  treinamentos: ['Mês','Ano','Data (AAAA-MM-DD)','Cliente','Regional ID (1=PE 2=SP 3=ADM)','Coordenador ID','Analista','Status (Realizado / Não Realizado / Agendada / Cancelada)','Tema','Qtd Participantes','Observação'],
+  colaboradores: ['Matrícula','Nome','CPF','Cargo','Departamento / Contrato','Regional ID (1=PE 2=SP 3=ADM)','Coordenador ID','Escala ID','Data Admissão (AAAA-MM-DD)','Data Desligamento (AAAA-MM-DD)','UF','Situação (ATIVO / DESLIGADO)']
+};
+
+var _nomesModelo = {
+  hcp: 'Modelo_HCP.xlsx',
+  absentes: 'Modelo_Absenteismo.xlsx',
+  treinamentos: 'Modelo_Treinamentos.xlsx',
+  colaboradores: 'Modelo_Colaboradores.xlsx'
+};
+
+function baixarModelo(modulo) {
+  var cols = _modelos[modulo];
+  if (!cols) return;
+  var obj = {};
+  cols.forEach(function(c){ obj[c] = ''; });
+  var ws = XLSX.utils.json_to_sheet([obj]);
+  // Estilizar cabeçalho — largura automática
+  ws['!cols'] = cols.map(function(c){ return { wch: Math.max(c.length + 2, 16) }; });
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Dados');
+  XLSX.writeFile(wb, _nomesModelo[modulo]);
+  toast('Modelo baixado!', 'ok');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// IMPORTAR PLANILHA
+// ══════════════════════════════════════════════════════════════════
+function abrirImport(modulo) {
+  document.getElementById('import-' + modulo).click();
+}
+
+async function importarPlanilha(input, modulo) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  input.value = ''; // reset para permitir re-upload do mesmo arquivo
+
+  toast('Lendo planilha...', '');
+
+  var reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      var wb   = XLSX.read(e.target.result, { type: 'array', cellDates: true });
+      var ws   = wb.Sheets[wb.SheetNames[0]];
+      var rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+
+      if (!rows.length) { toast('Planilha vazia.', 'err'); return; }
+
+      var payload = [];
+      var erros   = [];
+
+      if (modulo === 'hcp') {
+        rows.forEach(function(r, i) {
+          if (!r['Mês'] || !r['Ano']) { erros.push('Linha '+(i+2)+': Mês e Ano obrigatórios'); return; }
+          payload.push({
+            periodo_mes:              String(r['Mês']).toUpperCase(),
+            periodo_ano:              parseInt(r['Ano']) || null,
+            id_pve:                   r['ID PVE'] || null,
+            incluido_em:              r['Incluído em (AAAA-MM-DD)'] || null,
+            liberado_em:              r['Liberado em (AAAA-MM-DD)'] || null,
+            data_necessidade:         r['Data Necessidade (AAAA-MM-DD)'] || null,
+            data_assinatura_contrato: r['Data Assinatura (AAAA-MM-DD)'] || null,
+            data_inicio_contrato:     r['Data Início (AAAA-MM-DD)'] || null,
+            motivo:                   r['Motivo'] || null,
+            departamento:             r['Departamento'] || null,
+            regional_id:              parseInt(r['Regional (1=PE 2=SP 3=ADM)']) || null,
+            coordenador_id:           parseInt(r['Coordenador ID']) || null,
+            funcao:                   r['Função'] || null,
+            status_preenchimento:     r['Status (NO PRAZO / FORA DO PRAZO)'] || null,
+            setor_relacionado:        r['Setor Relacionado'] || null,
+            observacao:               r['Observação'] || null
+          });
+        });
+      }
+
+      else if (modulo === 'absentes') {
+        rows.forEach(function(r, i) {
+          if (!r['Mês'] || !r['Ano'] || !r['Matrícula']) { erros.push('Linha '+(i+2)+': Mês, Ano e Matrícula obrigatórios'); return; }
+          payload.push({
+            mes:                String(r['Mês']).toUpperCase(),
+            ano:                parseInt(r['Ano']) || null,
+            matricula:          String(r['Matrícula']),
+            data_inicio_falta:  r['Data Início Falta (AAAA-MM-DD)'] || null,
+            data_final_falta:   r['Data Fim Falta (AAAA-MM-DD)'] || null,
+            qtd_dias_faltosos:  parseInt(r['Qtd Dias Faltosos']) || null,
+            status_falta:       r['Status (JUSTIFICADA / INJUSTIFICADA / DISCIPLINADA)'] || null,
+            cid:                r['CID'] || null,
+            detalhe_cid:        r['Detalhe CID'] || null,
+            escala_id:          parseInt(r['Escala ID']) || null
+          });
+        });
+      }
+
+      else if (modulo === 'treinamentos') {
+        rows.forEach(function(r, i) {
+          if (!r['Mês'] || !r['Ano'] || !r['Cliente']) { erros.push('Linha '+(i+2)+': Mês, Ano e Cliente obrigatórios'); return; }
+          payload.push({
+            mes:              String(r['Mês']).toUpperCase(),
+            ano:              parseInt(r['Ano']) || null,
+            data_treinamento: r['Data (AAAA-MM-DD)'] || null,
+            cliente:          r['Cliente'] || '',
+            regional_id:      parseInt(r['Regional ID (1=PE 2=SP 3=ADM)']) || null,
+            coordenador_id:   parseInt(r['Coordenador ID']) || null,
+            analista:         r['Analista'] || null,
+            status:           r['Status (Realizado / Não Realizado / Agendada / Cancelada)'] || null,
+            tema:             r['Tema'] || null,
+            qtd_participantes:parseInt(r['Qtd Participantes']) || 0,
+            observacao:       r['Observação'] || null
+          });
+        });
+      }
+
+      else if (modulo === 'colaboradores') {
+        rows.forEach(function(r, i) {
+          if (!r['Matrícula'] || !r['Nome']) { erros.push('Linha '+(i+2)+': Matrícula e Nome obrigatórios'); return; }
+          payload.push({
+            matricula:         String(r['Matrícula']),
+            nome:              r['Nome'] || '',
+            cpf:               r['CPF'] || null,
+            cargo:             r['Cargo'] || null,
+            departamento:      r['Departamento / Contrato'] || null,
+            regional_id:       parseInt(r['Regional ID (1=PE 2=SP 3=ADM)']) || null,
+            coordenador_id:    parseInt(r['Coordenador ID']) || null,
+            escala_id:         parseInt(r['Escala ID']) || null,
+            data_admissao:     r['Data Admissão (AAAA-MM-DD)'] || null,
+            data_desligamento: r['Data Desligamento (AAAA-MM-DD)'] || null,
+            uf:                r['UF'] || null,
+            situacao:          r['Situação (ATIVO / DESLIGADO)'] || 'ATIVO'
+          });
+        });
+      }
+
+      if (erros.length) {
+        toast('Erros: ' + erros.slice(0,3).join(' | ') + (erros.length>3?' e mais '+(erros.length-3)+'...':''), 'err');
+        return;
+      }
+      if (!payload.length) { toast('Nenhum dado válido encontrado.', 'err'); return; }
+
+      toast('Importando ' + payload.length + ' registros...', '');
+
+      // Inserir em lotes de 50
+      var tabela = {hcp:'hcp_vagas', absentes:'faltas', treinamentos:'treinamentos', colaboradores:'colaboradores'}[modulo];
+      var upsert = modulo === 'colaboradores';
+      var total  = 0;
+      var lote   = 50;
+
+      for (var i = 0; i < payload.length; i += lote) {
+        var batch = payload.slice(i, i + lote);
+        var res;
+        if (upsert) {
+          res = await db.from(tabela).upsert(batch, { onConflict: 'matricula' });
+        } else {
+          res = await db.from(tabela).insert(batch);
+        }
+        if (res.error) { toast('Erro no lote ' + (i/lote+1) + ': ' + res.error.message, 'err'); return; }
+        total += batch.length;
+      }
+
+      toast(total + ' registros importados com sucesso!', 'ok');
+
+      // Recarregar tabela correspondente
+      var reloaders = {
+        hcp: carregarHcp,
+        absentes: carregarFaltas,
+        treinamentos: carregarTreinamentos,
+        colaboradores: carregarColaboradores
+      };
+      if (reloaders[modulo]) await reloaders[modulo]();
+      await atualizarContadores();
+
+    } catch(err) {
+      console.error(err);
+      toast('Erro ao processar planilha: ' + err.message, 'err');
+    }
+  };
+  reader.readAsArrayBuffer(file);
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
