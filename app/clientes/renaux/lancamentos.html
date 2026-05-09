@@ -152,30 +152,18 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
   <div class="body">
     <!-- SIDEBAR -->
     <div class="sidebar">
-      <div class="sb-head">LANÇAMENTOS DH</div>
+            <div class="sb-head">LANÇAMENTOS DH</div>
       <button class="sb-item ativo" onclick="abrirModulo('hcp')" id="sb-hcp">
-        <span class="sb-dot"></span> HCP — Vagas
+        <span class="sb-dot"></span> HCP
         <span class="sb-num" id="cnt-hcp">0</span>
-      </button>
-      <button class="sb-item" onclick="abrirModulo('absentes')" id="sb-absentes">
-        <span class="sb-dot"></span> Absenteísmo
-        <span class="sb-num" id="cnt-absentes">0</span>
-      </button>
-      <button class="sb-item" onclick="abrirModulo('treinamentos')" id="sb-treinamentos">
-        <span class="sb-dot"></span> Treinamentos
-        <span class="sb-num" id="cnt-treinamentos">0</span>
-      </button>
-      <button class="sb-item" onclick="abrirModulo('admissoes')" id="sb-admissoes">
-        <span class="sb-dot"></span> Admissões
-        <span class="sb-num" id="cnt-admissoes">0</span>
-      </button>
-      <button class="sb-item" onclick="abrirModulo('desligamentos')" id="sb-desligamentos">
-        <span class="sb-dot"></span> Desligamentos
-        <span class="sb-num" id="cnt-desligamentos">0</span>
       </button>
       <button class="sb-item" onclick="abrirModulo('colaboradores')" id="sb-colaboradores">
         <span class="sb-dot"></span> Colaboradores
         <span class="sb-num" id="cnt-colab">0</span>
+      </button>
+      <button class="sb-item" onclick="abrirModulo('absentes')" id="sb-absentes">
+        <span class="sb-dot"></span> Absenteísmo
+        <span class="sb-num" id="cnt-absentes">0</span>
       </button>
       <button class="sb-item" onclick="abrirModulo('metas')" id="sb-metas">
         <span class="sb-dot"></span> Metas
@@ -792,12 +780,12 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
               <select id="col-escala"><option value="">Selecione...</option></select>
             </div>
             <div class="field">
-              <label>Descrição da Escala</label>
-              <input type="text" id="col-desc-escala" placeholder="Ex: 5x2 07:00 as 16:48">
-            </div>
-            <div class="field">
               <label>Data de Admissão</label>
               <input type="date" id="col-admissao">
+            </div>
+            <div class="field">
+              <label>Data de Desligamento</label>
+              <input type="date" id="col-desligamento">
             </div>
             <div class="field">
               <label>UF</label>
@@ -1229,8 +1217,8 @@ async function salvarColaborador(){
     regional_id:parseInt(document.getElementById('col-regional').value)||null,
     coordenador_id:parseInt(document.getElementById('col-coord').value)||null,
     escala_id:parseInt(document.getElementById('col-escala').value)||null,
-    descricao_escala:document.getElementById('col-desc-escala').value||null,
     data_admissao:document.getElementById('col-admissao').value||null,
+    data_desligamento:document.getElementById('col-desligamento').value||null,
     uf:document.getElementById('col-uf').value||null,
     situacao:document.getElementById('col-situacao').value||'ATIVO'
   };
