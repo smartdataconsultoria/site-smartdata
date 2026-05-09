@@ -1,15 +1,25 @@
 {
-  "cleanUrls": true,
+  "cleanUrls": false,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/",
       "has": [
         {
           "type": "host",
           "value": "renaux.smartdataconsultoria.com"
         }
       ],
-      "destination": "/app/clientes/renaux/login.html"
+      "destination": "/app/clientes/renaux/index.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "renaux.smartdataconsultoria.com"
+        }
+      ],
+      "destination": "/app/clientes/renaux/:path*"
     }
   ]
 }
