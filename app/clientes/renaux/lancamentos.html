@@ -774,6 +774,10 @@ tbody tr:hover td{background:rgba(200,146,42,.025)}
               <input type="text" id="col-depto" placeholder="Ex: BALL RECIFE">
             </div>
             <div class="field">
+              <label>Estado do Departamento</label>
+              <input type="text" id="col-estado-depto" placeholder="Ex: PE, SP, CE...">
+            </div>
+            <div class="field">
               <label>Regional</label>
               <select id="col-regional">
                 <option value="">Selecione...</option>
@@ -1226,6 +1230,7 @@ async function salvarColaborador(){
     cpf:document.getElementById('col-cpf').value||null,
     cargo:document.getElementById('col-cargo').value||null,
     departamento:document.getElementById('col-depto').value||null,
+    estado_departamento:document.getElementById('col-estado-depto').value||null,
     regional_id:parseInt(document.getElementById('col-regional').value)||null,
     coordenador_id:parseInt(document.getElementById('col-coord').value)||null,
     escala_id:parseInt(document.getElementById('col-escala').value)||null,
@@ -1389,7 +1394,7 @@ var _modelos = {
   hcp: ['Mês','Ano','ID PVE','Incluído em (AAAA-MM-DD)','Liberado em (AAAA-MM-DD)','Data Necessidade (AAAA-MM-DD)','Data Assinatura (AAAA-MM-DD)','Data Início (AAAA-MM-DD)','Motivo','Departamento','Regional (1=PE 2=SP 3=ADM)','Coordenador ID','Função','Status (NO PRAZO / FORA DO PRAZO)','Setor Relacionado','Observação'],
   absentes: ['Mês','Ano','Matrícula','Data Início Falta (AAAA-MM-DD)','Data Fim Falta (AAAA-MM-DD)','Qtd Dias Faltosos','Status (JUSTIFICADA / INJUSTIFICADA / DISCIPLINADA)','CID','Detalhe CID','Escala ID'],
   treinamentos: ['Mês','Ano','Data (AAAA-MM-DD)','Cliente','Regional (PE / SP / ADM)','Coordenador','Analista','Status (Realizado / Não Realizado / Agendada / Cancelada)','Tema','Qtd Participantes','Observação'],
-  colaboradores: ['Matrícula','Nome Completo','Cargo','Departamento / Contrato','Regional','Coordenador','Escala','Data Admissão','Data Desligamento','Situação']
+  colaboradores: ['Matrícula','Nome Completo','Cargo','Departamento / Contrato','Estado do Departamento','Regional','Coordenador','Escala','Data Admissão','Data Desligamento','Situação']
 };
 
 var _nomesModelo = {
@@ -1543,6 +1548,7 @@ async function importarPlanilha(input, modulo) {
             nome:              nome,
             cargo:             String(r['Cargo']||'').trim() || null,
             departamento:      String(r['Departamento / Contrato']||'').trim() || null,
+            estado_departamento: String(r['Estado do Departamento']||'').toUpperCase().trim() || null,
             regional_id:       mapRegiao[regSigla] || null,
             coordenador_id:    mapCoord[coordNome] || null,
             escala_id:         mapEscala[escalaCod] || null,
