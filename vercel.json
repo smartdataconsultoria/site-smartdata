@@ -1,13 +1,15 @@
 {
   "rewrites": [
-    { "source": "/login", "destination": "/login.html" }
-  ],
-  "redirects": [
+    { "source": "/login", "destination": "/login.html" },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "fdbfrepresentacoes.smartdataconsultoria.com" }],
-      "destination": "/app/clientes/fdbf/index.html",
-      "permanent": false
+      "destination": "/app/clientes/fdbf/index.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "fdbfrepresentacoes.smartdataconsultoria.com" }],
+      "destination": "/app/clientes/fdbf/:path*"
     }
   ]
 }
