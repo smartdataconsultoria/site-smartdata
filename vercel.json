@@ -1,6 +1,11 @@
 {
   "rewrites": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "fdbfrepresentacoes.smartdataconsultoria.com" }],
+      "destination": "/app/clientes/fdbf/index.html"
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "fdbfrepresentacoes.smartdataconsultoria.com" }],
       "destination": "/app/clientes/fdbf/:path*"
